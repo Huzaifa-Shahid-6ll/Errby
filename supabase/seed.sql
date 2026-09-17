@@ -1,0 +1,2 @@
+-- Intentionally no auth users or shared credentials. The local UI uses the
+-- fictional EXAMPLE_LESSON.json. Database test fixtures are transaction-local.

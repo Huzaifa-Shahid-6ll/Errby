@@ -1,0 +1,11 @@
+node_modules
+.next
+package-lock.json
+next-env.d.ts
+docs/specification
+docs/visual-design
+docs/Errby-*.md
+supabase/migrations
+supabase/config.toml
+test-results
+playwright-report

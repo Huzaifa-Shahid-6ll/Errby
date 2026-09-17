@@ -1,0 +1,100 @@
+[
+  {
+    "brief": "Home screen. Main central heading 'What are you teaching Errby today?' with a small friendly white robot above. Wide WHITE composer, placeholder 'Describe a topic or paste a resource link\u2026', controls 'Add material', 'Grade 7' and primary 'Prepare lesson'. Pale luminous blue/indigo halo fades across background around composer. Below, compact 'Your class lessons' with 3 restrained horizontal cards 'Heat transfer', 'Equivalent fractions', 'Plant cells', each has 'Start lesson'. Secondary 'Join a class'. Central activity is visible immediately. No fake statistics.",
+    "id": "01-home",
+    "route": "/",
+    "title": "Student home"
+  },
+  {
+    "brief": "Minimal student setup screen. Heading 'Make this your learning space'. Compact centred form on white with a tiny Errby avatar. Role options 'Student' selected and 'Teacher' secondary. Fields 'Display name' value 'Student 01'; 'School level' value 'Middle school'; 'Grade' value '7'. Read-only small 'English'. Primary 'Continue'. Small contextual box 'Have a class code? You can join next.' Smaller note 'Younger students: ask your teacher or guardian to help you set up.' No date of birth, address, public profile or unrelated onboarding. Discreet secondary 'Already have an account? Sign in'. Very sparse clean composition.",
+    "id": "02-setup",
+    "route": "/setup",
+    "title": "Learner setup"
+  },
+  {
+    "brief": "Class joining screen. Heading 'Join your class'. Short text 'Enter the code your teacher shared.' Large clearly labelled 'Class code' field value 'HEAT27'. Below show a match preview with school icon, 'Grade 7 Science', 'Ms. Khan', and 'Published lessons are shared with your class.' Primary 'Join class', secondary 'Back'. Bottom neutral note 'Your teacher can see progress for class lessons.' Small Error-example inset must NOT be included: show only the valid-code ready-to-confirm state. No student roster visible.",
+    "id": "03-join",
+    "route": "/join",
+    "title": "Join a class"
+  },
+  {
+    "brief": "Lesson preparation REVIEW screen after source extraction. Heading 'Let\u2019s set up your lesson'. Left main white panel: 'Heat transfer', source chip 'class-notes.pdf \u00b7 Text extracted', Grade 7. Short clarification field 'What should we focus on?' selected 'Melting and insulation'. Three clean learning goals with editable pencil icons: 'Explain where heat comes from'; 'Explain melting'; 'Apply the idea to insulation'. Right compact 'Your material' panel with a readable 2-line source excerpt and a 'View extracted text' link. Bottom primary 'Start teaching', secondary 'Edit topic'. Show honest workflow breadcrumb 'Material read / Review goals / Ready' with current review indicated. No fabricated progress percentage or citation.",
+    "id": "04-prepare",
+    "route": "/prepare/:id",
+    "title": "Prepare a lesson"
+  },
+  {
+    "brief": "Published school lesson detail screen. Breadcrumb 'Grade 7 Science / Heat transfer'. Heading 'Why does ice melt?' Small label 'Reviewed by your teacher'. A 3-item 'What you\u2019ll explain' list: Heat moves from warmer surroundings; Ice changes from solid to liquid; Insulation slows heat transfer. Source card 'Class notes \u00b7 Heat transfer' with 'View material'. Primary 'Teach Errby'. Side panel with modest robot illustration, speech 'Can you help me understand this?' Small secondary 'Back to class'. No fixed-duration promise, no score before starting.",
+    "id": "05-lesson",
+    "route": "/lessons/:id",
+    "title": "School lesson detail"
+  },
+  {
+    "brief": "Active typed session, title 'Heat transfer', progress '0 of 3 goals explained', secondary 'Pause'. Main conversation: Errby 'Why does ice melt in a warm room?'; You 'Heat moves into the ice from warmer surroundings.'; Errby 'So the ice makes its own heat to melt?'; You 'Yes, I think so.' Then a distinct amber Supervisor panel with shield icon, title 'Let\u2019s check that idea', body 'Heat comes from the warmer surroundings. The ice receives that energy.' source chip 'Class notes \u00b7 Heat transfer', and prompt 'Can you explain where the heat comes from?' Right compact goals panel with 'Heat direction \u2014 Developing', 'Melting \u2014 Not yet tried', 'Insulation \u2014 Not yet tried'. Bottom typing composer 'Explain it in your own words\u2026' and indigo 'Send'. No goals incorrectly marked complete.",
+    "id": "06-session",
+    "route": "/sessions/:id",
+    "title": "Teaching session and supervisor"
+  },
+  {
+    "brief": "Completed lesson results, use internally consistent explicitly sample metrics. Heading 'You explained all 3 goals'. Small pleased robot, restrained teal check. Subtitle 'Heat transfer'. Three medium metric blocks: 'First-try accuracy' value '2 / 3', small '67% of first attempts'; 'Correct after help' value '1 goal'; 'Active time' value '4m 18s'. Beneath, each goal has green/teal 'Explained': Heat direction, Melting, Insulation. A small 'What improved' card says 'You corrected where the heat comes from and explained it with a new example.' Primary 'Choose another lesson', secondary 'Review conversation'. Not huge confetti, no public rank, no pretend real result. Body states 'Based on this session'.",
+    "id": "07-results",
+    "route": "/sessions/:id/results",
+    "title": "Student results"
+  },
+  {
+    "brief": "Teacher home/list of classes. Keep shared slim rail but teacher avatar 'T'. Heading 'Your classes', primary small 'Create class'. Two substantial white class cards: 'Grade 7 Science', '3 published lessons', '4 students', 'Open class'; 'Grade 8 Maths', '2 published lessons', '3 students', 'Open class'. Below a compact inline create-class panel clearly labelled 'New class', fields 'Class name' and 'Grade', button 'Create class'. No revenue charts, global school admin, decorative dashboards, or fictional measured learning outcomes. Calm professional density.",
+    "id": "08-classes",
+    "route": "/teacher/classes",
+    "title": "Teacher classes"
+  },
+  {
+    "brief": "Teacher class dashboard. Heading 'Grade 7 Science', actions 'Add material' and 'Share class code'. Tab-like navigation 'Students' selected, 'Lessons'. Lesson selector 'Heat transfer'. Clean readable table, four sample aliases and scoped statuses: Student 01 \u2014 Explained \u2014 3/3 goals \u2014 4m18s; Student 02 \u2014 Developing \u2014 1/3 goals \u2014 3m02s; Student 03 \u2014 Unverified \u2014 2/3 goals \u2014 5m10s; Student 04 \u2014 Untested \u2014 no attempts \u2014 dash. Each row has small second line 'Heat transfer' under status and 'View details'. Teal for Explained, indigo-neutral Developing, amber Unverified, grey Untested; text+icon not colour alone. Small summary '1 completed \u00b7 1 needs review \u00b7 1 not started'. No class average invented, no rankings. Class code inside discreet secondary card 'HEAT27' with Copy, not prominently conflated with authentication.",
+    "id": "09-roster",
+    "route": "/teacher/classes/:id",
+    "title": "Class roster and lessons"
+  },
+  {
+    "brief": "Teacher school material and lesson-map screen. Heading 'Turn your material into lessons'. Split layout. Left upload area with 'Add a PDF, Word file, or paste topics', source chip 'science-outline.pdf', and small text preview 'Heat transfer; Plant cells; Food chains'. Below optional clarification 'Grade 7'. Right bigger 'Review lesson drafts' with rows Heat transfer \u2014 Needs review; Plant cells \u2014 Needs review; Food chains \u2014 Draft. First row expanded: 'Generated from your topic list', editable three objectives, small amber note 'Add or verify reference material before publishing.' Actions 'Review lesson', secondary 'Save draft'. 'Publish reviewed lessons' disabled while none reviewed. No false source citations or all-approved tick. Bottom transparent status '1 outline read \u00b7 3 lesson drafts'. Text legible and no huge unnecessary upload art.",
+    "id": "10-materials",
+    "route": "/teacher/classes/:id/materials",
+    "title": "Upload and review curriculum"
+  },
+  {
+    "brief": "Teacher evidence detail. Breadcrumb 'Grade 7 Science / Student 03'. Heading 'Student 03', topic 'Heat transfer', one-word status 'Unverified'. Main panel 'What the student can explain' with Heat direction \u2014 Explained; Melting \u2014 Explained; Insulation \u2014 Needs review. A highlighted amber 'Supervisor needs a reference check' card: 'The notes do not include the test conditions or results.' A source/evidence comparison showing 'Student explanation' short text 'A metal flask always keeps ice longer than a plastic one.' and 'Reference note' text 'Two containers were compared.' Include 'Review assessment' button and a labelled rationale text box 'Reason for your decision'. Right concise 'Session evidence' card '2 of 3 goals explained', 'Active time 5m 10s', link 'View relevant excerpts'. This is a pending-review sample, not a completed result. No full private chat exposure, no personal age/date of birth.",
+    "id": "11-student-detail",
+    "route": "/teacher/classes/:id/students/:id",
+    "title": "Student evidence detail"
+  },
+  {
+    "brief": "Settings screen with restrained grouped panels, heading 'Your preferences'. Appearance control 'Light' selected, 'Dark' alternative. 'Reduce motion' toggle on. 'Text size' segmented Standard / Larger with Larger selected. Account card 'Student 01', 'Grade 7', 'English'. Class information 'Grade 7 Science' and note 'Your teacher sees progress for class lessons.' Privacy card 'Your learning data' with 'View saved sessions' and subdued 'Delete my data' action clearly marked destructive; no modal currently open. No microphone permissions or language selector beyond English. Main UI keeps readable generous text and actual control labels.",
+    "id": "12-settings",
+    "route": "/settings",
+    "title": "Settings and accessibility"
+  },
+  {
+    "brief": "Home screen. Main central heading 'What are you teaching Errby today?' with a small friendly white robot above. Wide WHITE composer, placeholder 'Describe a topic or paste a resource link\u2026', controls 'Add material', 'Grade 7' and primary 'Prepare lesson'. Pale luminous blue/indigo halo fades across background around composer. Below, compact 'Your class lessons' with 3 restrained horizontal cards 'Heat transfer', 'Equivalent fractions', 'Plant cells', each has 'Start lesson'. Secondary 'Join a class'. Central activity is visible immediately. No fake statistics.",
+    "dark": true,
+    "id": "13-home-dark",
+    "route": "/ \u00b7 dark variant",
+    "title": "Home, dark alternative"
+  },
+  {
+    "brief": "Active typed session, title 'Heat transfer', progress '0 of 3 goals explained', secondary 'Pause'. Main conversation: Errby 'Why does ice melt in a warm room?'; You 'Heat moves into the ice from warmer surroundings.'; Errby 'So the ice makes its own heat to melt?'; You 'Yes, I think so.' Then a distinct amber Supervisor panel with shield icon, title 'Let\u2019s check that idea', body 'Heat comes from the warmer surroundings. The ice receives that energy.' source chip 'Class notes \u00b7 Heat transfer', and prompt 'Can you explain where the heat comes from?' Right compact goals panel with 'Heat direction \u2014 Developing', 'Melting \u2014 Not yet tried', 'Insulation \u2014 Not yet tried'. Bottom typing composer 'Explain it in your own words\u2026' and indigo 'Send'. No goals incorrectly marked complete.",
+    "dark": true,
+    "id": "14-session-dark",
+    "route": "/sessions/:id \u00b7 dark variant",
+    "title": "Session, dark alternative"
+  },
+  {
+    "brief": "Sign-in screen in shared light shell, compact central white panel, tiny Errby robot and heading 'Welcome back'. Student / Teacher tabs with Student selected. Clearly labelled 'Username' field value 'student01' and 'Password' field with hidden dots. Primary 'Sign in'. Small 'Need help? Ask your teacher to reset your password.' and secondary 'Set up an account'. Side small retained-context card 'Ready when you are: Heat transfer'. No child email required, no public account list, no class code used as password, no social providers or promises not specified. Sparse background halo well away from form text.",
+    "id": "15-sign-in",
+    "route": "/sign-in \u00b7 supporting screen",
+    "title": "Sign in"
+  },
+  {
+    "brief": "Active teaching session, light theme. Topic 'Insulation experiment', top progress '2 of 3 goals explained', secondary Pause. Show student's neutral bubble 'A metal flask always keeps ice longer than a plastic one.' Distinct amber Supervisor panel labelled 'Supervisor' and title 'I can\u2019t verify that yet'. Body 'The notes do not include the test conditions or results. Let\u2019s check the material before marking this goal explained.' Source chip 'Class experiment notes'. Primary small 'Ask teacher to review'; secondary 'Add supporting material'. Goals list shows two Explained and 'Compare containers \u2014 Unverified'. Bottom composer retained with 'Add what you know about the experiment\u2026'. A calm status 'Saved \u00b7 Waiting for review'. NO success celebration, no accuracy penalty, no fabricated source proof. Clear typography and breathable conversation layout.",
+    "id": "16-uncertainty",
+    "route": "/sessions/:id \u00b7 uncertainty state",
+    "title": "Supervisor uncertainty"
+  }
+]

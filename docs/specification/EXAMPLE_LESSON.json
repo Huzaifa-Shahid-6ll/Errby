@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "id": "example-heat-transfer",
+  "status": "draft_needs_teacher_review",
+  "illustrative_only": true,
+  "grade_band": "middle_school",
+  "language": "en",
+  "title": "Why does ice melt?",
+  "source_provenance": "Generated example; no uploaded school source or teacher approval exists",
+  "reference_status": "unverified_until_review",
+  "initial_question": "Why does ice melt when left in a warm room?",
+  "objectives": [
+    {
+      "id": "heat-direction",
+      "title": "Explain where the heat comes from",
+      "required": true,
+      "criteria": [
+        "Identifies warmer surroundings as energy source",
+        "Explains energy transfers to colder ice"
+      ],
+      "reference_ids": [],
+      "misconceptions": [
+        {
+          "id": "ice-makes-heat",
+          "question": "So the ice creates its own heat to melt?",
+          "correction": "The energy comes from the warmer surroundings."
+        }
+      ]
+    },
+    {
+      "id": "melting",
+      "title": "Explain the change of state",
+      "required": true,
+      "criteria": [
+        "Describes ice changing from solid water into liquid water",
+        "Connects the change with receiving energy"
+      ],
+      "reference_ids": [],
+      "misconceptions": []
+    },
+    {
+      "id": "insulation",
+      "title": "Apply the idea to insulation",
+      "required": true,
+      "criteria": [
+        "Explains insulation slows energy transfer",
+        "Does not say insulation creates cold"
+      ],
+      "reference_ids": [],
+      "misconceptions": [
+        {
+          "id": "insulation-creates-cold",
+          "question": "Does the container make cold to keep the ice solid?",
+          "correction": "Insulation slows energy transfer from warmer surroundings."
+        }
+      ]
+    }
+  ],
+  "completion_policy": "All required objectives explained with valid learner evidence and no unresolved required uncertainty. This draft cannot be used as a verified grading reference until reviewed.",
+  "application_question": "Why would an insulated container help ice last longer?",
+  "teacher_review": {
+    "reviewed": false,
+    "reviewer_id": null,
+    "reviewed_at": null
+  }
+}

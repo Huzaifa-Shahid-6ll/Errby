@@ -1,0 +1,664 @@
+- region "Notifications alt+T"
+- link "Skip to content →":
+  - /url: "#skip-nav"
+- banner:
+  - navigation "Main":
+    - list "Site navigation":
+      - link "Navigate to home":
+        - /url: /homepage
+        - img "Linear"
+      - list:
+        - button "Product"
+        - button "Resources"
+        - link "Customers":
+          - /url: /customers
+        - link "Pricing":
+          - /url: /pricing
+        - link "Now":
+          - /url: /now
+        - link "Contact":
+          - /url: /contact
+      - list:
+        - link "Log in":
+          - /url: /login
+        - link "Sign up":
+          - /url: /signup
+- main:
+  - heading "The product development system for teams and agents" [level=1]:
+    - generic: The product development
+    - generic: system for teams and agents
+    - generic: The product development system for teams and agents
+  - paragraph:
+    - generic: Purpose-built for planning and building products. Designed for the AI era.
+  - link "New Loops →":
+    - /url: https://linear.app/now/introducing-loops
+    - generic: New
+    - generic: Loops →
+  - generic "A screenshot of the Linear app showing the issue that's currently in progress":
+    - navigation:
+      - button "Linear logo Linear":
+        - img "Linear logo"
+        - generic: Linear
+      - button "Search workspace":
+      - button "New issue":
+      - button "Pulse":
+        - generic: Pulse
+      - button "Inbox":
+        - generic: Inbox
+      - button "My issues":
+        - generic: My issues
+      - button "Reviews":
+        - generic: Reviews
+      - button "Workspace":
+        - text: Workspace
+      - button "Initiatives":
+        - generic: Initiatives
+      - button "Projects":
+        - generic: Projects
+      - button "More":
+        - generic: More
+      - button "Favorites":
+        - text: Favorites
+      - button "Faster app launch":
+        - generic: Faster app launch
+      - button "Agent tasks":
+        - generic: Agent tasks
+      - button "Agent Insights":
+        - generic: Agent Insights
+      - button "UI Refresh":
+        - generic: UI Refresh
+    - generic: DRV-8852
+    - generic: Faster app launch
+    - button "Remove from favorites":
+    - button "Issue options":
+    - generic: 1 / 84
+    - button "Previous issue":
+    - button "Next issue":
+    - button "Copy issue URL":
+    - button "Copy issue ID":
+    - button "Copy git branch name":
+    - button "Delegate to an agent":
+    - button "More delegation options":
+    - heading "Faster app launch" [level=3]
+    - paragraph:
+      - text: Render UI before
+      - code: vehicle_state
+      - text: sync when minimum required state is present, instead of blocking on full refresh during iOS startup.
+    - heading "Activity" [level=4]
+    - img "Avatar of Karri"
+    - generic: Linear created the issue via Slack on behalf of Karri
+    - generic: ·
+    - generic: 2min ago
+    - generic: Triage Intelligence added the labels Performance and iOS
+    - generic: ·
+    - generic: 2min ago
+    - img "Avatar of Karri"
+    - generic: karri
+    - generic: ·
+    - generic: 4 min ago
+    - generic: Right now we show a spinner forever, which makes it look like the car disappeared...
+    - generic: jori
+    - generic: ·
+    - generic: just now
+    - generic: "@Linear can you take a stab at this?"
+    - generic: Linear
+    - generic: connected by Jori
+    - generic: ·
+    - generic: 2 min ago
+    - generic: Changed 2 files
+    - generic: Draft PR awaiting your review
+    - generic: ·
+    - generic: 2 min ago
+    - generic: Linear moved from Todo to In Progress
+    - generic: ·
+    - generic: just now
+    - generic: Reviews
+    - generic: Revert
+    - generic: Properties
+    - generic: In Progress
+    - img "Medium Priority"
+    - generic: Medium
+    - img "Avatar of Karri"
+    - generic: Karri
+    - img "Linear"
+    - generic: Linear
+    - generic: Cycle 144
+    - generic: Labels
+    - button "Performance": Performance
+    - button "iOS": iOS
+    - generic: Releases
+    - generic: Linear App
+    - generic: 1.6881...
+    - generic: ⋅
+    - generic: Jun 25
+    - region "Notifications alt+T"
+  - link:
+    - /url: /customers
+    - list:
+  - paragraph: Powering the companies building the future
+  - heading "A new species of product tool. Purpose-built for modern teams with AI workflows at its core, Linear sets a new standard for planning and building products." [level=2]:
+    - strong: A new species of product tool.
+    - text: Purpose-built for modern teams with AI workflows at its core, Linear sets a new standard for planning and building products.
+  - generic: Fig 0.1
+  - generic: Purpose-built
+  - paragraph: Linear is shaped by the practices and principles of world-class product teams.
+  - generic: Fig 0.2
+  - generic: Powered by agents
+  - paragraph: Designed for workflows shared by humans and agents. From drafting PRDs to pushing PRs.
+  - generic: Fig 0.3
+  - generic: Designed for speed
+  - paragraph: Reduces noise and restores momentum to help teams ship with high velocity and focus.
+  - heading "Intake and integrations" [level=2]:
+    - text: Intake
+    - text: and integrations
+  - paragraph: Automatically turn conversations and customer feedback into actionable issues that are instantly routed, labeled, and prioritized for the right team.
+  - link "Learn more →":
+    - /url: /intake
+    - generic: Learn more
+    - generic: →
+  - generic: Backlog
+  - generic: "8"
+  - button "Add issue":
+  - button "Open menu":
+  - generic: ENG-2085
+  - generic: Reduce UI flicker during autonomy...
+  - img "No Priority"
+  - generic: ENG-2094
+  - generic: Add buffering for autonomy event streams
+  - img "No Priority"
+  - generic: ENG-2092
+  - generic: Reduce startup delay caused by vehicle sync
+  - img "No Priority"
+  - generic: ENG-2200
+  - generic: Fix delayed route updates during rerouting
+  - img "No Priority"
+  - generic: Todo
+  - generic: "71"
+  - button "Add issue":
+  - button "Open menu":
+  - generic: ENG-926
+  - generic: Remove UI inconsistencies
+  - img "High Priority"
+  - generic: Bug
+  - generic: Design
+  - generic: ENG-2088
+  - generic: "TypeError: Cannot read properties"
+  - img "Medium Priority"
+  - generic: Bug
+  - generic: ENG-924
+  - generic: Upgrade to Claude Opus 5
+  - img "Low Priority"
+  - generic: AI
+  - generic: ENG-1882
+  - generic: Optimize load times
+  - img "No Priority"
+  - generic: Performance
+  - generic: In Progress
+  - generic: "3"
+  - button "Add issue":
+  - button "Open menu":
+  - generic: ENG-1487
+  - generic: Remove contentData from GraphQL API
+  - img "Medium Priority"
+  - generic: "61039"
+  - generic: MKT-1028
+  - generic: Launch page assets
+  - img "Medium Priority"
+  - generic: Design
+  - generic: ENG-2187
+  - generic: Prevent duplicate ride requests on poor...
+  - img "High Priority"
+  - generic: Bug
+  - generic: "62048"
+  - generic: Done
+  - generic: "53"
+  - button "Add issue":
+  - button "Open menu":
+  - generic: ENG-2074
+  - generic: Clean up deprecated APIs...
+  - img "Medium Priority"
+  - generic: API
+  - generic: "61002"
+  - generic: ENG-1912
+  - generic: Reduce latency in autonomy st...
+  - img "Low Priority"
+  - generic: "61005"
+  - generic: ENG-1951
+  - generic: Reduce ETA fluctuations durin...
+  - img "Medium Priority"
+  - generic: "61202"
+  - generic: ENG-1960
+  - generic: Improve fallback messaging
+  - img "Medium Priority"
+  - generic: UI
+  - generic: "61149"
+  - generic: ENG-1991
+  - generic: Improve rider visibility into veh...
+  - img "Medium Priority"
+  - generic: Thread
+  - generic: "#product"
+  - generic: didier
+  - generic: Has anyone been looking into the iOS startup performance issues?
+  - img "lena"
+  - generic: lena
+  - generic: Anyone else noticing the iOS app feels slow to open if you haven’t used it in a bit?
+  - img "didier"
+  - generic: didier
+  - generic: Yea, we’re still blocking initial render on a full vehicle_state sync every time…
+  - img "andreas"
+  - generic: andreas
+  - generic: Feels like we could render sooner and load the rest in the background. Probably also worth tracking startup timing so we know how often this happens!
+  - generic: "@Linear"
+  - generic: create issues and assign to me
+  - button "Attach file":
+  - button "Hide formatting":
+  - button "Emoji":
+  - button "Mention someone":
+  - button "Record video clip":
+  - button "Record audio clip":
+  - button "Run shortcut":
+  - button "Send message":
+  - button "Schedule for later":
+  - generic: Features
+  - button "Linear Agent +":
+    - generic: Linear Agent +
+  - button "Customer Requests +":
+    - generic: Customer Requests +
+  - button "Triage +":
+    - generic: Triage +
+  - button "Linear Asks +":
+    - generic: Linear Asks +
+  - heading "Planning and monitoring" [level=2]:
+    - text: Planning
+    - text: and monitoring
+  - paragraph: Plan and navigate from idea to launch. Align your team with product initiatives, strategic roadmaps, and clear, up-to-date PRDs.
+  - link "Learn more →":
+    - /url: /plan
+    - generic: Learn more
+    - generic: →
+  - generic: MAR
+  - generic: APR
+  - generic: MAY
+  - generic: JUN
+  - generic: JUL
+  - generic: AUG
+  - generic: SEP
+  - generic: "2"
+  - generic: "9"
+  - generic: "16"
+  - generic: "23"
+  - generic: "6"
+  - generic: "13"
+  - generic: "20"
+  - generic: "27"
+  - generic: "4"
+  - generic: "11"
+  - generic: "18"
+  - generic: "25"
+  - generic: "1"
+  - generic: "8"
+  - generic: "15"
+  - generic: "22"
+  - generic: "6"
+  - generic: "13"
+  - generic: "20"
+  - generic: "27"
+  - generic: "3"
+  - generic: "10"
+  - generic: "17"
+  - generic: "24"
+  - generic: "7"
+  - generic: "14"
+  - generic: "21"
+  - generic: "28"
+  - generic: UI Refresh
+  - generic: Core screens
+  - generic: Polish
+  - generic: Split fares
+  - generic: Internal
+  - generic: Public Beta
+  - generic: Autonomy status clarity
+  - generic: Alpha
+  - generic: Autonomy telemetry reliability
+  - generic: Beta
+  - generic: GA
+  - generic: Cycle time by agent
+  - generic: Oct 2025
+  - generic: Nov 2025
+  - generic: Dec 2025
+  - generic: Jan 2026
+  - generic: Feb 2026
+  - generic: Features
+  - button "Projects +":
+    - generic: Projects +
+  - button "Documents +":
+    - generic: Documents +
+  - button "Pulse +":
+    - generic: Pulse +
+  - button "Initiatives +":
+    - generic: Initiatives +
+  - button "Visual planning +":
+    - generic: Visual planning +
+  - button "Insights +":
+    - generic: Insights +
+  - heading "AI and automations" [level=2]:
+    - text: AI and
+    - text: automations
+  - paragraph: Build and deploy AI agents that work alongside you as teammates. Work on complex tasks together or delegate entire issues end-to-end.
+  - link "Learn more →":
+    - /url: /ai
+    - generic: Learn more
+    - generic: →
+  - img "Linear"
+  - generic: Linear
+  - generic: Opus 5
+  - paragraph: what are the three most important customer requests around permissions? add them to the Access Controls project
+  - generic: Worked for 8 sec
+  - paragraph: "Three issues ranked by customer impact:"
+  - img "Urgent Priority"
+  - generic: ENG-2298
+  - generic: Add granular project permissions
+  - img "Medium Priority"
+  - generic: ENG-2647
+  - generic: Let guests access multiple teams
+  - img "High Priority"
+  - generic: ENG-2352
+  - generic: Create custom roles with scoped access
+  - paragraph:
+    - text: I’ve added them to
+    - generic: Access Controls
+  - generic: Cursor
+  - paragraph: add retry handling for failed image uploads described in this issue
+  - generic: ENG-2844
+  - generic: added to context
+  - img "Linear"
+  - generic: Linear
+  - generic: Opus 5
+  - paragraph: Review today’s mobile triage and group the issues by what should happen next
+  - generic: Mobile Triage
+  - generic: added to context
+  - img "ChatPRD"
+  - generic: ChatPRD
+  - paragraph: review this issue, draft complete offline mode requirements, and break the work into sub-issues
+  - generic: ENG-2521
+  - generic: added to context
+  - generic: Worked for 1 min
+  - paragraph: Updated the issue with requirements, open product decisions, and acceptance criteria.
+  - img "High Priority"
+  - generic: ENG-2920
+  - generic: Define offline mode requirements
+  - generic: Features
+  - button "Linear Agent +":
+    - generic: Linear Agent +
+  - button "Coding sessions +":
+    - generic: Coding sessions +
+  - button "Triage +":
+    - generic: Triage +
+  - button "Linear MCP +":
+    - generic: Linear MCP +
+  - heading "Build, review, and ship" [level=2]:
+    - text: Build, review,
+    - text: and ship
+  - paragraph: Streamline code reviews with clear diffs, better context, and fewer back-and-forth comments. Keep PRs moving without sacrificing quality.
+  - link "Learn more →":
+    - /url: /build
+    - generic: Learn more
+    - generic: →
+  - generic: In Review
+  - generic: "3"
+  - 'button "Medium Priority ENG-2498 Replace isFullySynced with a sync status #54910 iOS Oct 9"':
+    - img "Medium Priority"
+    - generic: ENG-2498
+    - generic: Replace isFullySynced with a sync status
+    - text: "#54910"
+    - generic: iOS
+    - generic: Oct 9
+  - 'button "Low Priority ENG-2380 Show a stale data banner while syncing #55167 Reliability Oct 9"':
+    - img "Low Priority"
+    - generic: ENG-2380
+    - generic: Show a stale data banner while syncing
+    - text: "#55167"
+    - generic: Reliability
+    - generic: Oct 9
+  - 'button "No Priority ENG-2039 Pass sync status to the dashboard #55209 Bug Reliability Oct 8"':
+    - img "No Priority"
+    - generic: ENG-2039
+    - generic: Pass sync status to the dashboard
+    - text: "#55209"
+    - generic: Bug
+    - generic: Reliability
+    - generic: Oct 8
+  - generic: In Progress
+  - generic: "4"
+  - img "Medium Priority"
+  - generic: ENG-2076
+  - generic: Reduce ETA jitter
+  - text: "#55423"
+  - generic: Performance
+  - text: Working…
+  - generic: Working…
+  - generic: Oct 6
+  - img "Medium Priority"
+  - generic: ENG-2108
+  - generic: Handle GPS dropouts gracefully
+  - text: "#55409"
+  - generic: Maps
+  - text: Working…
+  - generic: Working…
+  - generic: Oct 2
+  - img "High Priority"
+  - generic: ENG-2143
+  - generic: Optimize map tile loading on initial app open
+  - generic: Maps
+  - generic: Oct 7
+  - img "No Priority"
+  - generic: ENG-2187
+  - generic: Prevent duplicate ride requests on poor networks
+  - generic: Bug
+  - text: Working…
+  - generic: Working…
+  - generic: Oct 5
+  - generic: Todo
+  - generic: "4"
+  - img "Low Priority"
+  - generic: ENG-2254
+  - generic: Reduce unnecessary map re-rendering on home screen
+  - generic: Maps
+  - generic: Oct 10
+  - img "Low Priority"
+  - generic: ENG-2291
+  - generic: Clean up deprecated APIs used by the rider app
+  - generic: API
+  - generic: Oct 9
+  - img "Medium Priority"
+  - generic: ENG-2327
+  - generic: Speed up CI pipelines for mobile builds
+  - generic: Performance
+  - generic: Oct 9
+  - img "High Priority"
+  - generic: ENG-2358
+  - generic: Reduce flakiness in mobile UI tests
+  - generic: Reliability
+  - generic: Oct 4
+  - generic: kinetic-ios/src/screens/Home/HomeScreen.tsx
+  - group "Editable code diff — press Space to edit":
+    - code:
+      - generic: import React from 'react'
+      - generic: "import { View, ActivityIndicator } from 'react-native'"
+      - generic: "import { useVehicleState } from '@hooks/useVehicleState'"
+      - generic: "import { Dashboard } from '@components/Dashboard'"
+      - generic: "export const HomeScreen = () => {"
+      - generic: "const { vehicleState, isFullySynced } = useVehicleState()"
+      - generic: "if (!isFullySynced) {"
+      - generic: return <ActivityIndicator size="large" />
+      - generic: "}"
+      - generic: return (
+      - generic: <View>
+      - generic: "<Dashboard state={vehicleState} />"
+      - generic: </View>
+      - generic: )
+      - generic: "}"
+    - code:
+      - generic: import React from 'react'
+      - generic: "import { View, ActivityIndicator } from 'react-native'"
+      - generic: "import { useVehicleState, SyncStatus } from '@hooks/useVehicleState'"
+      - generic: "import { Dashboard } from '@components/Dashboard'"
+      - generic: "export const HomeScreen = () => {"
+      - generic: "const { vehicleState, syncStatus } = useVehicleState()"
+      - generic: "if (syncStatus === SyncStatus.PENDING) {"
+      - generic: return <ActivityIndicator size="large" />
+      - generic: "}"
+      - generic: return (
+      - generic: <View>
+      - generic: "<Dashboard state={vehicleState} syncStatus={syncStatus} />"
+      - generic: </View>
+      - generic: )
+      - generic: "}"
+      - textbox "Edit code lines": "import React from 'react' import { View, ActivityIndicator } from 'react-native' import { useVehicleState, SyncStatus } from '@hooks/useVehicleState' import { Dashboard } from '@components/Dashboard' export const HomeScreen = () => { const { vehicleState, syncStatus } = useVehicleState() if (syncStatus === SyncStatus.PENDING) { return <ActivityIndicator size=\"large\" /> } return ( <View> <Dashboard state={vehicleState} syncStatus={syncStatus} /> </View> ) }"
+  - text: "- - - + + +"
+  - combobox:
+    - generic: Linear
+  - textbox: "0"
+  - generic: Features
+  - button "Issues +":
+    - generic: Issues +
+  - button "Git automations +":
+    - generic: Git automations +
+  - button "Guided reviews +":
+    - generic: Guided reviews +
+  - button "Cycles +":
+    - generic: Cycles +
+  - button "Diffs +":
+    - generic: Diffs +
+  - button "Releases +":
+    - generic: Releases +
+  - heading "Changelog" [level=2]
+  - link "Loops for product management Loops are recurring agent workflows for teams. They now respond to more workspace activity, including changes to initiatives, projects, and cycles. They can also edit Linear documents and post updates to Slack. Sep 10, 2026":
+    - /url: /changelog/2026-09-14-loops-for-product-management
+    - generic: Loops for product management
+    - generic: Loops are recurring agent workflows for teams. They now respond to more workspace activity, including changes to initiatives, projects, and cycles. They can also edit Linear documents and post updates to Slack.
+    - generic: Sep 10, 2026
+  - link "Priority inbox An active workspace can create a significant amount of notifications each day, and until now your inbox treated them all the same. The new Priority tab separates what needs your attention from what can wait, so something like a review blocking a release never gets buried. Sep 3, 2026":
+    - /url: /changelog/2026-09-03-priority-inbox
+    - generic: Priority inbox
+    - generic: An active workspace can create a significant amount of notifications each day, and until now your inbox treated them all the same. The new Priority tab separates what needs your attention from what can wait, so something like a review blocking a release never gets buried.
+    - generic: Sep 3, 2026
+  - link "Coding sessions Linear Agent can now set up, run, and test your code before returning its work. That means fewer handoffs and changes that are further along when they come back to you. Aug 19, 2026":
+    - /url: /changelog/2026-08-20-coding-environments
+    - generic: Coding sessions
+    - generic: Linear Agent can now set up, run, and test your code before returning its work. That means fewer handoffs and changes that are further along when they come back to you.
+    - generic: Aug 19, 2026
+  - link "View all →":
+    - /url: /changelog
+    - generic: View all
+    - generic: →
+  - link "You’ll probably build a better product, just because of the craft that using Linear infuses on your brain. Gabriel Peal Staff Software Engineer, OpenAI":
+    - /url: /customers/openai
+    - paragraph: You’ll probably build a better product, just because of the craft that using Linear infuses on your brain.
+    - generic: Gabriel Peal
+    - generic: Staff Software Engineer, OpenAI
+  - link "Our speed is intense and Linear helps us be action biased. Nik Koblov Head of Engineering, Ramp":
+    - /url: /customers/ramp
+    - paragraph: Our speed is intense and Linear helps us be action biased.
+    - generic: Nik Koblov
+    - generic: Head of Engineering, Ramp
+  - paragraph:
+    - text: Linear powers over
+    - strong: 40,000
+    - text: product teams. From ambitious startups to major enterprises.
+  - link "Customer stories →":
+    - /url: /customers
+    - generic: Customer stories
+    - generic: →
+  - heading "Built for the future. Available today." [level=2]
+  - button "Get started"
+  - button "Contact sales"
+- contentinfo:
+  - link "Linear Logo":
+    - /url: /
+    - img "Linear Logo"
+  - heading "Product" [level=3]
+  - list:
+    - link "Intake":
+      - /url: /intake
+    - link "Plan":
+      - /url: /plan
+    - link "AI":
+      - /url: /ai
+    - link "Build":
+      - /url: /build
+    - link "Pricing":
+      - /url: /pricing
+    - link "Security":
+      - /url: /security
+  - heading "Features" [level=3]
+  - list:
+    - link "Asks":
+      - /url: /asks
+    - link "Agents":
+      - /url: /agents
+    - link "Coding Sessions":
+      - /url: /coding-sessions
+    - link "Customer Requests":
+      - /url: /customer-requests
+    - link "Insights":
+      - /url: /insights
+    - link "Mobile":
+      - /url: /mobile
+    - link "Integrations":
+      - /url: /integrations
+    - link "Changelog":
+      - /url: /changelog
+  - heading "Company" [level=3]
+  - list:
+    - link "About":
+      - /url: /about
+    - link "Customers":
+      - /url: /customers
+    - link "Careers":
+      - /url: /careers
+    - link "Now":
+      - /url: /now
+    - link "Method":
+      - /url: /method
+    - link "Quality":
+      - /url: /quality
+    - link "Brand":
+      - /url: /brand
+  - heading "Resources" [level=3]
+  - list:
+    - link "Switch":
+      - /url: /switch
+    - link "Download":
+      - /url: /download
+    - link "Documentation":
+      - /url: /docs
+      - generic: Documentation
+    - link "Developers":
+      - /url: /developers
+    - link "Status":
+      - /url: https://linearstatus.com
+    - link "Enterprise":
+      - /url: /enterprise
+    - link "Startups":
+      - /url: /startups
+  - heading "Connect" [level=3]
+  - list:
+    - link "Contact us":
+      - /url: /contact
+    - link "Community":
+      - /url: https://linear.app/join-slack
+    - link "X (Twitter)":
+      - /url: https://x.com/linear
+    - link "GitHub":
+      - /url: https://github.com/linear
+    - link "YouTube":
+      - /url: https://www.youtube.com/@linear
+  - link "Privacy":
+    - /url: /privacy
+  - link "Terms":
+    - /url: /terms
+  - link "DPA":
+    - /url: /dpa
+  - link "AUP":
+    - /url: /legal/aup
