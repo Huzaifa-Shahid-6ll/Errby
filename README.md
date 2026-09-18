@@ -1,8 +1,8 @@
 # Errby
 
-A responsive learning app where students explain topics to an intentionally mistaken AI, with a separate Supervisor checking misconceptions. **This repository contains the verified T01 foundation and locally implemented T02 identity/access; hosted Supabase verification and the remaining product workflows are pending.**
+A responsive learning app where students explain topics to an intentionally mistaken AI, with a separate Supervisor checking misconceptions. **This repository contains T01 foundation, locally implemented T02 identity/access, T03 lesson contracts/examples and T04 text/PDF extraction. Human lesson approval, hosted Supabase verification and the remaining product workflows are pending.**
 
-Local verification passed: lint, TypeScript, seven deterministic/SQL/provider-mock tests, formatting, production build and six desktop/phone browser tests. The final one-line smooth-scroll HTML attribute was covered by lint/type checks after the build/browser run. See [setup status](docs/SETUP_STATUS.md) for evidence and limitations. Local Docker Desktop must not be used.
+See [setup status](docs/SETUP_STATUS.md) for current verification evidence and limitations, including the distinction between local checks and hosted acceptance. Local Docker Desktop must not be used.
 
 ## Run on Windows
 
@@ -17,20 +17,20 @@ npm run dev
 
 Open [http://127.0.0.1:3000](http://127.0.0.1:3000). Stop with Ctrl+C. If that port is occupied, run `npm run dev -- --port 3001`. The dev server binds to this computer only.
 
-The home composer, example lesson, light/dark preview and responsive navigation work without services. Text stays in React memory in the current tab and disappears on reload. The sample is fictional and explicitly unreviewed. Its opening question and Supervisor notice are static fixtures, not model output. No account, class membership, grade, upload, persistence or paid API call is simulated as successful.
+The home composer, example lesson, light/dark preview and responsive navigation work without services. Text stays in React memory in the current tab and disappears on reload. The sample is fictional and explicitly unreviewed. Its opening question and Supervisor notice are static fixtures, not model output. The separate `/prepare` page runs real pasted-text extraction and a fixed synthetic PDF sample without credentials; arbitrary PDF uploads require live sign-in. No account, class membership, grade, persistence or paid API call is simulated as successful.
 
 ## Environment
 
 Copy `.env.example` to `.env.local`; never commit the latter. All variables below are server-side. None use `NEXT_PUBLIC_`.
 
-| Variable                   | Meaning                                                                                                                                               |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ERRBY_MODE`               | `demo` (default) runs without credentials. `live` enables configured sign-in and verified account status; lesson flows remain explicitly unavailable. |
-| `SUPABASE_URL`             | Non-local synthetic Supabase test project endpoint. Required only in live mode.                                                                       |
-| `SUPABASE_PUBLISHABLE_KEY` | Project publishable key. The server session client uses the authenticated user's RLS permissions.                                                     |
-| `SUPABASE_SECRET_KEY`      | Required in live mode for the durable sign-in throttle and operator account provisioning. Server only; never sent to the browser.                     |
-| `OPENAI_API_KEY`           | Reserved for the future server provider adapter; unused in this foundation.                                                                           |
-| `OPENAI_MODEL`             | Candidate `gpt-4.1-mini`. Must pass the reviewed evaluator suite before adoption.                                                                     |
+| Variable                   | Meaning                                                                                                                                                                                           |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ERRBY_MODE`               | `demo` (default) runs without credentials with text/sample-PDF extraction. `live` enables configured sign-in and authenticated PDF extraction; lesson generation and sessions remain unavailable. |
+| `SUPABASE_URL`             | Non-local synthetic Supabase test project endpoint. Required only in live mode.                                                                                                                   |
+| `SUPABASE_PUBLISHABLE_KEY` | Project publishable key. The server session client uses the authenticated user's RLS permissions.                                                                                                 |
+| `SUPABASE_SECRET_KEY`      | Required in live mode for the durable sign-in throttle and operator account provisioning. Server only; never sent to the browser.                                                                 |
+| `OPENAI_API_KEY`           | Reserved for the future server provider adapter; unused in this foundation.                                                                                                                       |
+| `OPENAI_MODEL`             | Candidate `gpt-4.1-mini`. Must pass the reviewed evaluator suite before adoption.                                                                                                                 |
 
 Environment validation runs at startup/build and reports field names without printing values. No credentials are needed for build, tests or demo. `live` never silently falls back to fictional data. Adding keys does not make the product complete or authorise paid calls.
 
@@ -72,22 +72,22 @@ Browser checks cover 360×800 and 1366×768, first-page rendering, keyboard skip
 | `src/components`                           | Presentational shell and minimal shadcn/Radix button.                                                                                                                                      |
 | `src/lib/env`                              | Validated server configuration; no secrets exported to UI.                                                                                                                                 |
 | `src/lib/auth`, `src/lib/db`               | Verified Auth/profile lookup, scoped operator provisioning and session/admin clients. App reads use user RLS; the privileged client is limited to the throttle and explicit operator tool. |
-| `src/lib/ingestion`                        | Server-only pasted-text validation; file/URL adapters remain unimplemented.                                                                                                                |
+| `src/lib/ingestion`                        | Bounded server-only text/PDF extraction, provenance, coverage and sparse-topic clarification. DOCX/URL adapters remain unimplemented.                                                      |
 | `src/lib/ai`                               | Server-only boundary for preparation, evaluation/Supervisor and Errby. Requests deliberately fail closed until grounding, validation and cost reservation exist.                           |
-| `src/lib/lessons`                          | Explicitly unreviewed fictional fixture.                                                                                                                                                   |
+| `src/lib/lessons`                          | Validated lesson/source contracts, review gates and source-checked examples awaiting human approval; original fictional UI fixture preserved.                                              |
 | `supabase/migrations`                      | Postgres schema/RLS and private bucket baseline.                                                                                                                                           |
 | `tests`                                    | Deterministic configuration/token checks, SQL harness and browser smoke tests.                                                                                                             |
 | `docs/specification`, `docs/visual-design` | Unmodified copies of the supplied documentation, tokens and screen briefs.                                                                                                                 |
 
 Use Route Handlers/server functions for ownership checks, ingestion, durable preparation steps and model calls. Uploaded text and model output are untrusted. The browser must never set roles, correctness, completion, costs or reference provenance. Published lesson versions stay fixed for a session. Next.js `server-only` imports enforce these module boundaries at build time.
 
-The product backlog retains topic/pasted text, text-PDF (10 MB, 50 pages), planned DOCX, and honest webpage/YouTube transcript fallback. No file format or link extraction is supported by the current preview. Do not add unsafe fetching or advertise a parser merely because the storage bucket accepts its MIME type.
+The preparation page supports topic/pasted text and text-PDF extraction with displayed byte, page and character limits. It reports missing text pages and preserves input on request failure. Extraction is not factual approval, a generated lesson or a saved preparation job. DOCX, webpage and YouTube transcript imports remain T16; no external links are fetched.
 
 ## Design and next work
 
-The 17 September colour-and-screen guide supersedes the older dark-first palette. Both exact token sets are installed; light is the default. Styling uses Tailwind 4, system fonts, a slim labelled rail, solid reading surfaces and a restrained home halo. Errby uses indigo; the Supervisor has an amber shield and explicit label. Progress uses teal only when earned. No image binaries were supplied; screen briefs and the visual index were inspected, not actual mockups.
+The 17 September colour-and-screen guide supersedes the older dark-first palette. Both exact token sets are installed; light is the default. Styling uses Tailwind 4, system fonts, a slim labelled rail, solid reading surfaces and a restrained home halo. Errby uses indigo; the Supervisor has an amber shield and explicit label. Progress uses teal only when earned. Screen references are available in `docs/Screens_images`; visual concepts do not establish product functionality.
 
-Next: verify identity against hosted Supabase, then implement the first genuine teaching slice: private text/PDF source → reviewed, immutable lesson → genuine opening question → persisted learner answer. Then add validated evaluation, separate Supervisor feedback and evidence-controlled completion. Keep the required school upload/review/join path in the next increments; the setup preview is not a substitute for it.
+Next: T05 durable preparation jobs and immutable lesson storage, then the genuine opening question and persisted learner answer. Hosted identity/upload acceptance and human lesson-pack review remain pending alongside that work. Then add validated evaluation, separate Supervisor feedback and evidence-controlled completion. Keep the required school upload/review/join path in the next increments; extraction alone does not complete that path.
 
 See [setup evidence and remaining work](docs/SETUP_STATUS.md), [architecture](docs/specification/ARCHITECTURE.md), [scope](docs/specification/MVP_SCOPE.md) and [test requirements](docs/specification/TESTING.md). Real pupil use remains gated by the supplied privacy/provider requirements; this foundation uses synthetic material only.
 
@@ -97,9 +97,17 @@ This foundation was created with OpenAI Codex assistance from the user's supplie
 
 Official setup references consulted via Context7: [Next.js installation](https://nextjs.org/docs/app/getting-started/installation), [Next.js ESLint](https://nextjs.org/docs/app/api-reference/config/eslint), [Supabase server clients](https://supabase.com/docs/guides/auth/server-side/creating-a-client), [Supabase local development](https://supabase.com/docs/guides/local-development), [shadcn Next.js](https://ui.shadcn.com/docs/installation/next), [PGlite API](https://pglite.dev/docs/api), [Playwright web server](https://playwright.dev/docs/test-webserver).
 
+## T03 lessons and T04 preparation
+
+Open `/prepare` from the home page. In demo mode, use synthetic pasted text or the built-in sample PDF; arbitrary file uploads require a verified account in live mode. Extraction runs on the server and reports real text, location markers and coverage. Answer the missing subject, grade and scope questions together, then resubmit. Input stays in the current page on failure; refresh recovery and durable jobs belong to T05.
+
+The lesson contracts require objective-specific explanations, facts, references, misconceptions, correction criteria and changed-example prompts. The science/maths example pack records its factual sources and technical checks, but still needs human review. Its expected-answer cases are a review aid, not an executed AI benchmark. The original home example stays fictional and unreviewed. See [T03 contracts and content review](docs/implementation/T03_LESSONS.md) and [T04 extraction and recovery](docs/implementation/T04_INGESTION.md) for file maps, limits, research references and targeted checks.
+
+No new credentials are required for these local checks. Adding the existing Supabase configuration enables live verification when a synthetic test project and approved accounts are ready; it does not approve the lesson pack or enable paid model calls. School publication, persistent source storage, lesson generation, sessions and grading remain subsequent tasks.
+
 ## T02 identity setup (hosted verification pending)
 
-`/setup` implements provider-backed password sign-in/out in live mode. The server verifies Auth and reads the caller's protected profile; UI role choices, class codes and `user_metadata` never grant roles. Profile roles cannot be changed in place. Unknown/unapproved Auth accounts fail closed. Live home shows only the verified alias/role and the actual unimplemented lesson state. Demo still requires no credentials and offers no fake sign-in; its composer remains unchanged.
+`/setup` implements provider-backed password sign-in/out in live mode. The server verifies Auth and reads the caller's protected profile; UI role choices, class codes and `user_metadata` never grant roles. Profile roles cannot be changed in place. Unknown/unapproved Auth accounts fail closed. Live home shows the verified alias/role and a link to preparation. Demo still requires no credentials and offers no fake sign-in; its preview composer remains unchanged.
 
 Before enabling live mode, apply every migration in filename order to a **dedicated hosted synthetic test project**, configure its HTTPS `*.supabase.co` URL and the Supabase URL and two keys in `.env.local`, and disable public signups in the provider. Keep provider email confirmation enabled and configure Supabase Auth password strength, token expiry, rate limits and any pilot abuse controls. The app adds a durable limit of five attempts per normalized identifier and 100 total attempts per fixed 15-minute window; provider controls remain necessary because the Auth API is independently reachable. The global ceiling is deliberately small for the synthetic pilot and can temporarily stop all logins. No client IP headers are trusted. Throttle records contain only identifier hashes and counters; expired windows are removed on the next attempt.
 

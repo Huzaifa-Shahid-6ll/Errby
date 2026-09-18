@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import {
   ArrowRight,
   BookOpen,
@@ -126,6 +127,9 @@ export function HomePreview() {
               {notice ||
                 "Fictional fixtures · no account, uploads or AI calls · nothing is saved"}
             </p>
+            <Link href="/prepare" className="inline-block underline">
+              Try text and sample PDF extraction
+            </Link>
           </section>
 
           <section

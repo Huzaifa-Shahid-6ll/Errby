@@ -2,20 +2,22 @@
 
 ## Current task status
 
-| Task                | Status                                               | Remaining acceptance                                                                                                                    |
-| ------------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| T01 foundation      | Verified and repaired; Docker-free local workflow    | Remote CI has not run; no push or deployment requested.                                                                                 |
-| T02 identity/access | Implemented; local SQL and provider-mock checks pass | Hosted Supabase verification with actual Auth-issued tokens, session refresh/revocation and recovery remains pending by user agreement. |
+| Task                          | Status                                                         | Remaining acceptance                                                                                                                    |
+| ----------------------------- | -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| T01 foundation                | Verified and repaired; Docker-free local workflow              | Remote CI has not run; no push or deployment requested.                                                                                 |
+| T02 identity/access           | Implemented; local SQL and provider-mock checks pass           | Hosted Supabase verification with actual Auth-issued tokens, session refresh/revocation and recovery remains pending by user agreement. |
+| T03 lesson contracts/examples | Implemented; source/technical review and six lesson tests pass | Human teacher/lead approval of both lessons and the 24 candidate answer cases remains pending.                                          |
+| T04 text/PDF extraction       | Implemented; local parser, browser and production checks pass  | Hosted authenticated upload acceptance remains pending; durable preparation and lesson generation belong to later tasks.                |
 
-Final local verification passed: lint, route generation/TypeScript, seven deterministic/SQL/provider-mock tests, formatting, production build and six desktop/phone browser tests. The final smooth-scroll HTML attribute was added after build/browser verification and is covered by the final lint/type checks. Detailed evidence is recorded in the T01/T02 sections below; the original setup sections retain their historical scope.
+T01/T02 verification is recorded below. T03/T04 add real local extraction and lesson validation; their current checks and remaining acceptance are recorded in the final addendum. Historical foundation sections describe the state at setup, not current capabilities.
 
 ## Current development constraint — 18 September 2026
 
 The user prohibits using local Docker Desktop or its engine. This supersedes the historical local Supabase/Docker instructions below. Do not start, stop, inspect or run Docker-backed services. Local SQL checks use the existing PGlite harness; live Auth/RLS/Storage verification requires a configured non-local synthetic test project and must remain explicitly unverified if access is unavailable.
 
-T01 foundation and T02 identity/access are authorised for implementation and verification, in that order because they share schema, environment and test files. The user subsequently authorised a local commit of this work. Push, deployment, paid calls and real pupil data remain unauthorised.
+T01–T04 are authorised for implementation and verification. On 18 September the user requested two sub-agents for T03/T04, documentation updates and a local commit to main. Their lesson and ingestion modules have separate ownership and can be implemented concurrently; the parent reviews integration. Push, deployment, paid model calls and real pupil data remain unauthorised.
 
-## Outcome
+## Original foundation outcome (historical)
 
 Runnable local foundation created in `G:\ONGOING PROJECTS\Errby`. No application or Git repository existed at that path before setup. A standalone `main` repository is initialised; nothing is staged, committed, pushed or deployed. No paid resources or provider requests were made.
 
@@ -39,7 +41,7 @@ The historical no-build instruction belongs to discovery and is superseded by th
 | Vercel deployment target, no deployment now                       | Documented one-owner target. Hosting eligibility, accounts, quotas and production configuration remain external setup.                                                                                                                                                              |
 | No vector store, queue service, agent framework or analytics SaaS | Documented bounded lessons, database jobs and ordinary server functions cover the intended first slice.                                                                                                                                                                             |
 
-## Completed
+## Original foundation deliverables (historical)
 
 - npm project and lockfile, strict TypeScript, Next lint rules, formatting, route type generation and build scripts.
 - Environment template/validation, server-only module protection, Git ignores for secrets, uploads, backups and generated output.
@@ -53,7 +55,7 @@ The historical no-build instruction belongs to discovery and is superseded by th
 - Four deterministic/SQL tests and four Chromium browser smoke tests; CI workflow prepared.
 - README with PowerShell commands, database instructions, attribution, limitations and next steps.
 
-## Verification actually run
+## Original foundation verification (historical)
 
 | Check                             | Result / scope                                                                                                                                                                                                                                                                                                                                                 |
 | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -75,7 +77,7 @@ The historical no-build instruction belongs to discovery and is superseded by th
 
 The development server was left running at http://127.0.0.1:3000. A final HTTP request returned 200; `/api/health` returned mode `demo`, status `foundation`, integrations `not_connected`.
 
-## Real versus fixture/stub
+## Original foundation real versus fixture/stub (historical)
 
 The Next.js app, styles, interactions, configuration validation, health route, SQL migrations and checks are real. The only lesson is the supplied generated example, explicitly `draft_needs_teacher_review` and `unverified_until_review`. No invented sources, class membership, authentication session, completion or accuracy metric is presented.
 
@@ -120,3 +122,17 @@ T01 foundation and the bounded T06 preview are delivered. T02–T20 are not mark
 - Hosted Supabase acceptance remains pending by the user's explicit instruction because credentials were not configured. No remote Auth, actual JWT/RLS, cookie refresh/revocation, recovery mail, account deletion or Storage success is claimed. README contains the real-token verification checklist. No Docker use/inspection, provisioning call, paid request, real pupil data, commit, push or deployment occurred.
 - Production build passed with `/`, `/setup`, `/api/health` and Proxy present (Turbopack reported 4.7 minutes on the slow G: filesystem). Single-worker browser verification passed all six desktop/phone tests in 1.0 minute, including the honest demo account screen and return navigation. A nonblocking smooth-scroll navigation warning was addressed with the documented root HTML attribute; no auth success is inferred from demo browser tests.
 - Final `npm run check` passed after the formatting correction: zero-warning lint, route generation/TypeScript, all seven deterministic/SQL/provider-mock checks and repository formatting. The operator CLI was also run with an explicitly denied opt-in value and correctly exited before any provider call. The final change after browser/build verification was the one-line documented smooth-scroll HTML attribute; final type/lint checks include it.
+
+## T03/T04 implementation — 18 September 2026
+
+- Two sub-agents implemented separate lesson and ingestion modules concurrently. The parent reviewed both, connected home navigation and the main test command, and maintains this status and README. Existing landing-page research changes are outside this implementation's commit scope; original specification documents and the fictional home example are unchanged.
+- T03 adds strict lesson/source schemas, reference and correction integrity checks, publication-readiness validation, two source-checked synthetic lesson drafts and 24 candidate answer cases. Unsupported drafts retain explicit missing-evidence issues instead of inventing references. Illustrative, unreviewed, unsupported or conflicting content cannot pass publication readiness. This pure validator is not an authenticated publish endpoint; T05/T14 must bind trusted review to unchanged content and enforce ownership. [T03 implementation, sources and review handoff](implementation/T03_LESSONS.md).
+- T04 adds `/prepare` and a server-only extraction endpoint. Topic/pasted text and real text-PDF extraction retain hashes, parser versions, page markers, samples and missing-page coverage. Sparse input asks at most three subject/grade/scope questions together and reuses known grade context. Input stays in the open page after failure; results clear when input changes. Successful extraction is announced to assistive technology and remains unreviewed. [T04 implementation, limits and recovery](implementation/T04_INGESTION.md).
+- Arbitrary PDFs require verified live identity before the application handler reads or parses the body; Next.js may buffer it earlier. The credential-free demo permits pasted fictional text and a fixed synthetic PDF parsed by the real parser. Same-origin requests, bounded streaming bodies, MIME/signature checks, a 10 MiB/50-page/30,000-character limit and a terminable worker constrain extraction. Empty/scanned, encrypted, corrupt, oversized and partially readable files receive explicit recovery or coverage states. No OCR, DOCX, external URL fetching, durable source storage or model generation is claimed.
+- Added pinned `pdfjs-dist` 6.3.289 using npm and the existing lockfile. `npm ls --depth=0` passes and `npm audit --omit=dev` reports zero known production vulnerabilities. Next.js file tracing includes the exact parser runtime files; the worker resolves them natively. Preparation routes now use the existing Auth-refresh proxy, whose body buffer matches the route's 10 MiB plus 150,000-byte multipart envelope. Parser admission is process-local and the worker's JavaScript heap cap is not a total native-memory guarantee; deployment limits still require hosted verification.
+- Used current Context7 library documentation and installed Next.js guides. T03 records the fetched Consensus research record and directly inspected factual sources; research does not establish Errby learning efficacy. No teacher approval, model-evaluation result or school trial was fabricated.
+- Verification passed: zero-warning lint, route generation/TypeScript, all 19 deterministic/SQL/provider-mock/lesson/ingestion checks, repository formatting and the final production build in demo mode. The eight-test desktop/phone browser suite passed; after the final one-class grid-width repair, both preparation browser tests passed again with a 2,000-character unbroken string and expanded extracted text. `git diff --check` passes. SQL remains PGlite-only and identity injection/provider mocks are not live Auth verification.
+- Production DevTools verification: `/prepare/extract` returned 200 with the real PDF.js parser version, two of two text pages, fictional/unreviewed provenance and `no-store`. At an emulated 360×800 viewport, expanded long text retained a 360px document width, success was announced in the live region, and the console had no warnings/errors. The three required PDF.js runtime files were confirmed in the route's build trace. No hosted packaging or Storage success is inferred.
+- Integration defects found and repaired: Turbopack's rewrite of the parser resolver (native worker resolution now avoids it); legitimate browser Origin versus Next's internal hostname (the guard now validates canonical Origin against actual Host and protocol); and grid minimum-width overflow on long unbroken text. The first browser run also exposed a five-second assertion racing dev-route compilation and an ambiguous alert locator; the test now waits for the actual response and scopes the alert to main. The initial final-check run stopped only at formatting of the evolving setup document; it was formatted before the final rerun. No product assertion was removed to pass checks.
+- The user-authorised implementation commit targets local `main`. Existing landing-page research edits remain outside that commit, including their pre-existing setup-status addendum. No Docker operation, hosted Supabase request, paid model call, real pupil data, push or deployment has been performed.
+- Remaining acceptance: teacher/lead review of the lesson pack and answer key; actual hosted Auth/upload verification after configuration. No credential blocks local implementation. T05 durable preparation jobs/immutable versions is the next dependency; T07 session opening and T09–T11 grading/completion remain unimplemented. No G1–G5 checkpoint is claimed.

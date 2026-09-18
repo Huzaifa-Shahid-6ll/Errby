@@ -17,11 +17,17 @@ export default async function Home() {
           {identity
             ? `You are signed in as a ${identity.profile.role}. `
             : "Sign in with your approved account. "}
-          Lesson preparation and learning sessions are not available yet.
+          Review extracted text and clarify your topic before lesson drafting.
+          Learning sessions are not available yet.
         </p>
         <Link href="/setup" className="mt-6 inline-block underline">
           {identity ? "Your account" : "Sign in"}
         </Link>
+        {identity && (
+          <Link href="/prepare" className="ml-6 inline-block underline">
+            Prepare your material
+          </Link>
+        )}
       </main>
     );
   }
