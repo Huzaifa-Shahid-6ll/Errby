@@ -14,6 +14,7 @@ const schema = z
       for (const name of [
         "SUPABASE_URL",
         "SUPABASE_PUBLISHABLE_KEY",
+        "SUPABASE_SECRET_KEY",
       ] as const) {
         if (!env[name]?.trim())
           ctx.addIssue({
@@ -22,11 +23,16 @@ const schema = z
             message: "Required in live mode",
           });
       }
-      if (env.SUPABASE_URL && !z.url().safeParse(env.SUPABASE_URL).success) {
+      if (
+        env.SUPABASE_URL &&
+        !z
+          .url({ protocol: /^https$/, hostname: /^[a-z0-9-]+\.supabase\.co$/ })
+          .safeParse(env.SUPABASE_URL).success
+      ) {
         ctx.addIssue({
           code: "custom",
           path: ["SUPABASE_URL"],
-          message: "Must be a valid URL",
+          message: "Must be a hosted HTTPS Supabase test-project URL",
         });
       }
     }

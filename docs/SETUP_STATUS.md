@@ -1,4 +1,19 @@
-# Setup status — 17 September 2026
+# Setup status — updated 18 September 2026
+
+## Current task status
+
+| Task                | Status                                               | Remaining acceptance                                                                                                                    |
+| ------------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| T01 foundation      | Verified and repaired; Docker-free local workflow    | Remote CI has not run; no push or deployment requested.                                                                                 |
+| T02 identity/access | Implemented; local SQL and provider-mock checks pass | Hosted Supabase verification with actual Auth-issued tokens, session refresh/revocation and recovery remains pending by user agreement. |
+
+Final local verification passed: lint, route generation/TypeScript, seven deterministic/SQL/provider-mock tests, formatting, production build and six desktop/phone browser tests. The final smooth-scroll HTML attribute was added after build/browser verification and is covered by the final lint/type checks. Detailed evidence is recorded in the T01/T02 sections below; the original setup sections retain their historical scope.
+
+## Current development constraint — 18 September 2026
+
+The user prohibits using local Docker Desktop or its engine. This supersedes the historical local Supabase/Docker instructions below. Do not start, stop, inspect or run Docker-backed services. Local SQL checks use the existing PGlite harness; live Auth/RLS/Storage verification requires a configured non-local synthetic test project and must remain explicitly unverified if access is unavailable.
+
+T01 foundation and T02 identity/access are authorised for implementation and verification, in that order because they share schema, environment and test files. The user subsequently authorised a local commit of this work. Push, deployment, paid calls and real pupil data remain unauthorised.
 
 ## Outcome
 
@@ -68,7 +83,7 @@ Live Auth, private storage transfers, PDF/DOCX extraction, link/transcript impor
 
 ## Remaining external setup and verification
 
-1. Start Docker Desktop's Linux engine, then run the README's local database commands. Verify migrations on real Supabase and test with actual Auth-issued tokens, two teachers and two learners. Test Storage policies/signed URLs as that flow is implemented.
+1. Use `npm run db:test` for Docker-free local SQL checks. Verify migrations on a configured non-local synthetic Supabase test project with actual Auth-issued tokens, two teachers and two learners when access is available. Test Storage policies/signed URLs as that flow is implemented. Local Docker Desktop and its engine must not be used, started, stopped or inspected.
 2. Set server environment values only when implementing live integration. No Supabase/OpenAI credentials were supplied, invented or required for demo.
 3. Approved teacher provisioning/allowlist and pseudonymous learner Auth credentials must precede writable account/class endpoints. Class code is never authentication.
 4. The schema is a restrictive baseline, not completed authorisation: scoped teacher summary RPCs/endpoints, objective/source/evidence validation, audited assessment revision mutations, deletion/retention jobs, idempotent cost reservations and completion transitions still require implementation and tests. Keep direct writes closed until then.
@@ -84,3 +99,24 @@ Live Auth, private storage transfers, PDF/DOCX extraction, link/transcript impor
 4. Complete the required class creation, upload/review/publish, join and scoped results path. Do not trade those requirements for visual polish.
 
 T01 foundation and the bounded T06 preview are delivered. T02–T20 are not marked complete by this setup; none of the product checkpoint gates G1–G5 has been claimed.
+
+## T01 foundation re-verification — 18 September 2026
+
+- Removed Docker-backed `db:start`, `db:stop`, `db:status`, `db:migrate` and `db:reset` scripts. `npm run db:test` now exposes the existing isolated PGlite harness. Updated README, `.env.example` and current setup instructions to prohibit local Docker and require a configured non-local synthetic project for real Supabase verification.
+- Repaired existing failing foundation checks: restored four authoritative primary/secondary colour tokens; fixed missing sidebar sheet/tooltip imports by reusing installed Radix Dialog and the existing tooltip; removed render-time randomness, component creation and redundant state effects from imported UI utilities. Controlled values now remain authoritative, mobile width uses a browser subscription with a server snapshot, and motion slots reuse Radix ref/prop handling. No new dependency, database migration or auth flow was added by T01.
+- Added a runnable SSR regression check for sidebar imports, deterministic skeleton rendering, empty/plain/motion slot children and an explicit false controlled value. Formatted the 23 existing source files reported by Prettier; changes outside the listed utility fixes and palette are formatting only.
+- Verification passed: `npm ls --depth=0`, `npm run check` (lint, route types/TypeScript, five tests, formatting), `npm run build`, `npm run db:test` and `git diff --check`. Environment parsing with an empty object still selects demo without secrets. CI workflow remains configured but has not run remotely; a fresh dependency reinstall was not repeated in this task.
+- Browser verification: the initial default run passed both keyboard tests but timed out during page-fixture setup for the other two tests before any app assertions. The single bounded retry `npm run test:browser -- --workers=1 --timeout=90000` passed all four desktop/phone tests in 10.9 seconds. Next reported a slow local filesystem; no timeout/configuration change was committed to hide the first result.
+- No Docker operation, hosted Supabase call, paid provider call, commit, push or deployment was performed. Real Auth/Storage verification remains pending configured non-local access. Existing provider configuration mismatch is deferred: `.env.example` reserves `OPENROUTER_*`, while the unused environment schema/README reserve `OPENAI_*`; the model boundary still throws before sending requests.
+- T02 handoff: baseline SQL/RLS passes in PGlite only. `tests/database.test.ts` explicitly loads the first two migrations and stubs `auth.users` with only `id`; extend that harness for identity changes and retain its explicit live-service limitation. No T02 completion or checkpoint gate is claimed by T01.
+
+## T02 identity/access implementation — 18 September 2026
+
+- Implemented `/setup` provider-backed password sign-in/out, server-verified Auth plus immutable server-owned profile roles, HTTP-only session cookies and proxy refresh. Live home displays verified account status and explicitly unavailable lesson workflows; demo behavior and its in-memory composer are unchanged. Unknown Auth users and user-metadata role claims do not create app profiles or grant access. Health reports configured-but-unverified integration state in live mode.
+- Added an explicit operator-only provisioning/recovery command. Teacher approval requires a preexisting provider-confirmed email on the local allowlist; real teacher emails are never auto-confirmed. Learner usernames/passwords are generated, use provider Auth and internal non-mail addresses, and are scoped to an approved teacher's existing active class. Recovery cannot target unrelated learners or teachers. Failed learner provisioning attempts remove the incomplete account, and report its ID for operator cleanup if removal fails. Teacher dashboard/class creation/join flows remain T13.
+- Added an incremental SQL migration enforcing teacher/learner role consistency, immutable profile roles and inactive-class session/message denial. Private learner sessions remain owner-only; teachers still cannot directly read transcripts. No client writes were opened. Added a server-only durable throttle table/function with five attempts per identifier and 100 total per fixed 15-minute window; expired hashes/counters are pruned on subsequent attempts. Provider signup/rate-limit controls remain required and are documented.
+- Live configuration now requires a hosted HTTPS Supabase URL, publishable key and secret key. All privileged/provider code remains server-only. README and `.env.example` explain hosted setup, operator commands, generated credential delivery and limitations. No dependency or lockfile changes were required.
+- Local evidence: TypeScript passed. The deterministic/SQL suite passed five checks and the identity suite passed two checks. PGlite executed all three migrations and checked both teachers/classes, unknown-metadata spoofing, role/write denials, private records, removed membership, inactive class and throttle bounds/expiry. Provider mocks exercise teacher approval, unauthorized/reset denial, successful scoped reset, generated learner credentials, rollback and failed-cleanup reporting. These are explicitly SQL stubs/provider mocks, not live Auth verification. The first full check stopped at a formatting warning in `provision.ts`; formatting was corrected and `npm run format:check` then passed.
+- Hosted Supabase acceptance remains pending by the user's explicit instruction because credentials were not configured. No remote Auth, actual JWT/RLS, cookie refresh/revocation, recovery mail, account deletion or Storage success is claimed. README contains the real-token verification checklist. No Docker use/inspection, provisioning call, paid request, real pupil data, commit, push or deployment occurred.
+- Production build passed with `/`, `/setup`, `/api/health` and Proxy present (Turbopack reported 4.7 minutes on the slow G: filesystem). Single-worker browser verification passed all six desktop/phone tests in 1.0 minute, including the honest demo account screen and return navigation. A nonblocking smooth-scroll navigation warning was addressed with the documented root HTML attribute; no auth success is inferred from demo browser tests.
+- Final `npm run check` passed after the formatting correction: zero-warning lint, route generation/TypeScript, all seven deterministic/SQL/provider-mock checks and repository formatting. The operator CLI was also run with an explicitly denied opt-in value and correctly exited before any provider call. The final change after browser/build verification was the one-line documented smooth-scroll HTML attribute; final type/lint checks include it.

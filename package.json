@@ -10,14 +10,12 @@
     "typecheck": "next typegen && tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "tsx --test tests/foundation.test.ts tests/database.test.ts",
+    "test": "tsx --test tests/foundation.test.ts tests/database.test.ts && npm run test:identity",
+    "test:identity": "node --conditions=react-server --import tsx --test tests/identity.test.ts",
+    "account:manage": "node --conditions=react-server --env-file=.env.local --import tsx scripts/accounts.ts",
     "test:browser": "playwright test",
     "check": "npm run lint && npm run typecheck && npm test && npm run format:check",
-    "db:start": "supabase start",
-    "db:stop": "supabase stop",
-    "db:status": "supabase status",
-    "db:migrate": "supabase migration up --local",
-    "db:reset": "supabase db reset --local"
+    "db:test": "tsx --test tests/database.test.ts"
   },
   "type": "module",
   "dependencies": {

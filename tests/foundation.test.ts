@@ -2,6 +2,42 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { readFileSync } from "node:fs";
 import { parseEnv } from "../src/lib/env/schema";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { motion } from "motion/react";
+import { Slot } from "../src/components/animate-ui/primitives/animate/slot";
+import {
+  Sidebar,
+  SidebarMenuSkeleton,
+  SidebarProvider,
+} from "../src/components/animate-ui/components/radix/sidebar";
+import { useControlledState } from "../src/hooks/use-controlled-state";
+
+test("UI foundation renders without browser globals and keeps skeleton markup stable", () => {
+  const sidebar = createElement(
+    SidebarProvider,
+    null,
+    createElement(Sidebar, null, createElement(SidebarMenuSkeleton)),
+  );
+  const html = renderToStaticMarkup(sidebar);
+  assert.match(html, /sidebar-menu-skeleton/);
+  assert.equal(renderToStaticMarkup(sidebar), html);
+  assert.equal(renderToStaticMarkup(createElement(Slot)), "");
+  for (const child of [
+    createElement("span", {}, "Ready"),
+    createElement(motion.span, {}, "Ready"),
+  ]) {
+    assert.match(
+      renderToStaticMarkup(createElement(Slot, null, child)),
+      /Ready/,
+    );
+  }
+  function Controlled() {
+    const [value] = useControlledState({ value: false, defaultValue: true });
+    return String(value);
+  }
+  assert.equal(renderToStaticMarkup(createElement(Controlled)), "false");
+});
 
 test("demo needs no secrets; invalid/live configuration fails without leaking values", () => {
   assert.equal(parseEnv({}).ERRBY_MODE, "demo");

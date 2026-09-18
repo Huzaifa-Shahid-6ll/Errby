@@ -1,9 +1,10 @@
 # Errby development
 
 - Read `docs/SETUP_STATUS.md` first, then relevant documents in `docs/specification/`.
-- The current user authorises foundation setup; historical "do not implement yet" refers to the earlier discovery task.
+- The current user authorises T01 foundation and T02 identity/access implementation; historical "do not implement yet" refers to the earlier discovery task.
 - `docs/Errby-Colour-and-Screen-Guide.md` and `docs/visual-design/palette-tokens.json` supersede the old palette. Images/briefs never add product features.
 - Use npm and the existing lockfile. Windows commands must work in PowerShell.
+- Do not use, start, stop, inspect or depend on local Docker Desktop or its engine. Use the existing Docker-free PGlite checks for local SQL validation. Real Supabase verification must use a configured non-local test project; report missing access honestly, and never claim PGlite verifies live Auth or Storage.
 - Use Context7 current official documentation for framework, API, SDK and CLI work: resolve the library ID, then query the relevant docs.
 - Keep auth, database, ingestion and AI calls in server-only modules. Never put service/model credentials in `NEXT_PUBLIC_` variables.
 - Demo fixtures stay visibly fictional and unreviewed. Never fabricate grading, persistence or integration success.

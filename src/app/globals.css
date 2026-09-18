@@ -9,8 +9,8 @@
   --canvas: #f7f9fc;
   --surface: #ffffff;
   --text: #17223b;
-  --secondary: oklch(0.967 0.001 286.375);
-  --primary: oklch(0.496 0.265 301.924);
+  --secondary: #526179;
+  --primary: #4f46e5;
   --primary-text: #ffffff;
   --errby-surface: #eef2ff;
   --errby-text: #4338ca;
@@ -59,8 +59,8 @@
   --canvas: #121722;
   --surface: #1c2433;
   --text: #f4f7fc;
-  --secondary: oklch(0.274 0.006 286.033);
-  --primary: oklch(0.438 0.218 303.724);
+  --secondary: #b7c2d6;
+  --primary: #a5b4fc;
   --primary-text: #17223b;
   --errby-surface: #242b48;
   --errby-text: #c7d2fe;

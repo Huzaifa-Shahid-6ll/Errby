@@ -7,6 +7,7 @@ export function GET() {
     app: "errby",
     mode: env.ERRBY_MODE,
     status: "foundation",
-    integrations: "not_connected",
+    integrations:
+      env.ERRBY_MODE === "live" ? "configured_not_verified" : "not_connected",
   });
 }

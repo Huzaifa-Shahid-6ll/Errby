@@ -3,9 +3,12 @@ import "./globals.css";
 import { Manrope, Figtree } from "next/font/google";
 import { cn } from "@/lib/utils";
 
-const figtreeHeading = Figtree({subsets:['latin'],variable:'--font-heading'});
+const figtreeHeading = Figtree({
+  subsets: ["latin"],
+  variable: "--font-heading",
+});
 
-const manrope = Manrope({subsets:['latin'],variable:'--font-sans'});
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "Errby · Teach a curious mind",
@@ -17,7 +20,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={cn("font-sans", manrope.variable, figtreeHeading.variable)}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={cn("font-sans", manrope.variable, figtreeHeading.variable)}
+    >
       <body>{children}</body>
     </html>
   );

@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import * as React from "react";
 
 type AutoHeightOptions = {
   includeParentBox?: boolean;
@@ -29,12 +29,12 @@ export function useAutoHeight<T extends HTMLElement = HTMLDivElement>(
     if (options.includeParentBox && el.parentElement) {
       const cs = getComputedStyle(el.parentElement);
       const paddingY =
-        (parseFloat(cs.paddingTop || '0') || 0) +
-        (parseFloat(cs.paddingBottom || '0') || 0);
+        (parseFloat(cs.paddingTop || "0") || 0) +
+        (parseFloat(cs.paddingBottom || "0") || 0);
       const borderY =
-        (parseFloat(cs.borderTopWidth || '0') || 0) +
-        (parseFloat(cs.borderBottomWidth || '0') || 0);
-      const isBorderBox = cs.boxSizing === 'border-box';
+        (parseFloat(cs.borderTopWidth || "0") || 0) +
+        (parseFloat(cs.borderBottomWidth || "0") || 0);
+      const isBorderBox = cs.boxSizing === "border-box";
       if (isBorderBox) {
         extra += paddingY + borderY;
       }
@@ -43,19 +43,19 @@ export function useAutoHeight<T extends HTMLElement = HTMLDivElement>(
     if (options.includeSelfBox) {
       const cs = getComputedStyle(el);
       const paddingY =
-        (parseFloat(cs.paddingTop || '0') || 0) +
-        (parseFloat(cs.paddingBottom || '0') || 0);
+        (parseFloat(cs.paddingTop || "0") || 0) +
+        (parseFloat(cs.paddingBottom || "0") || 0);
       const borderY =
-        (parseFloat(cs.borderTopWidth || '0') || 0) +
-        (parseFloat(cs.borderBottomWidth || '0') || 0);
-      const isBorderBox = cs.boxSizing === 'border-box';
+        (parseFloat(cs.borderTopWidth || "0") || 0) +
+        (parseFloat(cs.borderBottomWidth || "0") || 0);
+      const isBorderBox = cs.boxSizing === "border-box";
       if (isBorderBox) {
         extra += paddingY + borderY;
       }
     }
 
     const dpr =
-      typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1;
+      typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
     const total = Math.ceil((base + extra) * dpr) / dpr;
 
     return total;
@@ -90,13 +90,6 @@ export function useAutoHeight<T extends HTMLElement = HTMLDivElement>(
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
-
-  React.useLayoutEffect(() => {
-    if (height === 0) {
-      const next = measure();
-      if (next !== 0) setHeight(next);
-    }
-  }, [height, measure]);
 
   return { ref, height } as const;
 }

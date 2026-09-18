@@ -1,10 +1,12 @@
 # Errby
 
-A responsive learning app where students explain topics to an intentionally mistaken AI, with a separate Supervisor checking misconceptions. **This repository currently contains the local development foundation, not the complete product.**
+A responsive learning app where students explain topics to an intentionally mistaken AI, with a separate Supervisor checking misconceptions. **This repository contains the verified T01 foundation and locally implemented T02 identity/access; hosted Supabase verification and the remaining product workflows are pending.**
+
+Local verification passed: lint, TypeScript, seven deterministic/SQL/provider-mock tests, formatting, production build and six desktop/phone browser tests. The final one-line smooth-scroll HTML attribute was covered by lint/type checks after the build/browser run. See [setup status](docs/SETUP_STATUS.md) for evidence and limitations. Local Docker Desktop must not be used.
 
 ## Run on Windows
 
-Use Node.js **24.18.0** and npm **11.16.0** (the versions verified during setup). Git is recommended. Docker and external credentials are optional for the UI preview. Use npm only; `package-lock.json` fixes compatible dependency versions.
+Use Node.js **24.18.0** and npm **11.16.0** (the versions verified during setup). Git is recommended. The UI preview needs no external credentials. Do not use, start, stop or inspect local Docker Desktop or its engine. Use npm only; `package-lock.json` fixes compatible dependency versions.
 
 ```powershell
 Set-Location 'G:\ONGOING PROJECTS\Errby'
@@ -21,38 +23,33 @@ The home composer, example lesson, light/dark preview and responsive navigation 
 
 Copy `.env.example` to `.env.local`; never commit the latter. All variables below are server-side. None use `NEXT_PUBLIC_`.
 
-| Variable                   | Meaning                                                                                                                                                                |
-| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ERRBY_MODE`               | `demo` (default) runs without credentials. `live` validates Supabase configuration and shows a truthful integration-pending page; it does not enable unfinished flows. |
-| `SUPABASE_URL`             | Local or hosted Supabase endpoint. Required only in live mode.                                                                                                         |
-| `SUPABASE_PUBLISHABLE_KEY` | Project publishable key (or local anon key). The server session client uses the authenticated user's RLS permissions.                                                  |
-| `SUPABASE_SECRET_KEY`      | Reserved privileged server credential. No admin client is exposed or used yet.                                                                                         |
-| `OPENAI_API_KEY`           | Reserved for the future server provider adapter; unused in this foundation.                                                                                            |
-| `OPENAI_MODEL`             | Candidate `gpt-4.1-mini`. Must pass the reviewed evaluator suite before adoption.                                                                                      |
+| Variable                   | Meaning                                                                                                                                               |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ERRBY_MODE`               | `demo` (default) runs without credentials. `live` enables configured sign-in and verified account status; lesson flows remain explicitly unavailable. |
+| `SUPABASE_URL`             | Non-local synthetic Supabase test project endpoint. Required only in live mode.                                                                       |
+| `SUPABASE_PUBLISHABLE_KEY` | Project publishable key. The server session client uses the authenticated user's RLS permissions.                                                     |
+| `SUPABASE_SECRET_KEY`      | Required in live mode for the durable sign-in throttle and operator account provisioning. Server only; never sent to the browser.                     |
+| `OPENAI_API_KEY`           | Reserved for the future server provider adapter; unused in this foundation.                                                                           |
+| `OPENAI_MODEL`             | Candidate `gpt-4.1-mini`. Must pass the reviewed evaluator suite before adoption.                                                                     |
 
 Environment validation runs at startup/build and reports field names without printing values. No credentials are needed for build, tests or demo. `live` never silently falls back to fictional data. Adding keys does not make the product complete or authorise paid calls.
 
 ## Local database
 
-Supabase Postgres, Auth and private Storage are the documented target. Install/start Docker Desktop with the Linux engine for the full local stack. The pinned Supabase CLI is a dev dependency; no global install is needed.
+Supabase Postgres, Auth and private Storage are the documented target. Local SQL validation uses the existing in-memory PGlite harness, without Docker or external services.
 
 ```powershell
 Set-Location 'G:\ONGOING PROJECTS\Errby'
-docker info
-npm run db:start
-npm run db:migrate
-npm run db:status
+npm run db:test
 ```
 
-`db:start` downloads the local service images on first run and applies migrations. `db:migrate` applies any later unapplied migrations locally. Copy local endpoint/key values into `.env.local` yourself; do not paste keys into chat or source control. Supabase Studio uses the URL printed by the CLI. Stop the stack with `npm run db:stop`.
+`db:test` applies migrations to an isolated temporary database and checks constraints and selected access policies. It also runs within `npm test` and CI. Docker-backed `db:start`, `db:stop`, `db:status`, `db:migrate` and `db:reset` scripts have been removed. Real Supabase verification requires a configured non-local synthetic test project; do not provision services or run remote migrations as part of local setup.
 
-For a disposable Errby local database only, `npm run db:reset` recreates it and reapplies migrations; **this deletes its local records**. No remote database commands or paid resources are part of setup.
-
-The baseline includes all 16 documented entities, indexes, ownership foreign keys, immutable published lesson content, fixed session ownership/version, sequence/turn uniqueness and RLS. Anonymous access and direct authenticated writes are denied. Read policies cover a learner's own records and authorised published lessons. Teachers cannot directly read learner sessions; scoped summary endpoints remain to be implemented. Class code hashes are excluded from client column grants. The private `source-documents` bucket allows up to 10 MB; object access has no client policies yet and stays closed.
+The baseline includes all 16 documented entities, plus a server-only sign-in throttle table, indexes, ownership foreign keys, immutable published lesson content, fixed session ownership/version, sequence/turn uniqueness and RLS. Anonymous access and direct authenticated writes are denied. Read policies cover a learner's own records and authorised published lessons. Teachers cannot directly read learner sessions; scoped summary endpoints remain to be implemented. Class code hashes are excluded from client column grants. The private `source-documents` bucket allows up to 10 MB; object access has no client policies yet and stays closed.
 
 There are no seeded accounts/passwords. `supabase/seed.sql` is deliberately empty; UI fixtures come from the supplied example JSON. The database test creates isolated synthetic records in memory and destroys them on completion.
 
-**Verified here:** SQL migrations, constraints and selected RLS scenarios against embedded Postgres/PGlite. Auth/storage schemas in that harness are stubs. **Not verified here:** the actual Supabase services, signed URLs or real authenticated JWTs. Docker's engine was stopped during setup; real-role integration tests remain required before live flows.
+**Verified here:** SQL migrations, constraints and selected RLS scenarios against embedded Postgres/PGlite. Auth/storage schemas in that harness are stubs. **Not verified here:** the actual Supabase services, signed URLs or real authenticated JWTs. PGlite does not verify live Auth or Storage; real-role integration tests remain required before live flows.
 
 ## Verification
 
@@ -69,18 +66,18 @@ Browser checks cover 360×800 and 1366×768, first-page rendering, keyboard skip
 
 ## Structure and boundaries
 
-| Location                                   | Responsibility                                                                                                                                                   |
-| ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/app`                                  | Next.js App Router routes, root layout and health endpoint.                                                                                                      |
-| `src/components`                           | Presentational shell and minimal shadcn/Radix button.                                                                                                            |
-| `src/lib/env`                              | Validated server configuration; no secrets exported to UI.                                                                                                       |
-| `src/lib/auth`, `src/lib/db`               | Verified Auth lookup and cookie-aware Supabase session client for Route Handlers/Server Actions. No demo impersonation or service-role bypass.                   |
-| `src/lib/ingestion`                        | Server-only pasted-text validation; file/URL adapters remain unimplemented.                                                                                      |
-| `src/lib/ai`                               | Server-only boundary for preparation, evaluation/Supervisor and Errby. Requests deliberately fail closed until grounding, validation and cost reservation exist. |
-| `src/lib/lessons`                          | Explicitly unreviewed fictional fixture.                                                                                                                         |
-| `supabase/migrations`                      | Postgres schema/RLS and private bucket baseline.                                                                                                                 |
-| `tests`                                    | Deterministic configuration/token checks, SQL harness and browser smoke tests.                                                                                   |
-| `docs/specification`, `docs/visual-design` | Unmodified copies of the supplied documentation, tokens and screen briefs.                                                                                       |
+| Location                                   | Responsibility                                                                                                                                                                             |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `src/app`                                  | Next.js App Router routes, root layout and health endpoint.                                                                                                                                |
+| `src/components`                           | Presentational shell and minimal shadcn/Radix button.                                                                                                                                      |
+| `src/lib/env`                              | Validated server configuration; no secrets exported to UI.                                                                                                                                 |
+| `src/lib/auth`, `src/lib/db`               | Verified Auth/profile lookup, scoped operator provisioning and session/admin clients. App reads use user RLS; the privileged client is limited to the throttle and explicit operator tool. |
+| `src/lib/ingestion`                        | Server-only pasted-text validation; file/URL adapters remain unimplemented.                                                                                                                |
+| `src/lib/ai`                               | Server-only boundary for preparation, evaluation/Supervisor and Errby. Requests deliberately fail closed until grounding, validation and cost reservation exist.                           |
+| `src/lib/lessons`                          | Explicitly unreviewed fictional fixture.                                                                                                                                                   |
+| `supabase/migrations`                      | Postgres schema/RLS and private bucket baseline.                                                                                                                                           |
+| `tests`                                    | Deterministic configuration/token checks, SQL harness and browser smoke tests.                                                                                                             |
+| `docs/specification`, `docs/visual-design` | Unmodified copies of the supplied documentation, tokens and screen briefs.                                                                                                                 |
 
 Use Route Handlers/server functions for ownership checks, ingestion, durable preparation steps and model calls. Uploaded text and model output are untrusted. The browser must never set roles, correctness, completion, costs or reference provenance. Published lesson versions stay fixed for a session. Next.js `server-only` imports enforce these module boundaries at build time.
 
@@ -90,7 +87,7 @@ The product backlog retains topic/pasted text, text-PDF (10 MB, 50 pages), plann
 
 The 17 September colour-and-screen guide supersedes the older dark-first palette. Both exact token sets are installed; light is the default. Styling uses Tailwind 4, system fonts, a slim labelled rail, solid reading surfaces and a restrained home halo. Errby uses indigo; the Supervisor has an amber shield and explicit label. Progress uses teal only when earned. No image binaries were supplied; screen briefs and the visual index were inspected, not actual mockups.
 
-Next: implement the first genuine teaching slice: authorised identity and private text/PDF source → reviewed, immutable lesson → genuine opening question → persisted learner answer. Then add validated evaluation, separate Supervisor feedback and evidence-controlled completion. Keep the required school upload/review/join path in the next increments; the setup preview is not a substitute for it.
+Next: verify identity against hosted Supabase, then implement the first genuine teaching slice: private text/PDF source → reviewed, immutable lesson → genuine opening question → persisted learner answer. Then add validated evaluation, separate Supervisor feedback and evidence-controlled completion. Keep the required school upload/review/join path in the next increments; the setup preview is not a substitute for it.
 
 See [setup evidence and remaining work](docs/SETUP_STATUS.md), [architecture](docs/specification/ARCHITECTURE.md), [scope](docs/specification/MVP_SCOPE.md) and [test requirements](docs/specification/TESTING.md). Real pupil use remains gated by the supplied privacy/provider requirements; this foundation uses synthetic material only.
 
@@ -99,3 +96,25 @@ See [setup evidence and remaining work](docs/SETUP_STATUS.md), [architecture](do
 This foundation was created with OpenAI Codex assistance from the user's supplied Errby specifications. AI assisted code, migrations, tests and setup documentation; the team must review and understand them. No pupil trial, model benchmark, efficacy claim, public deployment or completed product is claimed. The Button follows the [MIT-licensed shadcn/ui Radix pattern](https://github.com/shadcn-ui/ui/blob/main/LICENSE.md); icons are from Lucide. Original requirements and research provenance remain in `docs/`.
 
 Official setup references consulted via Context7: [Next.js installation](https://nextjs.org/docs/app/getting-started/installation), [Next.js ESLint](https://nextjs.org/docs/app/api-reference/config/eslint), [Supabase server clients](https://supabase.com/docs/guides/auth/server-side/creating-a-client), [Supabase local development](https://supabase.com/docs/guides/local-development), [shadcn Next.js](https://ui.shadcn.com/docs/installation/next), [PGlite API](https://pglite.dev/docs/api), [Playwright web server](https://playwright.dev/docs/test-webserver).
+
+## T02 identity setup (hosted verification pending)
+
+`/setup` implements provider-backed password sign-in/out in live mode. The server verifies Auth and reads the caller's protected profile; UI role choices, class codes and `user_metadata` never grant roles. Profile roles cannot be changed in place. Unknown/unapproved Auth accounts fail closed. Live home shows only the verified alias/role and the actual unimplemented lesson state. Demo still requires no credentials and offers no fake sign-in; its composer remains unchanged.
+
+Before enabling live mode, apply every migration in filename order to a **dedicated hosted synthetic test project**, configure its HTTPS `*.supabase.co` URL and the Supabase URL and two keys in `.env.local`, and disable public signups in the provider. Keep provider email confirmation enabled and configure Supabase Auth password strength, token expiry, rate limits and any pilot abuse controls. The app adds a durable limit of five attempts per normalized identifier and 100 total attempts per fixed 15-minute window; provider controls remain necessary because the Auth API is independently reachable. The global ceiling is deliberately small for the synthetic pilot and can temporarily stop all logins. No client IP headers are trusted. Throttle records contain only identifier hashes and counters; expired windows are removed on the next attempt.
+
+Initial provisioning is an **operator-only CLI**, not a teacher dashboard. `ERRBY_APPROVED_TEACHER_EMAILS` is a comma-separated allowlist in the ignored local environment. Approve only an existing Auth user whose teacher email ownership has already been confirmed through the provider. This tool does not create or automatically confirm real teacher email accounts. Provider invitation/teacher password recovery configuration and actual mail delivery remain hosted setup responsibilities.
+
+Set `ERRBY_OPERATOR_CONFIRM=synthetic-test-project` in the local environment only when intentionally running the command. Use IDs from the dedicated hosted project. The example identifiers below are placeholders, not working accounts:
+
+```powershell
+@{ operation='approve-teacher'; userId='<confirmed-auth-user-uuid>'; alias='Synthetic teacher A' } | ConvertTo-Json -Compress | npm run account:manage
+@{ operation='create-learner'; teacherId='<approved-teacher-uuid>'; classId='<owned-active-class-uuid>'; alias='Synthetic learner A' } | ConvertTo-Json -Compress | npm run account:manage
+@{ operation='reset-learner'; teacherId='<approved-teacher-uuid>'; classId='<owned-active-class-uuid>'; userId='<learner-uuid>' } | ConvertTo-Json -Compress | npm run account:manage
+```
+
+Learner creation requires an existing active class owned by an approved teacher. Class creation/join/teacher self-service screens remain T13; use deliberately synthetic fixtures in the hosted SQL editor for T02 verification. The CLI generates an unguessable `learner-…` username and provider-managed password, creates only an internal `@students.errby.invalid` address, and never sends email there. It writes the learner profile and class membership; failure removes the incomplete Auth account, or reports its ID for operator cleanup if deletion itself fails. No password is stored in app tables. Generated credentials are deliberately printed once for secure teacher delivery: do not paste them into chat, source control, logs or shared terminal recordings. Recovery generates a replacement only for an active learner in that teacher's active class; it cannot reset teachers or unrelated students. It never reveals the old password. Provider token revocation/expiry after password changes is **not yet verified**; do not promise immediate invalidation of existing sessions.
+
+Local checks: `npm run test:identity` exercises identifier validation, teacher approval, class/recovery rejection and provisioning cleanup; `npm run db:test` tests migrations/RLS with stubbed Auth. Neither calls Supabase or verifies live credentials. No hosted command runs during `npm test` or CI.
+
+Hosted acceptance still required: use two approved teachers and two synthetic learners in separate classes; sign in through `/setup`, reload through token refresh, sign out, and confirm cross-class/profile/source/session denial using actual Auth-issued tokens. Include private sessions, removed membership, inactive class, direct role/score writes, public-signup/user-metadata spoofing, failed provisioning cleanup, replacement password and old-session behavior, and account deletion/cascade cleanup. Teacher class summaries, account deletion UI and retention jobs are later tasks. Clean up test identities/records afterwards through the trusted provider; no real pupil data is permitted. T02 is implemented locally but **not marked hosted-accepted**.

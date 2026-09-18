@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { PGlite } from "@electric-sql/pglite";
 
 test("migrations, role isolation, private sessions, duplicate turns and immutable versions", async () => {
@@ -12,23 +12,22 @@ test("migrations, role isolation, private sessions, duplicate turns and immutabl
       create role authenticated;
       create role service_role bypassrls;
       create schema auth;
-      create table auth.users (id uuid primary key);
+      create table auth.users (id uuid primary key, raw_user_meta_data jsonb not null default '{}');
       create function auth.uid() returns uuid language sql stable as
         $$ select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid $$;
       grant usage on schema auth, public to authenticated, anon, service_role;
       create schema storage;
       create table storage.buckets (id text primary key, name text, public boolean, file_size_limit bigint, allowed_mime_types text[]);
     `);
-    for (const file of [
-      "20260917000100_foundation.sql",
-      "20260917000200_private_storage.sql",
-    ]) {
+    for (const file of readdirSync("supabase/migrations")
+      .filter((name) => name.endsWith(".sql"))
+      .sort()) {
       await db.exec(readFileSync(`supabase/migrations/${file}`, "utf8"));
     }
     const id = (n: number) =>
       `00000000-0000-0000-0000-${String(n).padStart(12, "0")}`;
     for (let n = 1; n <= 4; n++) {
-      await db.query("insert into auth.users values ($1)", [id(n)]);
+      await db.query("insert into auth.users(id) values ($1)", [id(n)]);
       await db.query(
         "insert into public.profiles(auth_user_id, role, alias) values ($1, $2, $3)",
         [id(n), n <= 2 ? "teacher" : "learner", `Synthetic ${n}`],
@@ -61,6 +60,40 @@ test("migrations, role isolation, private sessions, duplicate turns and immutabl
         [id(40 + n), id(n + 2), id(10 + n), id(30 + n)],
       );
     }
+    // Role selection/user metadata cannot create an approved profile.
+    await db.query(
+      'insert into auth.users(id,raw_user_meta_data) values ($1, \'{"role":"teacher"}\')',
+      [id(5)],
+    );
+    assert.equal(
+      (
+        await db.query("select * from public.profiles where auth_user_id=$1", [
+          id(5),
+        ])
+      ).rows.length,
+      0,
+    );
+    await assert.rejects(
+      db.query(
+        "update public.profiles set role='teacher' where auth_user_id=$1",
+        [id(3)],
+      ),
+      /immutable/,
+    );
+    await assert.rejects(
+      db.query(
+        "insert into public.classes(teacher_id,title,grade_band,join_code_hash) values ($1,'Invalid','middle_school','hash')",
+        [id(3)],
+      ),
+      /Teacher profile/,
+    );
+    await assert.rejects(
+      db.query(
+        "insert into public.memberships(class_id,student_id,alias_in_class) values ($1,$2,'Invalid')",
+        [id(11), id(2)],
+      ),
+      /Learner profile/,
+    );
     await assert.rejects(
       db.query(
         "update public.lesson_versions set initial_question='changed' where id=$1",
@@ -157,12 +190,47 @@ test("migrations, role isolation, private sessions, duplicate turns and immutabl
       (await db.query("select id from public.sessions")).rows.length,
       0,
     );
+    await become(2);
+    assert.deepEqual((await db.query("select id from public.classes")).rows, [
+      { id: id(12) },
+    ]);
+    assert.deepEqual((await db.query("select id from public.lessons")).rows, [
+      { id: id(22) },
+    ]);
+    assert.equal(
+      (await db.query("select id from public.sessions")).rows.length,
+      0,
+    );
+    await become(5);
+    assert.equal(
+      (await db.query("select id from public.classes")).rows.length,
+      0,
+    );
+    await assert.rejects(
+      db.query("select public.reserve_sign_in_attempt($1)", ["a".repeat(64)]),
+      /permission denied/,
+    );
     await db.exec("reset role; set role anon");
     await assert.rejects(
       db.query("select * from public.profiles"),
       /permission denied/,
     );
     await db.exec("reset role");
+    await db.query("update public.classes set active=false where id=$1", [
+      id(11),
+    ]);
+    await become(3);
+    assert.deepEqual((await db.query("select id from public.sessions")).rows, [
+      { id: id(43) },
+    ]);
+    assert.equal(
+      (await db.query("select id from public.messages")).rows.length,
+      0,
+    );
+    await db.exec("reset role");
+    await db.query("update public.classes set active=true where id=$1", [
+      id(11),
+    ]);
     await db.query(
       "update public.memberships set status='removed' where student_id=$1",
       [id(3)],
@@ -173,10 +241,55 @@ test("migrations, role isolation, private sessions, duplicate turns and immutabl
       1,
     );
     await db.exec("reset role");
+    await db.exec("set role service_role");
+    for (let attempt = 1; attempt <= 6; attempt++) {
+      assert.equal(
+        (
+          await db.query<{ allowed: boolean }>(
+            "select public.reserve_sign_in_attempt($1) as allowed",
+            ["a".repeat(64)],
+          )
+        ).rows[0].allowed,
+        attempt <= 5,
+      );
+    }
+    await assert.rejects(
+      db.query("select public.reserve_sign_in_attempt('raw-email')"),
+      /Invalid identifier/,
+    );
+    await db.exec(
+      "update public.sign_in_attempts set attempts=100 where key='global'",
+    );
+    assert.equal(
+      (
+        await db.query<{ allowed: boolean }>(
+          "select public.reserve_sign_in_attempt($1) as allowed",
+          ["b".repeat(64)],
+        )
+      ).rows[0].allowed,
+      false,
+    );
+    await db.exec(
+      "update public.sign_in_attempts set window_start=window_start-interval '1 day'",
+    );
+    assert.equal(
+      (
+        await db.query<{ allowed: boolean }>(
+          "select public.reserve_sign_in_attempt($1) as allowed",
+          ["a".repeat(64)],
+        )
+      ).rows[0].allowed,
+      true,
+    );
+    assert.equal(
+      (await db.query("select * from public.sign_in_attempts")).rows.length,
+      2,
+    );
+    await db.exec("reset role");
     const rls = await db.query<{ relrowsecurity: boolean }>(
       "select relrowsecurity from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind='r'",
     );
-    assert.equal(rls.rows.length, 16);
+    assert.equal(rls.rows.length, 17);
     assert.ok(rls.rows.every((row) => row.relrowsecurity));
     assert.equal(
       (

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Tooltip as TooltipPrimitive } from 'radix-ui';
+import * as React from "react";
+import { Tooltip as TooltipPrimitive } from "radix-ui";
 import {
   AnimatePresence,
   motion,
@@ -10,22 +10,22 @@ import {
   type SpringOptions,
   type HTMLMotionProps,
   type MotionValue,
-} from 'motion/react';
+} from "motion/react";
 
-import { getStrictContext } from '@/lib/get-strict-context';
-import { useControlledState } from '@/hooks/use-controlled-state';
+import { getStrictContext } from "@/lib/get-strict-context";
+import { useControlledState } from "@/hooks/use-controlled-state";
 
 type TooltipContextType = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   x: MotionValue<number>;
   y: MotionValue<number>;
-  followCursor?: boolean | 'x' | 'y';
+  followCursor?: boolean | "x" | "y";
   followCursorSpringOptions?: SpringOptions;
 };
 
 const [LocalTooltipProvider, useTooltip] =
-  getStrictContext<TooltipContextType>('TooltipContext');
+  getStrictContext<TooltipContextType>("TooltipContext");
 
 type TooltipProviderProps = React.ComponentProps<
   typeof TooltipPrimitive.Provider
@@ -36,7 +36,7 @@ function TooltipProvider(props: TooltipProviderProps) {
 }
 
 type TooltipProps = React.ComponentProps<typeof TooltipPrimitive.Root> & {
-  followCursor?: boolean | 'x' | 'y';
+  followCursor?: boolean | "x" | "y";
   followCursorSpringOptions?: SpringOptions;
 };
 
@@ -85,13 +85,13 @@ function TooltipTrigger({ onMouseMove, ...props }: TooltipTriggerProps) {
 
     const target = event.currentTarget.getBoundingClientRect();
 
-    if (followCursor === 'x' || followCursor === true) {
+    if (followCursor === "x" || followCursor === true) {
       const eventOffsetX = event.clientX - target.left;
       const offsetXFromCenter = (eventOffsetX - target.width / 2) / 2;
       x.set(offsetXFromCenter);
     }
 
-    if (followCursor === 'y' || followCursor === true) {
+    if (followCursor === "y" || followCursor === true) {
       const eventOffsetY = event.clientY - target.top;
       const offsetYFromCenter = (eventOffsetY - target.height / 2) / 2;
       y.set(offsetYFromCenter);
@@ -109,7 +109,7 @@ function TooltipTrigger({ onMouseMove, ...props }: TooltipTriggerProps) {
 
 type TooltipPortalProps = Omit<
   React.ComponentProps<typeof TooltipPrimitive.Portal>,
-  'forceMount'
+  "forceMount"
 >;
 
 function TooltipPortal(props: TooltipPortalProps) {
@@ -130,9 +130,9 @@ function TooltipPortal(props: TooltipPortalProps) {
 
 type TooltipContentProps = Omit<
   React.ComponentProps<typeof TooltipPrimitive.Content>,
-  'forceMount' | 'asChild'
+  "forceMount" | "asChild"
 > &
-  HTMLMotionProps<'div'>;
+  HTMLMotionProps<"div">;
 
 function TooltipContent({
   onEscapeKeyDown,
@@ -148,7 +148,7 @@ function TooltipContent({
   sticky,
   hideWhenDetached,
   style,
-  transition = { type: 'spring', stiffness: 300, damping: 25 },
+  transition = { type: "spring", stiffness: 300, damping: 25 },
   ...props
 }: TooltipContentProps) {
   const { x, y, followCursor, followCursorSpringOptions } = useTooltip();
@@ -181,11 +181,11 @@ function TooltipContent({
         transition={transition}
         style={{
           x:
-            followCursor === 'x' || followCursor === true
+            followCursor === "x" || followCursor === true
               ? translateX
               : undefined,
           y:
-            followCursor === 'y' || followCursor === true
+            followCursor === "y" || followCursor === true
               ? translateY
               : undefined,
           ...style,
