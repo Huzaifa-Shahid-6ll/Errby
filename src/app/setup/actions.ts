@@ -54,7 +54,7 @@ export async function signIn(
     return "Sign-in is temporarily unavailable. Try again later.";
   }
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect("/learn");
 }
 
 export async function signOut() {

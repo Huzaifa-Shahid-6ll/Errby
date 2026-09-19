@@ -16,7 +16,7 @@ export default async function Setup({
   const { error } = await searchParams;
   return (
     <main className="mx-auto max-w-lg p-6 sm:p-10">
-      <Link href="/" className="underline">
+      <Link href="/learn" className="underline">
         Back to Errby
       </Link>
       <h1 className="mt-6 text-3xl font-semibold">

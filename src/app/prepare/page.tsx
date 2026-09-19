@@ -2,6 +2,7 @@ import Link from "next/link";
 import { env } from "@/lib/env/server";
 import { getIdentity } from "@/lib/auth/server";
 import { PreparationForm } from "./preparation-form";
+import { SavedPreparations } from "./saved-preparations";
 
 export const dynamic = "force-dynamic";
 
@@ -9,15 +10,19 @@ export default async function Prepare() {
   const identity = env.ERRBY_MODE === "live" ? await getIdentity() : null;
   return (
     <main className="mx-auto max-w-3xl p-6 sm:p-10">
-      <Link href="/" className="underline">
+      <Link href="/learn" className="underline">
         Back to Errby
       </Link>
       <h1 className="mt-6 text-3xl font-semibold">Prepare your source</h1>
       <p className="my-4">
-        Extract text and clarify what to learn. This step does not save
-        material, generate a lesson or approve its accuracy. Use fictional
-        material while development continues.
+        Extract text and clarify what to learn.{" "}
+        {env.ERRBY_MODE === "demo"
+          ? "The demo does not save material."
+          : "Signed-in preparation saves extracted text and context so you can return after a refresh."}{" "}
+        No automatic lesson generation or accuracy approval is performed. Use
+        fictional material while development continues.
       </p>
+      {identity && <SavedPreparations />}
       {env.ERRBY_MODE === "live" && !identity ? (
         <p>
           <Link href="/setup" className="underline">

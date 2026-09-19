@@ -1,6 +1,11 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, useRef, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
+import {
+  getPreparationDraft,
+  setPreparationDraft,
+} from "@/lib/home/preparation-draft";
 import { Button } from "@/components/ui/button";
 import {
   INGESTION_LIMITS,
@@ -18,6 +23,9 @@ export function PreparationForm({
   grade: string;
 }) {
   const [kind, setKind] = useState("topic");
+  const [initialText] = useState(getPreparationDraft);
+  const requestKey = useRef<string | null>(null);
+  const router = useRouter();
   const [result, setResult] = useState<PreparationResult | null>(null);
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
@@ -31,16 +39,26 @@ export function PreparationForm({
     setResult(null);
     setPending(true);
     try {
-      const response = await fetch("/prepare/extract", {
-        method: "POST",
-        body: data,
-      });
+      requestKey.current ??= crypto.randomUUID();
+      const response = await fetch(
+        demo ? "/prepare/extract" : "/api/preparations",
+        {
+          method: "POST",
+          headers: demo ? undefined : { "Idempotency-Key": requestKey.current },
+          body: data,
+        },
+      );
       const payload = await response.json();
       if (!response.ok) {
         setError(
           payload.user_message ||
             "Preparation failed. Your input is unchanged; try again.",
         );
+        return;
+      }
+      setPreparationDraft("");
+      if (!demo) {
+        router.push(`/prepare/${payload.job.id}`);
         return;
       }
       setResult(payload);
@@ -75,6 +93,7 @@ export function PreparationForm({
         onChange={() => {
           setResult(null);
           setError("");
+          requestKey.current = null;
         }}
         className="grid gap-4"
         aria-describedby="source-limits"
@@ -103,6 +122,7 @@ export function PreparationForm({
             Topic or pasted text
             <textarea
               name="text"
+              defaultValue={initialText}
               rows={6}
               maxLength={INGESTION_LIMITS.characters}
               className={inputClass}
@@ -141,13 +161,19 @@ export function PreparationForm({
             />
           </label>
           <Button type="submit">
-            {pending ? "Extracting…" : "Extract and clarify"}
+            {pending
+              ? "Extracting…"
+              : demo
+                ? "Extract and clarify"
+                : "Extract and save preparation"}
           </Button>
         </fieldset>
       </form>
       <p className="text-sm">
-        Input stays in this open page after a failed request. It is not saved;
-        refreshing or leaving the page loses it.
+        Input stays in this open page after a failed request.{" "}
+        {demo
+          ? "It is not saved; refreshing or leaving the page loses it."
+          : "A successful save opens a resumable preparation link. Until then, refreshing loses unsaved input; use only fictional material."}
       </p>
       <div aria-live="polite" aria-atomic="true">
         {pending && <p>Checking the source…</p>}

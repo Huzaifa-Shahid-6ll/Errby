@@ -11,6 +11,11 @@ const nextConfig: NextConfig = {
     proxyClientMaxBodySize: INGESTION_LIMITS.bytes + 150_000,
   },
   outputFileTracingIncludes: {
+    "/api/preparations": [
+      "./node_modules/pdfjs-dist/legacy/build/pdf.mjs",
+      "./node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs",
+      "./node_modules/pdfjs-dist/package.json",
+    ],
     "/prepare/extract": [
       "./node_modules/pdfjs-dist/legacy/build/pdf.mjs",
       "./node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs",

@@ -1,0 +1,89 @@
+.home-workspace {
+  overflow-wrap: anywhere;
+}
+.home-workspace .topbar,
+.home-workspace .topbar > div {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.home-workspace button {
+  min-width: 44px;
+  min-height: 44px;
+  height: auto;
+  white-space: normal;
+  padding-block: 10px;
+}
+.home-workspace .composer-footer {
+  flex-wrap: wrap;
+}
+.home-workspace .composer-footer > span {
+  flex: 1 1 100%;
+}
+.home-workspace .lesson-copy,
+.home-workspace .example-grid > *,
+.home-workspace .goals li > div {
+  min-width: 0;
+}
+.home-scenario {
+  display: grid;
+  gap: 4px;
+  max-width: 100%;
+  color: var(--secondary);
+  font-size: 14px;
+}
+.home-scenario select {
+  min-height: 44px;
+  max-width: 100%;
+  border: 1px solid var(--control-border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  padding: 8px;
+  font: inherit;
+}
+.home-fixture-note {
+  color: var(--secondary);
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+.home-lesson-list {
+  display: grid;
+  gap: 14px;
+}
+.home-resume {
+  margin-top: 24px;
+  color: var(--secondary);
+}
+.home-workspace .goals > p {
+  display: block;
+}
+@media (max-width: 767px) {
+  .home-workspace .rail {
+    align-items: flex-start;
+    gap: 8px;
+    padding-inline: 12px;
+  }
+  .home-workspace .rail-links {
+    flex: 1;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .home-workspace .nav-item {
+    flex: 1 1 calc(50% - 4px);
+    padding: 8px;
+  }
+  .home-workspace .lesson-copy {
+    flex-basis: 100%;
+  }
+  .home-workspace .composer-footer > span {
+    flex-basis: auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-workspace *,
+  .home-workspace *::before,
+  .home-workspace *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
