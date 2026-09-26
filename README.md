@@ -1,6 +1,8 @@
 # Errby
 
-A responsive learning app where students explain topics to an intentionally mistaken AI, with a separate Supervisor checking misconceptions. **This repository contains T01 foundation, locally implemented T02 identity/access, T03 lesson contracts/examples and T04 text/PDF extraction. Human lesson approval, hosted Supabase verification and the remaining product workflows are pending.**
+A responsive learning app where students explain topics to an intentionally mistaken AI, with a separate Supervisor checking misconceptions. T01–T18 have local implementations or checks recorded in [setup status](docs/SETUP_STATUS.md); hosted Supabase acceptance, live model evaluation, human lesson approval and an eligible pilot remain pending. Older task sections below record implementation history and may describe features as future work that now have local implementations.
+
+For candidate setup, honest demo scope, release gates, recording plan and contribution evidence, use the [T20 release guide](docs/implementation/T20_RELEASE.md). No public release or live AI demonstration has been verified.
 
 See [setup status](docs/SETUP_STATUS.md) for current verification evidence and limitations, including the distinction between local checks and hosted acceptance. Local Docker Desktop must not be used.
 
@@ -31,8 +33,8 @@ Copy `.env.example` to `.env.local`; never commit the latter. All variables belo
 | `SUPABASE_URL`             | Non-local synthetic Supabase test project endpoint. Required only in live mode.                                                                                                                   |
 | `SUPABASE_PUBLISHABLE_KEY` | Project publishable key. The server session client uses the authenticated user's RLS permissions.                                                                                                 |
 | `SUPABASE_SECRET_KEY`      | Required in live mode for the durable sign-in throttle and operator account provisioning. Server only; never sent to the browser.                                                                 |
-| `OPENAI_API_KEY`           | Reserved for the future server provider adapter; unused in this foundation.                                                                                                                       |
-| `OPENAI_MODEL`             | Candidate `gpt-4.1-mini`. Must pass the reviewed evaluator suite before adoption.                                                                                                                 |
+| `OPENROUTER_API_KEY`       | Reserved for the disabled server provider adapter; no paid call is enabled.                                                                                                                       |
+| `OPENROUTER_MODEL`         | Candidate model name; no model is approved for live evaluation.                                                                                                                                   |
 
 Environment validation runs at startup/build and reports field names without printing values. No credentials are needed for build, tests or demo. `live` never silently falls back to fictional data. Adding keys does not make the product complete or authorise paid calls.
 

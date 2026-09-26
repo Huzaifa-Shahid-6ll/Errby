@@ -20,7 +20,7 @@ export default async function ResultsPage({
       /* Deny unavailable or unowned records alike. */
     }
   return (
-    <main className="mx-auto max-w-2xl p-6 sm:p-10">
+    <main className="mx-auto max-w-2xl break-words p-6 sm:p-10 [overflow-wrap:anywhere]">
       <Link href={`/learn/sessions/${id}`} className="underline">
         Back to session
       </Link>

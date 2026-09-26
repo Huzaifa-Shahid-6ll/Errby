@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -15,11 +15,15 @@ export function ClassForms({
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
+  const messageRef = useRef<HTMLParagraphElement>(null);
   const [code, setCode] = useState("");
   const [shownCode, setShownCode] = useState("");
   const [preview, setPreview] = useState<
     (ListedClass & { teacher: string }) | null
   >(null);
+  useEffect(() => {
+    if (message) messageRef.current?.focus();
+  }, [message]);
   async function send(path: string, body: object) {
     setBusy(true);
     setMessage("");
@@ -151,7 +155,7 @@ export function ClassForms({
         </section>
       )}
       {message && (
-        <p role="status" className="mt-4">
+        <p ref={messageRef} role="status" tabIndex={-1} className="mt-4">
           {message}
         </p>
       )}

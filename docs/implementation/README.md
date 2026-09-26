@@ -17,5 +17,8 @@ The original backlog remains in [IMPLEMENTATION_TASKS.md](../specification/IMPLE
 | T10 next-turn selection | [Authored reply selection](T10_NEXT_TURN.md)                    | Persisted reply orchestration and live evaluator remain pending                 |
 | T11 objective evidence  | [Evidence and completion transaction](T11_EVIDENCE.md)          | Live evaluator integration and hosted verification remain pending               |
 | T12 session recovery    | [Pause, retry and reload](T12_RECOVERY.md)                      | Live evaluator integration and hosted verification remain pending               |
+| T18 responsive QA       | [Accessibility and responsive QA](T18_QA.md)                    | Tablet browser run, device and screen-reader verification                       |
+| T19 walkthrough         | [Teacher/adult protocol and outcome log](T19_WALKTHROUGH.md)    | Actual eligible participants and reviewed findings                              |
+| T20 release             | [Candidate setup and demo plan](T20_RELEASE.md)                 | Clean setup, hosted gates, recording and authorised deployment                  |
 
 Local SQL/provider-mock checks do not establish live Supabase Auth or Storage acceptance. Fictional lesson fixtures and saved unreviewed drafts do not establish content approval, grading or lesson completion.

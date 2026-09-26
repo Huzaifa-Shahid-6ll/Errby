@@ -347,3 +347,31 @@ test("API-mocked retry: uncertain save keeps text and key, edits receive a new k
   await expect(answer).toBeDisabled();
   await expect(answer).toHaveValue("My edited fictional draft");
 });
+
+test("API-mocked tablet and 200% text keep long session content usable", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 768, height: 1024 });
+  const state = fictionalState();
+  state.session.lesson_title = "Fictional " + "LongLessonTitle".repeat(12);
+  state.session.objective_labels = ["LongObjective".repeat(20)];
+  state.messages = [message(0, "errby", "LongExplanation".repeat(80))];
+  await page.route(`**/api/sessions/${sessionId}`, (route) =>
+    route.fulfill({ json: state }),
+  );
+  await page.goto(`/learn/sessions/${sessionId}`);
+  await expect(
+    page.getByRole("heading", { name: state.session.lesson_title }),
+  ).toBeVisible();
+  await page.evaluate(() => {
+    document.documentElement.style.fontSize = "200%";
+  });
+  await expect(
+    page.getByRole("textbox", { name: "Your explanation" }),
+  ).toBeVisible();
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth),
+  ).toBeLessThanOrEqual(768);
+  await page.keyboard.press("Tab");
+  await expect(page.locator(":focus")).toBeVisible();
+});

@@ -49,7 +49,7 @@ export default async function ClassResultsPage({
       /* Same response for denied and unavailable records. */
     }
   return (
-    <main className="mx-auto max-w-4xl p-6 sm:p-10">
+    <main className="mx-auto max-w-4xl break-words p-6 sm:p-10 [overflow-wrap:anywhere]">
       <Link href="/classes" className="underline">
         Back to classes
       </Link>
