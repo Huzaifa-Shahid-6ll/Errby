@@ -1,0 +1,356 @@
+{
+  "id": "mobbin",
+  "url": "https://mobbin.com/",
+  "date": "2026-09-19T17:59:14.771Z",
+  "viewport": "1280x800",
+  "browser": "153.0.8010.12",
+  "title": "Mobbin — UI & UX design inspiration for mobile & web apps",
+  "body": "Pricing\nMCP\nLog in\nDiscover real-world design inspiration.\n\nFeaturing over 1,000 iOS & Web apps, and 200 sites —\nNew content weekly.\n\nJoin for free\nSee our plans\n\nTrusted by design teams at\n\nA growing library of\n\n1,428 apps\n\n621,500+ screens\n\n323,900 flows\n\nFind design patterns \nin seconds.\nScreens\nUI Elements\nFlows\nText in Screenshots\n\nCollections\n\nCheckout\n\nSettings\n\nLogin\n\nSubscription & Paywall\n\nHome\n\nAccount Setup\n\nWelcome\n\nWallet\n\nProfile\n\n",
+  "samples": [
+    {
+      "at": 17072.899999999907,
+      "h1": "Discover real-world design inspiration.",
+      "animations": [
+        {
+          "cls": "framer-1guomtq-container",
+          "current": 800,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "framer-1hkqmq6",
+          "current": 800,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "framer-10rgcbn",
+          "current": 800,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "framer-1xohflr hidden-m8x1ge",
+          "current": 1600,
+          "timing": {
+            "delay": 400,
+            "direction": "normal",
+            "duration": 1200,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 18029.199999999953,
+      "h1": "Discover real-world design inspiration.",
+      "animations": [
+        {
+          "cls": "framer-1guomtq-container",
+          "current": 800,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "framer-1hkqmq6",
+          "current": 800,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "framer-10rgcbn",
+          "current": 800,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "framer-1xohflr hidden-m8x1ge",
+          "current": 1600,
+          "timing": {
+            "delay": 400,
+            "direction": "normal",
+            "duration": 1200,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 18636.799999999814,
+      "h1": "Discover real-world design inspiration.",
+      "animations": [
+        {
+          "cls": "framer-1guomtq-container",
+          "current": 800,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "framer-1hkqmq6",
+          "current": 800,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "framer-10rgcbn",
+          "current": 800,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "framer-1xohflr hidden-m8x1ge",
+          "current": 1600,
+          "timing": {
+            "delay": 400,
+            "direction": "normal",
+            "duration": 1200,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 19318.899999999907,
+      "h1": "Discover real-world design inspiration.",
+      "animations": [
+        {
+          "cls": "framer-1guomtq-container",
+          "current": 800,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "framer-1hkqmq6",
+          "current": 800,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "framer-10rgcbn",
+          "current": 800,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "framer-1xohflr hidden-m8x1ge",
+          "current": 1600,
+          "timing": {
+            "delay": 400,
+            "direction": "normal",
+            "duration": 1200,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 19938.09999999986,
+      "h1": "Discover real-world design inspiration.",
+      "animations": [
+        {
+          "cls": "framer-1guomtq-container",
+          "current": 800,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "framer-1hkqmq6",
+          "current": 800,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "framer-10rgcbn",
+          "current": 800,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "framer-1xohflr hidden-m8x1ge",
+          "current": 1600,
+          "timing": {
+            "delay": 400,
+            "direction": "normal",
+            "duration": 1200,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    }
+  ],
+  "hover": {
+    "label": "Join for free",
+    "before": {
+      "background": "rgb(20, 20, 20)",
+      "color": "rgb(255, 255, 255)",
+      "transform": "none",
+      "transition": "color 0.2s, background 0.2s"
+    },
+    "samples": [
+      {
+        "at": 21102.59999999986,
+        "background": "rgb(36, 36, 36)",
+        "color": "rgb(255, 255, 255)",
+        "transform": "none"
+      },
+      {
+        "at": 21222.09999999986,
+        "background": "rgb(38, 38, 38)",
+        "color": "rgb(255, 255, 255)",
+        "transform": "none"
+      },
+      {
+        "at": 21343.5,
+        "background": "rgb(38, 38, 38)",
+        "color": "rgb(255, 255, 255)",
+        "transform": "none"
+      },
+      {
+        "at": 21456.59999999986,
+        "background": "rgb(38, 38, 38)",
+        "color": "rgb(255, 255, 255)",
+        "transform": "none"
+      }
+    ]
+  }
+}

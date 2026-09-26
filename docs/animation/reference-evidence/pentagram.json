@@ -1,0 +1,255 @@
+{
+  "id": "pentagram",
+  "url": "https://www.pentagram.com/",
+  "date": "2026-09-19T17:57:59.357Z",
+  "browser": "153.0.8010.12",
+  "viewport": "1280x800",
+  "finalUrl": "https://www.pentagram.com/",
+  "title": "Pentagram — The world’s largest independent design consultancy",
+  "body": "Pentagram\nSite navigation\nWork\nAbout\nNews\nContact\nArchive\nThe Obama Presidential Center\nThe typographic installation on the façade of the new museum in Chicago features an excerpt from President Obama’s 2015 ‘You Are America’ speech.\nIsomorphic Labs\nBeautiful Symmetry: Pentagram’s new website for Isomorphic Labs creates a new visual language for digital biology.\nMosaic Rooms\nNew strategy, brand identity and tone of voice for Mosaic Rooms, a charity and cultural institution in London.\nICD Beauty\nBrand identity and packaging for the Seoul-based beauty brand merging biotechnology with daily rituals.\nHiut\nVisual identity and art direction for a company making beautifully crafted premium denim from its family-run factory in Aberteifi, Wales.\n‘A Data Love Letter to the Subway’\nA data-driven anim",
+  "timeA": {
+    "at": 2432.3000000000466,
+    "animations": [
+      {
+        "target": "IMG",
+        "cls": "transition-opacity duration-300 object-cover w-full h-full",
+        "time": 200.0069999999985,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "IMG",
+        "cls": "transition-opacity duration-300 object-cover w-full h-full",
+        "time": 200.0069999999985,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "IMG",
+        "cls": "transition-opacity duration-300 object-cover w-full h-full",
+        "time": 200.0069999999985,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "IMG",
+        "cls": "transition-opacity duration-300 object-cover w-full h-full",
+        "time": 200.0069999999985,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "IMG",
+        "cls": "transition-opacity duration-300 object-cover w-full h-full",
+        "time": 200.0069999999985,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "IMG",
+        "cls": "transition-opacity duration-300 object-cover w-full h-full",
+        "time": 200.0069999999985,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "IMG",
+        "cls": "transition-opacity duration-300 object-cover w-full h-full",
+        "time": 200.0069999999985,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "IMG",
+        "cls": "transition-opacity duration-300 object-cover w-full h-full",
+        "time": 200.0069999999985,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "IMG",
+        "cls": "transition-opacity duration-300 object-cover w-full h-full",
+        "time": 200.0069999999985,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "IMG",
+        "cls": "transition-opacity duration-300 object-cover w-full h-full",
+        "time": 200.0069999999985,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "IMG",
+        "cls": "transition-opacity duration-300 object-cover w-full h-full",
+        "time": 200.0069999999985,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "DIV",
+        "cls": "flex flex-wrap gap-gutter thematic__carousel-text-slide is-selected",
+        "time": 200.0069999999985,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 400,
+          "easing": "ease-in-out",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      }
+    ],
+    "videos": [
+      {
+        "time": 0,
+        "paused": true,
+        "autoplay": true
+      },
+      {
+        "time": 0,
+        "paused": true,
+        "autoplay": true
+      },
+      {
+        "time": 0,
+        "paused": true,
+        "autoplay": true
+      },
+      {
+        "time": 0,
+        "paused": true,
+        "autoplay": true
+      }
+    ]
+  },
+  "timeB": {
+    "at": 5027.300000000047,
+    "animations": [],
+    "videos": [
+      {
+        "time": 0,
+        "paused": true,
+        "autoplay": true
+      },
+      {
+        "time": 0,
+        "paused": true,
+        "autoplay": true
+      },
+      {
+        "time": 0,
+        "paused": true,
+        "autoplay": true
+      },
+      {
+        "time": 0,
+        "paused": true,
+        "autoplay": true
+      }
+    ]
+  }
+}

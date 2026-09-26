@@ -1,0 +1,146 @@
+{
+  "id": "notion-mobile",
+  "url": "https://www.notion.com/product/sites",
+  "date": "2026-09-19T17:59:44.742Z",
+  "viewport": "390x844",
+  "browser": "153.0.8010.12",
+  "title": "Notion – Publish anything, fast",
+  "body": "Get Notion free\nSites\nPublish anything, fast.\nThe easiest way to get a website up and running.\nGet Notion Sites free\n→\nMake a page\nStart with one of 30,000+ templates.\nPersonalize it\nChoose a domain, theme, favicon, and look and feel.\nPublish it\nJust hit “publish”, and you are live.\nPause\nOver 10,000 templates, from pitch decks to portfolios.\nPersonal site\nEvent page\nTravel guide\nJob board\nHelp center\nStart with a template. Build anything.\n\nNotio",
+  "samples": [
+    {
+      "at": 3330.0999999998603,
+      "h1": "Publish anything, fast.",
+      "animations": [
+        {
+          "cls": "globalNavigation-module-scss-module__HWB10a__globalNavigation",
+          "current": {},
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": "auto",
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 3982.0999999998603,
+      "h1": "Publish anything, fast.",
+      "animations": [
+        {
+          "cls": "globalNavigation-module-scss-module__HWB10a__globalNavigation",
+          "current": {},
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": "auto",
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 4919.899999999907,
+      "h1": "Publish anything, fast.",
+      "animations": [
+        {
+          "cls": "globalNavigation-module-scss-module__HWB10a__globalNavigation",
+          "current": {},
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": "auto",
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 5526.199999999953,
+      "h1": "Publish anything, fast.",
+      "animations": [
+        {
+          "cls": "globalNavigation-module-scss-module__HWB10a__globalNavigation",
+          "current": {},
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": "auto",
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 6174.59999999986,
+      "h1": "Publish anything, fast.",
+      "animations": [
+        {
+          "cls": "globalNavigation-module-scss-module__HWB10a__globalNavigation",
+          "current": {},
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": "auto",
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    }
+  ],
+  "hover": {
+    "label": "Get Notion free",
+    "before": {
+      "background": "rgb(25, 25, 24)",
+      "color": "rgb(255, 255, 255)",
+      "transform": "none",
+      "transition": "all"
+    },
+    "samples": [
+      {
+        "at": 11052.300000000047,
+        "background": "rgb(49, 48, 46)",
+        "color": "rgb(255, 255, 255)",
+        "transform": "none"
+      },
+      {
+        "at": 11163.699999999953,
+        "background": "rgb(49, 48, 46)",
+        "color": "rgb(255, 255, 255)",
+        "transform": "none"
+      },
+      {
+        "at": 11339.199999999953,
+        "background": "rgb(49, 48, 46)",
+        "color": "rgb(255, 255, 255)",
+        "transform": "none"
+      },
+      {
+        "at": 11488.399999999907,
+        "background": "rgb(49, 48, 46)",
+        "color": "rgb(255, 255, 255)",
+        "transform": "none"
+      }
+    ]
+  }
+}

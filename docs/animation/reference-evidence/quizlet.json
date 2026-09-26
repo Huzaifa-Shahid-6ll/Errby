@@ -1,0 +1,36 @@
+{
+  "id": "quizlet",
+  "url": "https://quizlet.com/",
+  "date": "2026-09-19T17:59:44.727Z",
+  "viewport": "1280x800",
+  "browser": "153.0.8010.12",
+  "title": "Just a moment...",
+  "body": "One more step…\n\nThe security system for this website has been triggered. Completing the challenge below verifies you are a human and gives you access.\n\nRay ID: a3da7c61bb174129",
+  "samples": [
+    {
+      "at": 8055.090000000084,
+      "h1": "One more step…",
+      "animations": []
+    },
+    {
+      "at": 8853.919999999925,
+      "h1": "One more step…",
+      "animations": []
+    },
+    {
+      "at": 9565.810000000056,
+      "h1": "One more step…",
+      "animations": []
+    },
+    {
+      "at": 10175.145000000019,
+      "h1": "One more step…",
+      "animations": []
+    },
+    {
+      "at": 11013.925000000047,
+      "h1": "One more step…",
+      "animations": []
+    }
+  ]
+}

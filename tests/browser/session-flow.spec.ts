@@ -39,9 +39,12 @@ test("real demo API and session page fail closed without live configuration", as
     });
   }
   await page.goto(`/learn/sessions/${sessionId}`);
-  await expect(page.getByRole("alert")).toContainText("live mode", {
-    timeout: 30000,
-  });
+  await expect(page.getByRole("main").getByRole("alert")).toContainText(
+    "live mode",
+    {
+      timeout: 30000,
+    },
+  );
   await expect(
     page.getByRole("button", { name: "Retry loading" }),
   ).toBeVisible();
@@ -161,4 +164,186 @@ test("API-mocked session UI: submission failure retains the answer text", async 
     "My unsaved explanation stays in the composer.",
   );
   await expect(answer).toBeEnabled();
+});
+
+// Fictional, unreviewed UI responses only; these never exercise a live evaluator.
+const fictionalState = (
+  status: import("../../src/lib/sessions/contracts").SessionStatus = "awaiting_student",
+) => ({
+  session: {
+    id: sessionId,
+    status,
+    visibility: "private" as const,
+    lesson_title: "Fictional chat · unreviewed test",
+    objective_labels: ["Explain heat flow", "Use your own example"],
+    opened_at: "2026-09-22T00:00:00Z",
+    last_sequence: 2,
+  },
+  messages: [
+    message(0, "errby", OPENING),
+    message(1, "student", "First line.\nSecond line."),
+    message(
+      2,
+      "supervisor",
+      "This fictional guidance is unreviewed.\nTry explaining with another example.",
+    ),
+  ],
+});
+
+test("API-mocked three-role chat: accessible identity, safe text, goals and responsive themes", async ({
+  page,
+}, testInfo) => {
+  const state = fictionalState("needs_review");
+  state.messages[1].text += '\n<img src=x onerror="window.injected=true">';
+  state.messages[2].text += `\n${"LongFictionalText".repeat(70)}`;
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.route(`**/api/sessions/${sessionId}`, (route) =>
+    route.fulfill({ json: state }),
+  );
+  await page.goto(`/learn/sessions/${sessionId}`);
+  const conversation = page.getByRole("list", { name: "Conversation" });
+  await expect(conversation).toBeVisible({ timeout: 30000 });
+  await expect(conversation.getByRole("listitem")).toHaveCount(3);
+  for (const role of ["Errby", "You", "Supervisor"])
+    await expect(conversation.getByText(role, { exact: true })).toBeVisible();
+  await expect(conversation.locator("svg")).toHaveCount(3);
+  await expect(conversation.locator("img")).toHaveCount(0);
+  await expect(conversation.locator(".session-student p")).toHaveCSS(
+    "white-space",
+    "pre-wrap",
+  );
+  await expect(conversation.locator(".session-supervisor")).toHaveCSS(
+    "border-left-style",
+    "double",
+  );
+  await expect(page.getByRole("status")).toContainText("remain unresolved");
+  if (testInfo.project.name === "phone") {
+    const goals = page.locator("summary");
+    await goals.focus();
+    await page.keyboard.press("Enter");
+    await expect(page.locator("details")).toHaveAttribute("open", "");
+    await expect(
+      page.locator("details").getByText("Use your own example"),
+    ).toBeVisible();
+  } else {
+    await expect(
+      page.getByRole("complementary", { name: "What you will explain" }),
+    ).toBeVisible();
+  }
+  await page.screenshot({
+    path: testInfo.outputPath("chat-light.png"),
+    fullPage: true,
+  });
+  await page.evaluate(() => document.documentElement.classList.add("dark"));
+  await expect(conversation.locator(".session-supervisor")).toHaveCSS(
+    "background-color",
+    "rgb(51, 41, 27)",
+  );
+  await expect(
+    page.getByRole("button", { name: "Refresh saved session" }),
+  ).toHaveCSS("color", "rgb(244, 247, 252)");
+  await page.screenshot({
+    path: testInfo.outputPath("chat-dark.png"),
+    fullPage: true,
+  });
+  await page.addStyleTag({
+    content:
+      "html { font-size: 200%; } .session-shell { filter: grayscale(1); }",
+  });
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  await expect(
+    conversation.getByText("Supervisor", { exact: true }),
+  ).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test("API-mocked saved states: only awaiting_student accepts answers and uncertainty never completes", async ({
+  page,
+}) => {
+  const states = {
+    ready: "Ready",
+    awaiting_student: "Your turn",
+    evaluating: "Answer saved · not graded",
+    supervisor_pending: "Supervisor guidance pending",
+    errby_ready: "Errby reply pending",
+    needs_review: "Needs review · unresolved",
+    paused: "Paused",
+    ended_incomplete: "Ended · incomplete",
+    completed: "Completed",
+  } as const;
+  const state = fictionalState();
+  await page.route(`**/api/sessions/${sessionId}`, (route) =>
+    route.fulfill({ json: state }),
+  );
+  await page.goto(`/learn/sessions/${sessionId}`);
+  for (const [status, label] of Object.entries(states)) {
+    state.session.status = status as keyof typeof states;
+    await page.getByRole("button", { name: "Refresh saved session" }).click();
+    await expect(page.getByRole("status").locator("strong")).toHaveText(label);
+    if (status === "awaiting_student")
+      await expect(page.getByRole("textbox")).toBeEnabled();
+    else await expect(page.getByRole("textbox")).toBeDisabled();
+    await expect(page.getByRole("button", { name: "Send answer" })).toBeEnabled(
+      { enabled: status === "awaiting_student" },
+    );
+  }
+});
+
+test("API-mocked retry: uncertain save keeps text and key, edits receive a new key, refresh keeps drafts", async ({
+  page,
+}) => {
+  const state = fictionalState();
+  const requests: {
+    text: string;
+    expected_sequence: number;
+    idempotency_key: string;
+  }[] = [];
+  let failRefresh = false;
+  await page.route(`**/api/sessions/${sessionId}`, (route) =>
+    failRefresh
+      ? route.fulfill({
+          status: 503,
+          json: { user_message: "Fictional connection failure." },
+        })
+      : route.fulfill({ json: state }),
+  );
+  await page.route(`**/api/sessions/${sessionId}/turns`, (route) => {
+    requests.push(route.request().postDataJSON());
+    return route.abort("failed");
+  });
+  await page.goto(`/learn/sessions/${sessionId}`);
+  const answer = page.getByRole("textbox", { name: "Your explanation" });
+  await expect(answer).toBeEnabled({ timeout: 30000 });
+  await answer.fill("  My fictional draft  ");
+  const send = page.getByRole("button", { name: "Send answer" });
+  await send.click();
+  await expect(page.getByRole("status")).toContainText("could not confirm");
+  await expect(answer).toHaveValue("  My fictional draft  ");
+  await send.click();
+  await expect(send).toBeEnabled();
+  expect(requests[0]).toEqual(requests[1]);
+  await answer.fill("My edited fictional draft");
+  await send.click();
+  await expect(send).toBeEnabled();
+  expect(requests[2].idempotency_key).not.toBe(requests[0].idempotency_key);
+  failRefresh = true;
+  await page.getByRole("button", { name: "Refresh saved session" }).click();
+  await expect(page.getByRole("main").getByRole("alert")).toContainText(
+    "Fictional connection failure",
+  );
+  await expect(
+    page.getByText("Your unsent draft is still held", { exact: false }),
+  ).toBeVisible();
+  failRefresh = false;
+  await page.getByRole("button", { name: "Retry loading" }).click();
+  await expect(answer).toHaveValue("My edited fictional draft");
+  state.session.status = "evaluating";
+  await page.getByRole("button", { name: "Refresh saved session" }).click();
+  await expect(answer).toBeDisabled();
+  await expect(answer).toHaveValue("My edited fictional draft");
 });

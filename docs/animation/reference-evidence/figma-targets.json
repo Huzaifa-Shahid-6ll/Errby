@@ -1,0 +1,771 @@
+{
+  "id": "figma-targets",
+  "url": "https://www.figma.com/",
+  "date": "2026-09-19T18:00:37.477Z",
+  "samples": [
+    {
+      "at": 767.8999999999069,
+      "text": "Skip to main content\n\nProducts\nSolutions\nCommunity\nResources\nPricing\nLog in\nContact sales\nGet started for free\nThe intelligent canvas for infinite creativity\nGet started\nOne workspace for your entire product development process.\n\nMade so your whole team can go from WIP to ship, together.\n\nDesign anything you can imagine\n\nTurn your ideas into apps, ",
+      "animations": [
+        {
+          "target": "<div aria-hidden=\"true\" class=\"fig-51j1vz\"></div>",
+          "rect": {
+            "x": 81,
+            "y": 5919.859375,
+            "width": 54,
+            "height": 54,
+            "top": 5919.859375,
+            "right": 135,
+            "bottom": 5973.859375,
+            "left": 81
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "rotate": "0deg",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "rotate": "360deg",
+              "computedOffset": 1
+            }
+          ],
+          "time": 0,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 25000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        }
+      ]
+    },
+    {
+      "at": 1275.3999999999069,
+      "text": "Skip to main content\n\nProducts\nSolutions\nCommunity\nResources\nPricing\nLog in\nContact sales\nGet started for free\nThe intelligent canvas for infinite creativity\nGet started\nOne workspace for your entire product development process.\n\nMade so your whole team can go from WIP to ship, together.\n\nDesign anything you can imagine\n\nTurn your ideas into apps, ",
+      "animations": [
+        {
+          "target": "<div aria-hidden=\"true\" class=\"fig-51j1vz\"></div>",
+          "rect": {
+            "x": 77.73111724853516,
+            "y": 5916.59033203125,
+            "width": 60.53777313232422,
+            "height": 60.5380859375,
+            "top": 5916.59033203125,
+            "right": 138.26889038085938,
+            "bottom": 5977.12841796875,
+            "left": 77.73111724853516
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "rotate": "0deg",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "rotate": "360deg",
+              "computedOffset": 1
+            }
+          ],
+          "time": 516.6709999999564,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 25000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        }
+      ]
+    },
+    {
+      "at": 1781.6000000000931,
+      "text": "Skip to main content\n\nProducts\nSolutions\nCommunity\nResources\nPricing\nLog in\nContact sales\nGet started for free\nThe intelligent canvas for infinite creativity\nGet started\nOne workspace for your entire product development process.\n\nMade so your whole team can go from WIP to ship, together.\n\nDesign anything you can imagine\n\nTurn your ideas into apps, ",
+      "animations": [
+        {
+          "target": "<div class=\"fig-1fcmjev\"><div class=\"fig-1p24k06\"><div class=\"fig-143x6j3\" style=\"transform: translate3d(40px, 0px, 0px);\"><div role=\"group\" aria-roledescription=\"slide\" aria-label=\"slide 1\" aria-hidden=\"false\" class=\"fig-cjo8sr\" style=\"transform: translate3d(0px, 0px, 0px);\"><article aria-labelledby=\"_R_11lban4lubsodqivb_\"><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAIAAACjcK",
+          "rect": {
+            "x": 0,
+            "y": 6841.4189453125,
+            "width": 1280,
+            "height": 472.390625,
+            "top": 6841.4189453125,
+            "right": 1280,
+            "bottom": 7313.8095703125,
+            "left": 0
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "0",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "1",
+              "computedOffset": 1
+            }
+          ],
+          "time": 266.6689999998806,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 500,
+            "easing": "ease",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<div class=\"fig-1fcmjev\"><div class=\"fig-1p24k06\"><div class=\"fig-143x6j3\" style=\"transform: translate3d(40px, 0px, 0px);\"><div role=\"group\" aria-roledescription=\"slide\" aria-label=\"slide 1\" aria-hidden=\"false\" class=\"fig-cjo8sr\" style=\"transform: translate3d(0px, 0px, 0px);\"><article aria-labelledby=\"_R_11lban4lubsodqivb_\"><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAIAAACjcK",
+          "rect": {
+            "x": 0,
+            "y": 6841.4189453125,
+            "width": 1280,
+            "height": 472.390625,
+            "top": 6841.4189453125,
+            "right": 1280,
+            "bottom": 7313.8095703125,
+            "left": 0
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "transform": "translateY(12px)",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "transform": "none",
+              "computedOffset": 1
+            }
+          ],
+          "time": 266.6689999998806,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 500,
+            "easing": "ease",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<div aria-hidden=\"true\" class=\"fig-51j1vz\"></div>",
+          "rect": {
+            "x": 75.0526351928711,
+            "y": 5913.912109375,
+            "width": 65.89473724365234,
+            "height": 65.89453125,
+            "top": 5913.912109375,
+            "right": 140.94737243652344,
+            "bottom": 5979.806640625,
+            "left": 75.0526351928711
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "rotate": "0deg",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "rotate": "360deg",
+              "computedOffset": 1
+            }
+          ],
+          "time": 1016.6389999999564,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 25000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "<div aria-hidden=\"true\" class=\"fig-1mxu7da\" style=\"opacity:0\"></div>",
+          "rect": {
+            "x": 357.2727355957031,
+            "y": 188.76986694335938,
+            "width": 565.45458984375,
+            "height": 681.2705078125,
+            "top": 188.76986694335938,
+            "right": 922.7273254394531,
+            "bottom": 870.0403747558594,
+            "left": 357.2727355957031
+          },
+          "frames": [
+            {
+              "offset": null,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "0",
+              "computedOffset": 0
+            },
+            {
+              "offset": null,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "1",
+              "computedOffset": 1
+            }
+          ],
+          "time": 266.6689999998806,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 400,
+            "easing": "ease-in-out",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<div class=\"fig-z1zt0e\" style=\"opacity: 0; transform: translateY(9.31997px);\"><h1 id=\"_R_clubsodqivb_\" class=\"fig-1gqvcgs\">The intelligent canvas for infinite creativity</h1></div>",
+          "rect": {
+            "x": 40,
+            "y": 377.3199462890625,
+            "width": 288,
+            "height": 280,
+            "top": 377.3199462890625,
+            "right": 328,
+            "bottom": 657.3199462890625,
+            "left": 40
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "0",
+              "computedOffset": 0
+            },
+            {
+              "offset": 0.02,
+              "easing": "cubic-bezier(0.01, 0.78, 0.38, 0.99)",
+              "composite": "auto",
+              "opacity": "1",
+              "computedOffset": 0.02
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "1",
+              "computedOffset": 1
+            }
+          ],
+          "time": 263.30000000000007,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 1250,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 2288.6999999999534,
+      "text": "Skip to main content\n\nProducts\nSolutions\nCommunity\nResources\nPricing\nLog in\nContact sales\nGet started for free\nThe intelligent canvas for infinite creativity\nGet started\nOne workspace for your entire product development process.\n\nMade so your whole team can go from WIP to ship, together.\n\nDesign anything you can imagine\n\nTurn your ideas into apps, ",
+      "animations": [
+        {
+          "target": "<div aria-hidden=\"true\" class=\"fig-51j1vz\"></div>",
+          "rect": {
+            "x": 72.89356231689453,
+            "y": 5911.7529296875,
+            "width": 70.21288299560547,
+            "height": 70.212890625,
+            "top": 5911.7529296875,
+            "right": 143.1064453125,
+            "bottom": 5981.9658203125,
+            "left": 72.89356231689453
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "rotate": "0deg",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "rotate": "360deg",
+              "computedOffset": 1
+            }
+          ],
+          "time": 1516.638999999956,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 25000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "<div class=\"fig-z1zt0e\" style=\"opacity: 0; transform: translateY(1.45256px);\"><h1 id=\"_R_clubsodqivb_\" class=\"fig-1gqvcgs\">The intelligent canvas for infinite creativity</h1></div>",
+          "rect": {
+            "x": 40,
+            "y": 369.45257568359375,
+            "width": 288,
+            "height": 280,
+            "top": 369.45257568359375,
+            "right": 328,
+            "bottom": 649.4525756835938,
+            "left": 40
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "0",
+              "computedOffset": 0
+            },
+            {
+              "offset": 0.02,
+              "easing": "cubic-bezier(0.01, 0.78, 0.38, 0.99)",
+              "composite": "auto",
+              "opacity": "1",
+              "computedOffset": 0.02
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "1",
+              "computedOffset": 1
+            }
+          ],
+          "time": 763.2999999999998,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 1250,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<div class=\"fig-0\" style=\"opacity: 0; transform: translateY(3.26659px) scale(0.995917);\"><div class=\"fig-1t8el3\"><div class=\"fig-toalof\"><div class=\"fig-m7yqvd\"><div role=\"group\" tabindex=\"-1\" aria-label=\"Media player\" class=\"fig-htl2p6\" data-controls-visible=\"\" style=\"background: transparent; position: relative; width: 100%; height: 100%;\"><vimeo-video loop=\"\" playsinline=\"\" preload=\"auto\" poster",
+          "rect": {
+            "x": 345.2086181640625,
+            "y": 162.69573974609375,
+            "width": 589.582763671875,
+            "height": 697.1417236328125,
+            "top": 162.69573974609375,
+            "right": 934.7913818359375,
+            "bottom": 859.8374633789062,
+            "left": 345.2086181640625
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "0",
+              "computedOffset": 0
+            },
+            {
+              "offset": 0.02,
+              "easing": "cubic-bezier(0.01, 0.78, 0.38, 0.99)",
+              "composite": "auto",
+              "opacity": "1",
+              "computedOffset": 0.02
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "1",
+              "computedOffset": 1
+            }
+          ],
+          "time": 763.2999999999998,
+          "timing": {
+            "delay": 200,
+            "direction": "normal",
+            "duration": 1250,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<div class=\"fig-187x5j1\" style=\"opacity: 0; transform: translateY(6.58413px);\"><div class=\"fig-1sk8liz\"><a href=\"https://www.figma.com/signup\" target=\"_blank\" rel=\"noreferrer\" location=\"get_started_hero\" behavior=\"signup\" class=\"fig-1ytmgio\"><span class=\"btn-inner fig-1qhfzz9\"><span class=\"btn-text fig-2vtqnm\">Get started</span><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"n",
+          "rect": {
+            "x": 983.984375,
+            "y": 472.5841369628906,
+            "width": 224.03125,
+            "height": 83.99996948242188,
+            "top": 472.5841369628906,
+            "right": 1208.015625,
+            "bottom": 556.5841064453125,
+            "left": 983.984375
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "0",
+              "computedOffset": 0
+            },
+            {
+              "offset": 0.02,
+              "easing": "cubic-bezier(0.01, 0.78, 0.38, 0.99)",
+              "composite": "auto",
+              "opacity": "1",
+              "computedOffset": 0.02
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "1",
+              "computedOffset": 1
+            }
+          ],
+          "time": 763.2999999999998,
+          "timing": {
+            "delay": 400,
+            "direction": "normal",
+            "duration": 1250,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 2799.899999999907,
+      "text": "Skip to main content\n\nProducts\nSolutions\nCommunity\nResources\nPricing\nLog in\nContact sales\nGet started for free\nThe intelligent canvas for infinite creativity\nGet started\nOne workspace for your entire product development process.\n\nMade so your whole team can go from WIP to ship, together.\n\nDesign anything you can imagine\n\nTurn your ideas into apps, ",
+      "animations": [
+        {
+          "target": "<div aria-hidden=\"true\" class=\"fig-51j1vz\"></div>",
+          "rect": {
+            "x": 71.24465942382812,
+            "y": 5910.10400390625,
+            "width": 73.51068115234375,
+            "height": 73.5107421875,
+            "top": 5910.10400390625,
+            "right": 144.75534057617188,
+            "bottom": 5983.61474609375,
+            "left": 71.24465942382812
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "rotate": "0deg",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "rotate": "360deg",
+              "computedOffset": 1
+            }
+          ],
+          "time": 2033.2389999999566,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 25000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "<div class=\"fig-0\" style=\"opacity: 0; transform: translateY(0.188762px) scale(0.999764);\"><div class=\"fig-1t8el3\"><div class=\"fig-toalof\"><div class=\"fig-m7yqvd\"><div role=\"group\" tabindex=\"-1\" aria-label=\"Media player\" class=\"fig-htl2p6\" data-controls-visible=\"\" style=\"background: transparent; position: relative; width: 100%; height: 100%;\"><vimeo-video loop=\"\" playsinline=\"\" preload=\"auto\" poste",
+          "rect": {
+            "x": 344.0698547363281,
+            "y": 158.27133178710938,
+            "width": 591.8603515625,
+            "height": 699.8348388671875,
+            "top": 158.27133178710938,
+            "right": 935.9302062988281,
+            "bottom": 858.1061706542969,
+            "left": 344.0698547363281
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "0",
+              "computedOffset": 0
+            },
+            {
+              "offset": 0.02,
+              "easing": "cubic-bezier(0.01, 0.78, 0.38, 0.99)",
+              "composite": "auto",
+              "opacity": "1",
+              "computedOffset": 0.02
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "1",
+              "computedOffset": 1
+            }
+          ],
+          "time": 1279.9000000000003,
+          "timing": {
+            "delay": 200,
+            "direction": "normal",
+            "duration": 1250,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<div class=\"fig-187x5j1\" style=\"opacity: 0; transform: translateY(0.811343px);\"><div class=\"fig-1sk8liz\"><a href=\"https://www.figma.com/signup\" target=\"_blank\" rel=\"noreferrer\" location=\"get_started_hero\" behavior=\"signup\" class=\"fig-1ytmgio\"><span class=\"btn-inner fig-1qhfzz9\"><span class=\"btn-text fig-2vtqnm\">Get started</span><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"",
+          "rect": {
+            "x": 983.984375,
+            "y": 466.81134033203125,
+            "width": 224.03125,
+            "height": 84,
+            "top": 466.81134033203125,
+            "right": 1208.015625,
+            "bottom": 550.8113403320312,
+            "left": 983.984375
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "0",
+              "computedOffset": 0
+            },
+            {
+              "offset": 0.02,
+              "easing": "cubic-bezier(0.01, 0.78, 0.38, 0.99)",
+              "composite": "auto",
+              "opacity": "1",
+              "computedOffset": 0.02
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "1",
+              "computedOffset": 1
+            }
+          ],
+          "time": 1279.9000000000003,
+          "timing": {
+            "delay": 400,
+            "direction": "normal",
+            "duration": 1250,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 3360.3000000000466,
+      "text": "Skip to main content\n\nProducts\nSolutions\nCommunity\nResources\nPricing\nLog in\nContact sales\nGet started for free\nThe intelligent canvas for infinite creativity\nGet started\nOne workspace for your entire product development process.\n\nMade so your whole team can go from WIP to ship, together.\n\nDesign anything you can imagine\n\nTurn your ideas into apps, ",
+      "animations": [
+        {
+          "target": "<div aria-hidden=\"true\" class=\"fig-51j1vz\"></div>",
+          "rect": {
+            "x": 70.3644790649414,
+            "y": 5909.2236328125,
+            "width": 75.27104949951172,
+            "height": 75.271484375,
+            "top": 5909.2236328125,
+            "right": 145.63552856445312,
+            "bottom": 5984.4951171875,
+            "left": 70.3644790649414
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "rotate": "0deg",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "rotate": "360deg",
+              "computedOffset": 1
+            }
+          ],
+          "time": 2449.938999999956,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 25000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        }
+      ]
+    },
+    {
+      "at": 3864.8000000000466,
+      "text": "Skip to main content\n\nProducts\nSolutions\nCommunity\nResources\nPricing\nLog in\nContact sales\nGet started for free\nThe intelligent canvas for infinite creativity\nGet started\nOne workspace for your entire product development process.\n\nMade so your whole team can go from WIP to ship, together.\n\nDesign anything you can imagine\n\nTurn your ideas into apps, ",
+      "animations": [
+        {
+          "target": "<div data-visible=\"\" data-user-active=\"\" data-interactive=\"\" class=\"fig-1cdz8rj\"><div data-vjs-group=\"left\" class=\"fig-13evcqq\"><button type=\"button\" role=\"button\" tabindex=\"0\" aria-label=\"Pause\" data-side=\"top\" data-align=\"end\" aria-keyshortcuts=\"Space\" data-started=\"\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewBox=\"0 0 24 24\" class=\"fig-gjw6ce\" aria-hidden=\"tr",
+          "rect": {
+            "x": 873.5,
+            "y": 802,
+            "width": 48,
+            "height": 48,
+            "top": 802,
+            "right": 921.5,
+            "bottom": 850,
+            "left": 873.5
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "0",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "1",
+              "computedOffset": 1
+            }
+          ],
+          "time": 149.95699999984024,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 150,
+            "easing": "ease-out",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<div aria-hidden=\"true\" class=\"fig-51j1vz\"></div>",
+          "rect": {
+            "x": 69.81700134277344,
+            "y": 5908.67626953125,
+            "width": 76.36601257324219,
+            "height": 76.3662109375,
+            "top": 5908.67626953125,
+            "right": 146.18301391601562,
+            "bottom": 5985.04248046875,
+            "left": 69.81700134277344
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "rotate": "0deg",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "rotate": "360deg",
+              "computedOffset": 1
+            }
+          ],
+          "time": 3099.8389999999563,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 25000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        }
+      ]
+    }
+  ]
+}

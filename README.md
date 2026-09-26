@@ -17,7 +17,9 @@ npm run dev
 
 Open [http://127.0.0.1:3000](http://127.0.0.1:3000). Stop with Ctrl+C. If that port is occupied, run `npm run dev -- --port 3001`. The dev server binds to this computer only.
 
-The home composer, example lesson, light/dark preview and responsive navigation work without services. Text stays in React memory in the current tab and disappears on reload. The sample is fictional and explicitly unreviewed. Its opening question and Supervisor notice are static fixtures, not model output. The separate `/prepare` page runs real pasted-text extraction and a fixed synthetic PDF sample without credentials; arbitrary PDF uploads require live sign-in. No account, class membership, grade, persistence or paid API call is simulated as successful.
+The public landing page is at `/`; the existing learning workspace is at `/learn`. The landing page includes a fictional four-turn teaching example, separate Supervisor explanation and planned teacher workflow. Its light/dark switch remembers your choice in this browser and respects reduced-motion preferences. See [landing implementation and visual checks](docs/design-research/LANDING_PAGE_IMPLEMENTATION.md).
+
+The `/learn` composer, example lesson and responsive navigation work without services. Topic text stays in React memory in the current tab and disappears on reload. The sample is fictional and explicitly unreviewed. Its opening question and Supervisor notice are static fixtures, not model output. The separate `/prepare` page runs real pasted-text extraction and a fixed synthetic PDF sample without credentials; arbitrary PDF uploads require live sign-in. No account, class membership, grade, persistence or paid API call is simulated as successful.
 
 ## Environment
 
@@ -99,7 +101,7 @@ Official setup references consulted via Context7: [Next.js installation](https:/
 
 ## T03 lessons and T04 preparation
 
-Open `/prepare` from the home page. In demo mode, use synthetic pasted text or the built-in sample PDF; arbitrary file uploads require a verified account in live mode. Extraction runs on the server and reports real text, location markers and coverage. Answer the missing subject, grade and scope questions together, then resubmit. Input stays in the current page on failure; refresh recovery and durable jobs belong to T05.
+Open `/prepare` from the learning workspace. In demo mode, use synthetic pasted text or the built-in sample PDF; arbitrary file uploads require a verified account in live mode. Extraction runs on the server and reports real text, location markers and coverage. Answer the missing subject, grade and scope questions together, then resubmit. Input stays in the current page on failure; refresh recovery and durable jobs belong to T05.
 
 The lesson contracts require objective-specific explanations, facts, references, misconceptions, correction criteria and changed-example prompts. The science/maths example pack records its factual sources and technical checks, but still needs human review. Its expected-answer cases are a review aid, not an executed AI benchmark. The original home example stays fictional and unreviewed. See [T03 contracts and content review](docs/implementation/T03_LESSONS.md) and [T04 extraction and recovery](docs/implementation/T04_INGESTION.md) for file maps, limits, research references and targeted checks.
 

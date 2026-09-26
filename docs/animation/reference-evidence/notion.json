@@ -1,0 +1,120 @@
+{
+  "id": "notion",
+  "url": "https://www.notion.com/product/sites",
+  "date": "2026-09-19T17:57:47.972Z",
+  "browser": "153.0.8010.12",
+  "viewport": "1280x800",
+  "finalUrl": "https://www.notion.com/product/sites",
+  "title": "Notion – Publish anything, fast",
+  "body": "Product\nAI\nResources\nDevelopers\nStartups\nEnterprise\nPricing\nRequest a demo\nLog in\nGet Notion free\nSites\nPublish anything, fast.\nThe easiest way to get a website up and running.\nGet Notion Sites free\n→\nMake a page\nStart with one of 30,000+ templates.\nPersonalize it\nChoose a domain, theme, favicon, and look and feel.\nPublish it\nJust hit “publish”, and you are live.\nPause\nOver 10,000 templates, from pitch decks to portfolios.\nPersonal site\nEvent page\nTravel guide\nJob board\nHelp center\nStart with a template. Build anything.\n\nNotion Link in bio\n\nBurk\n\nFree\n\nSimplicity Blog\n\nLiyanne\n\nFree\n\nPitch Deck Template\n\nMaximilian Fleitmann\n\nFree\n\nRecipe box\n\nKylie Stewart\n\nFree\n\nMinimalist Resume\n\nNadine's Creations\n\nFree\n\nBrand Style Guide\n\nKevan Lee\n\nFree\nAs simple as editing a page.\nSave time with dra",
+  "timeA": {
+    "at": 5026.300000000047,
+    "animations": [
+      {
+        "target": "NAV",
+        "cls": "globalNavigation-module-scss-module__HWB10a__globalNavigation",
+        "time": {},
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": "auto",
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "both",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      }
+    ],
+    "videos": []
+  },
+  "timeB": {
+    "at": 6561.699999999953,
+    "animations": [
+      {
+        "target": "NAV",
+        "cls": "globalNavigation-module-scss-module__HWB10a__globalNavigation",
+        "time": {},
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": "auto",
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "both",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      }
+    ],
+    "videos": []
+  },
+  "hover": {
+    "label": "Product",
+    "box": {
+      "x": 271.859375,
+      "y": 17,
+      "width": 91.109375,
+      "height": 30
+    },
+    "before": {
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgba(0, 0, 0, 0.898)",
+      "transform": "none",
+      "transition": "background-color 0.15s",
+      "opacity": "1"
+    },
+    "samples": [
+      {
+        "at": 6782.399999999907,
+        "background": "rgba(0, 0, 0, 0.05)",
+        "color": "rgba(0, 0, 0, 0.898)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 5
+      },
+      {
+        "at": 6896.600000000093,
+        "background": "rgba(0, 0, 0, 0.05)",
+        "color": "rgba(0, 0, 0, 0.898)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 4
+      },
+      {
+        "at": 7008.5,
+        "background": "rgba(0, 0, 0, 0.05)",
+        "color": "rgba(0, 0, 0, 0.898)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 1
+      },
+      {
+        "at": 7125.300000000047,
+        "background": "rgba(0, 0, 0, 0.05)",
+        "color": "rgba(0, 0, 0, 0.898)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 1
+      },
+      {
+        "at": 9575.5,
+        "background": "rgba(0, 0, 0, 0.05)",
+        "color": "rgba(0, 0, 0, 0.898)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 1
+      },
+      {
+        "at": 10012.399999999907,
+        "background": "rgba(0, 0, 0, 0.05)",
+        "color": "rgba(0, 0, 0, 0.898)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 1
+      }
+    ]
+  }
+}

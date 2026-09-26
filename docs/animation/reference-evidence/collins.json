@@ -1,0 +1,86 @@
+{
+  "id": "collins",
+  "url": "https://www.wearecollins.com/",
+  "date": "2026-09-19T17:57:48.002Z",
+  "browser": "153.0.8010.12",
+  "viewport": "1280x800",
+  "finalUrl": "https://wearecollins.com/",
+  "title": "COLLINS",
+  "body": "Rewrite your worth.\n\n8x Agency of the Year\n\nAdAge 2026\n\nAdAge 2025\n\nAdAge 2024\n\nAdAge 2023\n\nD&AD 2021\n\nAdAge 2021\n\nAdAge 2020\n\nAdAge 2019\n\nPrograms\n\nEleven ways we help brands find and command their unique premium.\n\nExplore Programs\nBrand Refresh\nStay Relevant. Stay Valuable.\nReposition\nDon’t Become the Best. Become the Only.\nExpansion\nEnter New Markets with an Edge.\nTurnaround\nMake Your Next Move Your Turning Point.\nAll Programs (11)\nCase Studies\n\nDesign a future so irresistible, it becomes inevitable.\n\nExplore\n\nBose\n\nRed Wing Shoes\n\nRobinhood\n\nTarget: up&up\n\nArcane\n\nSan Francisco Symphony\n\nPrimary\n\nYouTube Gaming\n\nCadia\n\nRed Hot x COLLINS\nArts & Culture\n\nLearning to see.\n\nExplore\nCase Studies\nPrograms\nArts & Culture\nWork with us\nTeam\nCareers\nPress\nKeep up to date\nX (Twitter)\nLinkedIn\nIns",
+  "timeA": {
+    "at": 3393.4000000001397,
+    "animations": [
+      {
+        "target": "H1",
+        "cls": "head__title",
+        "time": 1600.000000000116,
+        "state": "running",
+        "timing": {
+          "delay": 100,
+          "direction": "normal",
+          "duration": 2000,
+          "easing": "cubic-bezier(0.19, 1, 0.22, 1)",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "DIV",
+        "cls": "laurels laurels laurels--large",
+        "time": 1600.000000000116,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2000,
+          "easing": "cubic-bezier(0.19, 1, 0.22, 1)",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "SECTION",
+        "cls": "reel",
+        "time": 1200.016000000212,
+        "state": "running",
+        "timing": {
+          "delay": 200,
+          "direction": "normal",
+          "duration": 2000,
+          "easing": "cubic-bezier(0.19, 1, 0.22, 1)",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      }
+    ],
+    "videos": []
+  },
+  "timeB": {
+    "at": 4905,
+    "animations": [
+      {
+        "target": "DIV",
+        "cls": "preview-wrapper",
+        "time": 0,
+        "state": "paused",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "ease-out",
+          "endDelay": 0,
+          "fill": "both",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      }
+    ],
+    "videos": []
+  }
+}

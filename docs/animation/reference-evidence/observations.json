@@ -1,0 +1,1627 @@
+[
+  {
+    "id": "brilliant",
+    "url": "https://brilliant.org/",
+    "date": "2026-09-19T17:57:24.770Z",
+    "browser": "153.0.8010.12",
+    "viewport": "1280x800",
+    "error": "page.goto: Timeout 18000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"https://brilliant.org/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+  },
+  {
+    "id": "duolingo",
+    "url": "https://www.duolingo.com/",
+    "date": "2026-09-19T17:57:24.892Z",
+    "browser": "153.0.8010.12",
+    "viewport": "1280x800",
+    "error": "page.goto: Timeout 18000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"https://www.duolingo.com/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+  },
+  {
+    "id": "khanmigo",
+    "url": "https://www.khanmigo.ai/",
+    "date": "2026-09-19T17:57:24.891Z",
+    "browser": "153.0.8010.12",
+    "viewport": "1280x800",
+    "finalUrl": "https://www.khanmigo.ai/",
+    "title": "Meet Khanmigo: Khan Academy's AI-powered teaching assistant & tutor",
+    "body": "Learners\nParents\nWriting Coach\nNew\nDistricts\nGet Khanmigo\nKhanmigo is your always-available\n tu\n\nFor teachers\n\nKnock something off your to-do list in minutes\n\nSign up for free\n\nFor districts\n\nExpert-led AI adoption for your schools\n\nLearn more\n\nFor writing\n\nAI-enhanced writing practice and instruction tool\n\nSign up for free\n“Forget ChatGPT. These are the best AI-powered apps.”\nKhanmigo receives an overall 4-star rating making it a top-rated AI-for-education tool.\n“One teacher said she noticed students posing more questions to Khanmigo than they might typically ask.”\nOn-demand AI-powered support for education.\nFor teachers\nExperience the best AI for teachers.\n\nBuilt for educators by educators, with your needs in mind. Khanmigo simplifies your workflow while keeping your work and your studen",
+    "timeA": {
+      "at": 16235.699999999953,
+      "animations": [],
+      "videos": []
+    },
+    "timeB": {
+      "at": 19428.5,
+      "animations": [],
+      "videos": []
+    },
+    "hover": {
+      "label": "Learners",
+      "box": {
+        "x": 354.328125,
+        "y": 1.5,
+        "width": 102.4375,
+        "height": 60
+      },
+      "before": {
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(33, 36, 44)",
+        "transform": "none",
+        "transition": "all",
+        "opacity": "1"
+      }
+    },
+    "error": "locator.hover: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('a,button').nth(1)\u001b[22m\n\u001b[2m    - locator resolved to <a href=\"/learners\" class=\"nav-link\">Learners</a>\u001b[22m\n\u001b[2m  - attempting hover action\u001b["
+  },
+  {
+    "id": "collins",
+    "url": "https://www.wearecollins.com/",
+    "date": "2026-09-19T17:57:48.002Z",
+    "browser": "153.0.8010.12",
+    "viewport": "1280x800",
+    "finalUrl": "https://wearecollins.com/",
+    "title": "COLLINS",
+    "body": "Rewrite your worth.\n\n8x Agency of the Year\n\nAdAge 2026\n\nAdAge 2025\n\nAdAge 2024\n\nAdAge 2023\n\nD&AD 2021\n\nAdAge 2021\n\nAdAge 2020\n\nAdAge 2019\n\nPrograms\n\nEleven ways we help brands find and command their unique premium.\n\nExplore Programs\nBrand Refresh\nStay Relevant. Stay Valuable.\nReposition\nDon’t Become the Best. Become the Only.\nExpansion\nEnter New Markets with an Edge.\nTurnaround\nMake Your Next Move Your Turning Point.\nAll Programs (11)\nCase Studies\n\nDesign a future so irresistible, it becomes inevitable.\n\nExplore\n\nBose\n\nRed Wing Shoes\n\nRobinhood\n\nTarget: up&up\n\nArcane\n\nSan Francisco Symphony\n\nPrimary\n\nYouTube Gaming\n\nCadia\n\nRed Hot x COLLINS\nArts & Culture\n\nLearning to see.\n\nExplore\nCase Studies\nPrograms\nArts & Culture\nWork with us\nTeam\nCareers\nPress\nKeep up to date\nX (Twitter)\nLinkedIn\nIns",
+    "timeA": {
+      "at": 3393.4000000001397,
+      "animations": [
+        {
+          "target": "H1",
+          "cls": "head__title",
+          "time": 1600.000000000116,
+          "state": "running",
+          "timing": {
+            "delay": 100,
+            "direction": "normal",
+            "duration": 2000,
+            "easing": "cubic-bezier(0.19, 1, 0.22, 1)",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "DIV",
+          "cls": "laurels laurels laurels--large",
+          "time": 1600.000000000116,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2000,
+            "easing": "cubic-bezier(0.19, 1, 0.22, 1)",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "SECTION",
+          "cls": "reel",
+          "time": 1200.016000000212,
+          "state": "running",
+          "timing": {
+            "delay": 200,
+            "direction": "normal",
+            "duration": 2000,
+            "easing": "cubic-bezier(0.19, 1, 0.22, 1)",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ],
+      "videos": []
+    },
+    "timeB": {
+      "at": 4905,
+      "animations": [
+        {
+          "target": "DIV",
+          "cls": "preview-wrapper",
+          "time": 0,
+          "state": "paused",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "ease-out",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ],
+      "videos": []
+    }
+  },
+  {
+    "id": "notion",
+    "url": "https://www.notion.com/product/sites",
+    "date": "2026-09-19T17:57:47.972Z",
+    "browser": "153.0.8010.12",
+    "viewport": "1280x800",
+    "finalUrl": "https://www.notion.com/product/sites",
+    "title": "Notion – Publish anything, fast",
+    "body": "Product\nAI\nResources\nDevelopers\nStartups\nEnterprise\nPricing\nRequest a demo\nLog in\nGet Notion free\nSites\nPublish anything, fast.\nThe easiest way to get a website up and running.\nGet Notion Sites free\n→\nMake a page\nStart with one of 30,000+ templates.\nPersonalize it\nChoose a domain, theme, favicon, and look and feel.\nPublish it\nJust hit “publish”, and you are live.\nPause\nOver 10,000 templates, from pitch decks to portfolios.\nPersonal site\nEvent page\nTravel guide\nJob board\nHelp center\nStart with a template. Build anything.\n\nNotion Link in bio\n\nBurk\n\nFree\n\nSimplicity Blog\n\nLiyanne\n\nFree\n\nPitch Deck Template\n\nMaximilian Fleitmann\n\nFree\n\nRecipe box\n\nKylie Stewart\n\nFree\n\nMinimalist Resume\n\nNadine's Creations\n\nFree\n\nBrand Style Guide\n\nKevan Lee\n\nFree\nAs simple as editing a page.\nSave time with dra",
+    "timeA": {
+      "at": 5026.300000000047,
+      "animations": [
+        {
+          "target": "NAV",
+          "cls": "globalNavigation-module-scss-module__HWB10a__globalNavigation",
+          "time": {},
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": "auto",
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ],
+      "videos": []
+    },
+    "timeB": {
+      "at": 6561.699999999953,
+      "animations": [
+        {
+          "target": "NAV",
+          "cls": "globalNavigation-module-scss-module__HWB10a__globalNavigation",
+          "time": {},
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": "auto",
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ],
+      "videos": []
+    },
+    "hover": {
+      "label": "Product",
+      "box": {
+        "x": 271.859375,
+        "y": 17,
+        "width": 91.109375,
+        "height": 30
+      },
+      "before": {
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgba(0, 0, 0, 0.898)",
+        "transform": "none",
+        "transition": "background-color 0.15s",
+        "opacity": "1"
+      },
+      "samples": [
+        {
+          "at": 6782.399999999907,
+          "background": "rgba(0, 0, 0, 0.05)",
+          "color": "rgba(0, 0, 0, 0.898)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 5
+        },
+        {
+          "at": 6896.600000000093,
+          "background": "rgba(0, 0, 0, 0.05)",
+          "color": "rgba(0, 0, 0, 0.898)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 4
+        },
+        {
+          "at": 7008.5,
+          "background": "rgba(0, 0, 0, 0.05)",
+          "color": "rgba(0, 0, 0, 0.898)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 1
+        },
+        {
+          "at": 7125.300000000047,
+          "background": "rgba(0, 0, 0, 0.05)",
+          "color": "rgba(0, 0, 0, 0.898)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 1
+        },
+        {
+          "at": 9575.5,
+          "background": "rgba(0, 0, 0, 0.05)",
+          "color": "rgba(0, 0, 0, 0.898)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 1
+        },
+        {
+          "at": 10012.399999999907,
+          "background": "rgba(0, 0, 0, 0.05)",
+          "color": "rgba(0, 0, 0, 0.898)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": "instrument",
+    "url": "https://www.instrument.com/",
+    "date": "2026-09-19T17:57:47.985Z",
+    "browser": "153.0.8010.12",
+    "viewport": "1280x800",
+    "finalUrl": "https://www.instrument.com/",
+    "title": "Instrument | A technology-led brand, product, & marketing agency | Instrument",
+    "body": "Skip Navigation\nWORK\nSERVICES\nABOUT\nCAREERS\nLATEST\nCONTACT\n\nWe’re a digital-first design agency where creativity meets technology.\nView All Work\n\nRECENT WORK\nALL\nBRAND\nMARKETING\nPRODUCT\nCLIENT ROSTER\nSelect clients include: Nike, Google, Oura , ServiceNow, EA, Netflix, Spotify, Pinterest, Microsoft, Patagonia, Uber, Marriot, Instagram, Sephora, Sonos, Paypal, Levi's, NBA, Nordstrom, Stripe, Salesforce, Salesforce\nSERVICES\nWe make brands, products, websites, and campaigns.\n\nWe design across brand, product, and marketing, so\nevery touchpoint works together and tells the same story.\n\nSee our offerings\nRECENT RECOGNITION\nSelect clients include: The Drum Awards, B2 Awards, The Webbys, Fast Company, Awwwards, Indigo Awards, Campaign AOTY, Anthem Awards 2025, W3 Awards, instrument-the-adc-awards-",
+    "timeA": {
+      "at": 5503.09999999986,
+      "animations": [
+        {
+          "target": "DIV",
+          "cls": "global-logo",
+          "time": 66.69999999999999,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "DIV",
+          "cls": "global-logo",
+          "time": 0,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ],
+      "videos": []
+    },
+    "timeB": {
+      "at": 9211.09999999986,
+      "animations": [
+        {
+          "target": "DIV",
+          "cls": "gdpr v-enter-active v-enter-to",
+          "time": 499.93600000011276,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 500,
+            "easing": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "SPAN",
+          "cls": "shape",
+          "time": 99.89999999999988,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 250,
+            "easing": "ease-in-out",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "SPAN",
+          "cls": "label",
+          "time": 99.89999999999988,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "DIV",
+          "cls": "client-list-rotator__client active",
+          "time": 216.59999999999968,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "ease-in-out",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "DIV",
+          "cls": "client-list-rotator__client active",
+          "time": 216.59999999999968,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "ease-in-out",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "DIV",
+          "cls": "client-list-rotator__client active",
+          "time": 216.59999999999968,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "ease-in-out",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "DIV",
+          "cls": "client-list-rotator__client active",
+          "time": 99.89999999999988,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "ease-in-out",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "DIV",
+          "cls": "client-list-rotator__client active",
+          "time": 99.89999999999988,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "ease-in-out",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "DIV",
+          "cls": "client-list-rotator__client active",
+          "time": 99.89999999999988,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "ease-in-out",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "DIV",
+          "cls": "client-list-rotator__client active",
+          "time": 16.599999999999504,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "ease-in-out",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "DIV",
+          "cls": "client-list-rotator__client active",
+          "time": 16.599999999999504,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "ease-in-out",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "DIV",
+          "cls": "client-list-rotator__client active",
+          "time": 16.599999999999504,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "ease-in-out",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ],
+      "videos": []
+    },
+    "hover": {
+      "label": "ENABLE COOKIES",
+      "box": {
+        "x": 887.5,
+        "y": 683.515625,
+        "width": 146.390625,
+        "height": 61.484375
+      },
+      "before": {
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(7, 7, 8)",
+        "transform": "none",
+        "transition": "all",
+        "opacity": "1"
+      },
+      "samples": [
+        {
+          "at": 10078.399999999907,
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(7, 7, 8)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 1
+        },
+        {
+          "at": 10198.899999999907,
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(7, 7, 8)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 24
+        },
+        {
+          "at": 10380.199999999953,
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(7, 7, 8)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 40
+        },
+        {
+          "at": 10828.399999999907,
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(7, 7, 8)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 39
+        },
+        {
+          "at": 10937.09999999986,
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(7, 7, 8)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 39
+        },
+        {
+          "at": 11049.59999999986,
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(7, 7, 8)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 3
+        }
+      ]
+    }
+  },
+  {
+    "id": "pentagram",
+    "url": "https://www.pentagram.com/",
+    "date": "2026-09-19T17:57:59.357Z",
+    "browser": "153.0.8010.12",
+    "viewport": "1280x800",
+    "finalUrl": "https://www.pentagram.com/",
+    "title": "Pentagram — The world’s largest independent design consultancy",
+    "body": "Pentagram\nSite navigation\nWork\nAbout\nNews\nContact\nArchive\nThe Obama Presidential Center\nThe typographic installation on the façade of the new museum in Chicago features an excerpt from President Obama’s 2015 ‘You Are America’ speech.\nIsomorphic Labs\nBeautiful Symmetry: Pentagram’s new website for Isomorphic Labs creates a new visual language for digital biology.\nMosaic Rooms\nNew strategy, brand identity and tone of voice for Mosaic Rooms, a charity and cultural institution in London.\nICD Beauty\nBrand identity and packaging for the Seoul-based beauty brand merging biotechnology with daily rituals.\nHiut\nVisual identity and art direction for a company making beautifully crafted premium denim from its family-run factory in Aberteifi, Wales.\n‘A Data Love Letter to the Subway’\nA data-driven anim",
+    "timeA": {
+      "at": 2432.3000000000466,
+      "animations": [
+        {
+          "target": "IMG",
+          "cls": "transition-opacity duration-300 object-cover w-full h-full",
+          "time": 200.0069999999985,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "IMG",
+          "cls": "transition-opacity duration-300 object-cover w-full h-full",
+          "time": 200.0069999999985,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "IMG",
+          "cls": "transition-opacity duration-300 object-cover w-full h-full",
+          "time": 200.0069999999985,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "IMG",
+          "cls": "transition-opacity duration-300 object-cover w-full h-full",
+          "time": 200.0069999999985,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "IMG",
+          "cls": "transition-opacity duration-300 object-cover w-full h-full",
+          "time": 200.0069999999985,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "IMG",
+          "cls": "transition-opacity duration-300 object-cover w-full h-full",
+          "time": 200.0069999999985,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "IMG",
+          "cls": "transition-opacity duration-300 object-cover w-full h-full",
+          "time": 200.0069999999985,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "IMG",
+          "cls": "transition-opacity duration-300 object-cover w-full h-full",
+          "time": 200.0069999999985,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "IMG",
+          "cls": "transition-opacity duration-300 object-cover w-full h-full",
+          "time": 200.0069999999985,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "IMG",
+          "cls": "transition-opacity duration-300 object-cover w-full h-full",
+          "time": 200.0069999999985,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "IMG",
+          "cls": "transition-opacity duration-300 object-cover w-full h-full",
+          "time": 200.0069999999985,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "DIV",
+          "cls": "flex flex-wrap gap-gutter thematic__carousel-text-slide is-selected",
+          "time": 200.0069999999985,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 400,
+            "easing": "ease-in-out",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ],
+      "videos": [
+        {
+          "time": 0,
+          "paused": true,
+          "autoplay": true
+        },
+        {
+          "time": 0,
+          "paused": true,
+          "autoplay": true
+        },
+        {
+          "time": 0,
+          "paused": true,
+          "autoplay": true
+        },
+        {
+          "time": 0,
+          "paused": true,
+          "autoplay": true
+        }
+      ]
+    },
+    "timeB": {
+      "at": 5027.300000000047,
+      "animations": [],
+      "videos": [
+        {
+          "time": 0,
+          "paused": true,
+          "autoplay": true
+        },
+        {
+          "time": 0,
+          "paused": true,
+          "autoplay": true
+        },
+        {
+          "time": 0,
+          "paused": true,
+          "autoplay": true
+        },
+        {
+          "time": 0,
+          "paused": true,
+          "autoplay": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "linear",
+    "url": "https://linear.app/",
+    "date": "2026-09-19T17:57:59.357Z",
+    "browser": "153.0.8010.12",
+    "viewport": "1280x800",
+    "finalUrl": "https://linear.app/",
+    "title": "Linear – The system for product development",
+    "body": "Skip to content →\nProduct\nResources\nCustomers\nPricing\nNow\nContact\nLog in\nSign up\nThe product development\nsystem for teams and agents\nThe product development system for teams and agents\n\nPurpose-built for planning and building products. Designed for the AI era.\n\nNew\nLoops →\nLinear\nPulse\nInbox\nMy issues\nReviews\nWorkspace\nInitiatives\nProjects\nMore\nFavorites\nFaster app launch\nAgent tasks\nAgent Insights\nUI Refresh\nDRV-8852\nFaster app launch\n1 / 84\nFaster app launch\n\nRender UI before vehicle_state sync when minimum required state is present, instead of blocking on full refresh during iOS startup.\n\nActivity\nLinear created the issue via Slack on behalf of Karri\n·\n2min ago\nTriage Intelligence added the labels Performance and iOS\n·\n2min ago\nkarri\n·\n4 min ago\nRight now we show a spinner forever, whic",
+    "timeA": {
+      "at": 2553.4000000001397,
+      "animations": [
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 0,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 0,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 0,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 0,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 0,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 0,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 0,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 0,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 0,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 0,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 0,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 0,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        }
+      ],
+      "videos": []
+    },
+    "timeB": {
+      "at": 5138.199999999953,
+      "animations": [
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 3183.2810000000204,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 3183.2810000000204,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 3183.2810000000204,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 3183.2810000000204,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 3183.2810000000204,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 3183.2810000000204,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 3183.2810000000204,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 3183.2810000000204,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 3183.2810000000204,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 3183.2810000000204,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 3183.2810000000204,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "target": "circle",
+          "cls": "[object SVGAnimatedString]",
+          "time": 3183.2810000000204,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2800,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        }
+      ],
+      "videos": []
+    },
+    "hover": {
+      "label": "Skip to content →",
+      "box": {
+        "x": 0,
+        "y": 72,
+        "width": 1280,
+        "height": 32
+      },
+      "before": {
+        "background": "rgb(94, 106, 210)",
+        "color": "rgb(255, 255, 255)",
+        "transform": "none",
+        "transition": "all",
+        "opacity": "0"
+      }
+    },
+    "error": "locator.hover: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('a,button').first()\u001b[22m\n\u001b[2m    - locator resolved to <a href=\"#skip-nav\" class=\"LSqk9q_root\">Skip to content →</a>\u001b[22m\n\u001b[2m  - attempting h"
+  },
+  {
+    "id": "canva",
+    "url": "https://www.canva.com/education/",
+    "date": "2026-09-19T17:57:59.355Z",
+    "browser": "153.0.8010.12",
+    "viewport": "1280x800",
+    "finalUrl": "https://www.canva.com/education/?__cf_chl_rt_tk=4T0USpZWz7DkjN7anCOdgI7Y48778c39YleC65hrt9c-1789840678-1.0.1.1-g5WLB_YI7Wa7FG4QDJqX_UjqeTs3QDr4Qaae95dS6LI",
+    "title": "Canva",
+    "body": "We’ll have you designing again soon\n\nIf you can’t get past this page, visit the Help Centre to see why this is happening.\n\nRayID: a3da79cebf9b1493",
+    "timeA": {
+      "at": 7796.145000000019,
+      "animations": [],
+      "videos": []
+    },
+    "timeB": {
+      "at": 9638.439999999944,
+      "animations": [],
+      "videos": []
+    }
+  },
+  {
+    "id": "vercel",
+    "url": "https://vercel.com/",
+    "date": "2026-09-19T17:58:09.679Z",
+    "browser": "153.0.8010.12",
+    "viewport": "1280x800",
+    "finalUrl": "https://vercel.com/",
+    "title": "Agentic Infrastructure - Vercel",
+    "body": "Skip to content\nProducts\nResources\nEnterprise\nPricing\nGet a Demo\nLog In\nSign Up\n\nShip 26 is coming to SF\n\nGet your ticket\nDrop to deploy\nLoading\nAgentic Infrastructure\nDeploy now\nTalk to sales\nFor coding agents to deploy in their native language, with Vercel's API, CLI, MCP, and Skills.\nTo ship apps and agents in Sandboxed VMs, with durable backends, powered by hundreds of models.\nAutomated by agents who autonomously investigate errors, plan fixes, and open PRs.\nBuild agents on infrastructure that thinks like them\n\nNotion powers millions of agent conversations daily on Vercel.\n\nFeatures\nDurable Orchestration\nSandboxed Environments\nAI Model Gateway\nFluid Compute\nShip apps that scale from zero to millions instantly\n\nZapier serves over 100 million monthly website visits on Vercel.\n\nFeatures\nG",
+    "timeA": {
+      "at": 1798.6999999999534,
+      "animations": [],
+      "videos": []
+    },
+    "timeB": {
+      "at": 3340.100000000093,
+      "animations": [
+        {
+          "target": "CANVAS",
+          "cls": "absolute inset-0 block h-full w-full opacity-0 transition-opacity ease-linear duration-120",
+          "time": 1066.6259999998897,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 1200,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ],
+      "videos": []
+    },
+    "hover": {
+      "label": "Products",
+      "box": {
+        "x": 65,
+        "y": 16,
+        "width": 94.328125,
+        "height": 32
+      },
+      "before": {
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(77, 77, 77)",
+        "transform": "none",
+        "transition": "all",
+        "opacity": "1"
+      },
+      "samples": [
+        {
+          "at": 8210.90000000014,
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(23, 23, 23)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 0
+        },
+        {
+          "at": 8941.300000000047,
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(23, 23, 23)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 0
+        },
+        {
+          "at": 9146.199999999953,
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(23, 23, 23)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 0
+        },
+        {
+          "at": 10763.199999999953,
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(23, 23, 23)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 0
+        },
+        {
+          "at": 11008.300000000047,
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(23, 23, 23)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 0
+        },
+        {
+          "at": 11731.5,
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(23, 23, 23)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 0
+        }
+      ]
+    }
+  },
+  {
+    "id": "stripe",
+    "url": "https://stripe.com/",
+    "date": "2026-09-19T17:58:09.641Z",
+    "browser": "153.0.8010.12",
+    "viewport": "1280x800",
+    "finalUrl": "https://stripe.com/",
+    "title": "Stripe | Financial Infrastructure to Grow Your Revenue",
+    "body": "Products\nSolutions\nDevelopers\nResources\nPricing\nGuide me\nSign in\nSign in\nContact sales\nGlobal GDP running on Stripe: 1.71826867%\n1.71826867%\nFinancial infrastructure to grow your revenue. Accept payments, offer financial services, and implement custom revenue models—from your first transaction to your billionth.\nFinancial infrastructure to grow your revenue. Accept payments, offer financial services, and implement custom revenue models—from your first transaction to your billionth.\nGet started\nSign up with Google\nFlexible solutions for every business model.\n\nGrow your business with a comprehensive set of payments and financial tools⁠—⁠designed to work individually or together.\n\nAccept and optimize payments globally—online and in person\nEnable any billing model\nPro Plan\nBilled monthly\nToken",
+    "timeA": {
+      "at": 6712.59999999986,
+      "animations": [
+        {
+          "target": "NAV",
+          "cls": "hds-navigation-menu navigation-menu navigation-menu--homepage",
+          "time": null,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": "auto",
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "SPAN",
+          "cls": "",
+          "time": 0,
+          "state": "running",
+          "timing": {
+            "delay": 400,
+            "direction": "normal",
+            "duration": 325,
+            "easing": "cubic-bezier(0.33, 1, 0.68, 1)",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "SPAN",
+          "cls": "",
+          "time": 0,
+          "state": "running",
+          "timing": {
+            "delay": 400,
+            "direction": "normal",
+            "duration": 325,
+            "easing": "cubic-bezier(0.33, 1, 0.68, 1)",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "SPAN",
+          "cls": "",
+          "time": 0,
+          "state": "running",
+          "timing": {
+            "delay": 450,
+            "direction": "normal",
+            "duration": 325,
+            "easing": "cubic-bezier(0.33, 1, 0.68, 1)",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "SPAN",
+          "cls": "",
+          "time": 0,
+          "state": "running",
+          "timing": {
+            "delay": 450,
+            "direction": "normal",
+            "duration": 325,
+            "easing": "cubic-bezier(0.33, 1, 0.68, 1)",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ],
+      "videos": []
+    },
+    "timeB": {
+      "at": 10558.299999999814,
+      "animations": [
+        {
+          "target": "NAV",
+          "cls": "hds-navigation-menu navigation-menu navigation-menu--homepage",
+          "time": null,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": "auto",
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "SPAN",
+          "cls": "",
+          "time": 649.9029999998687,
+          "state": "running",
+          "timing": {
+            "delay": 450,
+            "direction": "normal",
+            "duration": 325,
+            "easing": "cubic-bezier(0.33, 1, 0.68, 1)",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "SPAN",
+          "cls": "",
+          "time": 649.9029999998687,
+          "state": "running",
+          "timing": {
+            "delay": 450,
+            "direction": "normal",
+            "duration": 325,
+            "easing": "cubic-bezier(0.33, 1, 0.68, 1)",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ],
+      "videos": []
+    },
+    "hover": {
+      "label": "Products",
+      "box": {
+        "x": 122,
+        "y": 18,
+        "width": 76.671875,
+        "height": 40
+      },
+      "before": {
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(6, 27, 49)",
+        "transform": "none",
+        "transition": "color 0.24s cubic-bezier(0.45, 0.05, 0.55, 0.95), background-color 0.24s cubic-bezier(0.45, 0.05, 0.55, 0.95), border-color 0.24s cubic-bezier(0.45, 0.05, 0.55, 0.95)",
+        "opacity": "1"
+      },
+      "samples": [
+        {
+          "at": 12449.5,
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(6, 27, 49)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 52
+        },
+        {
+          "at": 12709.5,
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(6, 27, 49)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 36
+        },
+        {
+          "at": 12824.699999999953,
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(6, 27, 49)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 35
+        },
+        {
+          "at": 12942.399999999907,
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(6, 27, 49)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 35
+        },
+        {
+          "at": 13074.09999999986,
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(6, 27, 49)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 35
+        },
+        {
+          "at": 13199,
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(6, 27, 49)",
+          "transform": "none",
+          "opacity": "1",
+          "animations": 35
+        }
+      ]
+    }
+  },
+  {
+    "id": "headspace",
+    "url": "https://www.headspace.com/",
+    "date": "2026-09-19T17:58:09.677Z",
+    "browser": "153.0.8010.12",
+    "viewport": "1280x800",
+    "finalUrl": "https://www.headspace.com/",
+    "title": "Mental Health App for Meditation & Sleep - Headspace",
+    "body": "Sword is acquiring Headspace to shape the future of mental healthcare. Learn more →\n\nFor You\nFor Business\nFor Providers\nOur Plans\nResources\nAbout\nLog in\nHelp\nTry for free\nStress less\nall with Headspace\n\nMental health app with expert-led meditations and tools\n\nTry for $0\n\nOnline therapy that\naccepts insurance\n\nCheck your coverage\nWhat kind of headspace are you looking for?\n\nStress less\n\nSleep soundly\n\nManage anxiety\n\nProcess thoughts\n\nPractice meditation\n\nStart therapy\n\nThe mental health app for every moment\nAI guidance\nGuided meditations\nSleep resources\nExpert-led programs\nOnline therapy\nAlways-there support\nUnpack what’s on your mind with Ebb, our empathetic AI companion, and get personalized recommendations based on how you’re feeling.\nChat with Ebb\nFeel-good  library\nExplore 1,000+ guid",
+    "timeA": {
+      "at": 10160.40000000014,
+      "animations": [
+        {
+          "target": "DIV",
+          "cls": "otFlat bottom ot-wo-title vertical-align-content",
+          "time": 683.399999999999,
+          "state": "running",
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 1000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "forwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ],
+      "videos": []
+    },
+    "timeB": {
+      "at": 13431.100000000093,
+      "animations": [],
+      "videos": []
+    }
+  }
+]

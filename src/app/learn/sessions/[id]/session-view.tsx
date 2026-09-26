@@ -1,24 +1,61 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Bot, ShieldCheck, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   TURN_CHARACTER_LIMIT,
-  type SessionMessage,
+  type SessionMessageRole,
   type SessionState,
+  type SessionStatus,
 } from "@/lib/sessions/contracts";
 import "./session-view.css";
 
-const statusText = (status: SessionState["session"]["status"]) => {
-  if (status === "awaiting_student")
-    return "Errby is waiting for your explanation.";
-  if (status === "evaluating")
-    return "Your answer is saved. Evaluation is not implemented in this build, so it is not graded yet.";
-  return "This session is not accepting a new answer right now.";
-};
+const statuses = {
+  ready: [
+    "Ready",
+    "Your session is ready. Refresh the saved session to check for its opening question.",
+  ],
+  awaiting_student: ["Your turn", "Errby is waiting for your explanation."],
+  evaluating: [
+    "Answer saved · not graded",
+    "Your answer is saved. Evaluation is not available yet, so it is not graded.",
+  ],
+  supervisor_pending: [
+    "Supervisor guidance pending",
+    "Guidance is not ready yet. Your explanation is not marked correct while you wait.",
+  ],
+  errby_ready: [
+    "Errby reply pending",
+    "Your next question is not ready to answer yet. Refresh the saved session to check for an update.",
+  ],
+  needs_review: [
+    "Needs review · unresolved",
+    "This session needs review. Uncertain answers remain unresolved and do not count as completed learning.",
+  ],
+  paused: [
+    "Paused",
+    "This session is paused. Your saved conversation is below; resuming is not available yet.",
+  ],
+  ended_incomplete: [
+    "Ended · incomplete",
+    "This session ended before all learning goals were demonstrated.",
+  ],
+  completed: ["Completed", "This saved session is marked complete."],
+} satisfies Record<SessionStatus, readonly [string, string]>;
 
-const roleLabel = (role: SessionMessage["role"]) =>
-  role === "student" ? "You" : role === "errby" ? "Errby" : "Supervisor";
+const speakers = {
+  student: { label: "You", detail: "Your explanation", Icon: UserRound },
+  errby: { label: "Errby", detail: "AI learning partner", Icon: Bot },
+  supervisor: {
+    label: "Supervisor",
+    detail: "Learning guidance",
+    Icon: ShieldCheck,
+  },
+} satisfies Record<
+  SessionMessageRole,
+  { label: string; detail: string; Icon: typeof Bot }
+>;
 
 export function SessionView({ id }: { id: string }) {
   const [state, setState] = useState<SessionState | null>(null);
@@ -26,8 +63,11 @@ export function SessionView({ id }: { id: string }) {
   const [notice, setNotice] = useState("");
   const [text, setText] = useState("");
   const [pending, setPending] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [reloadKey, setReloadKey] = useState(0);
-  const turnKey = useRef<string | null>(null);
+  const turn = useRef<{ text: string; sequence: number; key: string } | null>(
+    null,
+  );
   const answerInput = useRef<HTMLTextAreaElement>(null);
   const statusRegion = useRef<HTMLParagraphElement>(null);
 
@@ -35,6 +75,7 @@ export function SessionView({ id }: { id: string }) {
     const controller = new AbortController();
     async function load() {
       setLoadError("");
+      setLoading(true);
       try {
         const response = await fetch(
           `/api/sessions/${encodeURIComponent(id)}`,
@@ -44,7 +85,12 @@ export function SessionView({ id }: { id: string }) {
           },
         );
         const payload = await response.json().catch(() => null);
-        if (!response.ok || !payload?.session) {
+        if (controller.signal.aborted) return;
+        if (
+          !response.ok ||
+          !payload?.session ||
+          !Array.isArray(payload.messages)
+        ) {
           setLoadError(
             payload?.user_message ??
               "This session could not be loaded. Try again.",
@@ -52,11 +98,15 @@ export function SessionView({ id }: { id: string }) {
           return;
         }
         setState(payload as SessionState);
+        if (reloadKey > 0)
+          setNotice("Saved session refreshed. Any draft below stays unsent.");
       } catch {
         if (!controller.signal.aborted)
           setLoadError(
             "This session could not be loaded. Check your connection and try again.",
           );
+      } finally {
+        if (!controller.signal.aborted) setLoading(false);
       }
     }
     void load();
@@ -64,7 +114,13 @@ export function SessionView({ id }: { id: string }) {
   }, [id, reloadKey]);
 
   async function submitAnswer() {
-    if (!state || pending) return;
+    if (
+      !state ||
+      pending ||
+      loading ||
+      state.session.status !== "awaiting_student"
+    )
+      return;
     const trimmed = text.trim();
     if (!trimmed) {
       setNotice("Write your explanation first.");
@@ -73,7 +129,9 @@ export function SessionView({ id }: { id: string }) {
     }
     setPending(true);
     setNotice("");
-    turnKey.current ??= crypto.randomUUID();
+    const sequence = state.session.last_sequence;
+    if (turn.current?.text !== trimmed || turn.current.sequence !== sequence)
+      turn.current = { text: trimmed, sequence, key: crypto.randomUUID() };
     try {
       const response = await fetch(
         `/api/sessions/${encodeURIComponent(id)}/turns`,
@@ -82,20 +140,20 @@ export function SessionView({ id }: { id: string }) {
           headers: { "content-type": "application/json" },
           body: JSON.stringify({
             text: trimmed,
-            expected_sequence: state.session.last_sequence,
-            idempotency_key: turnKey.current,
+            expected_sequence: sequence,
+            idempotency_key: turn.current.key,
           }),
         },
       );
       const payload = await response.json().catch(() => null);
-      if (!response.ok || !payload?.message) {
+      if (!response.ok || !payload?.message || !payload?.session) {
         setNotice(
           payload?.user_message ??
-            "Your answer was not saved. Try again; your text is unchanged.",
+            "We could not confirm your answer was saved. Your text is unchanged. Retry or refresh the saved session.",
         );
         return;
       }
-      turnKey.current = null;
+      turn.current = null;
       setState({
         session: payload.session,
         messages: [...state.messages, payload.message],
@@ -105,7 +163,7 @@ export function SessionView({ id }: { id: string }) {
       requestAnimationFrame(() => statusRegion.current?.focus());
     } catch {
       setNotice(
-        "Your answer was not saved. Check your connection and try again; your text is unchanged.",
+        "We could not confirm your answer was saved. Check your connection, then retry or refresh the saved session. Your text is unchanged.",
       );
     } finally {
       setPending(false);
@@ -114,13 +172,19 @@ export function SessionView({ id }: { id: string }) {
 
   if (loadError)
     return (
-      <section aria-labelledby="session-error" className="mt-8">
+      <section aria-labelledby="session-error" className="session-shell mt-8">
         <h1 id="session-error" className="text-2xl font-semibold">
           Session unavailable
         </h1>
         <p role="alert" className="mt-3 text-muted-foreground">
           {loadError}
         </p>
+        {text && (
+          <p className="session-note">
+            Your unsent draft is still held in this tab. Retry loading to return
+            to it.
+          </p>
+        )}
         <Button
           type="button"
           variant="outline"
@@ -139,85 +203,135 @@ export function SessionView({ id }: { id: string }) {
       </p>
     );
 
+  const [statusLabel, statusDescription] = statuses[state.session.status];
+  const blocked =
+    state.session.status !== "awaiting_student" || pending || loading;
+  const goals = (
+    <ul>
+      {state.session.objective_labels.map((label, index) => (
+        <li key={index}>{label}</li>
+      ))}
+    </ul>
+  );
+
   return (
-    state && (
-      <section aria-labelledby="session-title" className="session-shell mt-8">
-        <p className="eyebrow">Teaching session</p>
-        <h1 id="session-title" className="text-2xl font-semibold">
-          {state.session.lesson_title}
-        </h1>
-        <p className="mt-2 text-muted-foreground">
-          {statusText(state.session.status)}
-        </p>
-
+    <section aria-labelledby="session-title" className="session-shell mt-8">
+      <header className="session-heading">
+        <div>
+          <p className="eyebrow">
+            Teaching session ·{" "}
+            {state.session.visibility === "private"
+              ? "Private"
+              : "Class lesson"}
+          </p>
+          <h1 id="session-title" className="text-2xl font-semibold">
+            {state.session.lesson_title}
+          </h1>
+        </div>
+        <Button
+          type="button"
+          variant="outline"
+          disabled={pending || loading}
+          onClick={() => setReloadKey((key) => key + 1)}
+        >
+          {loading ? "Refreshing…" : "Refresh saved session"}
+        </Button>
+      </header>
+      <p
+        id="session-status"
+        ref={statusRegion}
+        role="status"
+        aria-atomic="true"
+        tabIndex={-1}
+        className={`session-state session-state-${state.session.status}`}
+      >
+        <strong>{pending ? "Saving answer…" : statusLabel}</strong>
+        <span>{statusDescription}</span>
+        {notice && <span>{notice}</span>}
+      </p>
+      <div className="session-layout">
         {state.session.objective_labels.length > 0 && (
-          <aside className="mt-4" aria-label="What you will explain">
-            <h2 className="text-sm font-semibold">What you&apos;ll explain</h2>
-            <ul className="mt-1 list-disc pl-5 text-sm text-muted-foreground">
-              {state.session.objective_labels.map((label) => (
-                <li key={label}>{label}</li>
-              ))}
-            </ul>
-          </aside>
+          <>
+            <details className="session-goals-mobile">
+              <summary>
+                What you&apos;ll explain (
+                {state.session.objective_labels.length})
+              </summary>
+              {goals}
+            </details>
+            <aside
+              className="session-goals-desktop"
+              aria-label="What you will explain"
+            >
+              <h2>What you&apos;ll explain</h2>
+              {goals}
+            </aside>
+          </>
         )}
-
-        <ol className="session-messages mt-6 list-none p-0">
-          {state.messages.map((message) => (
-            <li
-              key={message.id}
-              className={`session-message session-${message.role}`}
-            >
-              <span className="session-role">{roleLabel(message.role)}</span>
-              <p>{message.text}</p>
-            </li>
-          ))}
-        </ol>
-
-        <form
-          className="session-composer mt-6"
-          onSubmit={(event) => {
-            event.preventDefault();
-            void submitAnswer();
-          }}
-        >
-          <label htmlFor="answer">Your explanation</label>
-          <textarea
-            id="answer"
-            ref={answerInput}
-            value={text}
-            onChange={(event) => {
-              setText(event.target.value);
-              setNotice("");
+        <div className="session-conversation">
+          <h2 className="sr-only" id="conversation-title">
+            Conversation
+          </h2>
+          <ol
+            aria-labelledby="conversation-title"
+            className="session-messages list-none p-0"
+          >
+            {state.messages.map((message) => {
+              const { label, detail, Icon } = speakers[message.role];
+              return (
+                <li
+                  key={message.id}
+                  className={`session-message session-${message.role}`}
+                >
+                  <div className="session-role">
+                    <Icon size={20} aria-hidden="true" />
+                    <span>{label}</span>
+                    <span className="session-role-detail">{detail}</span>
+                  </div>
+                  <p>{message.text}</p>
+                </li>
+              );
+            })}
+          </ol>
+          {state.messages.length === 0 && (
+            <p className="session-note">
+              There are no saved messages in this session yet.
+            </p>
+          )}
+          <form
+            className="session-composer mt-6"
+            aria-busy={pending}
+            onSubmit={(event) => {
+              event.preventDefault();
+              void submitAnswer();
             }}
-            rows={4}
-            maxLength={TURN_CHARACTER_LIMIT}
-            disabled={state.session.status !== "awaiting_student" || pending}
-            aria-describedby="answer-note session-status"
-          />
-          <div className="session-composer-footer">
-            <span id="answer-note">
-              {text.length}/{TURN_CHARACTER_LIMIT} characters · answers are
-              saved once per submission
-            </span>
-            <Button
-              type="submit"
-              disabled={state.session.status !== "awaiting_student" || pending}
-            >
-              {pending ? "Saving…" : "Send answer"}
-            </Button>
-          </div>
-        </form>
-        <p
-          id="session-status"
-          ref={statusRegion}
-          role="status"
-          tabIndex={-1}
-          className="session-note"
-        >
-          {notice ||
-            "Answers are saved but not graded in this build. Evaluation arrives with later work."}
-        </p>
-      </section>
-    )
+          >
+            <label htmlFor="answer">Your explanation</label>
+            <textarea
+              id="answer"
+              ref={answerInput}
+              value={text}
+              onChange={(event) => {
+                setText(event.target.value);
+                setNotice("");
+              }}
+              rows={4}
+              maxLength={TURN_CHARACTER_LIMIT}
+              disabled={blocked}
+              aria-describedby="answer-note session-status"
+            />
+            <div className="session-composer-footer">
+              <span id="answer-note">
+                {text.length}/{TURN_CHARACTER_LIMIT} characters · drafts stay in
+                this tab until you leave or reload the page
+              </span>
+              <Button type="submit" disabled={blocked}>
+                {pending ? "Saving…" : "Send answer"}
+              </Button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
   );
 }

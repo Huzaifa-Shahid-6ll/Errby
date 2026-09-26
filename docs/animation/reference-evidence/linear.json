@@ -1,0 +1,423 @@
+{
+  "id": "linear",
+  "url": "https://linear.app/",
+  "date": "2026-09-19T17:57:59.357Z",
+  "browser": "153.0.8010.12",
+  "viewport": "1280x800",
+  "finalUrl": "https://linear.app/",
+  "title": "Linear – The system for product development",
+  "body": "Skip to content →\nProduct\nResources\nCustomers\nPricing\nNow\nContact\nLog in\nSign up\nThe product development\nsystem for teams and agents\nThe product development system for teams and agents\n\nPurpose-built for planning and building products. Designed for the AI era.\n\nNew\nLoops →\nLinear\nPulse\nInbox\nMy issues\nReviews\nWorkspace\nInitiatives\nProjects\nMore\nFavorites\nFaster app launch\nAgent tasks\nAgent Insights\nUI Refresh\nDRV-8852\nFaster app launch\n1 / 84\nFaster app launch\n\nRender UI before vehicle_state sync when minimum required state is present, instead of blocking on full refresh during iOS startup.\n\nActivity\nLinear created the issue via Slack on behalf of Karri\n·\n2min ago\nTriage Intelligence added the labels Performance and iOS\n·\n2min ago\nkarri\n·\n4 min ago\nRight now we show a spinner forever, whic",
+  "timeA": {
+    "at": 2553.4000000001397,
+    "animations": [
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 0,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 0,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 0,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 0,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 0,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 0,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 0,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 0,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 0,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 0,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 0,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 0,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      }
+    ],
+    "videos": []
+  },
+  "timeB": {
+    "at": 5138.199999999953,
+    "animations": [
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 3183.2810000000204,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 3183.2810000000204,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 3183.2810000000204,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 3183.2810000000204,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 3183.2810000000204,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 3183.2810000000204,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 3183.2810000000204,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 3183.2810000000204,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 3183.2810000000204,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 3183.2810000000204,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 3183.2810000000204,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      },
+      {
+        "target": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "time": 3183.2810000000204,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 2800,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": null
+        }
+      }
+    ],
+    "videos": []
+  },
+  "hover": {
+    "label": "Skip to content →",
+    "box": {
+      "x": 0,
+      "y": 72,
+      "width": 1280,
+      "height": 32
+    },
+    "before": {
+      "background": "rgb(94, 106, 210)",
+      "color": "rgb(255, 255, 255)",
+      "transform": "none",
+      "transition": "all",
+      "opacity": "0"
+    }
+  },
+  "error": "locator.hover: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('a,button').first()\u001b[22m\n\u001b[2m    - locator resolved to <a href=\"#skip-nav\" class=\"LSqk9q_root\">Skip to content →</a>\u001b[22m\n\u001b[2m  - attempting h"
+}

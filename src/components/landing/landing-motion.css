@@ -1,0 +1,100 @@
+.landing-page {
+  --motion-feedback: 140ms;
+  --motion-state: 180ms;
+  --motion-greeting: 600ms;
+  --motion-ease-feedback: cubic-bezier(0.2, 0, 0, 1);
+  --motion-ease-arrive: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-greeting-angle: -3deg;
+  --motion-greeting-offset: 3px;
+}
+
+/* Keep targets and reading surfaces stationary; only decorative icons move. */
+.landing-page .landing-cta {
+  translate: none;
+  transition: background-color var(--motion-feedback)
+    var(--motion-ease-feedback);
+}
+
+.landing-page .landing-cta svg {
+  transition: transform var(--motion-feedback) var(--motion-ease-feedback);
+}
+
+.landing-page .landing-cta:active {
+  background-color: color-mix(in srgb, var(--primary) 86%, var(--text));
+}
+
+.landing-page details summary {
+  cursor: pointer;
+}
+
+.landing-page details summary svg {
+  transition: transform var(--motion-state) var(--motion-ease-feedback);
+}
+
+.landing-page details[open] summary svg {
+  transform: rotate(180deg);
+}
+
+.landing-page [data-landing-mascot] {
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .landing-page .landing-cta:hover svg {
+    transform: translateX(2px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .landing-page #example [data-landing-mascot] {
+    transform-origin: 50% 90%;
+    animation: landing-greeting var(--motion-greeting) var(--motion-ease-arrive)
+      both;
+  }
+}
+
+@media (max-width: 639px) {
+  .landing-page {
+    --motion-greeting: 480ms;
+    --motion-greeting-angle: -2deg;
+    --motion-greeting-offset: 2px;
+  }
+}
+
+@keyframes landing-greeting {
+  from {
+    transform: rotate(var(--motion-greeting-angle))
+      translateY(var(--motion-greeting-offset));
+  }
+  to {
+    transform: rotate(0) translateY(0);
+  }
+}
+
+.landing-page[data-motion="off"] *,
+.landing-page[data-motion="off"] *::before,
+.landing-page[data-motion="off"] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-page *,
+  .landing-page *::before,
+  .landing-page *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .landing-page .landing-cta {
+    border: 1px solid ButtonText;
+  }
+
+  .landing-page :focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 4px;
+  }
+}

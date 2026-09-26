@@ -1,0 +1,76 @@
+{
+  "id": "khanmigo-repeat",
+  "url": "https://www.khanmigo.ai/",
+  "date": "2026-09-19T17:59:58.950Z",
+  "viewport": "1280x800",
+  "browser": "153.0.8010.12",
+  "title": "Meet Khanmigo: Khan Academy's AI-powered teaching assistant & tutor",
+  "body": "Learners\nParents\nWriting Coach\nNew\nDistricts\nGet Khanmigo\nKhanmigo is your always-available\n tutor.\n\nFor teachers\n\nKnock something off your to-do list in minutes\n\nSign up for free\n\nFor districts\n\nExpert-led AI adoption for your schools\n\nLearn more\n\nFor writing\n\nAI-enhanced writing practice and instruction tool\n\nSign up for free\n“Forget ChatGPT. These are the best AI-powered apps.”\nKhanmigo receives an overall 4-star rating making it a top-rated A",
+  "samples": [
+    {
+      "at": 1963.5,
+      "h1": "Khanmigo is your always-available",
+      "animations": [
+        {
+          "cls": "otFloatingRoundedCorner ot-bottom-left vertical-align-content ot-buttons-fw",
+          "current": 799.9750000001877,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "forwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 2575.8000000000466,
+      "h1": "Khanmigo is your always-available",
+      "animations": [
+        {
+          "cls": "otFloatingRoundedCorner ot-bottom-left vertical-align-content ot-buttons-fw",
+          "current": 1416.5750000001879,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "forwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 3183,
+      "h1": "Khanmigo is your always-available",
+      "animations": []
+    },
+    {
+      "at": 3791.600000000093,
+      "h1": "Khanmigo is your always-available",
+      "animations": []
+    },
+    {
+      "at": 4397.800000000047,
+      "h1": "Khanmigo is your always-available",
+      "animations": []
+    }
+  ],
+  "hover": {
+    "label": "Learners",
+    "before": {
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(33, 36, 44)",
+      "transform": "none",
+      "transition": "all"
+    },
+    "error": "locator.hover: Timeout 1800ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('a,button').nth(1)\u001b[22"
+  }
+}

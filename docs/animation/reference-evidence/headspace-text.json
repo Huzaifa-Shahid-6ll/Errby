@@ -1,0 +1,767 @@
+{
+  "id": "headspace-text",
+  "url": "https://www.headspace.com/",
+  "date": "2026-09-19T18:00:31.094Z",
+  "samples": [
+    {
+      "at": 2668.2999999998137,
+      "text": "Sword is acquiring Headspace to shape the future of mental healthcare. Learn more →\n\nFor You\nWhat we offer\nMeditation\nOnline therapy\nMindfulness\nSleep\nMental health coaching\nEbb AI companion\nHow we help\nAnxiety\nStress\nSleep better\nMental health\nMindful families\nExplore our library\nNew and popular\nGuided courses\nBeginning meditation\nCalming everyday",
+      "animations": []
+    },
+    {
+      "at": 3220.399999999907,
+      "text": "Sword is acquiring Headspace to shape the future of mental healthcare. Learn more →\n\nFor You\nWhat we offer\nMeditation\nOnline therapy\nMindfulness\nSleep\nMental health coaching\nEbb AI companion\nHow we help\nAnxiety\nStress\nSleep better\nMental health\nMindful families\nExplore our library\nNew and popular\nGuided courses\nBeginning meditation\nCalming everyday",
+      "animations": [
+        {
+          "target": "<div data-testid=\"hero-headline-variant-module-title\" class=\"css-m6qmz1\" style=\"opacity: 0; transform: translateY(29.3333px);\">Stress less</div>",
+          "rect": {
+            "x": 24,
+            "y": 175.83334350585938,
+            "width": 1232,
+            "height": 44,
+            "top": 175.83334350585938,
+            "right": 1256,
+            "bottom": 219.83334350585938,
+            "left": 24
+          },
+          "frames": [
+            {
+              "offset": null,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "0",
+              "computedOffset": 0
+            },
+            {
+              "offset": null,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "1",
+              "computedOffset": 1
+            }
+          ],
+          "time": 33.30000000018618,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<div class=\"css-eahfdh\" style=\"opacity: 1;\"><div class=\"css-5fdnnx\" data-testid=\"hero-with-carousel-image-container\"><div class=\"css-1ghcia1\" data-testid=\"image\"><div class=\"css-1bxarir\"><img aria-hidden=\"true\" alt=\"\" fetchpriority=\"auto\" loading=\"lazy\" width=\"800\" height=\"686\" decoding=\"async\" data-nimg=\"1\" srcset=\"https://headspace-contentful.imgix.net/5pirBM9z8X75FdOGjFnBID/c378cfeff2a4f8fa03ac",
+          "rect": {
+            "x": 580.796875,
+            "y": 3078.3125,
+            "width": 651.1875,
+            "height": 476.0625,
+            "top": 3078.3125,
+            "right": 1231.984375,
+            "bottom": 3554.375,
+            "left": 580.796875
+          },
+          "frames": [
+            {
+              "offset": null,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "1",
+              "computedOffset": 0
+            },
+            {
+              "offset": null,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "0",
+              "computedOffset": 1
+            }
+          ],
+          "time": 33.30000000018618,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 750,
+            "easing": "ease-out",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 3724.899999999907,
+      "text": "Sword is acquiring Headspace to shape the future of mental healthcare. Learn more →\n\nFor You\nFor Business\nFor Providers\nOur Plans\nResources\nAbout\nLog in\nHelp\nTry for free\nStress less\nall with Headspace\n\nMental health app with expert-led meditations and tools\n\nTry for $0\n\nOnline therapy that\naccepts insurance\n\nCheck your coverage\nWhat kind of headsp",
+      "animations": [
+        {
+          "target": "<span id=\"ot-sdk-btn\" class=\"ot-sdk-show-settings\">Your privacy choices</span>",
+          "rect": {
+            "x": 182,
+            "y": 8006.578125,
+            "width": 106.71875,
+            "height": 15,
+            "top": 8006.578125,
+            "right": 288.71875,
+            "bottom": 8021.578125,
+            "left": 182
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "borderBottomColor": "rgb(0, 0, 0)",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "borderBottomColor": "rgb(45, 44, 43)",
+              "computedOffset": 1
+            }
+          ],
+          "time": 83.29999999999993,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 100,
+            "easing": "ease",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<span id=\"ot-sdk-btn\" class=\"ot-sdk-show-settings\">Your privacy choices</span>",
+          "rect": {
+            "x": 182,
+            "y": 8006.578125,
+            "width": 106.71875,
+            "height": 15,
+            "top": 8006.578125,
+            "right": 288.71875,
+            "bottom": 8021.578125,
+            "left": 182
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "borderLeftColor": "rgb(0, 0, 0)",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "borderLeftColor": "rgb(45, 44, 43)",
+              "computedOffset": 1
+            }
+          ],
+          "time": 83.29999999999993,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 100,
+            "easing": "ease",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<span id=\"ot-sdk-btn\" class=\"ot-sdk-show-settings\">Your privacy choices</span>",
+          "rect": {
+            "x": 182,
+            "y": 8006.578125,
+            "width": 106.71875,
+            "height": 15,
+            "top": 8006.578125,
+            "right": 288.71875,
+            "bottom": 8021.578125,
+            "left": 182
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "borderRightColor": "rgb(0, 0, 0)",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "borderRightColor": "rgb(45, 44, 43)",
+              "computedOffset": 1
+            }
+          ],
+          "time": 83.29999999999993,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 100,
+            "easing": "ease",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<span id=\"ot-sdk-btn\" class=\"ot-sdk-show-settings\">Your privacy choices</span>",
+          "rect": {
+            "x": 182,
+            "y": 8006.578125,
+            "width": 106.71875,
+            "height": 15,
+            "top": 8006.578125,
+            "right": 288.71875,
+            "bottom": 8021.578125,
+            "left": 182
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "borderTopColor": "rgb(0, 0, 0)",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "borderTopColor": "rgb(45, 44, 43)",
+              "computedOffset": 1
+            }
+          ],
+          "time": 83.29999999999993,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 100,
+            "easing": "ease",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<div id=\"onetrust-banner-sdk\" class=\"otFlat bottom ot-wo-title vertical-align-content\" tabindex=\"0\" role=\"region\" aria-label=\"Cookie banner\" style=\"\n                animation-timing-function: ease-out;\n                animation-fill-mode: forwards;\n                animation-duration: 1000ms;animation-name: slide-down-custom;bottom: -99px;\"><div role=\"alertdialog\" aria-describedby=\"onetrust-policy-",
+          "rect": {
+            "x": 0,
+            "y": 797.109375,
+            "width": 1280,
+            "height": 88.546875,
+            "top": 797.109375,
+            "right": 1280,
+            "bottom": 885.65625,
+            "left": 0
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "ease-out",
+              "composite": "auto",
+              "bottom": "-99px",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "ease-out",
+              "composite": "auto",
+              "bottom": "0px",
+              "computedOffset": 1
+            }
+          ],
+          "time": 83.29999999999993,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 1000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "forwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 4239.899999999907,
+      "text": "Sword is acquiring Headspace to shape the future of mental healthcare. Learn more →\n\nFor You\nFor Business\nFor Providers\nOur Plans\nResources\nAbout\nLog in\nHelp\nTry for free\nStress less\nall with Headspace\n\nMental health app with expert-led meditations and tools\n\nTry for $0\n\nOnline therapy that\naccepts insurance\n\nCheck your coverage\nWhat kind of headsp",
+      "animations": [
+        {
+          "target": "<span id=\"ot-sdk-btn\" class=\"ot-sdk-show-settings\">Your privacy choices</span>",
+          "rect": {
+            "x": 246,
+            "y": 7860.875,
+            "width": 106.71875,
+            "height": 15,
+            "top": 7860.875,
+            "right": 352.71875,
+            "bottom": 7875.875,
+            "left": 246
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "borderBottomColor": "rgb(0, 0, 0)",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "borderBottomColor": "rgb(45, 44, 43)",
+              "computedOffset": 1
+            }
+          ],
+          "time": 416.5999999999994,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 100,
+            "easing": "ease",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<span id=\"ot-sdk-btn\" class=\"ot-sdk-show-settings\">Your privacy choices</span>",
+          "rect": {
+            "x": 246,
+            "y": 7860.875,
+            "width": 106.71875,
+            "height": 15,
+            "top": 7860.875,
+            "right": 352.71875,
+            "bottom": 7875.875,
+            "left": 246
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "borderLeftColor": "rgb(0, 0, 0)",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "borderLeftColor": "rgb(45, 44, 43)",
+              "computedOffset": 1
+            }
+          ],
+          "time": 416.5999999999994,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 100,
+            "easing": "ease",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<span id=\"ot-sdk-btn\" class=\"ot-sdk-show-settings\">Your privacy choices</span>",
+          "rect": {
+            "x": 246,
+            "y": 7860.875,
+            "width": 106.71875,
+            "height": 15,
+            "top": 7860.875,
+            "right": 352.71875,
+            "bottom": 7875.875,
+            "left": 246
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "borderRightColor": "rgb(0, 0, 0)",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "borderRightColor": "rgb(45, 44, 43)",
+              "computedOffset": 1
+            }
+          ],
+          "time": 416.5999999999994,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 100,
+            "easing": "ease",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<span id=\"ot-sdk-btn\" class=\"ot-sdk-show-settings\">Your privacy choices</span>",
+          "rect": {
+            "x": 246,
+            "y": 7860.875,
+            "width": 106.71875,
+            "height": 15,
+            "top": 7860.875,
+            "right": 352.71875,
+            "bottom": 7875.875,
+            "left": 246
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "borderTopColor": "rgb(0, 0, 0)",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "borderTopColor": "rgb(45, 44, 43)",
+              "computedOffset": 1
+            }
+          ],
+          "time": 416.5999999999994,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 100,
+            "easing": "ease",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<span id=\"ot-sdk-btn\" class=\"ot-sdk-show-settings\">Your privacy choices</span>",
+          "rect": {
+            "x": 246,
+            "y": 7860.875,
+            "width": 106.71875,
+            "height": 15,
+            "top": 7860.875,
+            "right": 352.71875,
+            "bottom": 7875.875,
+            "left": 246
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "lineHeight": "1.15",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "lineHeight": "1.2",
+              "computedOffset": 1
+            }
+          ],
+          "time": 416.5999999999994,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 100,
+            "easing": "ease",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 4752.899999999907,
+      "text": "Sword is acquiring Headspace to shape the future of mental healthcare. Learn more →\n\nFor You\nFor Business\nFor Providers\nOur Plans\nResources\nAbout\nLog in\nHelp\nTry for free\nStress less\nall with Headspace\n\nMental health app with expert-led meditations and tools\n\nTry for $0\n\nOnline therapy that\naccepts insurance\n\nCheck your coverage\nWhat kind of headsp",
+      "animations": [
+        {
+          "target": "<span id=\"ot-sdk-btn\" class=\"ot-sdk-show-settings\">Your privacy choices</span>",
+          "rect": {
+            "x": 246,
+            "y": 7860.875,
+            "width": 106.71875,
+            "height": 15,
+            "top": 7860.875,
+            "right": 352.71875,
+            "bottom": 7875.875,
+            "left": 246
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "borderBottomColor": "rgb(0, 0, 0)",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "borderBottomColor": "rgb(45, 44, 43)",
+              "computedOffset": 1
+            }
+          ],
+          "time": 999.9999999999995,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 100,
+            "easing": "ease",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<span id=\"ot-sdk-btn\" class=\"ot-sdk-show-settings\">Your privacy choices</span>",
+          "rect": {
+            "x": 246,
+            "y": 7860.875,
+            "width": 106.71875,
+            "height": 15,
+            "top": 7860.875,
+            "right": 352.71875,
+            "bottom": 7875.875,
+            "left": 246
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "borderLeftColor": "rgb(0, 0, 0)",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "borderLeftColor": "rgb(45, 44, 43)",
+              "computedOffset": 1
+            }
+          ],
+          "time": 999.9999999999995,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 100,
+            "easing": "ease",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<span id=\"ot-sdk-btn\" class=\"ot-sdk-show-settings\">Your privacy choices</span>",
+          "rect": {
+            "x": 246,
+            "y": 7860.875,
+            "width": 106.71875,
+            "height": 15,
+            "top": 7860.875,
+            "right": 352.71875,
+            "bottom": 7875.875,
+            "left": 246
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "borderRightColor": "rgb(0, 0, 0)",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "borderRightColor": "rgb(45, 44, 43)",
+              "computedOffset": 1
+            }
+          ],
+          "time": 999.9999999999995,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 100,
+            "easing": "ease",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<span id=\"ot-sdk-btn\" class=\"ot-sdk-show-settings\">Your privacy choices</span>",
+          "rect": {
+            "x": 246,
+            "y": 7860.875,
+            "width": 106.71875,
+            "height": 15,
+            "top": 7860.875,
+            "right": 352.71875,
+            "bottom": 7875.875,
+            "left": 246
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "borderTopColor": "rgb(0, 0, 0)",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "borderTopColor": "rgb(45, 44, 43)",
+              "computedOffset": 1
+            }
+          ],
+          "time": 999.9999999999995,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 100,
+            "easing": "ease",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<span id=\"ot-sdk-btn\" class=\"ot-sdk-show-settings\">Your privacy choices</span>",
+          "rect": {
+            "x": 246,
+            "y": 7860.875,
+            "width": 106.71875,
+            "height": 15,
+            "top": 7860.875,
+            "right": 352.71875,
+            "bottom": 7875.875,
+            "left": 246
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "linear",
+              "composite": "auto",
+              "lineHeight": "1.15",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "linear",
+              "composite": "auto",
+              "lineHeight": "1.2",
+              "computedOffset": 1
+            }
+          ],
+          "time": 999.9999999999995,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 100,
+            "easing": "ease",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 5265.59999999986,
+      "text": "Sword is acquiring Headspace to shape the future of mental healthcare. Learn more →\n\nFor You\nFor Business\nFor Providers\nOur Plans\nResources\nAbout\nLog in\nHelp\nTry for free\nStress less\nall with Headspace\n\nMental health app with expert-led meditations and tools\n\nTry for $0\n\nOnline therapy that\naccepts insurance\n\nCheck your coverage\nWhat kind of headsp",
+      "animations": [
+        {
+          "target": "<div data-testid=\"hero-headline-variant-module-title\" class=\"css-m6qmz1\" style=\"opacity: 1; transform: translateY(-21.8333px);\">Stress less</div>",
+          "rect": {
+            "x": 24,
+            "y": 124.66666412353516,
+            "width": 1232,
+            "height": 44.00000762939453,
+            "top": 124.66666412353516,
+            "right": 1256,
+            "bottom": 168.6666717529297,
+            "left": 24
+          },
+          "frames": [
+            {
+              "offset": null,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "1",
+              "computedOffset": 0
+            },
+            {
+              "offset": null,
+              "easing": "linear",
+              "composite": "auto",
+              "opacity": "0",
+              "computedOffset": 1
+            }
+          ],
+          "time": 129.1000000000473,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 5777.5,
+      "text": "Sword is acquiring Headspace to shape the future of mental healthcare. Learn more →\n\nFor You\nFor Business\nFor Providers\nOur Plans\nResources\nAbout\nLog in\nHelp\nTry for free\nSleep better\nall with Headspace\n\nMental health app with expert-led meditations and tools\n\nTry for $0\n\nOnline therapy that\naccepts insurance\n\nCheck your coverage\nWhat kind of heads",
+      "animations": []
+    }
+  ]
+}

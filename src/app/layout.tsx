@@ -22,9 +22,18 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       data-scroll-behavior="smooth"
       className={cn("font-sans", manrope.variable, figtreeHeading.variable)}
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{const dark=localStorage.getItem('errby-theme')==='dark';document.documentElement.classList.toggle('dark',dark);document.documentElement.style.colorScheme=dark?'dark':'light'}catch{}",
+          }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

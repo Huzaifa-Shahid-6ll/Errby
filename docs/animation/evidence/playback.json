@@ -1,0 +1,124 @@
+{
+  "browser": "153.0.8010.12",
+  "date": "2026-09-19T18:10:31.131Z",
+  "frames": [
+    {
+      "theme": "light",
+      "progress": 0,
+      "time": 0,
+      "transform": "matrix(0.99863, -0.052336, 0.052336, 0.99863, 0.157008, 2.99589)",
+      "opacity": "1"
+    },
+    {
+      "theme": "light",
+      "progress": 0.5,
+      "time": 300,
+      "transform": "matrix(0.999999, -0.00147764, 0.00147764, 0.999999, 0.000125101, 0.0846626)",
+      "opacity": "1"
+    },
+    {
+      "theme": "light",
+      "progress": 1,
+      "time": 600,
+      "transform": "matrix(1, 0, 0, 1, 0, 0)",
+      "opacity": "1"
+    },
+    {
+      "theme": "dark",
+      "progress": 0,
+      "time": 0,
+      "transform": "matrix(0.99863, -0.052336, 0.052336, 0.99863, 0.157008, 2.99589)",
+      "opacity": "1"
+    },
+    {
+      "theme": "dark",
+      "progress": 0.5,
+      "time": 300,
+      "transform": "matrix(0.999999, -0.00147764, 0.00147764, 0.999999, 0.000125101, 0.0846626)",
+      "opacity": "1"
+    },
+    {
+      "theme": "dark",
+      "progress": 1,
+      "time": 600,
+      "transform": "matrix(1, 0, 0, 1, 0, 0)",
+      "opacity": "1"
+    },
+    {
+      "time": 2669.1999999997206,
+      "animationTime": 0,
+      "transform": "matrix(0.99863, -0.052336, 0.052336, 0.99863, 0.157008, 2.99589)"
+    },
+    {
+      "time": 2894.6999999997206,
+      "animationTime": 54.18525000000096,
+      "transform": "matrix(0.999598, -0.0283631, 0.0283631, 0.999598, 0.0460985, 1.62465)"
+    },
+    {
+      "time": 3031.5999999996275,
+      "animationTime": 87.51025000000101,
+      "transform": "matrix(0.999818, -0.0190698, 0.0190698, 0.999818, 0.0208373, 1.09249)"
+    },
+    {
+      "time": 3170.2999999998137,
+      "animationTime": 120.84225000000104,
+      "transform": "matrix(0.999917, -0.0128502, 0.0128502, 0.999917, 0.00946142, 0.736223)"
+    },
+    {
+      "time": 3311.5999999996275,
+      "animationTime": 158.33525000000103,
+      "transform": "matrix(0.999966, -0.00828331, 0.00828331, 0.999966, 0.00393129, 0.474588)"
+    },
+    {
+      "time": 3532.2999999998137,
+      "animationTime": 212.48525000000095,
+      "transform": "matrix(0.99999, -0.00438777, 0.00438777, 0.99999, 0.00110309, 0.251399)"
+    },
+    {
+      "time": 3662.899999999907,
+      "animationTime": 245.83525000000094,
+      "transform": "matrix(0.999996, -0.00293794, 0.00293794, 0.999996, 0.000494547, 0.168331)"
+    }
+  ],
+  "console": [],
+  "networkFailures": [],
+  "interrupted": {
+    "transform": "none",
+    "animations": 0
+  },
+  "pressed": {
+    "translate": "none",
+    "transform": "none",
+    "rect": {
+      "x": 61.46875,
+      "y": 499.921875,
+      "width": 200,
+      "height": 52,
+      "top": 499.921875,
+      "right": 261.46875,
+      "bottom": 551.921875,
+      "left": 61.46875
+    }
+  },
+  "hoverTarget": {
+    "x": 61.46875,
+    "y": 499.921875,
+    "width": 200,
+    "height": 52
+  },
+  "lifecycle": {
+    "method": "CDP frozen→active; not a physical background-tab test",
+    "headline": "Teach Errby.\nCatch its mistakes.\nExplain your thinking."
+  },
+  "video": "G:\\ONGOING PROJECTS\\Errby\\docs\\animation\\evidence\\video\\page@408d2611fcb9d75e6868080f01a534e3.webm",
+  "slowImages": {
+    "delayMs": 1500,
+    "headline": "Teach Errby.\nCatch its mistakes.\nExplain your thinking.",
+    "turns": 4,
+    "destination": "http://127.0.0.1:3001/#example"
+  },
+  "rtlStress": {
+    "overflow": false,
+    "note": "Structural stress only; English product is not localized"
+  }
+}

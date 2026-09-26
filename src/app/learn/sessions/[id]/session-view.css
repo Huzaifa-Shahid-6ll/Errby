@@ -1,5 +1,8 @@
 .session-shell {
+  min-width: 0;
   overflow-wrap: anywhere;
+  font-size: 1rem;
+  line-height: 1.65;
 }
 .session-shell button {
   min-width: 44px;
@@ -7,32 +10,124 @@
   height: auto;
   white-space: normal;
 }
+.session-shell button[data-variant="outline"] {
+  color: var(--text);
+  background: var(--surface);
+}
 .session-messages {
   display: grid;
   gap: 12px;
+}
+.session-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.session-heading > div {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+.session-state {
+  display: grid;
+  gap: 4px;
+  padding: 16px;
+  margin: 24px 0;
+  background: var(--surface);
+  border: 1px solid var(--control-border);
+  border-radius: 12px;
+}
+.session-state > span {
+  color: var(--secondary);
+}
+.session-state-needs_review {
+  border-left: 4px double var(--supervisor-edge);
+}
+.session-layout {
+  display: grid;
+  gap: 24px;
+}
+.session-conversation {
+  min-width: 0;
+}
+.session-goals-desktop {
+  display: none;
+}
+.session-goals-mobile,
+.session-goals-desktop {
+  padding: 16px;
+  background: var(--surface);
+  border-radius: 12px;
+}
+.session-layout summary {
+  min-height: 44px;
+  cursor: pointer;
+}
+.session-layout summary,
+.session-layout h2,
+.session-composer label {
+  font-weight: 600;
+}
+.session-goals-mobile ul,
+.session-goals-desktop ul {
+  list-style: disc;
+  padding-left: 20px;
+  color: var(--secondary);
+}
+.session-goals-mobile li,
+.session-goals-desktop li {
+  margin-top: 8px;
 }
 .session-message {
   display: grid;
   gap: 4px;
   max-width: 100%;
   border: 1px solid var(--control-border);
-  border-radius: 8px;
-  padding: 12px;
+  border-radius: 12px;
+  padding: 16px;
   background: var(--surface);
   color: var(--text);
 }
+.session-message > p {
+  white-space: pre-wrap;
+}
 .session-role {
-  font-size: 13px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
   font-weight: 600;
   color: var(--secondary);
 }
-/* Role identity is a visible text label plus a border style, never colour alone. */
+.session-role svg {
+  flex-shrink: 0;
+}
+.session-role-detail {
+  font-weight: 400;
+}
+/* Names, distinct icons and boundaries preserve identity without colour. */
 .session-errby {
+  background: var(--errby-surface);
   border-left-width: 4px;
 }
+.session-errby .session-role {
+  color: var(--errby-text);
+}
 .session-student {
-  border-left-width: 4px;
-  border-left-style: dashed;
+  margin-left: 20px;
+  border-right-width: 4px;
+  border-right-style: dashed;
+}
+.session-supervisor {
+  background: var(--supervisor-surface);
+  color: var(--supervisor-text);
+  border: 1px solid var(--supervisor-edge);
+  border-left: 6px double var(--supervisor-edge);
+}
+.session-supervisor .session-role {
+  color: var(--supervisor-text);
 }
 .session-composer {
   display: grid;
@@ -47,6 +142,28 @@
   color: var(--text);
   padding: 10px;
   font: inherit;
+  resize: vertical;
+}
+.session-composer textarea:disabled {
+  cursor: not-allowed;
+}
+@media (min-width: 900px) {
+  .session-layout {
+    grid-template-columns: minmax(0, 1fr) 240px;
+    align-items: start;
+  }
+  .session-conversation {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .session-goals-desktop {
+    display: block;
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .session-goals-mobile {
+    display: none;
+  }
 }
 .session-composer-footer {
   display: flex;
@@ -57,10 +174,10 @@
 }
 .session-composer-footer > span {
   color: var(--secondary);
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 .session-note {
   margin-top: 12px;
   color: var(--secondary);
-  font-size: 14px;
+  font-size: 0.875rem;
 }

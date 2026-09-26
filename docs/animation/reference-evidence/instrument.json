@@ -1,0 +1,312 @@
+{
+  "id": "instrument",
+  "url": "https://www.instrument.com/",
+  "date": "2026-09-19T17:57:47.985Z",
+  "browser": "153.0.8010.12",
+  "viewport": "1280x800",
+  "finalUrl": "https://www.instrument.com/",
+  "title": "Instrument | A technology-led brand, product, & marketing agency | Instrument",
+  "body": "Skip Navigation\nWORK\nSERVICES\nABOUT\nCAREERS\nLATEST\nCONTACT\n\nWe’re a digital-first design agency where creativity meets technology.\nView All Work\n\nRECENT WORK\nALL\nBRAND\nMARKETING\nPRODUCT\nCLIENT ROSTER\nSelect clients include: Nike, Google, Oura , ServiceNow, EA, Netflix, Spotify, Pinterest, Microsoft, Patagonia, Uber, Marriot, Instagram, Sephora, Sonos, Paypal, Levi's, NBA, Nordstrom, Stripe, Salesforce, Salesforce\nSERVICES\nWe make brands, products, websites, and campaigns.\n\nWe design across brand, product, and marketing, so\nevery touchpoint works together and tells the same story.\n\nSee our offerings\nRECENT RECOGNITION\nSelect clients include: The Drum Awards, B2 Awards, The Webbys, Fast Company, Awwwards, Indigo Awards, Campaign AOTY, Anthem Awards 2025, W3 Awards, instrument-the-adc-awards-",
+  "timeA": {
+    "at": 5503.09999999986,
+    "animations": [
+      {
+        "target": "DIV",
+        "cls": "global-logo",
+        "time": 66.69999999999999,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "DIV",
+        "cls": "global-logo",
+        "time": 0,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      }
+    ],
+    "videos": []
+  },
+  "timeB": {
+    "at": 9211.09999999986,
+    "animations": [
+      {
+        "target": "DIV",
+        "cls": "gdpr v-enter-active v-enter-to",
+        "time": 499.93600000011276,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 500,
+          "easing": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "SPAN",
+        "cls": "shape",
+        "time": 99.89999999999988,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 250,
+          "easing": "ease-in-out",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "SPAN",
+        "cls": "label",
+        "time": 99.89999999999988,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "DIV",
+        "cls": "client-list-rotator__client active",
+        "time": 216.59999999999968,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "ease-in-out",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "DIV",
+        "cls": "client-list-rotator__client active",
+        "time": 216.59999999999968,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "ease-in-out",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "DIV",
+        "cls": "client-list-rotator__client active",
+        "time": 216.59999999999968,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "ease-in-out",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "DIV",
+        "cls": "client-list-rotator__client active",
+        "time": 99.89999999999988,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "ease-in-out",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "DIV",
+        "cls": "client-list-rotator__client active",
+        "time": 99.89999999999988,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "ease-in-out",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "DIV",
+        "cls": "client-list-rotator__client active",
+        "time": 99.89999999999988,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "ease-in-out",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "DIV",
+        "cls": "client-list-rotator__client active",
+        "time": 16.599999999999504,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "ease-in-out",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "DIV",
+        "cls": "client-list-rotator__client active",
+        "time": 16.599999999999504,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "ease-in-out",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "DIV",
+        "cls": "client-list-rotator__client active",
+        "time": 16.599999999999504,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 300,
+          "easing": "ease-in-out",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      }
+    ],
+    "videos": []
+  },
+  "hover": {
+    "label": "ENABLE COOKIES",
+    "box": {
+      "x": 887.5,
+      "y": 683.515625,
+      "width": 146.390625,
+      "height": 61.484375
+    },
+    "before": {
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(7, 7, 8)",
+      "transform": "none",
+      "transition": "all",
+      "opacity": "1"
+    },
+    "samples": [
+      {
+        "at": 10078.399999999907,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(7, 7, 8)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 1
+      },
+      {
+        "at": 10198.899999999907,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(7, 7, 8)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 24
+      },
+      {
+        "at": 10380.199999999953,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(7, 7, 8)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 40
+      },
+      {
+        "at": 10828.399999999907,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(7, 7, 8)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 39
+      },
+      {
+        "at": 10937.09999999986,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(7, 7, 8)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 39
+      },
+      {
+        "at": 11049.59999999986,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(7, 7, 8)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 3
+      }
+    ]
+  }
+}

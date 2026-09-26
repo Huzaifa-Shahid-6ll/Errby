@@ -8,12 +8,13 @@ export default async function SessionPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
   return (
-    <main className="mx-auto max-w-3xl p-6 sm:p-10">
+    <main className="mx-auto max-w-6xl p-6 sm:p-10">
       <Link href="/learn" className="underline">
         Back to learning workspace
       </Link>
-      <SessionView id={(await params).id} />
+      <SessionView key={id} id={id} />
     </main>
   );
 }

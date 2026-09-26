@@ -1,0 +1,1344 @@
+{
+  "phase": "before",
+  "date": "2026-09-19T18:02:02.750Z",
+  "browser": "153.0.8010.12",
+  "url": "http://127.0.0.1:3001",
+  "conditions": "Windows, headless Chromium, 1366x768 DPR1, localhost, no network throttling, precompiled dev server, each cold run fresh context; warm reload same context. CPU4 is CDP emulation, not a real low-end phone.",
+  "samples": [
+    {
+      "cpu": 1,
+      "run": 0,
+      "cache": "cold",
+      "lcp": 216,
+      "cls": 0,
+      "longTasks": [
+        61,
+        94
+      ],
+      "events": [
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        },
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        },
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        }
+      ],
+      "navigation": {
+        "name": "http://127.0.0.1:3001/",
+        "entryType": "navigation",
+        "startTime": 0,
+        "duration": 305.79999999981374,
+        "navigationId": 704,
+        "initiatorType": "navigation",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.1",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "text/html",
+        "contentEncoding": "gzip",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 0.19999999995343387,
+        "domainLookupStart": 1.3999999999068677,
+        "domainLookupEnd": 2.7999999998137355,
+        "connectStart": 2.7999999998137355,
+        "secureConnectionStart": 0,
+        "connectEnd": 3.3999999999068677,
+        "requestStart": 3.5,
+        "responseStart": 81.79999999981374,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 81.79999999981374,
+        "responseEnd": 84.5999999998603,
+        "transferSize": 13266,
+        "encodedBodySize": 12966,
+        "decodedBodySize": 72527,
+        "responseStatus": 200,
+        "serverTiming": [],
+        "unloadEventStart": 0,
+        "unloadEventEnd": 0,
+        "domInteractive": 109.29999999981374,
+        "domContentLoadedEventStart": 109.29999999981374,
+        "domContentLoadedEventEnd": 109.29999999981374,
+        "domComplete": 305.79999999981374,
+        "loadEventStart": 305.79999999981374,
+        "loadEventEnd": 305.79999999981374,
+        "type": "navigate",
+        "redirectCount": 0,
+        "activationStart": 0,
+        "criticalCHRestart": 0,
+        "notRestoredReasons": null,
+        "confidence": {
+          "randomizedTriggerRate": 0.4994798,
+          "value": "high"
+        }
+      },
+      "resources": [
+        {
+          "name": "http://127.0.0.1:3001/_next/static/media/a343f882a40d2cc9-s.p.1sj6eobyi31rd.woff2",
+          "transfer": 24876,
+          "encoded": 24576
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/media/f7aa21714c1c53f8-s.p.0-95eo-012xnf.woff2",
+          "transfer": 20484,
+          "encoded": 20184
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/image?url=%2Fimages%2Ferrby-mascot.png&w=256&q=75",
+          "transfer": 12846,
+          "encoded": 12546
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/%5Broot-of-the-server%5D__1sukl66._.css",
+          "transfer": 13808,
+          "encoded": 13508
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/src_components_landing_landing-page_module_04e8fd9.css",
+          "transfer": 4422,
+          "encoded": 4122
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1di75ot._.js",
+          "transfer": 894,
+          "encoded": 594
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_164kp-6._.js",
+          "transfer": 32489,
+          "encoded": 32189
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js",
+          "transfer": 184806,
+          "encoded": 184506
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_next-devtools_index_090k2jm.js",
+          "transfer": 250260,
+          "encoded": 249960
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_1amofcm._.js",
+          "transfer": 27306,
+          "encoded": 27006
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_client_0_90u2t._.js",
+          "transfer": 194523,
+          "encoded": 194223
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js",
+          "transfer": 33343,
+          "encoded": 33043
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/_1anvha4._.js",
+          "transfer": 1134,
+          "encoded": 834
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_%40swc_helpers_cjs_1r9vbqw._.js",
+          "transfer": 1040,
+          "encoded": 740
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/_219uq1s._.js",
+          "transfer": 770,
+          "encoded": 470
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/turbopack-_08bm286._.js",
+          "transfer": 26369,
+          "encoded": 26069
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_20wefz_._.js",
+          "transfer": 14893,
+          "encoded": 14593
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_061ps_9._.js",
+          "transfer": 59793,
+          "encoded": 59493
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/src_components_0qj-wkl._.js",
+          "transfer": 2850,
+          "encoded": 2550
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/image?url=%2Fimages%2Flearner-avatar.png&w=48&q=75",
+          "transfer": 1886,
+          "encoded": 1586
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1mojsay._.js",
+          "transfer": 4176,
+          "encoded": 3876
+        }
+      ],
+      "active": 0,
+      "frameP95": 16.700000000000045,
+      "frameMax": 16.800000000000182,
+      "frameCount": 97,
+      "errors": [],
+      "cdp": {
+        "LayoutDuration": 0.064505,
+        "RecalcStyleDuration": 0.020079,
+        "ScriptDuration": 0.125452,
+        "TaskDuration": 0.438818,
+        "JSHeapUsedSize": 10297356
+      }
+    },
+    {
+      "cpu": 1,
+      "run": 0,
+      "cache": "warm",
+      "lcp": 116,
+      "cls": 0,
+      "longTasks": [],
+      "events": [
+        {
+          "name": "pointerdown",
+          "duration": 24
+        },
+        {
+          "name": "pointerup",
+          "duration": 24
+        },
+        {
+          "name": "click",
+          "duration": 24
+        },
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        },
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        }
+      ],
+      "navigation": {
+        "name": "http://127.0.0.1:3001/#example",
+        "entryType": "navigation",
+        "startTime": 0,
+        "duration": 263.39999999990687,
+        "navigationId": 6899,
+        "initiatorType": "navigation",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.1",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "text/html",
+        "contentEncoding": "gzip",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 0.19999999995343387,
+        "domainLookupStart": 0.19999999995343387,
+        "domainLookupEnd": 0.19999999995343387,
+        "connectStart": 0.19999999995343387,
+        "secureConnectionStart": 0,
+        "connectEnd": 0.19999999995343387,
+        "requestStart": 1.1999999999534339,
+        "responseStart": 69.30000000004657,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 69.30000000004657,
+        "responseEnd": 71.19999999995343,
+        "transferSize": 13265,
+        "encodedBodySize": 12965,
+        "decodedBodySize": 72527,
+        "responseStatus": 200,
+        "serverTiming": [],
+        "unloadEventStart": 71.39999999990687,
+        "unloadEventEnd": 71.39999999990687,
+        "domInteractive": 101.5,
+        "domContentLoadedEventStart": 101.5,
+        "domContentLoadedEventEnd": 101.69999999995343,
+        "domComplete": 263.39999999990687,
+        "loadEventStart": 263.39999999990687,
+        "loadEventEnd": 263.39999999990687,
+        "type": "reload",
+        "redirectCount": 0,
+        "activationStart": 0,
+        "criticalCHRestart": 0,
+        "notRestoredReasons": null,
+        "confidence": {
+          "randomizedTriggerRate": 0.4994798,
+          "value": "low"
+        }
+      },
+      "resources": [
+        {
+          "name": "http://127.0.0.1:3001/_next/static/media/a343f882a40d2cc9-s.p.1sj6eobyi31rd.woff2",
+          "transfer": 0,
+          "encoded": 24576
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/media/f7aa21714c1c53f8-s.p.0-95eo-012xnf.woff2",
+          "transfer": 0,
+          "encoded": 20184
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/image?url=%2Fimages%2Ferrby-mascot.png&w=256&q=75",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/src_components_landing_landing-page_module_04e8fd9.css",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/%5Broot-of-the-server%5D__1sukl66._.css",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1di75ot._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_next-devtools_index_090k2jm.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_164kp-6._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_1amofcm._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_client_0_90u2t._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_%40swc_helpers_cjs_1r9vbqw._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/_1anvha4._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/turbopack-_08bm286._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/_219uq1s._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_20wefz_._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/src_components_0qj-wkl._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_061ps_9._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/image?url=%2Fimages%2Flearner-avatar.png&w=48&q=75",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/image?url=%2Fimages%2Ferrby-mascot.png&w=48&q=75",
+          "transfer": 2134,
+          "encoded": 1834
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1mojsay._.js",
+          "transfer": 300,
+          "encoded": 0
+        }
+      ],
+      "active": 0,
+      "frameP95": 16.700000000000045,
+      "frameMax": 16.800000000000182,
+      "frameCount": 97,
+      "errors": [],
+      "cdp": {
+        "LayoutDuration": 0.010634,
+        "RecalcStyleDuration": 0.015847,
+        "ScriptDuration": 0.067297,
+        "TaskDuration": 0.27897,
+        "JSHeapUsedSize": 15070040
+      }
+    },
+    {
+      "cpu": 1,
+      "run": 1,
+      "cache": "cold",
+      "lcp": 192,
+      "cls": 0,
+      "longTasks": [
+        98
+      ],
+      "events": [
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        },
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        },
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        }
+      ],
+      "navigation": {
+        "name": "http://127.0.0.1:3001/",
+        "entryType": "navigation",
+        "startTime": 0,
+        "duration": 291.9000000001397,
+        "navigationId": 5906,
+        "initiatorType": "navigation",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.1",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "text/html",
+        "contentEncoding": "gzip",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 0.20000000018626451,
+        "domainLookupStart": 0.5,
+        "domainLookupEnd": 0.8000000000465661,
+        "connectStart": 0.8000000000465661,
+        "secureConnectionStart": 0,
+        "connectEnd": 1.1000000000931323,
+        "requestStart": 1.1000000000931323,
+        "responseStart": 77.70000000018626,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 77.70000000018626,
+        "responseEnd": 79.5,
+        "transferSize": 13265,
+        "encodedBodySize": 12965,
+        "decodedBodySize": 72527,
+        "responseStatus": 200,
+        "serverTiming": [],
+        "unloadEventStart": 0,
+        "unloadEventEnd": 0,
+        "domInteractive": 100.60000000009313,
+        "domContentLoadedEventStart": 100.60000000009313,
+        "domContentLoadedEventEnd": 100.60000000009313,
+        "domComplete": 291.60000000009313,
+        "loadEventStart": 291.9000000001397,
+        "loadEventEnd": 291.9000000001397,
+        "type": "navigate",
+        "redirectCount": 0,
+        "activationStart": 0,
+        "criticalCHRestart": 0,
+        "notRestoredReasons": null,
+        "confidence": {
+          "randomizedTriggerRate": 0.4994798,
+          "value": "high"
+        }
+      },
+      "resources": [
+        {
+          "name": "http://127.0.0.1:3001/_next/static/media/a343f882a40d2cc9-s.p.1sj6eobyi31rd.woff2",
+          "transfer": 24876,
+          "encoded": 24576
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/media/f7aa21714c1c53f8-s.p.0-95eo-012xnf.woff2",
+          "transfer": 20484,
+          "encoded": 20184
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/image?url=%2Fimages%2Ferrby-mascot.png&w=256&q=75",
+          "transfer": 12846,
+          "encoded": 12546
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/src_components_landing_landing-page_module_04e8fd9.css",
+          "transfer": 4422,
+          "encoded": 4122
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/%5Broot-of-the-server%5D__1sukl66._.css",
+          "transfer": 13808,
+          "encoded": 13508
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1di75ot._.js",
+          "transfer": 894,
+          "encoded": 594
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_164kp-6._.js",
+          "transfer": 32489,
+          "encoded": 32189
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_next-devtools_index_090k2jm.js",
+          "transfer": 250260,
+          "encoded": 249960
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js",
+          "transfer": 184806,
+          "encoded": 184506
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_1amofcm._.js",
+          "transfer": 27306,
+          "encoded": 27006
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_client_0_90u2t._.js",
+          "transfer": 194523,
+          "encoded": 194223
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_%40swc_helpers_cjs_1r9vbqw._.js",
+          "transfer": 1040,
+          "encoded": 740
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js",
+          "transfer": 33343,
+          "encoded": 33043
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/_1anvha4._.js",
+          "transfer": 1134,
+          "encoded": 834
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/_219uq1s._.js",
+          "transfer": 770,
+          "encoded": 470
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/turbopack-_08bm286._.js",
+          "transfer": 26369,
+          "encoded": 26069
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_20wefz_._.js",
+          "transfer": 14893,
+          "encoded": 14593
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/src_components_0qj-wkl._.js",
+          "transfer": 2850,
+          "encoded": 2550
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_061ps_9._.js",
+          "transfer": 59793,
+          "encoded": 59493
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/image?url=%2Fimages%2Flearner-avatar.png&w=48&q=75",
+          "transfer": 1886,
+          "encoded": 1586
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1mojsay._.js",
+          "transfer": 4176,
+          "encoded": 3876
+        }
+      ],
+      "active": 0,
+      "frameP95": 16.700000000000045,
+      "frameMax": 16.80000000000001,
+      "frameCount": 97,
+      "errors": [],
+      "cdp": {
+        "LayoutDuration": 0.054635,
+        "RecalcStyleDuration": 0.024361,
+        "ScriptDuration": 0.128431,
+        "TaskDuration": 0.458971,
+        "JSHeapUsedSize": 10235000
+      }
+    },
+    {
+      "cpu": 1,
+      "run": 2,
+      "cache": "cold",
+      "lcp": 188,
+      "cls": 0,
+      "longTasks": [
+        88
+      ],
+      "events": [
+        {
+          "name": "pointerdown",
+          "duration": 32
+        },
+        {
+          "name": "pointerup",
+          "duration": 32
+        },
+        {
+          "name": "click",
+          "duration": 32
+        },
+        {
+          "name": "pointerdown",
+          "duration": 32
+        },
+        {
+          "name": "pointerup",
+          "duration": 32
+        },
+        {
+          "name": "click",
+          "duration": 32
+        }
+      ],
+      "navigation": {
+        "name": "http://127.0.0.1:3001/",
+        "entryType": "navigation",
+        "startTime": 0,
+        "duration": 274,
+        "navigationId": 5243,
+        "initiatorType": "navigation",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.1",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "text/html",
+        "contentEncoding": "gzip",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 0.19999999995343387,
+        "domainLookupStart": 0.7999999998137355,
+        "domainLookupEnd": 1.0999999998603016,
+        "connectStart": 1.0999999998603016,
+        "secureConnectionStart": 0,
+        "connectEnd": 1.5,
+        "requestStart": 1.5999999998603016,
+        "responseStart": 72.0999999998603,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 72.0999999998603,
+        "responseEnd": 73.79999999981374,
+        "transferSize": 13266,
+        "encodedBodySize": 12966,
+        "decodedBodySize": 72527,
+        "responseStatus": 200,
+        "serverTiming": [],
+        "unloadEventStart": 0,
+        "unloadEventEnd": 0,
+        "domInteractive": 94.39999999990687,
+        "domContentLoadedEventStart": 94.39999999990687,
+        "domContentLoadedEventEnd": 94.39999999990687,
+        "domComplete": 273.89999999990687,
+        "loadEventStart": 274,
+        "loadEventEnd": 274,
+        "type": "navigate",
+        "redirectCount": 0,
+        "activationStart": 0,
+        "criticalCHRestart": 0,
+        "notRestoredReasons": null,
+        "confidence": {
+          "randomizedTriggerRate": 0.4994798,
+          "value": "high"
+        }
+      },
+      "resources": [
+        {
+          "name": "http://127.0.0.1:3001/_next/static/media/a343f882a40d2cc9-s.p.1sj6eobyi31rd.woff2",
+          "transfer": 24876,
+          "encoded": 24576
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/media/f7aa21714c1c53f8-s.p.0-95eo-012xnf.woff2",
+          "transfer": 20484,
+          "encoded": 20184
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/image?url=%2Fimages%2Ferrby-mascot.png&w=256&q=75",
+          "transfer": 12846,
+          "encoded": 12546
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/%5Broot-of-the-server%5D__1sukl66._.css",
+          "transfer": 13808,
+          "encoded": 13508
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/src_components_landing_landing-page_module_04e8fd9.css",
+          "transfer": 4422,
+          "encoded": 4122
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1di75ot._.js",
+          "transfer": 894,
+          "encoded": 594
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_next-devtools_index_090k2jm.js",
+          "transfer": 250260,
+          "encoded": 249960
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_164kp-6._.js",
+          "transfer": 32489,
+          "encoded": 32189
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_1amofcm._.js",
+          "transfer": 27306,
+          "encoded": 27006
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js",
+          "transfer": 184806,
+          "encoded": 184506
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js",
+          "transfer": 33343,
+          "encoded": 33043
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_%40swc_helpers_cjs_1r9vbqw._.js",
+          "transfer": 1040,
+          "encoded": 740
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_client_0_90u2t._.js",
+          "transfer": 194523,
+          "encoded": 194223
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/_1anvha4._.js",
+          "transfer": 1134,
+          "encoded": 834
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/_219uq1s._.js",
+          "transfer": 770,
+          "encoded": 470
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/turbopack-_08bm286._.js",
+          "transfer": 26369,
+          "encoded": 26069
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_20wefz_._.js",
+          "transfer": 14893,
+          "encoded": 14593
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_061ps_9._.js",
+          "transfer": 59793,
+          "encoded": 59493
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/src_components_0qj-wkl._.js",
+          "transfer": 2850,
+          "encoded": 2550
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/image?url=%2Fimages%2Flearner-avatar.png&w=48&q=75",
+          "transfer": 1886,
+          "encoded": 1586
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1mojsay._.js",
+          "transfer": 4176,
+          "encoded": 3876
+        },
+        {
+          "name": "http://127.0.0.1:3001/__nextjs_font/geist-latin.woff2",
+          "transfer": 28656,
+          "encoded": 28356
+        }
+      ],
+      "active": 0,
+      "frameP95": 16.700000000000045,
+      "frameMax": 16.799999999999955,
+      "frameCount": 97,
+      "errors": [],
+      "cdp": {
+        "LayoutDuration": 0.055199,
+        "RecalcStyleDuration": 0.028009,
+        "ScriptDuration": 0.1213,
+        "TaskDuration": 0.403007,
+        "JSHeapUsedSize": 10356460
+      }
+    },
+    {
+      "cpu": 4,
+      "run": 0,
+      "cache": "cold",
+      "lcp": 1292,
+      "cls": 0,
+      "longTasks": [
+        482,
+        61,
+        86,
+        59,
+        60
+      ],
+      "events": [
+        {
+          "name": "pointerdown",
+          "duration": 56
+        },
+        {
+          "name": "pointerup",
+          "duration": 56
+        },
+        {
+          "name": "click",
+          "duration": 56
+        },
+        {
+          "name": "pointerdown",
+          "duration": 24
+        },
+        {
+          "name": "pointerup",
+          "duration": 24
+        },
+        {
+          "name": "click",
+          "duration": 24
+        },
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        }
+      ],
+      "navigation": {
+        "name": "http://127.0.0.1:3001/",
+        "entryType": "navigation",
+        "startTime": 0,
+        "duration": 1890.4000000001397,
+        "navigationId": 8497,
+        "initiatorType": "navigation",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.1",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "text/html",
+        "contentEncoding": "gzip",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 0.20000000018626451,
+        "domainLookupStart": 0.6000000000931323,
+        "domainLookupEnd": 0.8000000000465661,
+        "connectStart": 0.8000000000465661,
+        "secureConnectionStart": 0,
+        "connectEnd": 1.1000000000931323,
+        "requestStart": 1.1000000000931323,
+        "responseStart": 904,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 904,
+        "responseEnd": 930.7000000001863,
+        "transferSize": 13266,
+        "encodedBodySize": 12966,
+        "decodedBodySize": 72527,
+        "responseStatus": 200,
+        "serverTiming": [],
+        "unloadEventStart": 0,
+        "unloadEventEnd": 0,
+        "domInteractive": 1270.9000000001397,
+        "domContentLoadedEventStart": 1271,
+        "domContentLoadedEventEnd": 1271.3000000000466,
+        "domComplete": 1890.4000000001397,
+        "loadEventStart": 1890.4000000001397,
+        "loadEventEnd": 1890.4000000001397,
+        "type": "navigate",
+        "redirectCount": 0,
+        "activationStart": 0,
+        "criticalCHRestart": 0,
+        "notRestoredReasons": null,
+        "confidence": {
+          "randomizedTriggerRate": 0.4994798,
+          "value": "high"
+        }
+      },
+      "resources": [
+        {
+          "name": "http://127.0.0.1:3001/_next/static/media/a343f882a40d2cc9-s.p.1sj6eobyi31rd.woff2",
+          "transfer": 24876,
+          "encoded": 24576
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/media/f7aa21714c1c53f8-s.p.0-95eo-012xnf.woff2",
+          "transfer": 20484,
+          "encoded": 20184
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/image?url=%2Fimages%2Ferrby-mascot.png&w=256&q=75",
+          "transfer": 12846,
+          "encoded": 12546
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/src_components_landing_landing-page_module_04e8fd9.css",
+          "transfer": 4422,
+          "encoded": 4122
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/%5Broot-of-the-server%5D__1sukl66._.css",
+          "transfer": 13808,
+          "encoded": 13508
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1di75ot._.js",
+          "transfer": 894,
+          "encoded": 594
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_164kp-6._.js",
+          "transfer": 32489,
+          "encoded": 32189
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_next-devtools_index_090k2jm.js",
+          "transfer": 250260,
+          "encoded": 249960
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js",
+          "transfer": 184806,
+          "encoded": 184506
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_1amofcm._.js",
+          "transfer": 27306,
+          "encoded": 27006
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js",
+          "transfer": 33343,
+          "encoded": 33043
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_client_0_90u2t._.js",
+          "transfer": 194523,
+          "encoded": 194223
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/_1anvha4._.js",
+          "transfer": 1134,
+          "encoded": 834
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_%40swc_helpers_cjs_1r9vbqw._.js",
+          "transfer": 1040,
+          "encoded": 740
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/turbopack-_08bm286._.js",
+          "transfer": 26369,
+          "encoded": 26069
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/_219uq1s._.js",
+          "transfer": 770,
+          "encoded": 470
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_20wefz_._.js",
+          "transfer": 14893,
+          "encoded": 14593
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_061ps_9._.js",
+          "transfer": 59793,
+          "encoded": 59493
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/src_components_0qj-wkl._.js",
+          "transfer": 2850,
+          "encoded": 2550
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/image?url=%2Fimages%2Flearner-avatar.png&w=48&q=75",
+          "transfer": 1886,
+          "encoded": 1586
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1mojsay._.js",
+          "transfer": 4176,
+          "encoded": 3876
+        },
+        {
+          "name": "http://127.0.0.1:3001/__nextjs_font/geist-latin.woff2",
+          "transfer": 28656,
+          "encoded": 28356
+        }
+      ],
+      "active": 0,
+      "frameP95": 16.799999999999727,
+      "frameMax": 66.59999999999991,
+      "frameCount": 91,
+      "errors": [],
+      "cdp": {
+        "LayoutDuration": 0.294037,
+        "RecalcStyleDuration": 0.141156,
+        "ScriptDuration": 0.792667,
+        "TaskDuration": 2.465824,
+        "JSHeapUsedSize": 10696824
+      }
+    },
+    {
+      "cpu": 4,
+      "run": 0,
+      "cache": "warm",
+      "lcp": 196,
+      "cls": 0,
+      "longTasks": [
+        60
+      ],
+      "events": [
+        {
+          "name": "pointerdown",
+          "duration": 32
+        },
+        {
+          "name": "pointerup",
+          "duration": 32
+        },
+        {
+          "name": "click",
+          "duration": 32
+        },
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        },
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        }
+      ],
+      "navigation": {
+        "name": "http://127.0.0.1:3001/#example",
+        "entryType": "navigation",
+        "startTime": 0,
+        "duration": 426.30000000004657,
+        "navigationId": 8124,
+        "initiatorType": "navigation",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.1",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "text/html",
+        "contentEncoding": "gzip",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 0.10000000009313226,
+        "domainLookupStart": 0.10000000009313226,
+        "domainLookupEnd": 0.10000000009313226,
+        "connectStart": 0.10000000009313226,
+        "secureConnectionStart": 0,
+        "connectEnd": 0.10000000009313226,
+        "requestStart": 0.6999999999534339,
+        "responseStart": 69.10000000009313,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 69.10000000009313,
+        "responseEnd": 71.4000000001397,
+        "transferSize": 13266,
+        "encodedBodySize": 12966,
+        "decodedBodySize": 72527,
+        "responseStatus": 200,
+        "serverTiming": [],
+        "unloadEventStart": 79.10000000009313,
+        "unloadEventEnd": 79.10000000009313,
+        "domInteractive": 270.9000000001397,
+        "domContentLoadedEventStart": 270.9000000001397,
+        "domContentLoadedEventEnd": 271.10000000009313,
+        "domComplete": 426.19999999995343,
+        "loadEventStart": 426.30000000004657,
+        "loadEventEnd": 426.30000000004657,
+        "type": "reload",
+        "redirectCount": 0,
+        "activationStart": 0,
+        "criticalCHRestart": 0,
+        "notRestoredReasons": null,
+        "confidence": {
+          "randomizedTriggerRate": 0.4994798,
+          "value": "high"
+        }
+      },
+      "resources": [
+        {
+          "name": "http://127.0.0.1:3001/_next/static/media/a343f882a40d2cc9-s.p.1sj6eobyi31rd.woff2",
+          "transfer": 0,
+          "encoded": 24576
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/media/f7aa21714c1c53f8-s.p.0-95eo-012xnf.woff2",
+          "transfer": 0,
+          "encoded": 20184
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/image?url=%2Fimages%2Ferrby-mascot.png&w=256&q=75",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/%5Broot-of-the-server%5D__1sukl66._.css",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/src_components_landing_landing-page_module_04e8fd9.css",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1di75ot._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_next-devtools_index_090k2jm.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_164kp-6._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_compiled_1amofcm._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_client_0_90u2t._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_1e8vcs8._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_%40swc_helpers_cjs_1r9vbqw._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/_1anvha4._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/turbopack-_08bm286._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/_219uq1s._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_next_dist_20wefz_._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/node_modules_061ps_9._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/src_components_0qj-wkl._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/image?url=%2Fimages%2Flearner-avatar.png&w=48&q=75",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1mojsay._.js",
+          "transfer": 300,
+          "encoded": 0
+        },
+        {
+          "name": "http://127.0.0.1:3001/__nextjs_font/geist-latin.woff2",
+          "transfer": 0,
+          "encoded": 28356
+        }
+      ],
+      "active": 0,
+      "frameP95": 16.799999999999955,
+      "frameMax": 33.19999999999993,
+      "frameCount": 96,
+      "errors": [],
+      "cdp": {
+        "LayoutDuration": 0.031963,
+        "RecalcStyleDuration": 0.064615,
+        "ScriptDuration": 0.324399,
+        "TaskDuration": 1.187865,
+        "JSHeapUsedSize": 15436200
+      }
+    }
+  ],
+  "stylesheet": {
+    "sourceBytes": 1698,
+    "gzipBytes": 559
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "id": "vercel",
+  "url": "https://vercel.com/",
+  "date": "2026-09-19T17:58:09.679Z",
+  "browser": "153.0.8010.12",
+  "viewport": "1280x800",
+  "finalUrl": "https://vercel.com/",
+  "title": "Agentic Infrastructure - Vercel",
+  "body": "Skip to content\nProducts\nResources\nEnterprise\nPricing\nGet a Demo\nLog In\nSign Up\n\nShip 26 is coming to SF\n\nGet your ticket\nDrop to deploy\nLoading\nAgentic Infrastructure\nDeploy now\nTalk to sales\nFor coding agents to deploy in their native language, with Vercel's API, CLI, MCP, and Skills.\nTo ship apps and agents in Sandboxed VMs, with durable backends, powered by hundreds of models.\nAutomated by agents who autonomously investigate errors, plan fixes, and open PRs.\nBuild agents on infrastructure that thinks like them\n\nNotion powers millions of agent conversations daily on Vercel.\n\nFeatures\nDurable Orchestration\nSandboxed Environments\nAI Model Gateway\nFluid Compute\nShip apps that scale from zero to millions instantly\n\nZapier serves over 100 million monthly website visits on Vercel.\n\nFeatures\nG",
+  "timeA": {
+    "at": 1798.6999999999534,
+    "animations": [],
+    "videos": []
+  },
+  "timeB": {
+    "at": 3340.100000000093,
+    "animations": [
+      {
+        "target": "CANVAS",
+        "cls": "absolute inset-0 block h-full w-full opacity-0 transition-opacity ease-linear duration-120",
+        "time": 1066.6259999998897,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 1200,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "backwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      }
+    ],
+    "videos": []
+  },
+  "hover": {
+    "label": "Products",
+    "box": {
+      "x": 65,
+      "y": 16,
+      "width": 94.328125,
+      "height": 32
+    },
+    "before": {
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(77, 77, 77)",
+      "transform": "none",
+      "transition": "all",
+      "opacity": "1"
+    },
+    "samples": [
+      {
+        "at": 8210.90000000014,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(23, 23, 23)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 0
+      },
+      {
+        "at": 8941.300000000047,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(23, 23, 23)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 0
+      },
+      {
+        "at": 9146.199999999953,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(23, 23, 23)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 0
+      },
+      {
+        "at": 10763.199999999953,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(23, 23, 23)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 0
+      },
+      {
+        "at": 11008.300000000047,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(23, 23, 23)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 0
+      },
+      {
+        "at": 11731.5,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(23, 23, 23)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 0
+      }
+    ]
+  }
+}

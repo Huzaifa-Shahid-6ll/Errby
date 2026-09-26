@@ -1,0 +1,105 @@
+{
+  "id": "headspace-mobile",
+  "url": "https://www.headspace.com/",
+  "date": "2026-09-19T17:59:44.758Z",
+  "viewport": "390x844",
+  "browser": "153.0.8010.12",
+  "title": "Mental Health App for Meditation & Sleep - Headspace",
+  "body": "Sword is acquiring Headspace to shape the future of mental healthcare. Learn more →\n\nTry for free\nStress less\nall with Headspace\n\nMental health app with expert-led meditations and tools\n\nTry for $0\n\nOnline therapy that\naccepts insurance\n\nCheck your coverage\nWhat kind of headspace are you looking for?\n\nStress less\n\nSleep soundly\n\nManage anxiety\n\nProcess thoughts\n\nPractice meditation\n\nStart therapy\n\nThe mental health app for every moment\nAI guidanc",
+  "samples": [
+    {
+      "at": 6998.199999999953,
+      "animations": [
+        {
+          "cls": "css-m6qmz1",
+          "current": -117.39999999981433,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 7601.399999999907,
+      "animations": [
+        {
+          "cls": "otFlat bottom ot-wo-title ot-buttons-fw",
+          "current": 599.8999999999999,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 1000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "forwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "css-m6qmz1",
+          "current": 177.30000000018632,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 8216.399999999907,
+      "animations": [
+        {
+          "cls": "css-m6qmz1",
+          "current": 13.900000000186097,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 9246.5,
+      "animations": [
+        {
+          "cls": "css-m6qmz1",
+          "current": 63.90000000018681,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 300,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 9899.299999999814,
+      "animations": []
+    }
+  ]
+}

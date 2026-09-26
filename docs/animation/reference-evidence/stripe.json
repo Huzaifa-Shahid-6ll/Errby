@@ -1,0 +1,216 @@
+{
+  "id": "stripe",
+  "url": "https://stripe.com/",
+  "date": "2026-09-19T17:58:09.641Z",
+  "browser": "153.0.8010.12",
+  "viewport": "1280x800",
+  "finalUrl": "https://stripe.com/",
+  "title": "Stripe | Financial Infrastructure to Grow Your Revenue",
+  "body": "Products\nSolutions\nDevelopers\nResources\nPricing\nGuide me\nSign in\nSign in\nContact sales\nGlobal GDP running on Stripe: 1.71826867%\n1.71826867%\nFinancial infrastructure to grow your revenue. Accept payments, offer financial services, and implement custom revenue models—from your first transaction to your billionth.\nFinancial infrastructure to grow your revenue. Accept payments, offer financial services, and implement custom revenue models—from your first transaction to your billionth.\nGet started\nSign up with Google\nFlexible solutions for every business model.\n\nGrow your business with a comprehensive set of payments and financial tools⁠—⁠designed to work individually or together.\n\nAccept and optimize payments globally—online and in person\nEnable any billing model\nPro Plan\nBilled monthly\nToken",
+  "timeA": {
+    "at": 6712.59999999986,
+    "animations": [
+      {
+        "target": "NAV",
+        "cls": "hds-navigation-menu navigation-menu navigation-menu--homepage",
+        "time": null,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": "auto",
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "SPAN",
+        "cls": "",
+        "time": 0,
+        "state": "running",
+        "timing": {
+          "delay": 400,
+          "direction": "normal",
+          "duration": 325,
+          "easing": "cubic-bezier(0.33, 1, 0.68, 1)",
+          "endDelay": 0,
+          "fill": "both",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "SPAN",
+        "cls": "",
+        "time": 0,
+        "state": "running",
+        "timing": {
+          "delay": 400,
+          "direction": "normal",
+          "duration": 325,
+          "easing": "cubic-bezier(0.33, 1, 0.68, 1)",
+          "endDelay": 0,
+          "fill": "both",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "SPAN",
+        "cls": "",
+        "time": 0,
+        "state": "running",
+        "timing": {
+          "delay": 450,
+          "direction": "normal",
+          "duration": 325,
+          "easing": "cubic-bezier(0.33, 1, 0.68, 1)",
+          "endDelay": 0,
+          "fill": "both",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "SPAN",
+        "cls": "",
+        "time": 0,
+        "state": "running",
+        "timing": {
+          "delay": 450,
+          "direction": "normal",
+          "duration": 325,
+          "easing": "cubic-bezier(0.33, 1, 0.68, 1)",
+          "endDelay": 0,
+          "fill": "both",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      }
+    ],
+    "videos": []
+  },
+  "timeB": {
+    "at": 10558.299999999814,
+    "animations": [
+      {
+        "target": "NAV",
+        "cls": "hds-navigation-menu navigation-menu navigation-menu--homepage",
+        "time": null,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": "auto",
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "none",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "SPAN",
+        "cls": "",
+        "time": 649.9029999998687,
+        "state": "running",
+        "timing": {
+          "delay": 450,
+          "direction": "normal",
+          "duration": 325,
+          "easing": "cubic-bezier(0.33, 1, 0.68, 1)",
+          "endDelay": 0,
+          "fill": "both",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      },
+      {
+        "target": "SPAN",
+        "cls": "",
+        "time": 649.9029999998687,
+        "state": "running",
+        "timing": {
+          "delay": 450,
+          "direction": "normal",
+          "duration": 325,
+          "easing": "cubic-bezier(0.33, 1, 0.68, 1)",
+          "endDelay": 0,
+          "fill": "both",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      }
+    ],
+    "videos": []
+  },
+  "hover": {
+    "label": "Products",
+    "box": {
+      "x": 122,
+      "y": 18,
+      "width": 76.671875,
+      "height": 40
+    },
+    "before": {
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(6, 27, 49)",
+      "transform": "none",
+      "transition": "color 0.24s cubic-bezier(0.45, 0.05, 0.55, 0.95), background-color 0.24s cubic-bezier(0.45, 0.05, 0.55, 0.95), border-color 0.24s cubic-bezier(0.45, 0.05, 0.55, 0.95)",
+      "opacity": "1"
+    },
+    "samples": [
+      {
+        "at": 12449.5,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(6, 27, 49)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 52
+      },
+      {
+        "at": 12709.5,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(6, 27, 49)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 36
+      },
+      {
+        "at": 12824.699999999953,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(6, 27, 49)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 35
+      },
+      {
+        "at": 12942.399999999907,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(6, 27, 49)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 35
+      },
+      {
+        "at": 13074.09999999986,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(6, 27, 49)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 35
+      },
+      {
+        "at": 13199,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(6, 27, 49)",
+        "transform": "none",
+        "opacity": "1",
+        "animations": 35
+      }
+    ]
+  }
+}

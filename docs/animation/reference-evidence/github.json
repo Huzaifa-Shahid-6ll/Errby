@@ -1,0 +1,244 @@
+{
+  "id": "github",
+  "url": "https://github.com/",
+  "date": "2026-09-19T17:59:14.623Z",
+  "viewport": "1280x800",
+  "browser": "153.0.8010.12",
+  "title": "GitHub · Change is constant. GitHub keeps you ahead. · GitHub",
+  "body": "Skip to content\nNavigation Menu\nPlatform\nSolutions\nResources\nOpen Source\nEnterprise\nPricing\nSign in\nSign up\nThe future of building happens together\n\nTools and trends evolve, but collaboration endures. With GitHub, developers, agents, and code come together on one platform.\n\nEnter your email\nSign up for GitHub\nDownload GitHub Copilot app\nGitHub features\nA demonstration animation of a code editor using GitHub Copilot Chat, where the user requests G",
+  "samples": [
+    {
+      "at": 17127.800000000047,
+      "h1": "The future of building happens together",
+      "animations": [
+        {
+          "cls": "Primer_Brand__LogoSuite-module__LogoSuite__logobar-marqueeGroup___bUhyS Primer_Brand__LogoSuite-module__LogoSuite__logobar-marqueeGroup--speed-slow___NZHrb",
+          "current": 5549.801999999946,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 60000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "cls": "Primer_Brand__LogoSuite-module__LogoSuite__logobar-marqueeGroup___bUhyS Primer_Brand__LogoSuite-module__LogoSuite__logobar-marqueeGroup--speed-slow___NZHrb",
+          "current": 5549.801999999946,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 60000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        }
+      ]
+    },
+    {
+      "at": 26509.600000000093,
+      "h1": "The future of building happens together",
+      "animations": [
+        {
+          "cls": "Primer_Brand__Text-module__Text___XeGJJ Primer_Brand__Text-module__Text-font--mona-sans___a8XJD Primer_Brand__Text-module__Text--default___GhPh_ Primer_Brand__Text-module__Text--200____P1wy Primer_Brand__Text-module__Text--antialiased___TYoXS Primer_Brand__Text-module__Text--weight-normal___8EPr2 HeroCarouselControls-description ",
+          "current": 66.64999999995658,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 200,
+            "easing": "ease-out",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "Primer_Brand__Text-module__Text___XeGJJ Primer_Brand__Text-module__Text-font--mona-sans___a8XJD Primer_Brand__Text-module__Text--default___GhPh_ Primer_Brand__Text-module__Text--200____P1wy Primer_Brand__Text-module__Text--antialiased___TYoXS Primer_Brand__Text-module__Text--weight-normal___8EPr2 HeroCarouselControls-description ",
+          "current": 66.64999999995658,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 200,
+            "easing": "ease-out",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "BackToTop ",
+          "current": 49.98399999997005,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 200,
+            "easing": "ease-out",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "Primer_Brand__LogoSuite-module__LogoSuite__logobar-marqueeGroup___bUhyS Primer_Brand__LogoSuite-module__LogoSuite__logobar-marqueeGroup--speed-slow___NZHrb",
+          "current": 6266.401999999946,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 60000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        }
+      ]
+    },
+    {
+      "at": 27117.600000000093,
+      "h1": "The future of building happens together",
+      "animations": [
+        {
+          "cls": "Primer_Brand__LogoSuite-module__LogoSuite__logobar-marqueeGroup___bUhyS Primer_Brand__LogoSuite-module__LogoSuite__logobar-marqueeGroup--speed-slow___NZHrb",
+          "current": 15899.401999999945,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 60000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "cls": "Primer_Brand__LogoSuite-module__LogoSuite__logobar-marqueeGroup___bUhyS Primer_Brand__LogoSuite-module__LogoSuite__logobar-marqueeGroup--speed-slow___NZHrb",
+          "current": 15899.401999999945,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 60000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        }
+      ]
+    },
+    {
+      "at": 27719.5,
+      "h1": "The future of building happens together",
+      "animations": [
+        {
+          "cls": "Primer_Brand__LogoSuite-module__LogoSuite__logobar-marqueeGroup___bUhyS Primer_Brand__LogoSuite-module__LogoSuite__logobar-marqueeGroup--speed-slow___NZHrb",
+          "current": 16499.301999999945,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 60000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "cls": "Primer_Brand__LogoSuite-module__LogoSuite__logobar-marqueeGroup___bUhyS Primer_Brand__LogoSuite-module__LogoSuite__logobar-marqueeGroup--speed-slow___NZHrb",
+          "current": 16499.301999999945,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 60000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        }
+      ]
+    },
+    {
+      "at": 28328.40000000014,
+      "h1": "The future of building happens together",
+      "animations": [
+        {
+          "cls": "Primer_Brand__LogoSuite-module__LogoSuite__logobar-marqueeGroup___bUhyS Primer_Brand__LogoSuite-module__LogoSuite__logobar-marqueeGroup--speed-slow___NZHrb",
+          "current": 17116.001999999946,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 60000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "cls": "Primer_Brand__LogoSuite-module__LogoSuite__logobar-marqueeGroup___bUhyS Primer_Brand__LogoSuite-module__LogoSuite__logobar-marqueeGroup--speed-slow___NZHrb",
+          "current": 17116.001999999946,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 60000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        }
+      ]
+    }
+  ],
+  "hover": {
+    "label": "Platform",
+    "before": {
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(255, 255, 255)",
+      "transform": "none",
+      "transition": "all"
+    },
+    "samples": [
+      {
+        "at": 29428.300000000047,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(164, 174, 166)",
+        "transform": "none"
+      },
+      {
+        "at": 29545.600000000093,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(164, 174, 166)",
+        "transform": "none"
+      },
+      {
+        "at": 29653,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(164, 174, 166)",
+        "transform": "none"
+      },
+      {
+        "at": 29764.90000000014,
+        "background": "rgba(0, 0, 0, 0)",
+        "color": "rgb(164, 174, 166)",
+        "transform": "none"
+      }
+    ]
+  }
+}

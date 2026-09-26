@@ -1,0 +1,37 @@
+{
+  "id": "headspace",
+  "url": "https://www.headspace.com/",
+  "date": "2026-09-19T17:58:09.677Z",
+  "browser": "153.0.8010.12",
+  "viewport": "1280x800",
+  "finalUrl": "https://www.headspace.com/",
+  "title": "Mental Health App for Meditation & Sleep - Headspace",
+  "body": "Sword is acquiring Headspace to shape the future of mental healthcare. Learn more →\n\nFor You\nFor Business\nFor Providers\nOur Plans\nResources\nAbout\nLog in\nHelp\nTry for free\nStress less\nall with Headspace\n\nMental health app with expert-led meditations and tools\n\nTry for $0\n\nOnline therapy that\naccepts insurance\n\nCheck your coverage\nWhat kind of headspace are you looking for?\n\nStress less\n\nSleep soundly\n\nManage anxiety\n\nProcess thoughts\n\nPractice meditation\n\nStart therapy\n\nThe mental health app for every moment\nAI guidance\nGuided meditations\nSleep resources\nExpert-led programs\nOnline therapy\nAlways-there support\nUnpack what’s on your mind with Ebb, our empathetic AI companion, and get personalized recommendations based on how you’re feeling.\nChat with Ebb\nFeel-good  library\nExplore 1,000+ guid",
+  "timeA": {
+    "at": 10160.40000000014,
+    "animations": [
+      {
+        "target": "DIV",
+        "cls": "otFlat bottom ot-wo-title vertical-align-content",
+        "time": 683.399999999999,
+        "state": "running",
+        "timing": {
+          "delay": 0,
+          "direction": "normal",
+          "duration": 1000,
+          "easing": "linear",
+          "endDelay": 0,
+          "fill": "forwards",
+          "iterationStart": 0,
+          "iterations": 1
+        }
+      }
+    ],
+    "videos": []
+  },
+  "timeB": {
+    "at": 13431.100000000093,
+    "animations": [],
+    "videos": []
+  }
+}

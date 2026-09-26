@@ -1,0 +1,196 @@
+{
+  "id": "figma",
+  "url": "https://www.figma.com/",
+  "date": "2026-09-19T17:59:14.676Z",
+  "viewport": "1280x800",
+  "browser": "153.0.8010.12",
+  "title": "Figma: The collaborative canvas for design, code, and AI",
+  "body": "Skip to main content\n\nProducts\nSolutions\nCommunity\nResources\nPricing\nLog in\nContact sales\nGet started for free\nThe intelligent canvas for infinite creativity\nGet started\nOne workspace for your entire product development process.\n\nMade so your whole team can go from WIP to ship, together.\n\nDesign anything you can imagine\n\nTurn your ideas into apps, websites, and products.\n\nExplore design tools\nBuild with intention\n\nDev tools that take you all the ",
+  "samples": [
+    {
+      "at": 13267.90000000014,
+      "h1": "The intelligent canvas for infinite creativity",
+      "animations": [
+        {
+          "cls": "fig-51j1vz",
+          "current": 5033.098999999998,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 25000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        }
+      ]
+    },
+    {
+      "at": 14809.90000000014,
+      "h1": "The intelligent canvas for infinite creativity",
+      "animations": [
+        {
+          "cls": "fig-1fcmjev",
+          "current": 0,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 500,
+            "easing": "ease",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "fig-1fcmjev",
+          "current": 0,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 500,
+            "easing": "ease",
+            "endDelay": 0,
+            "fill": "backwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "fig-51j1vz",
+          "current": 5599.718999999998,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 25000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "cls": "fig-1mxu7da",
+          "current": 0,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 400,
+            "easing": "ease-in-out",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 16163.800000000047,
+      "h1": "The intelligent canvas for infinite creativity",
+      "animations": [
+        {
+          "cls": "fig-51j1vz",
+          "current": 7866.270999999998,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 25000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "cls": "fig-0",
+          "current": 1279.1999999999514,
+          "timing": {
+            "delay": 200,
+            "direction": "normal",
+            "duration": 1250,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "cls": "fig-187x5j1",
+          "current": 1279.1999999999514,
+          "timing": {
+            "delay": 400,
+            "direction": "normal",
+            "duration": 1250,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 17738.800000000047,
+      "h1": "The intelligent canvas for infinite creativity",
+      "animations": [
+        {
+          "cls": "fig-51j1vz",
+          "current": 8133.070999999997,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 25000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        },
+        {
+          "cls": "fig-187x5j1",
+          "current": 1545.9999999999513,
+          "timing": {
+            "delay": 400,
+            "direction": "normal",
+            "duration": 1250,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "both",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 18751.800000000047,
+      "h1": "The intelligent canvas for infinite creativity",
+      "animations": [
+        {
+          "cls": "fig-51j1vz",
+          "current": 10282.871,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 25000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": null
+          }
+        }
+      ]
+    }
+  ],
+  "error": "page.screenshot: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - taking page screenshot\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded"
+}

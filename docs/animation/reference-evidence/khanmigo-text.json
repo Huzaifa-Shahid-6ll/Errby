@@ -1,0 +1,246 @@
+{
+  "id": "khanmigo-text",
+  "url": "https://www.khanmigo.ai/",
+  "date": "2026-09-19T18:00:26.538Z",
+  "samples": [
+    {
+      "at": 864.8999999999069,
+      "text": "Learners\nParents\nWriting Coach\nNew\nDistricts\nGet Khanmigo\nKhanmigo is your always-available\n teaching assistant.\n\nFor teachers\n\nKnock something off your to-do list in minutes\n\nSign up for free\n\nFor districts\n\nExpert-led AI adoption for your schools\n\nLearn more\n\nFor writing\n\nAI-enhanced writing practice and instruction tool\n\nSign up for free\n“Forget",
+      "animations": []
+    },
+    {
+      "at": 1377.6999999999534,
+      "text": "Learners\nParents\nWriting Coach\nNew\nDistricts\nGet Khanmigo\nKhanmigo is your always-available\n tuto\n\nFor teachers\n\nKnock something off your to-do list in minutes\n\nSign up for free\n\nFor districts\n\nExpert-led AI adoption for your schools\n\nLearn more\n\nFor writing\n\nAI-enhanced writing practice and instruction tool\n\nSign up for free\n“Forget ChatGPT. These",
+      "animations": [
+        {
+          "target": "<div class=\"onetrust-pc-dark-filter ot-fade-in\" style=\"z-index:2147483645;\"></div>",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1280,
+            "height": 800,
+            "top": 0,
+            "right": 1280,
+            "bottom": 800,
+            "left": 0
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "ease-in-out",
+              "composite": "auto",
+              "opacity": "0",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "ease-in-out",
+              "composite": "auto",
+              "opacity": "1",
+              "computedOffset": 1
+            }
+          ],
+          "time": 300.0230000000586,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 400,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "none",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        },
+        {
+          "target": "<div id=\"onetrust-banner-sdk\" class=\"otFloatingRoundedCorner ot-bottom-left vertical-align-content ot-buttons-fw\" tabindex=\"0\" role=\"region\" aria-label=\"Cookie banner\" style=\"\n                animation-timing-function: ease-out;\n                animation-fill-mode: forwards;\n                animation-duration: 2000ms;animation-name: slide-down-custom;bottom: -300px;\"><div class=\"ot-sdk-container\" ",
+          "rect": {
+            "x": 16,
+            "y": 606.046875,
+            "width": 375,
+            "height": 419.40625,
+            "top": 606.046875,
+            "right": 391,
+            "bottom": 1025.453125,
+            "left": 16
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "ease-out",
+              "composite": "auto",
+              "bottom": "-300px",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "ease-out",
+              "composite": "auto",
+              "bottom": "16px",
+              "computedOffset": 1
+            }
+          ],
+          "time": 300.0230000000586,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "forwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 1906.6999999999534,
+      "text": "Learners\nParents\nWriting Coach\nNew\nDistricts\nGet Khanmigo\nKhanmigo is your always-available\n tutor.\n\nFor teachers\n\nKnock something off your to-do list in minutes\n\nSign up for free\n\nFor districts\n\nExpert-led AI adoption for your schools\n\nLearn more\n\nFor writing\n\nAI-enhanced writing practice and instruction tool\n\nSign up for free\n“Forget ChatGPT. The",
+      "animations": [
+        {
+          "target": "<div id=\"onetrust-banner-sdk\" class=\"otFloatingRoundedCorner ot-bottom-left vertical-align-content ot-buttons-fw\" tabindex=\"0\" role=\"region\" aria-label=\"Cookie banner\" style=\"\n                animation-timing-function: ease-out;\n                animation-fill-mode: forwards;\n                animation-duration: 2000ms;animation-name: slide-down-custom;bottom: -300px;\"><div class=\"ot-sdk-container\" ",
+          "rect": {
+            "x": 16,
+            "y": 493.921875,
+            "width": 375,
+            "height": 419.40625,
+            "top": 493.921875,
+            "right": 391,
+            "bottom": 913.328125,
+            "left": 16
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "ease-out",
+              "composite": "auto",
+              "bottom": "-300px",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "ease-out",
+              "composite": "auto",
+              "bottom": "16px",
+              "computedOffset": 1
+            }
+          ],
+          "time": 833.3230000000584,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "forwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 2422.5999999998603,
+      "text": "Learners\nParents\nWriting Coach\nNew\nDistricts\nGet Khanmigo\nKhanmigo is your always-available\n tutor.\n\nFor teachers\n\nKnock something off your to-do list in minutes\n\nSign up for free\n\nFor districts\n\nExpert-led AI adoption for your schools\n\nLearn more\n\nFor writing\n\nAI-enhanced writing practice and instruction tool\n\nSign up for free\n“Forget ChatGPT. The",
+      "animations": [
+        {
+          "target": "<div id=\"onetrust-banner-sdk\" class=\"otFloatingRoundedCorner ot-bottom-left vertical-align-content ot-buttons-fw\" tabindex=\"0\" role=\"region\" aria-label=\"Cookie banner\" style=\"\n                animation-timing-function: ease-out;\n                animation-fill-mode: forwards;\n                animation-duration: 2000ms;animation-name: slide-down-custom;bottom: -300px;\"><div class=\"ot-sdk-container\" ",
+          "rect": {
+            "x": 16,
+            "y": 411.78125,
+            "width": 375,
+            "height": 419.40625,
+            "top": 411.78125,
+            "right": 391,
+            "bottom": 831.1875,
+            "left": 16
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "ease-out",
+              "composite": "auto",
+              "bottom": "-300px",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "ease-out",
+              "composite": "auto",
+              "bottom": "16px",
+              "computedOffset": 1
+            }
+          ],
+          "time": 1349.9230000000587,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "forwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 2935.5999999998603,
+      "text": "Learners\nParents\nWriting Coach\nNew\nDistricts\nGet Khanmigo\nKhanmigo is your always-available\n tutor.\n\nFor teachers\n\nKnock something off your to-do list in minutes\n\nSign up for free\n\nFor districts\n\nExpert-led AI adoption for your schools\n\nLearn more\n\nFor writing\n\nAI-enhanced writing practice and instruction tool\n\nSign up for free\n“Forget ChatGPT. The",
+      "animations": [
+        {
+          "target": "<div id=\"onetrust-banner-sdk\" class=\"otFloatingRoundedCorner ot-bottom-left vertical-align-content ot-buttons-fw\" tabindex=\"0\" role=\"region\" aria-label=\"Cookie banner\" style=\"\n                animation-timing-function: ease-out;\n                animation-fill-mode: forwards;\n                animation-duration: 2000ms;animation-name: slide-down-custom;bottom: -300px;\"><div class=\"ot-sdk-container\" ",
+          "rect": {
+            "x": 16,
+            "y": 367.078125,
+            "width": 375,
+            "height": 419.40625,
+            "top": 367.078125,
+            "right": 391,
+            "bottom": 786.484375,
+            "left": 16
+          },
+          "frames": [
+            {
+              "offset": 0,
+              "easing": "ease-out",
+              "composite": "auto",
+              "bottom": "-300px",
+              "computedOffset": 0
+            },
+            {
+              "offset": 1,
+              "easing": "ease-out",
+              "composite": "auto",
+              "bottom": "16px",
+              "computedOffset": 1
+            }
+          ],
+          "time": 1866.6230000000583,
+          "timing": {
+            "delay": 0,
+            "direction": "normal",
+            "duration": 2000,
+            "easing": "linear",
+            "endDelay": 0,
+            "fill": "forwards",
+            "iterationStart": 0,
+            "iterations": 1
+          }
+        }
+      ]
+    },
+    {
+      "at": 3449.1999999999534,
+      "text": "Learners\nParents\nWriting Coach\nNew\nDistricts\nGet Khanmigo\nKhanmigo is your always-available\n tutor.\n\nFor teachers\n\nKnock something off your to-do list in minutes\n\nSign up for free\n\nFor districts\n\nExpert-led AI adoption for your schools\n\nLearn more\n\nFor writing\n\nAI-enhanced writing practice and instruction tool\n\nSign up for free\n“Forget ChatGPT. The",
+      "animations": []
+    },
+    {
+      "at": 3961.0999999998603,
+      "text": "Learners\nParents\nWriting Coach\nNew\nDistricts\nGet Khanmigo\nKhanmigo is your always-available\n tu\n\nFor teachers\n\nKnock something off your to-do list in minutes\n\nSign up for free\n\nFor districts\n\nExpert-led AI adoption for your schools\n\nLearn more\n\nFor writing\n\nAI-enhanced writing practice and instruction tool\n\nSign up for free\n“Forget ChatGPT. These a",
+      "animations": []
+    }
+  ]
+}

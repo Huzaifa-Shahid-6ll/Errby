@@ -1,0 +1,88 @@
+.landing-theme-toggle {
+  min-width: 44px;
+  min-height: 44px;
+  color: var(--text);
+}
+
+.landing-theme-sun,
+.dark .landing-theme-moon {
+  display: none;
+}
+
+.dark .landing-theme-sun {
+  display: block;
+}
+
+.landing-page .landing-cta {
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease,
+    transform 150ms ease;
+}
+
+.landing-page .landing-cta svg {
+  transition: transform 150ms ease;
+}
+
+.landing-page details summary {
+  cursor: pointer;
+}
+
+.landing-page details summary svg {
+  transition: transform 150ms ease;
+}
+
+.landing-page details[open] summary svg {
+  transform: rotate(180deg);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .landing-page .landing-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px color-mix(in srgb, var(--primary) 16%, transparent);
+  }
+
+  .landing-page .landing-cta:hover svg {
+    transform: translateX(3px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .landing-page [data-landing-enter] {
+    animation: landing-settle 500ms ease-out both;
+  }
+
+  .landing-page [data-landing-mascot] {
+    transform-origin: 50% 90%;
+    animation: landing-greeting 650ms ease-out both;
+  }
+}
+
+@keyframes landing-settle {
+  from {
+    transform: translateY(8px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes landing-greeting {
+  from {
+    transform: rotate(-4deg) translateY(3px);
+  }
+  to {
+    transform: rotate(0) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-page *,
+  .landing-page *::before,
+  .landing-page *::after,
+  .landing-theme-toggle {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

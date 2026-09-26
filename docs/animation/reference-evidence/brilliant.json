@@ -1,0 +1,8 @@
+{
+  "id": "brilliant",
+  "url": "https://brilliant.org/",
+  "date": "2026-09-19T17:57:24.770Z",
+  "browser": "153.0.8010.12",
+  "viewport": "1280x800",
+  "error": "page.goto: Timeout 18000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"https://brilliant.org/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+}
