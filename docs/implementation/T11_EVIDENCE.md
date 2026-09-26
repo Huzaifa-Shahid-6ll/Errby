@@ -1,0 +1,7 @@
+# T11 — objective evidence and server completion
+
+Implemented 26 September 2026 as a server-only persistence boundary. A caller validates T09 output against the session's saved learner answer and approved lesson contract, then a service-role-only PostgreSQL transaction binds each assessment to the saved student message and pinned lesson version. Correct, independently expressed, unassisted evidence with a learner quote and checked objective references can mark an objective explained. Partial, uncertain, incorrect, assisted or copied Supervisor text cannot complete it. The transaction completes only when every required objective is explained and no intervention remains unresolved. The learner cannot call the evidence RPC or set scores/completion through the session API.
+
+The live session route still saves answers in `evaluating`; no evaluator or T10 reply invokes this boundary yet. The new RPC moves unresolved assessments to `needs_review` until the orchestration path exists. No model accuracy or end-to-end completion is claimed. Teacher review, paid-call controls, hosted Supabase/Auth verification, T10 reply persistence, retry recovery and UI progress remain outstanding.
+
+PGlite checks cover role denial, assisted evidence remaining incomplete, and independent checked evidence completing a synthetic pinned session. This does not verify hosted Auth, Storage or real model judgments.

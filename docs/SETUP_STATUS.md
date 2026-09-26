@@ -1,4 +1,4 @@
-# Setup status — updated 19 September 2026
+# Setup status — updated 26 September 2026
 
 ## Current task status
 
@@ -10,6 +10,9 @@
 | T04 text/PDF extraction       | Implemented; local parser, browser and production checks pass            | Hosted authenticated upload acceptance remains pending; T05 adds durable preparation; automatic lesson generation remains unavailable.                |
 | T05 durable preparation       | Implemented; final local verification recorded in the T05/T06 addendum   | Hosted persistence/Auth verification requires configured synthetic Supabase accounts. Automatic generation and teacher publication remain later work. |
 | T06 learning workspace        | Implemented; final browser verification recorded in the T05/T06 addendum | Fixture UI only; real class lessons, sessions and human lesson-pack approval remain separate acceptance.                                              |
+| T09 evaluator contract        | Server-only validation and fictional corpus coverage checks pass                            | Teacher review, observed model evaluation, paid-call controls and atomic session integration remain pending.                                          |
+| T10 next-turn selection       | Server-only authored reply selection and local validation checks pass                        | No live evaluator, persisted reply or hosted end-to-end teaching flow yet.                                                                             |
+| T11 objective evidence        | Server-only evidence transaction and PGlite role/completion checks pass                      | No live evaluator invokes it; teacher review, hosted Auth verification, T10 reply integration and UI progress remain pending.                           |
 
 T01/T02 verification is recorded below. T03/T04 add real local extraction and lesson validation; their current checks and remaining acceptance are recorded in the final addendum. Historical foundation sections describe the state at setup, not current capabilities.
 

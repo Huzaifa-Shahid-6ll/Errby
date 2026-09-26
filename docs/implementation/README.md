@@ -11,5 +11,8 @@ The original backlog remains in [IMPLEMENTATION_TASKS.md](../specification/IMPLE
 | T05 durable preparation | [Preparation jobs and immutable versions](T05_PREPARATION.md)   | Hosted persistence verification; T07 sessions; T14 review/publication           |
 | T06 learning home       | [Composer, navigation and fixture lesson list](T06_HOME.md)     | T08 session rendering after T07                                                 |
 | T07 learning sessions   | [Session open and genuine first question](T07_SESSIONS.md)      | Hosted persistence verification; T08 rendering; T09 evaluation; T14 publication |
+| T09 evaluator contract  | [Decision gate and candidate corpus](T09_EVALUATION.md)         | Teacher review; real model run and atomic integration remain pending            |
+| T10 next-turn selection | [Authored reply selection](T10_NEXT_TURN.md)                     | Persisted reply orchestration and live evaluator remain pending                 |
+| T11 objective evidence  | [Evidence and completion transaction](T11_EVIDENCE.md)          | Live evaluator integration and hosted verification remain pending               |
 
 Local SQL/provider-mock checks do not establish live Supabase Auth or Storage acceptance. Fictional lesson fixtures and saved unreviewed drafts do not establish content approval, grading or lesson completion.

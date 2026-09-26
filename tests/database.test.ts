@@ -285,6 +285,99 @@ test("migrations, role isolation, private sessions, duplicate turns and immutabl
       (await db.query("select * from public.sign_in_attempts")).rows.length,
       2,
     );
+    // T11: the service transaction accepts checked, independent evidence for
+    // the pinned version; copied/assisted claims and direct client RPC fail.
+    await db.query(
+      `insert into public.lesson_versions(id,lesson_id,version,objectives_json,reference_json,provenance,initial_question,review_status,reviewed_at)
+       values ($1,$2,2,'[{"id":"goal","required":true,"reference_ids":["ref"]}]',
+         '[{"id":"ref","purpose":"evidence","status":"source_checked"}]','{}','Explain.', 'published',now())`,
+      [id(52), id(22)],
+    );
+    await db.query(
+      "update public.lessons set current_published_version=$1 where id=$2",
+      [id(52), id(22)],
+    );
+    await db.query(
+      "insert into public.sessions(id,learner_id,class_id,lesson_version_id,visibility,status,last_sequence) values ($1,$2,$3,$4,'class','evaluating',1)",
+      [id(62), id(4), id(12), id(52)],
+    );
+    await db.query(
+      "insert into public.messages(id,session_id,sequence,role,text,turn_id) values ($1,$2,1,'student','Heat moves from warmer air to ice.',$3)",
+      [id(72), id(62), id(73)],
+    );
+    const assessment = (independent: boolean, assisted: boolean) =>
+      JSON.stringify([
+        {
+          objective_id: "goal",
+          verdict: "correct",
+          learner_quote: "Heat moves from warmer air to ice.",
+          reference_ids: ["ref"],
+          independent,
+          assisted,
+        },
+      ]);
+    await db.exec("set role authenticated");
+    await assert.rejects(
+      db.query(
+        "select public.record_objective_evidence($1,$2,$3::jsonb,'v1','model')",
+        [id(62), id(72), assessment(true, false)],
+      ),
+      /permission denied/,
+    );
+    await db.exec("reset role");
+    assert.equal(
+      (
+        await db.query<{ state: string }>(
+          "select public.record_objective_evidence($1,$2,$3::jsonb,'v1','model') as state",
+          [id(62), id(72), assessment(false, true)],
+        )
+      ).rows[0].state,
+      "needs_review",
+    );
+    assert.equal(
+      (
+        await db.query<{ state: string }>(
+          "select state from public.objective_progress where session_id=$1",
+          [id(62)],
+        )
+      ).rows[0].state,
+      "developing",
+    );
+    assert.equal(
+      (
+        await db.query<{ status: string }>(
+          "select status from public.sessions where id=$1",
+          [id(62)],
+        )
+      ).rows[0].status,
+      "needs_review",
+    );
+    await db.query(
+      "insert into public.sessions(id,learner_id,class_id,lesson_version_id,visibility,status,last_sequence) values ($1,$2,$3,$4,'class','evaluating',1)",
+      [id(63), id(4), id(12), id(52)],
+    );
+    await db.query(
+      "insert into public.messages(id,session_id,sequence,role,text,turn_id) values ($1,$2,1,'student','Heat moves from warmer air to ice.',$3)",
+      [id(74), id(63), id(75)],
+    );
+    assert.equal(
+      (
+        await db.query<{ state: string }>(
+          "select public.record_objective_evidence($1,$2,$3::jsonb,'v1','model') as state",
+          [id(63), id(74), assessment(true, false)],
+        )
+      ).rows[0].state,
+      "completed",
+    );
+    assert.equal(
+      (
+        await db.query<{ status: string }>(
+          "select status from public.sessions where id=$1",
+          [id(63)],
+        )
+      ).rows[0].status,
+      "completed",
+    );
     await db.exec("reset role");
     const rls = await db.query<{ relrowsecurity: boolean }>(
       "select relrowsecurity from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind='r'",
