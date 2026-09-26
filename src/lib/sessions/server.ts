@@ -5,7 +5,12 @@ import { createAdminClient } from "@/lib/db/admin";
 import { IngestionError } from "@/lib/ingestion/server";
 import { handleSessionApi } from "./request";
 
-export function sessionRequest(request: Request, id?: string, turns = false) {
+export function sessionRequest(
+  request: Request,
+  id?: string,
+  turns = false,
+  action = false,
+) {
   return handleSessionApi(
     request,
     async () => {
@@ -32,5 +37,6 @@ export function sessionRequest(request: Request, id?: string, turns = false) {
     },
     id,
     turns,
+    action,
   );
 }

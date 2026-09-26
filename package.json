@@ -10,7 +10,7 @@
     "typecheck": "next typegen && tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "tsx --test tests/foundation.test.ts tests/database.test.ts tests/lessons.test.ts && npm run test:identity && npm run test:ingestion && npm run test:preparations && npm run test:sessions",
+    "test": "tsx --test tests/foundation.test.ts tests/database.test.ts tests/lessons.test.ts && npm run test:identity && npm run test:ingestion && npm run test:preparations && npm run test:sessions && npm run test:classes && npm run test:teacher-review",
     "test:identity": "node --conditions=react-server --import tsx --test tests/identity.test.ts",
     "test:ingestion": "node --conditions=react-server --import tsx --test tests/ingestion.test.ts",
     "test:preparations": "node --conditions=react-server --import tsx --test tests/preparations.test.ts",
@@ -18,7 +18,9 @@
     "test:browser": "playwright test",
     "check": "npm run lint && npm run typecheck && npm test && npm run format:check",
     "db:test": "tsx --test tests/database.test.ts",
-    "test:sessions": "node --conditions=react-server --import tsx --test tests/sessions.test.ts"
+    "test:sessions": "node --conditions=react-server --import tsx --test tests/sessions.test.ts",
+    "test:classes": "node --conditions=react-server --import tsx --test tests/classes.test.ts",
+    "test:teacher-review": "node --conditions=react-server --import tsx --test tests/teacher-review.test.ts"
   },
   "type": "module",
   "dependencies": {

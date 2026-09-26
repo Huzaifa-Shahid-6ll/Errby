@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import type { PreparationState } from "@/lib/preparations/contracts";
+import { TeacherReview } from "./teacher-review";
 const inputClass =
   "w-full rounded-lg border border-[var(--control-border)] bg-[var(--surface)] p-3";
 
@@ -83,14 +84,18 @@ export function SavedPreparation({ id }: { id: string }) {
       clearTimeout(timer);
     };
   }, [id, load, reload]);
-  async function submit(event: FormEvent<HTMLFormElement>, author = false) {
+  async function submit(
+    event: FormEvent<HTMLFormElement>,
+    author = false,
+    authoredDraft?: unknown,
+  ) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     setPending(true);
     setError("");
     try {
       const body = author
-        ? { expected_step: 1, draft: JSON.parse(draft) }
+        ? { expected_step: 1, draft: authoredDraft ?? JSON.parse(draft) }
         : {
             expected_step: 0,
             context: {
@@ -284,6 +289,159 @@ export function SavedPreparation({ id }: { id: string }) {
         </p>
       )}
       {job.current_step === 1 && can_author && (
+        <form
+          className="grid gap-3 rounded-xl border border-[var(--control-border)] p-4"
+          onSubmit={(event) => {
+            const data = new FormData(event.currentTarget);
+            const quote = String(data.get("quote") || "").trim();
+            const objective = String(data.get("objective") || "").trim();
+            const criterion = String(data.get("criterion") || "").trim();
+            const correction = String(data.get("correction") || "").trim();
+            const followUp = String(data.get("follow_up") || "").trim();
+            const question = String(data.get("question") || "").trim();
+            const page = Number(data.get("page"));
+            const source = result.extraction;
+            const sourceKind =
+              source.kind === "topic" ? "outline" : source.kind;
+            const authored = {
+              schema_version: "1.1",
+              id: `lesson-${job.id}`,
+              version: 1,
+              title: String(data.get("title") || "").trim(),
+              grade_band: result.context.grade || "Teacher specified",
+              language: "en",
+              content_origin: "human_authored",
+              illustrative_only: source.provenance === "fictional_unreviewed",
+              initial_question: question,
+              application_question: followUp,
+              sources: [
+                {
+                  id: job.source_id,
+                  title: "Saved source",
+                  kind: sourceKind,
+                  url: null,
+                  provenance: "Saved unreviewed source",
+                },
+              ],
+              references: [
+                {
+                  id: "source-quote",
+                  source_id: job.source_id,
+                  location: { kind: "page", index: page },
+                  text: quote,
+                  text_kind: "excerpt",
+                  purpose: source.source_role,
+                  status: "unverified",
+                },
+              ],
+              objectives: [
+                {
+                  id: "objective-1",
+                  title: objective,
+                  required: true,
+                  criteria: [criterion],
+                  acceptable_explanations: [criterion],
+                  essential_facts: [quote],
+                  correction_criteria: [correction],
+                  reference_ids:
+                    source.source_role === "evidence" ? ["source-quote"] : [],
+                  misconceptions: [],
+                  follow_up_questions: [followUp],
+                  application_question: followUp,
+                  unresolved_issues: [
+                    "Teacher review and source check pending.",
+                  ],
+                },
+              ],
+              teacher_review: { status: "pending" },
+            };
+            void submit(event, true, authored);
+          }}
+        >
+          <h2 className="font-semibold">Map one objective from this source</h2>
+          <p>
+            Use a real, permitted evidence source. Paste one exact quote from a
+            saved page. The draft remains unreviewed until you check it below.
+          </p>
+          <label>
+            Lesson title
+            <input
+              name="title"
+              required
+              maxLength={160}
+              className={inputClass}
+            />
+          </label>
+          <label>
+            Page number
+            <select name="page" className={inputClass}>
+              {result.extraction.pages.map((page) => (
+                <option key={page.page} value={page.page}>
+                  Page {page.page}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Exact source quote
+            <textarea
+              name="quote"
+              required
+              maxLength={2000}
+              className={inputClass}
+            />
+          </label>
+          <label>
+            Learning objective
+            <input
+              name="objective"
+              required
+              maxLength={2000}
+              className={inputClass}
+            />
+          </label>
+          <label>
+            Success criterion
+            <textarea
+              name="criterion"
+              required
+              maxLength={2000}
+              className={inputClass}
+            />
+          </label>
+          <label>
+            Correction criterion
+            <textarea
+              name="correction"
+              required
+              maxLength={2000}
+              className={inputClass}
+            />
+          </label>
+          <label>
+            Opening question
+            <textarea
+              name="question"
+              required
+              maxLength={2000}
+              className={inputClass}
+            />
+          </label>
+          <label>
+            Follow-up and application question
+            <textarea
+              name="follow_up"
+              required
+              maxLength={2000}
+              className={inputClass}
+            />
+          </label>
+          <Button type="submit" disabled={pending}>
+            Save unreviewed draft map
+          </Button>
+        </form>
+      )}
+      {job.current_step === 1 && can_author && (
         <details>
           <summary className="cursor-pointer underline">
             Teacher: import a manually authored draft
@@ -337,10 +495,23 @@ export function SavedPreparation({ id }: { id: string }) {
             ))}
           </ul>
           <p>
-            Stored draft versions cannot be overwritten. Teacher editing, review
-            and publication belong to the upcoming review workflow. Learning
-            sessions are not available from this draft.
+            Stored versions cannot be overwritten. Teacher edits create a new
+            version.
           </p>
+          {can_author && job.class_id && (
+            <TeacherReview
+              key={job.partial_results.lesson_version_id}
+              id={id}
+              state={state}
+              onSaved={setState}
+            />
+          )}
+          {can_author && !job.class_id && (
+            <p>
+              Private drafts cannot be published. Prepare this source for an
+              active class to start a class lesson.
+            </p>
+          )}
           {can_author && (
             <details>
               <summary className="cursor-pointer underline">

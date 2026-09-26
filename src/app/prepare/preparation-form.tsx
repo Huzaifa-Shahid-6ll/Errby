@@ -18,9 +18,11 @@ const inputClass =
 export function PreparationForm({
   demo,
   grade,
+  classes,
 }: {
   demo: boolean;
   grade: string;
+  classes: { id: string; title: string }[];
 }) {
   const [kind, setKind] = useState("topic");
   const [initialText] = useState(getPreparationDraft);
@@ -34,6 +36,8 @@ export function PreparationForm({
     event.preventDefault();
     const form = event.currentTarget;
     const data = new FormData(form);
+    const classId = String(data.get("class_id") || "");
+    data.delete("class_id");
     if (kind !== "pdf") data.delete("file");
     setError("");
     setResult(null);
@@ -44,7 +48,12 @@ export function PreparationForm({
         demo ? "/prepare/extract" : "/api/preparations",
         {
           method: "POST",
-          headers: demo ? undefined : { "Idempotency-Key": requestKey.current },
+          headers: demo
+            ? undefined
+            : {
+                "Idempotency-Key": requestKey.current,
+                ...(classId ? { "X-Errby-Class-Id": classId } : {}),
+              },
           body: data,
         },
       );
@@ -99,6 +108,19 @@ export function PreparationForm({
         aria-describedby="source-limits"
       >
         <fieldset disabled={pending} className="grid min-w-0 gap-4">
+          {!demo && classes.length > 0 && (
+            <label className="grid gap-1">
+              Prepare for class
+              <select name="class_id" className={inputClass} defaultValue="">
+                <option value="">Private preparation</option>
+                {classes.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.title}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
           <label className="grid gap-1">
             Source type
             <select

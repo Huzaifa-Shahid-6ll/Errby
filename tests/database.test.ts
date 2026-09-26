@@ -35,8 +35,8 @@ test("migrations, role isolation, private sessions, duplicate turns and immutabl
     }
     for (let n = 1; n <= 2; n++) {
       await db.query(
-        "insert into public.classes(id, teacher_id, title, grade_band, join_code_hash) values ($1,$2,'Demo class','middle_school','synthetic-hash')",
-        [id(10 + n), id(n)],
+        "insert into public.classes(id, teacher_id, title, grade_band, join_code_hash) values ($1,$2,'Demo class','middle_school',$3)",
+        [id(10 + n), id(n), `synthetic-hash-${n}`],
       );
       await db.query(
         "insert into public.memberships(class_id,student_id,alias_in_class) values ($1,$2,'Demo learner')",
@@ -352,6 +352,49 @@ test("migrations, role isolation, private sessions, duplicate turns and immutabl
       ).rows[0].status,
       "needs_review",
     );
+    assert.equal(
+      (
+        await db.query<{ state: string }>(
+          "select public.record_objective_evidence($1,$2,$3::jsonb,'v1','model') as state",
+          [id(62), id(72), assessment(false, true)],
+        )
+      ).rows[0].state,
+      "needs_review",
+    );
+    assert.equal(
+      (
+        await db.query<{ revision: number }>(
+          "select revision from public.objective_progress where session_id=$1",
+          [id(62)],
+        )
+      ).rows[0].revision,
+      0,
+    );
+    await assert.rejects(
+      db.query(
+        "select public.record_objective_evidence($1,$2,$3::jsonb,'v1','model')",
+        [id(62), id(72), assessment(true, false)],
+      ),
+      /evidence_conflict/,
+    );
+    assert.equal(
+      (
+        await db.query<{ status: string }>(
+          "select public.set_learning_session_paused($1,$2,true) as status",
+          [id(4), id(62)],
+        )
+      ).rows[0].status,
+      "paused",
+    );
+    assert.equal(
+      (
+        await db.query<{ status: string }>(
+          "select public.set_learning_session_paused($1,$2,false) as status",
+          [id(4), id(62)],
+        )
+      ).rows[0].status,
+      "needs_review",
+    );
     await db.query(
       "insert into public.sessions(id,learner_id,class_id,lesson_version_id,visibility,status,last_sequence) values ($1,$2,$3,$4,'class','evaluating',1)",
       [id(63), id(4), id(12), id(52)],
@@ -378,11 +421,18 @@ test("migrations, role isolation, private sessions, duplicate turns and immutabl
       ).rows[0].status,
       "completed",
     );
+    await assert.rejects(
+      db.query("select public.set_learning_session_paused($1,$2,true)", [
+        id(4),
+        id(63),
+      ]),
+      /session_not_pausable/,
+    );
     await db.exec("reset role");
     const rls = await db.query<{ relrowsecurity: boolean }>(
       "select relrowsecurity from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind='r'",
     );
-    assert.equal(rls.rows.length, 17);
+    assert.equal(rls.rows.length, 18);
     assert.ok(rls.rows.every((row) => row.relrowsecurity));
     assert.equal(
       (

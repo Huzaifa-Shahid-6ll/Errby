@@ -23,4 +23,5 @@ export type PreparationState = {
   job: PreparationJob;
   lesson: Lesson | null;
   can_author: boolean;
+  review_status?: string | null;
 };

@@ -43,8 +43,8 @@ test("PGlite only: session open binds the published opening question, enforces s
     }
     for (let n = 1; n <= 2; n++)
       await sql.query(
-        "insert into public.classes(id,teacher_id,title,grade_band,join_code_hash) values($1,$2,'Synthetic class','middle_school','synthetic')",
-        [id(10 + n), id(n)],
+        "insert into public.classes(id,teacher_id,title,grade_band,join_code_hash) values($1,$2,'Synthetic class','middle_school',$3)",
+        [id(10 + n), id(n), `synthetic-${n}`],
       );
     await sql.query(
       "insert into public.memberships(class_id,student_id,alias_in_class) values($1,$2,'Synthetic learner')",

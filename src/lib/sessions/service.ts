@@ -56,6 +56,8 @@ const failures: Record<string, [number, string]> = {
     409,
     "This retry key belongs to different text. Reload the saved session.",
   ],
+  session_not_pausable: [409, "This finished session cannot be paused."],
+  session_not_paused: [409, "This session is not paused. Refresh it."],
 };
 
 export function sessionFailure(error: { message: string }): never {
@@ -214,6 +216,27 @@ export async function submitTurn(
       created_at: result.message.created_at,
     },
   };
+}
+
+export async function setSessionPaused(
+  db: SupabaseClient,
+  actor: SessionActor,
+  id: string,
+  pause: boolean,
+): Promise<SessionState> {
+  if (actor.role !== "learner")
+    throw new IngestionError(
+      "session_learner_required",
+      failures.session_learner_required[1],
+      403,
+    );
+  const { error } = await db.rpc("set_learning_session_paused", {
+    p_learner: actor.id,
+    p_session_id: id,
+    p_pause: pause,
+  });
+  if (error) sessionFailure(error);
+  return getSession(db, actor, id);
 }
 
 // Learner-facing published lesson list. Runs on the caller's session client so

@@ -138,17 +138,24 @@ export async function readPreparation(
   });
   if (access.error) databaseFailure(access.error);
   let lesson = null;
+  let review_status: string | null = null;
   if (data.partial_results.lesson_version_id) {
     const version = await db
       .from("lesson_versions")
-      .select("lesson_json")
+      .select("lesson_json,review_status")
       .eq("id", data.partial_results.lesson_version_id)
       .eq("lesson_id", data.partial_results.lesson_id)
       .single();
     if (version.error) databaseFailure(version.error);
     lesson = lessonSchema.parse(version.data.lesson_json);
+    review_status = version.data.review_status;
   }
-  return { job: publicJob(data), lesson, can_author: actor.role === "teacher" };
+  return {
+    job: publicJob(data),
+    lesson,
+    can_author: actor.role === "teacher",
+    review_status,
+  };
 }
 export async function listPreparations(
   db: SupabaseClient,
@@ -175,6 +182,7 @@ export function validateDraft(
   input: unknown,
   job: PreparationJob,
   actor: PreparationActor,
+  version = 1,
 ) {
   if (actor.role !== "teacher")
     throw new IngestionError(
@@ -192,12 +200,12 @@ export function validateDraft(
   const draft = parsed.data;
   if (
     draft.teacher_review.status !== "pending" ||
-    draft.version !== 1 ||
-    draft.references.some((r) => r.status !== "unverified")
+    draft.version !== version ||
+    (version === 1 && draft.references.some((r) => r.status !== "unverified"))
   )
     throw new IngestionError(
       "untrusted_review",
-      "Imported drafts must be version 1 with pending teacher review and unverified references. Import cannot approve content.",
+      "Drafts need the expected version and pending review. Imported version 1 references must be unverified.",
       400,
     );
   const extraction = job.partial_results.extraction;

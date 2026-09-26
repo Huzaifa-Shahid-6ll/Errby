@@ -35,7 +35,7 @@ const statuses = {
   ],
   paused: [
     "Paused",
-    "This session is paused. Your saved conversation is below; resuming is not available yet.",
+    "This session is paused. Your saved conversation is below. Resume when you are ready.",
   ],
   ended_incomplete: [
     "Ended · incomplete",
@@ -70,6 +70,39 @@ export function SessionView({ id }: { id: string }) {
   );
   const answerInput = useRef<HTMLTextAreaElement>(null);
   const statusRegion = useRef<HTMLParagraphElement>(null);
+  const draftKey = `errby:session:${id}:draft`;
+  const [draftReady, setDraftReady] = useState(false);
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(draftKey) ?? "null");
+      if (saved && typeof saved.text === "string") {
+        setText(saved.text);
+        if (typeof saved.sequence === "number" && typeof saved.key === "string")
+          turn.current = saved;
+      } else setText("");
+    } catch {
+      setText("");
+    }
+    setDraftReady(true);
+    return () => {
+      turn.current = null;
+    };
+  }, [draftKey]);
+
+  useEffect(() => {
+    if (!draftReady) return;
+    try {
+      if (text)
+        sessionStorage.setItem(
+          draftKey,
+          JSON.stringify(turn.current ?? { text }),
+        );
+      else sessionStorage.removeItem(draftKey);
+    } catch {
+      /* Storage can be disabled; the server still owns saved turns. */
+    }
+  }, [draftKey, text, draftReady]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -98,6 +131,19 @@ export function SessionView({ id }: { id: string }) {
           return;
         }
         setState(payload as SessionState);
+        if (
+          turn.current &&
+          payload.messages.some(
+            (message: { role: string; sequence: number; text: string }) =>
+              message.role === "student" &&
+              message.sequence === turn.current!.sequence + 1 &&
+              message.text === turn.current!.text,
+          )
+        ) {
+          turn.current = null;
+          setText("");
+          setNotice("Your answer was saved before the connection ended.");
+        }
         if (reloadKey > 0)
           setNotice("Saved session refreshed. Any draft below stays unsent.");
       } catch {
@@ -133,6 +179,11 @@ export function SessionView({ id }: { id: string }) {
     if (turn.current?.text !== trimmed || turn.current.sequence !== sequence)
       turn.current = { text: trimmed, sequence, key: crypto.randomUUID() };
     try {
+      sessionStorage.setItem(draftKey, JSON.stringify(turn.current));
+    } catch {
+      /* optional recovery */
+    }
+    try {
       const response = await fetch(
         `/api/sessions/${encodeURIComponent(id)}/turns`,
         {
@@ -154,6 +205,11 @@ export function SessionView({ id }: { id: string }) {
         return;
       }
       turn.current = null;
+      try {
+        sessionStorage.removeItem(draftKey);
+      } catch {
+        /* optional recovery */
+      }
       setState({
         session: payload.session,
         messages: [...state.messages, payload.message],
@@ -170,6 +226,40 @@ export function SessionView({ id }: { id: string }) {
     }
   }
 
+  async function togglePause() {
+    if (!state || pending) return;
+    setPending(true);
+    setNotice("");
+    try {
+      const response = await fetch(
+        `/api/sessions/${encodeURIComponent(id)}/pause`,
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ pause: state.session.status !== "paused" }),
+        },
+      );
+      const payload = await response.json().catch(() => null);
+      if (!response.ok || !payload?.session) {
+        setNotice(
+          payload?.user_message ??
+            "Could not confirm the session state. Refresh and try again.",
+        );
+        return;
+      }
+      setState(payload as SessionState);
+      setNotice(
+        payload.session.status === "paused"
+          ? "Session paused and saved."
+          : "Session resumed.",
+      );
+    } catch {
+      setNotice("Could not confirm the session state. Refresh and try again.");
+    } finally {
+      setPending(false);
+    }
+  }
+
   if (loadError)
     return (
       <section aria-labelledby="session-error" className="session-shell mt-8">
@@ -181,8 +271,7 @@ export function SessionView({ id }: { id: string }) {
         </p>
         {text && (
           <p className="session-note">
-            Your unsent draft is still held in this tab. Retry loading to return
-            to it.
+            Your unsent draft is held in this tab for recovery.
           </p>
         )}
         <Button
@@ -228,14 +317,29 @@ export function SessionView({ id }: { id: string }) {
             {state.session.lesson_title}
           </h1>
         </div>
-        <Button
-          type="button"
-          variant="outline"
-          disabled={pending || loading}
-          onClick={() => setReloadKey((key) => key + 1)}
-        >
-          {loading ? "Refreshing…" : "Refresh saved session"}
-        </Button>
+        <div className="flex gap-2 flex-wrap">
+          {state.session.status !== "completed" &&
+            state.session.status !== "ended_incomplete" && (
+              <Button
+                type="button"
+                variant="outline"
+                disabled={pending || loading}
+                onClick={() => void togglePause()}
+              >
+                {state.session.status === "paused"
+                  ? "Resume session"
+                  : "Pause session"}
+              </Button>
+            )}
+          <Button
+            type="button"
+            variant="outline"
+            disabled={pending || loading}
+            onClick={() => setReloadKey((key) => key + 1)}
+          >
+            {loading ? "Refreshing…" : "Refresh saved session"}
+          </Button>
+        </div>
       </header>
       <p
         id="session-status"
@@ -323,7 +427,7 @@ export function SessionView({ id }: { id: string }) {
             <div className="session-composer-footer">
               <span id="answer-note">
                 {text.length}/{TURN_CHARACTER_LIMIT} characters · drafts stay in
-                this tab until you leave or reload the page
+                this browser tab until it closes
               </span>
               <Button type="submit" disabled={blocked}>
                 {pending ? "Saving…" : "Send answer"}

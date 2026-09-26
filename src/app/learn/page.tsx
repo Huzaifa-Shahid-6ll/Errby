@@ -47,6 +47,11 @@ export default async function Home() {
             Prepare your material
           </Link>
         )}
+        {identity && (
+          <Link href="/classes" className="ml-6 inline-block underline">
+            Your classes
+          </Link>
+        )}
         {unavailable && (
           <p role="alert" className="mt-6 text-muted-foreground">
             {unavailable}

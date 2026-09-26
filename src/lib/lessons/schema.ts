@@ -215,6 +215,15 @@ export const publicationReadyLessonSchema = lessonSchema.superRefine(
     const references = new Map(
       lesson.references.map((reference) => [reference.id, reference]),
     );
+    if (
+      lesson.references.some(
+        (reference) => reference.status !== "source_checked",
+      )
+    )
+      issue(
+        ["references"],
+        "Resolve and source-check every saved reference before publication.",
+      );
     lesson.objectives.forEach((objective, index) => {
       if (objective.unresolved_issues.length)
         issue(
@@ -224,7 +233,10 @@ export const publicationReadyLessonSchema = lessonSchema.superRefine(
       if (
         !objective.reference_ids.length ||
         objective.misconceptions.some((item) => !item.reference_ids.length) ||
-        objective.reference_ids.some(
+        [
+          ...objective.reference_ids,
+          ...objective.misconceptions.flatMap((item) => item.reference_ids),
+        ].some(
           (referenceId) =>
             references.get(referenceId)?.status !== "source_checked",
         )

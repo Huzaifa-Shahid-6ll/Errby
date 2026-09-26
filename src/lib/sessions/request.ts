@@ -5,6 +5,7 @@ import {
   getSession,
   openSession,
   submitTurn,
+  setSessionPaused,
   uuid,
   type SessionActor,
 } from "./service";
@@ -16,6 +17,7 @@ export async function handleSessionApi(
   access: () => Promise<SessionAccess>,
   id?: string,
   turns = false,
+  action = false,
 ) {
   const headers = { "Cache-Control": "no-store" };
   try {
@@ -57,6 +59,22 @@ export async function handleSessionApi(
         400,
       );
     const body = await boundedJson(request);
+    if (action) {
+      if (
+        request.method !== "POST" ||
+        !id ||
+        typeof body?.pause !== "boolean" ||
+        Object.keys(body).length !== 1
+      )
+        throw new IngestionError(
+          "invalid_request",
+          "Choose pause or resume for this session.",
+          400,
+        );
+      return Response.json(await setSessionPaused(db, actor, id, body.pause), {
+        headers,
+      });
+    }
     if (!id) {
       const state = await openSession(db, actor, body);
       return Response.json(state, { status: 201, headers });

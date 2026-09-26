@@ -106,7 +106,7 @@ export async function handleDurablePreparation(
     );
   }
 }
-async function boundedJson(request: Request) {
+export async function boundedJson(request: Request) {
   const maximum = 500_000;
   if (Number(request.headers.get("content-length")) > maximum)
     throw new IngestionError("too_large", "Use a draft below 500 kB.", 413);

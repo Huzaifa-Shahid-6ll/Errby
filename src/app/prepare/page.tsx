@@ -8,6 +8,14 @@ export const dynamic = "force-dynamic";
 
 export default async function Prepare() {
   const identity = env.ERRBY_MODE === "live" ? await getIdentity() : null;
+  const classResult =
+    identity?.profile.role === "teacher"
+      ? await identity.db
+          .from("classes")
+          .select("id,title")
+          .eq("teacher_id", identity.user.id)
+          .eq("active", true)
+      : null;
   return (
     <main className="mx-auto max-w-3xl p-6 sm:p-10">
       <Link href="/learn" className="underline">
@@ -34,6 +42,7 @@ export default async function Prepare() {
         <PreparationForm
           demo={env.ERRBY_MODE === "demo"}
           grade={identity?.profile.grade_band ?? ""}
+          classes={classResult?.data ?? []}
         />
       )}
     </main>
