@@ -4,6 +4,7 @@ import { getIdentity } from "@/lib/auth/server";
 import { SignInForm } from "./sign-in-form";
 import { signOut } from "./actions";
 import { Button } from "@/components/ui/button";
+import { DeleteAccount } from "./delete-account";
 
 export const dynamic = "force-dynamic";
 
@@ -38,6 +39,7 @@ export default async function Setup({
           <form action={signOut}>
             <Button type="submit">Sign out</Button>
           </form>
+          <DeleteAccount />
         </div>
       ) : (
         <>

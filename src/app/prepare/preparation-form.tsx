@@ -38,7 +38,7 @@ export function PreparationForm({
     const data = new FormData(form);
     const classId = String(data.get("class_id") || "");
     data.delete("class_id");
-    if (kind !== "pdf") data.delete("file");
+    if (kind !== "pdf" && kind !== "docx") data.delete("file");
     setError("");
     setResult(null);
     setPending(true);
@@ -88,14 +88,16 @@ export function PreparationForm({
       {demo && (
         <p className="rounded-lg bg-[var(--supervisor-surface)] p-4 text-[var(--supervisor-text)]">
           Local demo: pasted fictional text and a built-in fictional PDF sample
-          are available. Personal PDF uploads require a signed-in account in
-          live mode.
+          are available. Personal PDF and DOCX uploads require a signed-in
+          account in live mode.
         </p>
       )}
       <p id="source-limits" className="text-sm">
-        One text PDF, up to 10 MiB and 50 pages; up to 30,000 extracted or
-        pasted characters. Scans, images, DOCX and automatic web/video imports
-        are unavailable. Paste permitted text instead. No OCR.
+        One text PDF or DOCX, up to 10 MiB and 50 pages or sections; up to
+        30,000 extracted or pasted characters. Scans, images and automatic
+        web/video imports are unavailable. For a resource link, paste permitted
+        webpage text or a video transcript. A link alone does not import content
+        or mean a video was watched. No OCR.
       </p>
       <form
         onSubmit={submit}
@@ -133,15 +135,32 @@ export function PreparationForm({
                 Topic or curriculum outline (scope only)
               </option>
               <option value="text">Pasted reference text (unreviewed)</option>
+              <option value="resource">
+                Resource link with pasted text or transcript
+              </option>
               {!demo && <option value="pdf">Text PDF (unreviewed)</option>}
+              {!demo && <option value="docx">DOCX (unreviewed)</option>}
               <option value="sample">Fictional PDF sample (unreviewed)</option>
             </select>
           </label>
+          <label hidden={kind !== "resource"} className="grid gap-1">
+            Public HTTPS resource link
+            <input
+              name="url"
+              type="url"
+              maxLength={2048}
+              className={inputClass}
+              disabled={kind !== "resource"}
+              placeholder="https://example.org/resource"
+            />
+          </label>
           <label
-            hidden={kind === "pdf" || kind === "sample"}
+            hidden={kind === "pdf" || kind === "docx" || kind === "sample"}
             className="grid gap-1"
           >
-            Topic or pasted text
+            {kind === "resource"
+              ? "Permitted webpage text or video transcript"
+              : "Topic or pasted text"}
             <textarea
               name="text"
               defaultValue={initialText}
@@ -151,12 +170,23 @@ export function PreparationForm({
               placeholder="For example: Grade 7: heat, cells, fractions"
             />
           </label>
+          <label hidden={kind !== "docx"} className="grid gap-1">
+            DOCX document
+            <input
+              name="file"
+              type="file"
+              accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document,.docx"
+              className={inputClass}
+              disabled={kind !== "docx"}
+            />
+          </label>
           <label hidden={kind !== "pdf"} className="grid gap-1">
             Text PDF
             <input
               name="file"
               type="file"
               accept="application/pdf,.pdf"
+              disabled={kind !== "pdf"}
               className={inputClass}
             />
           </label>
@@ -247,12 +277,27 @@ export function PreparationForm({
               </p>
             </div>
           )}
-          {result.extraction.kind === "pdf" && (
+          {(result.extraction.kind === "pdf" ||
+            result.extraction.kind === "docx") && (
             <p>
               Text found on {result.extraction.coverage.text_pages} of{" "}
-              {result.extraction.coverage.total_pages} pages.
+              {result.extraction.coverage.total_pages}{" "}
+              {result.extraction.kind === "docx" ? "sections" : "pages"}.
               {result.extraction.coverage.missing_pages.length > 0 &&
                 ` Missing text: pages ${result.extraction.coverage.missing_pages.join(", ")}.`}
+            </p>
+          )}
+          {result.extraction.source_url && (
+            <p>
+              Recorded resource link:{" "}
+              <a
+                href={result.extraction.source_url}
+                rel="noreferrer"
+                target="_blank"
+                className="underline break-all"
+              >
+                {result.extraction.source_url}
+              </a>
             </p>
           )}
           {result.extraction.warnings.map((warning) => (

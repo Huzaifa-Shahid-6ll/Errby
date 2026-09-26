@@ -51,7 +51,7 @@ export const lessonSchema = z
         z.strictObject({
           id,
           title: text,
-          kind: z.enum(["text", "pdf", "web", "outline"]),
+          kind: z.enum(["text", "pdf", "docx", "web", "outline"]),
           url: z.url({ protocol: /^https$/ }).nullable(),
           provenance: text,
         }),

@@ -8,6 +8,7 @@ import {
   type PreparationResult,
 } from "./contracts";
 import { pdfWorkerCode } from "./pdf-worker";
+import { docxWorkerCode } from "./docx-worker";
 
 export class IngestionError extends Error {
   constructor(
@@ -26,6 +27,8 @@ const messages: Record<string, string> = {
     "The source exceeds 30,000 characters. Split it into smaller units; nothing was truncated.",
   unreadable_pdf:
     "This PDF could not be read. Upload a readable text PDF or paste its text.",
+  unreadable_docx:
+    "This DOCX could not be read. Upload a readable DOCX or paste its text.",
   parser_timeout:
     "PDF extraction took too long. Try a smaller PDF or paste its text.",
 };
@@ -56,11 +59,11 @@ function extraction(
     .filter((page) => !page.text.trim())
     .map((page) => page.page);
   const text =
-    kind === "pdf"
+    kind === "pdf" || kind === "docx"
       ? pages
           .map(
             (page) =>
-              `[Page ${page.page}]\n${page.text || "[No extractable text]"}`,
+              `[${kind === "docx" ? "Section" : "Page"} ${page.page}]\n${page.text || "[No extractable text]"}`,
           )
           .join("\n\n")
       : pages[0].text;
@@ -94,6 +97,40 @@ export function extractText(text: unknown, kind: "topic" | "text") {
     accepted.text,
     "errby-text/1",
   );
+}
+export function extractResource(url: unknown, text: unknown): Extraction {
+  if (typeof url !== "string" || url.length > 2_048 || !URL.canParse(url))
+    throw new IngestionError(
+      "invalid_link",
+      "Enter one HTTPS resource link.",
+      400,
+    );
+  const parsed = new URL(url);
+  if (
+    parsed.protocol !== "https:" ||
+    !parsed.hostname ||
+    parsed.username ||
+    parsed.password
+  )
+    throw new IngestionError(
+      "invalid_link",
+      "Enter one public HTTPS resource link without credentials.",
+      400,
+    );
+  if (typeof text !== "string" || !text.trim())
+    throw new IngestionError(
+      "link_needs_text",
+      "The link was not imported. Paste permitted webpage text or a video transcript; no video has been watched.",
+      422,
+    );
+  const source = extractText(text, "text");
+  return {
+    ...source,
+    source_url: parsed.href,
+    warnings: [
+      "Only your pasted text was extracted. The link was recorded as context, not fetched or watched; review the text against the resource.",
+    ],
+  };
 }
 // ponytail: one parser per Node process; use a shared admission limit before scaling across instances.
 let parsing = false;
@@ -202,6 +239,110 @@ export async function extractPdf(
         "PDF metadata may contain an author or contact details. Check and remove personal information before sharing the source.",
       );
     return extraction("pdf", result.pages, bytes, result.parser, warnings);
+  } finally {
+    parsing = false;
+  }
+}
+export async function extractDocx(
+  bytes: Uint8Array,
+  mime: string,
+): Promise<Extraction> {
+  if (!bytes.length)
+    throw new IngestionError(
+      "empty_file",
+      "The DOCX is empty. Choose a readable DOCX or paste text.",
+    );
+  if (bytes.length > INGESTION_LIMITS.bytes)
+    throw new IngestionError(
+      "too_large",
+      "Use one DOCX no larger than 10 MiB.",
+      413,
+    );
+  if (
+    mime !==
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+    !Buffer.from(bytes.subarray(0, 4)).equals(
+      Buffer.from([0x50, 0x4b, 0x03, 0x04]),
+    )
+  )
+    throw new IngestionError(
+      "unsupported_file",
+      "Use a DOCX file, or paste text.",
+    );
+  if (parsing)
+    throw new IngestionError(
+      "parser_busy",
+      "Another file is being extracted. Try again shortly; your input is unchanged.",
+      429,
+    );
+  parsing = true;
+  try {
+    const result = await new Promise<{
+      pages: Extraction["pages"];
+      parser: string;
+    }>((resolve, reject) => {
+      const worker = new Worker(docxWorkerCode, {
+        eval: true,
+        execArgv: [],
+        workerData: {
+          bytes,
+          pages: INGESTION_LIMITS.pages,
+          characters: INGESTION_LIMITS.characters,
+        },
+        resourceLimits: { maxOldGenerationSizeMb: 128, stackSizeMb: 4 },
+      });
+      let done = false;
+      const timer = setTimeout(
+        () =>
+          finish(
+            new IngestionError(
+              "parser_timeout",
+              "DOCX extraction took too long. Try a smaller file or paste text.",
+            ),
+          ),
+        INGESTION_LIMITS.milliseconds,
+      );
+      function finish(
+        error?: Error,
+        data?: { pages: Extraction["pages"]; parser: string },
+      ) {
+        if (done) return;
+        done = true;
+        clearTimeout(timer);
+        void worker.terminate().then(
+          () => (error ? reject(error) : resolve(data!)),
+          () =>
+            reject(
+              error ??
+                new IngestionError("unreadable_docx", messages.unreadable_docx),
+            ),
+        );
+      }
+      worker.once("message", (data) =>
+        data.error
+          ? finish(
+              new IngestionError(
+                data.error,
+                messages[data.error] || messages.unreadable_docx,
+              ),
+            )
+          : finish(undefined, data),
+      );
+      worker.once("error", () =>
+        finish(new IngestionError("unreadable_docx", messages.unreadable_docx)),
+      );
+      worker.once("exit", () =>
+        finish(new IngestionError("unreadable_docx", messages.unreadable_docx)),
+      );
+    });
+    if (!result.pages.length)
+      throw new IngestionError(
+        "no_text",
+        "No readable DOCX text was found. Paste its text instead.",
+      );
+    return extraction("docx", result.pages, bytes, result.parser, [
+      "DOCX paragraphs are numbered as sections. Formatting, images and tables may be incomplete; review against the original before using as evidence.",
+    ]);
   } finally {
     parsing = false;
   }

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type ListedClass = { id: string; title: string; grade_band: string };
 export function ClassForms({
@@ -184,6 +185,14 @@ export function ClassForms({
                 <span className="ml-2 text-sm text-muted-foreground">
                   {item.grade_band.replace("_", " ")}
                 </span>
+                {role === "teacher" && (
+                  <Link
+                    className="ml-4 underline"
+                    href={`/classes/${item.id}/results`}
+                  >
+                    Results
+                  </Link>
+                )}
                 {role === "teacher" && (
                   <button
                     disabled={busy}

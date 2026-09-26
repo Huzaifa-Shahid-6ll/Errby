@@ -3,7 +3,9 @@ import { INGESTION_LIMITS } from "./contracts";
 import {
   boundedFormData,
   clarify,
+  extractDocx,
   extractPdf,
+  extractResource,
   extractText,
   IngestionError,
 } from "./server";
@@ -47,7 +49,15 @@ export async function handlePreparation(
       request,
       mode === "live" ? INGESTION_LIMITS.bytes + 150_000 : 150_000,
     );
-    const allowed = ["kind", "text", "subject", "grade", "scope", "file"];
+    const allowed = [
+      "kind",
+      "text",
+      "url",
+      "subject",
+      "grade",
+      "scope",
+      "file",
+    ];
     for (const key of form.keys()) {
       if (!allowed.includes(key) || form.getAll(key).length !== 1)
         throw new IngestionError(
@@ -57,13 +67,20 @@ export async function handlePreparation(
         );
     }
     const kind = form.get("kind");
-    if (!["topic", "text", "pdf", "sample"].includes(String(kind)))
+    if (
+      !["topic", "text", "resource", "pdf", "docx", "sample"].includes(
+        String(kind),
+      )
+    )
       throw new IngestionError(
         "invalid_kind",
         "Choose a topic, pasted text or text PDF.",
         400,
       );
-    if (mode === "demo" && (kind === "pdf" || form.has("file")))
+    if (
+      mode === "demo" &&
+      (["pdf", "docx"].includes(String(kind)) || form.has("file"))
+    )
       throw new IngestionError(
         "demo_upload_disabled",
         "Personal uploads require a signed-in account. Use the fictional PDF sample in this demo.",
@@ -75,14 +92,14 @@ export async function handlePreparation(
     // Validate all context before spending parser resources.
     clarify(extractText("validation", "topic"), context, account?.grade);
     const file = form.get("file");
-    if (kind !== "pdf" && file)
+    if (kind !== "pdf" && kind !== "docx" && file)
       throw new IngestionError(
         "unexpected_file",
-        "Choose PDF input to extract an attached file.",
+        "Choose PDF or DOCX input to extract an attached file.",
         400,
       );
     let source;
-    if (kind === "pdf") {
+    if (kind === "pdf" || kind === "docx") {
       if (!(file instanceof File))
         throw new IngestionError("missing_file", "Choose one text PDF.", 400);
       if (file.size > INGESTION_LIMITS.bytes)
@@ -91,7 +108,7 @@ export async function handlePreparation(
           "Use one PDF no larger than 10 MiB.",
           413,
         );
-      source = await extractPdf(
+      source = await (kind === "pdf" ? extractPdf : extractDocx)(
         new Uint8Array(await file.arrayBuffer()),
         file.type,
       );
@@ -108,6 +125,8 @@ export async function handlePreparation(
         ...(await demoExtraction),
         provenance: "fictional_unreviewed" as const,
       };
+    } else if (kind === "resource") {
+      source = extractResource(form.get("url"), form.get("text"));
     } else {
       source = extractText(form.get("text"), kind as "topic" | "text");
     }

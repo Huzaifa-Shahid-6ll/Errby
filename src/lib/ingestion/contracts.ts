@@ -6,11 +6,12 @@ export const INGESTION_LIMITS = {
 } as const;
 
 export type Extraction = {
-  kind: "topic" | "text" | "pdf";
+  kind: "topic" | "text" | "pdf" | "docx";
   source_role: "scope" | "evidence";
   provenance: "user_supplied_unreviewed" | "fictional_unreviewed";
   sha256: string;
   parser: string;
+  source_url?: string;
   pages: { page: number; text: string }[];
   text: string;
   sample: string;

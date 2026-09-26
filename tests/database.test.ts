@@ -345,6 +345,15 @@ test("migrations, role isolation, private sessions, duplicate turns and immutabl
     );
     assert.equal(
       (
+        await db.query<{ independent: boolean }>(
+          "select independent from public.evaluations where session_id=$1",
+          [id(62)],
+        )
+      ).rows[0].independent,
+      false,
+    );
+    assert.equal(
+      (
         await db.query<{ status: string }>(
           "select status from public.sessions where id=$1",
           [id(62)],
@@ -432,7 +441,7 @@ test("migrations, role isolation, private sessions, duplicate turns and immutabl
     const rls = await db.query<{ relrowsecurity: boolean }>(
       "select relrowsecurity from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind='r'",
     );
-    assert.equal(rls.rows.length, 18);
+    assert.equal(rls.rows.length, 19);
     assert.ok(rls.rows.every((row) => row.relrowsecurity));
     assert.equal(
       (

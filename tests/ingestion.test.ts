@@ -5,7 +5,9 @@ import {
   acceptPastedText,
   boundedFormData,
   clarify,
+  extractDocx,
   extractPdf,
+  extractResource,
   extractText,
   IngestionError,
 } from "../src/lib/ingestion/server";
@@ -29,6 +31,54 @@ function request(
   });
 }
 const noIdentity = async () => null;
+
+test("DOCX extraction preserves paragraph sections and rejects corrupt input", async () => {
+  const JSZip = (await import("jszip")).default;
+  const zip = new JSZip();
+  zip.file(
+    "[Content_Types].xml",
+    '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>',
+  );
+  zip.file(
+    "_rels/.rels",
+    '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>',
+  );
+  zip.file(
+    "word/document.xml",
+    '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body><w:p><w:r><w:t>Heat transfer</w:t></w:r></w:p><w:p><w:r><w:t>Conduction</w:t></w:r></w:p></w:body></w:document>',
+  );
+  const bytes = await zip.generateAsync({ type: "uint8array" });
+  const mime =
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+  const source = await extractDocx(bytes, mime);
+  assert.equal(source.kind, "docx");
+  assert.deepEqual(
+    source.pages.map((p) => p.text),
+    ["Heat transfer", "Conduction"],
+  );
+  assert.match(source.text, /\[Section 1\]/);
+  await assert.rejects(
+    extractDocx(new Uint8Array([80, 75, 3, 4]), mime),
+    hasCode("unreadable_docx"),
+  );
+});
+test("resource links record context only after permitted text is supplied", () => {
+  assert.throws(
+    () => extractResource("https://www.youtube.com/watch?v=abc", ""),
+    hasCode("link_needs_text"),
+  );
+  assert.throws(
+    () => extractResource("http://example.org", "Transcript"),
+    hasCode("invalid_link"),
+  );
+  const source = extractResource(
+    "https://example.org/watch",
+    "Pasted transcript",
+  );
+  assert.equal(source.source_url, "https://example.org/watch");
+  assert.equal(source.text, "Pasted transcript");
+  assert.match(source.warnings[0], /not fetched or watched/);
+});
 
 test("text is bounded; sparse topic uses existing level and never becomes factual evidence", () => {
   assert.throws(() => acceptPastedText(" "), hasCode("invalid_text"));

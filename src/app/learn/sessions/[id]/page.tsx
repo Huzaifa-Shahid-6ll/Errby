@@ -14,6 +14,9 @@ export default async function SessionPage({
       <Link href="/learn" className="underline">
         Back to learning workspace
       </Link>
+      <Link href={`/learn/sessions/${id}/results`} className="ml-6 underline">
+        View results
+      </Link>
       <SessionView key={id} id={id} />
     </main>
   );
