@@ -40,5 +40,6 @@ export const config = {
     "/setup/:path*",
     "/prepare/:path*",
     "/api/preparations/:path*",
+    "/api/sessions/:path*",
   ],
 };

@@ -1,0 +1,66 @@
+.session-shell {
+  overflow-wrap: anywhere;
+}
+.session-shell button {
+  min-width: 44px;
+  min-height: 44px;
+  height: auto;
+  white-space: normal;
+}
+.session-messages {
+  display: grid;
+  gap: 12px;
+}
+.session-message {
+  display: grid;
+  gap: 4px;
+  max-width: 100%;
+  border: 1px solid var(--control-border);
+  border-radius: 8px;
+  padding: 12px;
+  background: var(--surface);
+  color: var(--text);
+}
+.session-role {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--secondary);
+}
+/* Role identity is a visible text label plus a border style, never colour alone. */
+.session-errby {
+  border-left-width: 4px;
+}
+.session-student {
+  border-left-width: 4px;
+  border-left-style: dashed;
+}
+.session-composer {
+  display: grid;
+  gap: 8px;
+}
+.session-composer textarea {
+  width: 100%;
+  min-height: 96px;
+  border: 1px solid var(--control-border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  padding: 10px;
+  font: inherit;
+}
+.session-composer-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.session-composer-footer > span {
+  color: var(--secondary);
+  font-size: 14px;
+}
+.session-note {
+  margin-top: 12px;
+  color: var(--secondary);
+  font-size: 14px;
+}
