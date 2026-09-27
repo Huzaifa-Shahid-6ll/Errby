@@ -11,9 +11,7 @@
       "cache": "cold",
       "lcp": 25748,
       "cls": 0,
-      "longTasks": [
-        82
-      ],
+      "longTasks": [82],
       "events": [
         {
           "name": "pointerdown",
@@ -462,9 +460,7 @@
       "cache": "cold",
       "lcp": 188,
       "cls": 0,
-      "longTasks": [
-        83
-      ],
+      "longTasks": [83],
       "events": [
         {
           "name": "pointerdown",
@@ -682,9 +678,7 @@
       "cache": "cold",
       "lcp": 176,
       "cls": 0,
-      "longTasks": [
-        88
-      ],
+      "longTasks": [88],
       "events": [
         {
           "name": "pointerdown",
@@ -902,12 +896,7 @@
       "cache": "cold",
       "lcp": 328,
       "cls": 0,
-      "longTasks": [
-        514,
-        68,
-        113,
-        67
-      ],
+      "longTasks": [514, 68, 113, 67],
       "events": [
         {
           "name": "pointerdown",

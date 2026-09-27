@@ -1,6 +1,7 @@
 import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { IngestionError } from "@/lib/ingestion/server";
+import { processSession } from "./process";
 import {
   getSession,
   openSession,
@@ -18,6 +19,7 @@ export async function handleSessionApi(
   id?: string,
   turns = false,
   action = false,
+  process = false,
 ) {
   const headers = { "Cache-Control": "no-store" };
   try {
@@ -59,6 +61,22 @@ export async function handleSessionApi(
         400,
       );
     const body = await boundedJson(request);
+    if (process) {
+      if (
+        !id ||
+        request.method !== "POST" ||
+        !body ||
+        typeof body !== "object" ||
+        Array.isArray(body) ||
+        Object.keys(body).length
+      )
+        throw new IngestionError(
+          "invalid_request",
+          "Retry the saved turn with an empty JSON object.",
+          400,
+        );
+      return Response.json(await processSession(db, actor, id), { headers });
+    }
     if (action) {
       if (
         request.method !== "POST" ||
@@ -85,7 +103,9 @@ export async function handleSessionApi(
         "This session route only accepts turn submissions.",
         405,
       );
-    return Response.json(await submitTurn(db, actor, id, body), { headers });
+    const saved = await submitTurn(db, actor, id, body);
+    const state = await processSession(db, actor, id);
+    return Response.json({ ...state, message: saved.message }, { headers });
   } catch (error) {
     const failure =
       error instanceof IngestionError

@@ -90,10 +90,16 @@ function objectiveLabels(objectives: unknown): string[] {
 async function lessonContext(
   db: SupabaseClient,
   lessonVersionId: string,
-): Promise<{ title: string; objective_labels: string[] }> {
+): Promise<{
+  title: string;
+  objective_labels: string[];
+  objectives: { id: string; title: string }[];
+}> {
   const { data, error } = await db
     .from("lesson_versions")
-    .select("objectives_json,lessons!inner(title)")
+    .select(
+      "objectives_json,lessons!lesson_versions_lesson_id_fkey!inner(title)",
+    )
     .eq("id", lessonVersionId)
     .maybeSingle();
   if (error) sessionFailure(error);
@@ -101,11 +107,17 @@ async function lessonContext(
   return {
     title: (data.lessons as unknown as { title: string }).title,
     objective_labels: objectiveLabels(data.objectives_json),
+    objectives: data.objectives_json as { id: string; title: string }[],
   };
 }
 
 async function summary(db: SupabaseClient, raw: RawSession) {
   const context = await lessonContext(db, raw.lesson_version_id);
+  const progress = await db
+    .from("objective_progress")
+    .select("objective_id,state")
+    .eq("session_id", raw.id);
+  if (progress.error) sessionFailure(progress.error);
   const summary: SessionSummary = {
     id: raw.id,
     status: raw.status,
@@ -114,6 +126,13 @@ async function summary(db: SupabaseClient, raw: RawSession) {
     objective_labels: context.objective_labels,
     opened_at: raw.opened_at,
     last_sequence: raw.last_sequence,
+    objective_progress: context.objectives.map((objective) => ({
+      id: objective.id,
+      label: objective.title,
+      status:
+        progress.data?.find((item) => item.objective_id === objective.id)
+          ?.state ?? "untested",
+    })),
   };
   return summary;
 }
@@ -156,6 +175,21 @@ export async function openSession(
   };
 }
 
+// Service-role reads and AI orchestration must use the same current-access gate.
+export async function assertSessionAccess(
+  db: SupabaseClient,
+  actor: SessionActor,
+  id: string,
+) {
+  if (actor.role !== "learner")
+    sessionFailure({ message: "session_not_found" });
+  const { error } = await db.rpc("assert_learning_session_access", {
+    p_learner: actor.id,
+    p_session_id: id,
+  });
+  if (error) sessionFailure(error);
+}
+
 export async function getSession(
   db: SupabaseClient,
   actor: SessionActor,
@@ -167,6 +201,7 @@ export async function getSession(
       "Use a valid saved session link.",
       400,
     );
+  await assertSessionAccess(db, actor, id);
   const { data, error } = await db
     .from("sessions")
     .select("*")

@@ -1,5 +1,33 @@
 import { expect, test } from "@playwright/test";
 
+test("landing exposes sign-in and account setup on desktop and mobile", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const header = page.getByRole("banner");
+  await expect(
+    header.getByRole("link", { name: "Sign up", exact: true }),
+  ).toBeVisible();
+  await header.getByRole("link", { name: "Sign in", exact: true }).click();
+  await expect(page).toHaveURL(/\/setup$/);
+  await expect(
+    page.getByRole("heading", { name: "Sign in to Errby" }),
+  ).toBeVisible();
+  await page.goto("/");
+  await header.getByRole("link", { name: "Sign up", exact: true }).click();
+  await expect(page).toHaveURL(/\/setup#sign-up$/);
+  await expect(
+    page.getByRole("heading", { name: "Sign up for Errby" }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Self-service sign-up is not available yet.", {
+      exact: false,
+    }),
+  ).toBeVisible();
+  await page.getByRole("link", { name: "Explore the demo" }).click();
+  await expect(page).toHaveURL(/\/learn$/);
+});
+
 test("landing explains the teaching loop, navigates, and persists both themes", async ({
   page,
 }) => {

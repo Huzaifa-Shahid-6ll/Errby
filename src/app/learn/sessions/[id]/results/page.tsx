@@ -39,11 +39,16 @@ export default async function ResultsPage({
             goals.
           </p>
           <p className="mt-3">
+            {result.revised && "Teacher-revised assessment · "}
             First try:{" "}
             {result.scorable
               ? `${result.correct} of ${result.scorable} independent, scorable first attempts`
               : "Not enough evidence"}
             .
+          </p>
+          <p>
+            Correct after help: {result.afterHelp} goals. Corrections made:{" "}
+            {result.corrections} distinct misunderstandings.
           </p>
           <p>
             {result.unscored} unverified or off topic attempts were excluded
@@ -53,7 +58,7 @@ export default async function ResultsPage({
             Active learning time:{" "}
             {result.active_ms === null
               ? "Not measured"
-              : `about ${Math.round(result.active_ms / 60000)} minutes`}
+              : `about ${Math.round(result.active_ms / 1000)} seconds (estimate)`}
             .
           </p>
           {result.status !== "completed" && (
@@ -65,11 +70,12 @@ export default async function ResultsPage({
           <h2 className="mt-6 text-xl font-semibold">Required goals</h2>
           <ul className="mt-2 list-disc pl-6">
             {result.goals.map((goal) => (
-              <li key={goal.title}>
+              <li key={goal.id}>
                 {goal.title}: {goal.state}
                 {goal.evidence && (
                   <span> · Saved answer excerpt: “{goal.evidence}”</span>
                 )}
+                {goal.uncertainty && <p>Needs review: {goal.uncertainty}</p>}
               </li>
             ))}
           </ul>

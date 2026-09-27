@@ -198,3 +198,61 @@ test("API-mocked UI: missing PDF pages offer replacement instead of an endless c
     page.getByRole("button", { name: "Save clarification and continue" }),
   ).toHaveCount(0);
 });
+
+test("API-mocked UI: generated private practice remains unreviewed and links to session creation", async ({
+  page,
+}) => {
+  const state = saved();
+  state.job.current_step = 1;
+  state.job.status = "drafting";
+  await page.route(`**/api/preparations/${id}`, (route) =>
+    route.fulfill({ json: state }),
+  );
+  await page.route(`**/api/preparations/${id}/step`, async (route) => {
+    expect(route.request().postDataJSON()).toEqual({ expected_step: 1 });
+    await route.fulfill({
+      json: {
+        ...state,
+        review_status: "private_ready",
+        job: {
+          ...state.job,
+          current_step: 2,
+          partial_results: {
+            ...state.job.partial_results,
+            lesson_version_id: id,
+          },
+        },
+        lesson: {
+          title: "Synthetic private practice",
+          version: 1,
+          illustrative_only: false,
+          objectives: [{ id: "sides", title: "Explain sides" }],
+        },
+      },
+    });
+  });
+  await page.route("**/api/sessions", async (route) => {
+    expect(route.request().postDataJSON()).toEqual({ lesson_version_id: id });
+    await route.fulfill({
+      status: 503,
+      json: { user_message: "Synthetic session request received" },
+    });
+  });
+  await page.goto(`/prepare/${id}`);
+  await page.getByRole("button", { name: "Generate lesson draft" }).click();
+  await expect(page.getByRole("status")).toContainText(
+    "Private practice ready — not teacher reviewed",
+  );
+  await expect(page.getByText(/AI-generated private practice/)).toBeVisible();
+  await page
+    .getByRole("button", { name: "Start session: Synthetic private practice" })
+    .click();
+  await expect(page.getByRole("main").getByRole("alert")).toContainText(
+    "Synthetic session request received",
+  );
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+});

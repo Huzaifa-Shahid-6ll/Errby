@@ -1,6 +1,7 @@
 import { env } from "@/lib/env/server";
 import { getIdentity } from "@/lib/auth/server";
 import { createAdminClient } from "@/lib/db/admin";
+import { isSameOrigin } from "@/lib/http/origin";
 
 export const runtime = "nodejs";
 
@@ -11,11 +12,7 @@ const reply = (status: number, error_code: string, user_message: string) =>
   );
 
 export async function DELETE(request: Request) {
-  const url = new URL(request.url);
-  if (
-    request.headers.get("origin") !== url.origin ||
-    request.headers.get("host") !== url.host
-  )
+  if (!isSameOrigin(request))
     return reply(403, "forbidden_origin", "Submit this request from Errby.");
   if (env.ERRBY_MODE !== "live")
     return reply(
@@ -71,7 +68,7 @@ export async function DELETE(request: Request) {
       return reply(
         409,
         "classes_remain",
-        "Remove or transfer your classes before deleting your account.",
+        "Contact the Errby operator to remove your classes before deleting your account. Class removal permanently deletes their lessons and learner sessions.",
       );
   }
   const { error } = await createAdminClient().auth.admin.deleteUser(

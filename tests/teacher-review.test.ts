@@ -81,7 +81,16 @@ test("teacher review is append-only, current-version bound and class owned", asy
       );
     await assert.rejects(run(id(2), id(7), "review"), /stale_lesson/);
     await assert.rejects(run(id(3), id(7), "review"), /stale_lesson/);
-    const approved = (await run(id(1), id(7), "review")).rows[0]
+    await assert.rejects(run(id(1), id(7), "publish"), /review_unavailable/);
+    const editedDraft = {
+      ...draft,
+      version: 2,
+      title: "Edited synthetic lesson",
+    };
+    const edited = (await run(id(1), id(7), "edit", editedDraft)).rows[0]
+      .advance_lesson_review;
+    await assert.rejects(run(id(1), id(7), "review"), /stale_lesson/);
+    const approved = (await run(id(1), edited, "review")).rows[0]
       .advance_lesson_review;
     await assert.rejects(run(id(1), id(7), "publish"), /stale_lesson/);
     const published = (await run(id(1), approved, "publish")).rows[0]
@@ -101,6 +110,41 @@ test("teacher review is append-only, current-version bound and class owned", asy
         [published],
       ),
       /immutable/i,
+    );
+    const rows = await db.query<{ version: number; review_status: string }>(
+      "select version,review_status from public.lesson_versions where lesson_id=$1 order by version",
+      [id(6)],
+    );
+    assert.deepEqual(
+      rows.rows.map((row) => row.review_status),
+      ["needs_review", "needs_review", "approved", "published"],
+    );
+    await db.query(
+      "insert into public.memberships(class_id,student_id,alias_in_class,status) values($1,$2,'Synthetic learner','active')",
+      [id(4), id(3)],
+    );
+    await db.exec(
+      `set role authenticated; select set_config('request.jwt.claim.sub','${id(3)}',false);`,
+    );
+    assert.equal(
+      (await db.query("select * from public.lessons")).rows.length,
+      1,
+    );
+    await assert.rejects(
+      run(id(1), published, "edit", { ...editedDraft, version: 5 }),
+      /permission denied/,
+    );
+    await db.exec("reset role");
+    await db.query(
+      "update public.memberships set status='removed' where student_id=$1",
+      [id(3)],
+    );
+    await db.exec(
+      `set role authenticated; select set_config('request.jwt.claim.sub','${id(3)}',false);`,
+    );
+    assert.equal(
+      (await db.query("select * from public.lessons")).rows.length,
+      0,
     );
   } finally {
     await db.close();

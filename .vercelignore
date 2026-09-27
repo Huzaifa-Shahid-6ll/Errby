@@ -1,0 +1,13 @@
+.env*
+.next/
+node_modules/
+output/
+test-results/
+playwright-report/
+coverage/
+*.log
+*.tsbuildinfo
+uploads/
+backups/
+supabase/.temp/
+supabase/.branches/

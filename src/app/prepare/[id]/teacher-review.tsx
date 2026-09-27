@@ -24,6 +24,13 @@ export function TeacherReview({
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
   const [confirm, setConfirm] = useState(false);
+  const dirty =
+    JSON.stringify(edited) !==
+    JSON.stringify({
+      ...lesson,
+      version: lesson.version + 1,
+      teacher_review: { status: "pending" },
+    });
   const update = (value: Partial<Lesson>) =>
     setEdited((old) => ({ ...old, ...value }));
   const updateGoal = (
@@ -37,6 +44,7 @@ export function TeacherReview({
       ),
     }));
   async function act(action: "edit" | "review" | "publish") {
+    if (action !== "edit" && dirty) return;
     setPending(true);
     setError("");
     try {
@@ -212,15 +220,20 @@ export function TeacherReview({
           ))}
           <Button
             type="button"
-            disabled={pending}
+            disabled={pending || !dirty}
             onClick={() => void act("edit")}
           >
             Save edited draft as next version
           </Button>
+          {dirty && (
+            <p role="status">
+              Save your changes before approving or publishing.
+            </p>
+          )}
           {status === "needs_review" && (
             <Button
               type="button"
-              disabled={pending}
+              disabled={pending || dirty}
               onClick={() => void act("review")}
             >
               Approve current saved version after review
@@ -238,7 +251,7 @@ export function TeacherReview({
               </label>
               <Button
                 type="button"
-                disabled={pending || !confirm}
+                disabled={pending || dirty || !confirm}
                 onClick={() => void act("publish")}
               >
                 Publish class lesson

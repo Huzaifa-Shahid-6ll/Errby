@@ -74,7 +74,7 @@ export async function handlePreparation(
     )
       throw new IngestionError(
         "invalid_kind",
-        "Choose a topic, pasted text or text PDF.",
+        "Choose a topic, pasted text, resource link, PDF or DOCX.",
         400,
       );
     if (
@@ -101,11 +101,15 @@ export async function handlePreparation(
     let source;
     if (kind === "pdf" || kind === "docx") {
       if (!(file instanceof File))
-        throw new IngestionError("missing_file", "Choose one text PDF.", 400);
+        throw new IngestionError(
+          "missing_file",
+          "Choose one PDF or DOCX.",
+          400,
+        );
       if (file.size > INGESTION_LIMITS.bytes)
         throw new IngestionError(
           "too_large",
-          "Use one PDF no larger than 10 MiB.",
+          "Use one PDF or DOCX no larger than 10 MiB.",
           413,
         );
       source = await (kind === "pdf" ? extractPdf : extractDocx)(

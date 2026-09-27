@@ -69,6 +69,7 @@
 }
 .headerActions {
   display: flex;
+  flex-wrap: wrap;
   gap: 14px;
   margin-left: auto;
   align-items: center;
@@ -632,6 +633,8 @@
   }
   .header {
     gap: 26px;
+    flex-wrap: wrap;
+    padding-block: 10px;
   }
   .navigation {
     gap: 22px;
@@ -639,9 +642,6 @@
   }
   .headerActions {
     margin-left: 0;
-  }
-  .headerCta {
-    display: none;
   }
   .hero {
     grid-template-columns: 1fr;
@@ -765,7 +765,12 @@
     display: inline;
   }
   .headerActions {
-    gap: 0;
+    gap: 14px;
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .headerActions .headerCta {
+    width: auto;
   }
   .hero {
     padding-top: 28px;

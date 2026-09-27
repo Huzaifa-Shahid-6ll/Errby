@@ -57,6 +57,24 @@ test("DOCX extraction preserves paragraph sections and rejects corrupt input", a
     ["Heat transfer", "Conduction"],
   );
   assert.match(source.text, /\[Section 1\]/);
+  assert.match(source.parser, /^mammoth\//);
+  assert.equal(source.provenance, "user_supplied_unreviewed");
+  for (const [content, code] of [
+    ["<w:p><w:r><w:t>Section</w:t></w:r></w:p>".repeat(51), "too_many_pages"],
+    [
+      `<w:p><w:r><w:t>${"x".repeat(30_001)}</w:t></w:r></w:p>`,
+      "too_many_characters",
+    ],
+  ]) {
+    zip.file(
+      "word/document.xml",
+      `<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>${content}</w:body></w:document>`,
+    );
+    await assert.rejects(
+      extractDocx(await zip.generateAsync({ type: "uint8array" }), mime),
+      hasCode(code),
+    );
+  }
   await assert.rejects(
     extractDocx(new Uint8Array([80, 75, 3, 4]), mime),
     hasCode("unreadable_docx"),

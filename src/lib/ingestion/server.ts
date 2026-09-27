@@ -1,7 +1,9 @@
 import "server-only";
 import { createHash } from "node:crypto";
+import { createRequire } from "node:module";
 import { Worker } from "node:worker_threads";
 import { z } from "zod";
+import * as mammoth from "mammoth";
 import {
   INGESTION_LIMITS,
   type Extraction,
@@ -9,6 +11,9 @@ import {
 } from "./contracts";
 import { pdfWorkerCode } from "./pdf-worker";
 import { docxWorkerCode } from "./docx-worker";
+
+// Resolve real filesystem paths, not Turbopack module IDs, for the native worker.
+const nodeRequire = createRequire(`${process.cwd()}/package.json`);
 
 export class IngestionError extends Error {
   constructor(
@@ -22,7 +27,8 @@ export class IngestionError extends Error {
 const messages: Record<string, string> = {
   encrypted_pdf:
     "This PDF is encrypted. Upload an unlocked readable PDF or paste permitted text.",
-  too_many_pages: "This PDF exceeds 50 pages. Split it into smaller units.",
+  too_many_pages:
+    "This source exceeds 50 pages or DOCX sections. Split it into smaller units.",
   too_many_characters:
     "The source exceeds 30,000 characters. Split it into smaller units; nothing was truncated.",
   unreadable_pdf:
@@ -247,6 +253,9 @@ export async function extractDocx(
   bytes: Uint8Array,
   mime: string,
 ): Promise<Extraction> {
+  // Keep the parser's native package/dependency graph in Next's production trace.
+  if (typeof mammoth.extractRawText !== "function")
+    throw new IngestionError("unreadable_docx", messages.unreadable_docx);
   if (!bytes.length)
     throw new IngestionError(
       "empty_file",
@@ -285,6 +294,9 @@ export async function extractDocx(
         eval: true,
         execArgv: [],
         workerData: {
+          // Native require resolves filesystem paths usable outside the bundle.
+          parserPath: nodeRequire.resolve("mammoth"),
+          packagePath: nodeRequire.resolve("mammoth/package.json"),
           bytes,
           pages: INGESTION_LIMITS.pages,
           characters: INGESTION_LIMITS.characters,

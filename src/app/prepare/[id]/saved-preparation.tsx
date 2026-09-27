@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import type { PreparationState } from "@/lib/preparations/contracts";
+import { StartLessonButton } from "@/app/learn/start-lesson";
 import { TeacherReview } from "./teacher-review";
 const inputClass =
   "w-full rounded-lg border border-[var(--control-border)] bg-[var(--surface)] p-3";
@@ -131,6 +132,35 @@ export function SavedPreparation({ id }: { id: string }) {
       setPending(false);
     }
   }
+  async function generate() {
+    setPending(true);
+    setError("");
+    try {
+      const response = await fetch(
+        `/api/preparations/${encodeURIComponent(id)}/step`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ expected_step: 1 }),
+        },
+      );
+      const payload = await response.json();
+      if (!response.ok)
+        throw new Error(
+          payload.user_message ||
+            "Draft generation failed. Your source is saved.",
+        );
+      setState(payload);
+    } catch (failure) {
+      setError(
+        failure instanceof Error
+          ? failure.message
+          : "Draft generation failed. Retry your saved preparation.",
+      );
+    } finally {
+      setPending(false);
+    }
+  }
   if (!state)
     return (
       <div aria-live="polite">
@@ -159,7 +189,13 @@ export function SavedPreparation({ id }: { id: string }) {
     <div className="grid min-w-0 gap-5 break-words">
       <p role="status">
         {job.current_step === 2
-          ? "Lesson draft saved — teacher review required."
+          ? state.review_status === "published"
+            ? "Lesson published — available to your class."
+            : state.review_status === "private_ready"
+              ? "Private practice ready — not teacher reviewed."
+              : state.review_status === "approved"
+                ? "Lesson approved — ready to publish."
+                : "Lesson draft saved — teacher review required."
           : job.current_step === 1
             ? "Source saved — waiting for a lesson draft."
             : "Source saved — clarification pending."}
@@ -283,10 +319,20 @@ export function SavedPreparation({ id }: { id: string }) {
         </details>
       </section>
       {job.current_step === 1 && (
-        <p>
-          Automatic lesson drafting is not available yet. Your source and
-          context are saved; no lesson has been generated or approved.
-        </p>
+        <section className="grid gap-3 rounded-xl border border-[var(--control-border)] p-4">
+          <h2 className="font-semibold">Prepare a lesson from your source</h2>
+          <p>
+            AI drafts a short lesson with source excerpts. Class lessons require
+            teacher review; private practice is labelled as unreviewed.
+          </p>
+          <Button
+            type="button"
+            disabled={pending}
+            onClick={() => void generate()}
+          >
+            {pending ? "Preparing lesson..." : "Generate lesson draft"}
+          </Button>
+        </section>
       )}
       {job.current_step === 1 && can_author && (
         <form
@@ -486,8 +532,13 @@ export function SavedPreparation({ id }: { id: string }) {
         <section>
           <h2 className="text-xl font-semibold">{lesson.title}</h2>
           <p>
-            Version {lesson.version} · Unreviewed ·{" "}
-            {lesson.illustrative_only ? "Fictional illustration" : "Draft"}
+            Version {lesson.version} ·{" "}
+            {state.review_status === "published"
+              ? "Published"
+              : state.review_status === "approved"
+                ? "Approved"
+                : "Unreviewed"}{" "}
+            · {lesson.illustrative_only ? "Fictional illustration" : "Draft"}
           </p>
           <ul className="list-disc pl-5">
             {lesson.objectives.map((objective) => (
@@ -498,6 +549,28 @@ export function SavedPreparation({ id }: { id: string }) {
             Stored versions cannot be overwritten. Teacher edits create a new
             version.
           </p>
+          {state.review_status === "private_ready" &&
+            job.partial_results.lesson_version_id && (
+              <div className="my-4 grid gap-3">
+                <p>
+                  AI-generated private practice - not teacher reviewed.
+                  Questions and feedback use your supplied source. Matching a
+                  quote does not establish factual accuracy; check uncertain
+                  claims with a teacher.
+                </p>
+                <StartLessonButton
+                  lessonVersionId={job.partial_results.lesson_version_id}
+                  title={lesson.title}
+                />
+              </div>
+            )}
+          {!can_author && state.review_status !== "private_ready" && (
+            <p>
+              This draft needs stronger source evidence before practice can
+              begin. Prepare complete factual material, rather than an outline,
+              and resolve any missing or conflicting source claims.
+            </p>
+          )}
           {can_author && job.class_id && (
             <TeacherReview
               key={job.partial_results.lesson_version_id}

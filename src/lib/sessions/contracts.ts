@@ -23,6 +23,11 @@ export type SessionSummary = {
   objective_labels: string[];
   opened_at: string;
   last_sequence: number;
+  objective_progress?: {
+    id: string;
+    label: string;
+    status: "untested" | "developing" | "explained" | "unverified";
+  }[];
 };
 export type SessionMessage = {
   id: string;
@@ -34,8 +39,14 @@ export type SessionMessage = {
 export type SessionState = {
   session: SessionSummary;
   messages: SessionMessage[];
+  processing_error?: { code: string; message: string };
 };
-export type TurnResponse = { session: SessionSummary; message: SessionMessage };
+export type TurnResponse = {
+  session: SessionSummary;
+  message: SessionMessage;
+  messages?: SessionMessage[];
+  processing_error?: { code: string; message: string };
+};
 export type PublishedLesson = {
   lesson_version_id: string;
   title: string;

@@ -4,6 +4,7 @@ import { z } from "zod";
 import { env } from "@/lib/env/server";
 import { getIdentity } from "@/lib/auth/server";
 import { createAdminClient } from "@/lib/db/admin";
+import { isSameOrigin } from "@/lib/http/origin";
 
 const createSchema = z.object({
   title: z.string().trim().min(1).max(160),
@@ -28,13 +29,7 @@ export async function classRequest(
   action: "create" | "rotate" | "preview" | "join",
   classId?: string,
 ) {
-  const target = new URL(request.url);
-  const origin = request.headers.get("origin");
-  if (
-    !origin ||
-    origin !== target.origin ||
-    request.headers.get("host") !== target.host
-  )
+  if (!isSameOrigin(request))
     return failure(403, "forbidden_origin", "Submit this request from Errby.");
   if (env.ERRBY_MODE !== "live")
     return failure(

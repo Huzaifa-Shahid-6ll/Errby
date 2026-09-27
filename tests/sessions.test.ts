@@ -12,6 +12,37 @@ import {
   type SessionActor,
 } from "../src/lib/sessions/service";
 import { handleSessionApi } from "../src/lib/sessions/request";
+import { unstable_doesMiddlewareMatch } from "next/experimental/testing/server";
+import { config as proxyConfig } from "../src/proxy";
+
+test("authenticated class/account routes receive cookie refresh coverage", () => {
+  for (const url of [
+    "/classes",
+    "/classes/example",
+    "/api/classes",
+    "/api/classes/example/results",
+    "/api/account",
+    "/learn",
+    "/api/sessions/example",
+  ])
+    assert.equal(
+      unstable_doesMiddlewareMatch({
+        config: proxyConfig,
+        nextConfig: {},
+        url,
+      }),
+      true,
+      url,
+    );
+  assert.equal(
+    unstable_doesMiddlewareMatch({
+      config: proxyConfig,
+      nextConfig: {},
+      url: "/api/health",
+    }),
+    false,
+  );
+});
 
 const id = (n: number) =>
   `00000000-0000-4000-8000-${String(n).padStart(12, "0")}`;
@@ -95,6 +126,8 @@ test("PGlite only: session open binds the published opening question, enforces s
 
     // This adapter executes actual SQL via PGlite. It is NOT Supabase HTTP/Auth/JWT verification.
     const functions: Record<string, string[]> = {
+      assert_learning_session_access: ["p_learner", "p_session_id"],
+      set_learning_session_paused: ["p_learner", "p_session_id", "p_pause"],
       open_learning_session: ["p_learner", "p_lesson_version_id"],
       record_student_turn: [
         "p_learner",
@@ -120,9 +153,13 @@ test("PGlite only: session open binds the published opening question, enforces s
       },
       from(table: string) {
         assert.ok(
-          ["sessions", "messages", "lesson_versions", "lessons"].includes(
-            table,
-          ),
+          [
+            "sessions",
+            "messages",
+            "lesson_versions",
+            "lessons",
+            "objective_progress",
+          ].includes(table),
         );
         const values: unknown[] = [];
         const filters: string[] = [];
@@ -131,7 +168,9 @@ test("PGlite only: session open binds the published opening question, enforces s
         let embedLessons = false;
         const query = {
           select(columns: string) {
-            embedLessons = columns.includes("lessons!inner");
+            embedLessons = columns.includes(
+              "lessons!lesson_versions_lesson_id_fkey!inner",
+            );
             return query;
           },
           eq(column: string, value: unknown) {
@@ -336,6 +375,75 @@ test("PGlite only: session open binds the published opening question, enforces s
       hasCode("invalid_id"),
     );
 
+    for (const [revoke, restore] of [
+      [
+        "update public.memberships set status='removed'",
+        "update public.memberships set status='active'",
+      ],
+      [
+        "update public.classes set active=false",
+        "update public.classes set active=true",
+      ],
+      [
+        "update public.lessons set archived_at=now() where id='" + id(50) + "'",
+        "update public.lessons set archived_at=null where id='" + id(50) + "'",
+      ],
+    ]) {
+      await sql.exec(revoke);
+      await assert.rejects(
+        getSession(db, learnerThree, sessionId),
+        hasCode("session_not_found"),
+      );
+      const denied = await handleSessionApi(
+        new Request(`http://localhost/api/sessions/${sessionId}`),
+        async () => ({ db, actor: learnerThree }),
+        sessionId,
+      );
+      assert.equal(denied.status, 404);
+      assert.equal((await denied.json()).messages, undefined);
+      await assert.rejects(
+        submitTurn(db, learnerThree, sessionId, {
+          text: answer,
+          expected_sequence: 1,
+          idempotency_key: id(100),
+        }),
+        hasCode("session_not_found"),
+        "idempotent replay cannot bypass revocation",
+      );
+      const paused = await db.rpc("set_learning_session_paused", {
+        p_learner: learnerThree.id,
+        p_session_id: sessionId,
+        p_pause: true,
+      });
+      assert.match(paused.error?.message ?? "", /session_not_found/);
+      await sql.exec("reset role;set role authenticated");
+      await sql.query("select set_config('request.jwt.claim.sub',$1,false)", [
+        learnerThree.id,
+      ]);
+      assert.equal(
+        (
+          await sql.query("select id from public.sessions where id=$1", [
+            sessionId,
+          ])
+        ).rows.length,
+        0,
+      );
+      assert.equal(
+        (
+          await sql.query(
+            "select id from public.messages where session_id=$1",
+            [sessionId],
+          )
+        ).rows.length,
+        0,
+      );
+      await sql.exec("reset role;set role service_role");
+      await sql.exec(restore);
+      assert.equal(
+        (await getSession(db, learnerThree, sessionId)).messages.length,
+        2,
+      );
+    }
     // Listing runs on the learner's session client: RLS must scope it, so run
     // these calls as authenticated roles with explicit JWT subjects.
     await sql.exec("reset role;set role authenticated");

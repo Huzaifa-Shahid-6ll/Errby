@@ -4,6 +4,7 @@ import { z } from "zod";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { clarify, IngestionError } from "@/lib/ingestion/server";
 import type { PreparationResult } from "@/lib/ingestion/contracts";
+import { generatePreparationDraft } from "@/lib/ai/preparation";
 import { lessonSchema } from "@/lib/lessons/schema";
 import type { PreparationJob, PreparationState } from "./contracts";
 
@@ -59,7 +60,7 @@ export function databaseFailure(error: { message: string }): never {
     throw new IngestionError(code, failures[code][1], failures[code][0]);
   throw new IngestionError(
     "preparation_storage_unavailable",
-    "Saved preparation is unavailable. Check the hosted Supabase configuration and apply all repository migrations; then retry. No model call was made.",
+    "Saved preparation is unavailable. Check the hosted Supabase configuration and apply all repository migrations; then retry the saved step. A completed model response is reused where available.",
     503,
   );
 }
@@ -183,8 +184,9 @@ export function validateDraft(
   job: PreparationJob,
   actor: PreparationActor,
   version = 1,
+  generated = false,
 ) {
-  if (actor.role !== "teacher")
+  if (actor.role !== "teacher" && !(generated && !job.class_id))
     throw new IngestionError(
       "draft_forbidden",
       "A teacher must author and review a lesson draft. Your source remains saved.",
@@ -250,6 +252,7 @@ export async function advancePreparation(
   actor: PreparationActor,
   id: string,
   input: unknown,
+  generate = generatePreparationDraft,
 ) {
   const parsed = stepSchema.safeParse(input);
   if (!parsed.success)
@@ -277,13 +280,17 @@ export async function advancePreparation(
   let draft;
   let result = state.job.partial_results;
   if (body.expected_step === 1) {
-    if (body.draft === undefined)
+    if (
+      actor.role !== "teacher" &&
+      (state.job.class_id || body.draft !== undefined)
+    )
       throw new IngestionError(
-        "generation_unavailable",
-        "Automatic drafting is disabled until model cost reservations and caps are implemented. Your source is saved; a teacher can import an unreviewed draft.",
-        409,
+        "draft_forbidden",
+        "Only a teacher can import drafts or prepare class lessons.",
+        403,
       );
-    draft = validateDraft(body.draft, state.job, actor);
+    if (body.draft !== undefined)
+      draft = validateDraft(body.draft, state.job, actor);
   } else {
     if (body.draft !== undefined)
       throw new IngestionError(
@@ -309,6 +316,30 @@ export async function advancePreparation(
   }
   const token = claimed.data.lease_token;
   try {
+    if (body.expected_step === 1 && body.draft === undefined) {
+      draft = await generate(db, actor, state.job);
+      // Generated private practice is source-grounded, never teacher-approved.
+      if (
+        !state.job.class_id &&
+        actor.role === "learner" &&
+        !draft.illustrative_only &&
+        result.extraction.source_role === "evidence" &&
+        draft.references.length > 0 &&
+        draft.objectives.every(
+          (objective) =>
+            !objective.unresolved_issues.length &&
+            objective.reference_ids.length > 0 &&
+            objective.misconceptions.every(
+              (item) => item.reference_ids.length > 0,
+            ),
+        )
+      ) {
+        draft.references.forEach((reference) => {
+          reference.status = "source_checked";
+        });
+        result = { ...result, private_ready: true } as typeof result;
+      }
+    }
     const finished = await db.rpc("finish_preparation", {
       p_owner: actor.id,
       p_job: id,

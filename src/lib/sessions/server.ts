@@ -10,6 +10,7 @@ export function sessionRequest(
   id?: string,
   turns = false,
   action = false,
+  process = false,
 ) {
   return handleSessionApi(
     request,
@@ -38,5 +39,6 @@ export function sessionRequest(
     id,
     turns,
     action,
+    process,
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useActivity } from "@/lib/results/use-activity";
 import { Bot, ShieldCheck, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +20,7 @@ const statuses = {
   awaiting_student: ["Your turn", "Errby is waiting for your explanation."],
   evaluating: [
     "Answer saved · not graded",
-    "Your answer is saved. Evaluation is not available yet, so it is not graded.",
+    "Your answer is saved but not graded yet. Retry the AI response if it has not arrived.",
   ],
   supervisor_pending: [
     "Supervisor guidance pending",
@@ -62,8 +63,16 @@ export function SessionView({ id }: { id: string }) {
   const [loadError, setLoadError] = useState("");
   const [notice, setNotice] = useState("");
   const [text, setText] = useState("");
-  const [pending, setPending] = useState(false);
+  const [pending, setPending] = useState<"answer" | "pause" | "process" | null>(
+    null,
+  );
   const [loading, setLoading] = useState(true);
+  useActivity(
+    id,
+    state?.session.status === "awaiting_student" &&
+      pending === null &&
+      !loading,
+  );
   const [reloadKey, setReloadKey] = useState(0);
   const turn = useRef<{ text: string; sequence: number; key: string } | null>(
     null,
@@ -71,41 +80,47 @@ export function SessionView({ id }: { id: string }) {
   const answerInput = useRef<HTMLTextAreaElement>(null);
   const statusRegion = useRef<HTMLParagraphElement>(null);
   const draftKey = `errby:session:${id}:draft`;
-  const [draftReady, setDraftReady] = useState(false);
+  const draftLoaded = useRef(false);
+  const draftText = useRef("");
 
-  useEffect(() => {
+  function saveDraft(value: string) {
+    draftText.current = value;
+    setText(value);
     try {
-      const saved = JSON.parse(sessionStorage.getItem(draftKey) ?? "null");
-      if (saved && typeof saved.text === "string") {
-        setText(saved.text);
-        if (typeof saved.sequence === "number" && typeof saved.key === "string")
-          turn.current = saved;
-      } else setText("");
-    } catch {
-      setText("");
-    }
-    setDraftReady(true);
-    return () => {
-      turn.current = null;
-    };
-  }, [draftKey]);
-
-  useEffect(() => {
-    if (!draftReady) return;
-    try {
-      if (text)
+      if (value || turn.current)
         sessionStorage.setItem(
           draftKey,
-          JSON.stringify(turn.current ?? { text }),
+          JSON.stringify({ text: value, pendingTurn: turn.current }),
         );
       else sessionStorage.removeItem(draftKey);
     } catch {
-      /* Storage can be disabled; the server still owns saved turns. */
+      // Storage may be disabled; the current tab still retains the draft in memory.
     }
-  }, [draftKey, text, draftReady]);
+  }
 
   useEffect(() => {
     const controller = new AbortController();
+    function restoreDraft() {
+      if (!draftLoaded.current) {
+        draftLoaded.current = true;
+        try {
+          const saved = JSON.parse(sessionStorage.getItem(draftKey) ?? "null");
+          if (typeof saved?.text === "string") {
+            draftText.current = saved.text;
+            setText(saved.text);
+            const attempt = saved.pendingTurn ?? saved;
+            if (
+              typeof attempt.text === "string" &&
+              Number.isInteger(attempt.sequence) &&
+              typeof attempt.key === "string"
+            )
+              turn.current = attempt;
+          }
+        } catch {
+          // An invalid local draft must not prevent loading the saved conversation.
+        }
+      }
+    }
     async function load() {
       setLoadError("");
       setLoading(true);
@@ -119,6 +134,7 @@ export function SessionView({ id }: { id: string }) {
         );
         const payload = await response.json().catch(() => null);
         if (controller.signal.aborted) return;
+        restoreDraft();
         if (
           !response.ok ||
           !payload?.session ||
@@ -140,13 +156,30 @@ export function SessionView({ id }: { id: string }) {
               message.text === turn.current!.text,
           )
         ) {
+          const matchesDraft = draftText.current.trim() === turn.current.text;
           turn.current = null;
-          setText("");
-          setNotice("Your answer was saved before the connection ended.");
+          if (matchesDraft) {
+            draftText.current = "";
+            setText("");
+          }
+          try {
+            if (draftText.current)
+              sessionStorage.setItem(
+                draftKey,
+                JSON.stringify({ text: draftText.current }),
+              );
+            else sessionStorage.removeItem(draftKey);
+          } catch {
+            /* optional recovery */
+          }
+          setNotice(
+            "Your previous answer was saved. Any edited draft stays unsent.",
+          );
         }
         if (reloadKey > 0)
           setNotice("Saved session refreshed. Any draft below stays unsent.");
       } catch {
+        if (!controller.signal.aborted) restoreDraft();
         if (!controller.signal.aborted)
           setLoadError(
             "This session could not be loaded. Check your connection and try again.",
@@ -157,7 +190,7 @@ export function SessionView({ id }: { id: string }) {
     }
     void load();
     return () => controller.abort();
-  }, [id, reloadKey]);
+  }, [id, reloadKey, draftKey]);
 
   async function submitAnswer() {
     if (
@@ -173,16 +206,12 @@ export function SessionView({ id }: { id: string }) {
       answerInput.current?.focus();
       return;
     }
-    setPending(true);
+    setPending("answer");
     setNotice("");
     const sequence = state.session.last_sequence;
     if (turn.current?.text !== trimmed || turn.current.sequence !== sequence)
       turn.current = { text: trimmed, sequence, key: crypto.randomUUID() };
-    try {
-      sessionStorage.setItem(draftKey, JSON.stringify(turn.current));
-    } catch {
-      /* optional recovery */
-    }
+    saveDraft(text);
     try {
       const response = await fetch(
         `/api/sessions/${encodeURIComponent(id)}/turns`,
@@ -205,30 +234,26 @@ export function SessionView({ id }: { id: string }) {
         return;
       }
       turn.current = null;
-      try {
-        sessionStorage.removeItem(draftKey);
-      } catch {
-        /* optional recovery */
-      }
       setState({
         session: payload.session,
-        messages: [...state.messages, payload.message],
+        messages: payload.messages ?? [...state.messages, payload.message],
+        processing_error: payload.processing_error,
       });
-      setText("");
-      setNotice("Answer saved.");
+      saveDraft("");
+      setNotice(payload.processing_error?.message ?? "Answer saved.");
       requestAnimationFrame(() => statusRegion.current?.focus());
     } catch {
       setNotice(
         "We could not confirm your answer was saved. Check your connection, then retry or refresh the saved session. Your text is unchanged.",
       );
     } finally {
-      setPending(false);
+      setPending(null);
     }
   }
 
   async function togglePause() {
     if (!state || pending) return;
-    setPending(true);
+    setPending("pause");
     setNotice("");
     try {
       const response = await fetch(
@@ -256,7 +281,45 @@ export function SessionView({ id }: { id: string }) {
     } catch {
       setNotice("Could not confirm the session state. Refresh and try again.");
     } finally {
-      setPending(false);
+      setPending(null);
+    }
+  }
+
+  async function retryProcessing() {
+    if (!state || pending || loading) return;
+    setPending("process");
+    setNotice("");
+    try {
+      const response = await fetch(
+        `/api/sessions/${encodeURIComponent(id)}/process`,
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: "{}",
+        },
+      );
+      const payload = await response.json().catch(() => null);
+      if (
+        !response.ok ||
+        !payload?.session ||
+        !Array.isArray(payload.messages)
+      ) {
+        setNotice(
+          payload?.user_message ??
+            "Your answer is saved. The AI response could not be confirmed; retry or refresh.",
+        );
+        return;
+      }
+      setState(payload as SessionState);
+      setNotice(
+        payload.processing_error?.message ?? "Saved conversation updated.",
+      );
+    } catch {
+      setNotice(
+        "Your answer is saved. Check your connection, then retry the AI response.",
+      );
+    } finally {
+      setPending(null);
     }
   }
 
@@ -294,11 +357,25 @@ export function SessionView({ id }: { id: string }) {
 
   const [statusLabel, statusDescription] = statuses[state.session.status];
   const blocked =
-    state.session.status !== "awaiting_student" || pending || loading;
+    state.session.status !== "awaiting_student" || pending !== null || loading;
   const goals = (
     <ul>
       {state.session.objective_labels.map((label, index) => (
-        <li key={index}>{label}</li>
+        <li key={index}>
+          {label}
+          {state.session.objective_progress?.[index] && (
+            <span className="block text-sm">
+              {
+                {
+                  untested: "Not yet demonstrated",
+                  developing: "Developing",
+                  explained: "Explained",
+                  unverified: "Unresolved - needs review",
+                }[state.session.objective_progress[index].status]
+              }
+            </span>
+          )}
+        </li>
       ))}
     </ul>
   );
@@ -323,7 +400,7 @@ export function SessionView({ id }: { id: string }) {
               <Button
                 type="button"
                 variant="outline"
-                disabled={pending || loading}
+                disabled={pending !== null || loading}
                 onClick={() => void togglePause()}
               >
                 {state.session.status === "paused"
@@ -334,7 +411,7 @@ export function SessionView({ id }: { id: string }) {
           <Button
             type="button"
             variant="outline"
-            disabled={pending || loading}
+            disabled={pending !== null || loading}
             onClick={() => setReloadKey((key) => key + 1)}
           >
             {loading ? "Refreshing…" : "Refresh saved session"}
@@ -349,10 +426,32 @@ export function SessionView({ id }: { id: string }) {
         tabIndex={-1}
         className={`session-state session-state-${state.session.status}`}
       >
-        <strong>{pending ? "Saving answer…" : statusLabel}</strong>
+        <strong>
+          {pending === "answer"
+            ? "Saving answer and checking your explanation..."
+            : pending === "pause"
+              ? "Saving session state..."
+              : pending === "process"
+                ? "Checking your saved explanation..."
+                : statusLabel}
+        </strong>
         <span>{statusDescription}</span>
-        {notice && <span>{notice}</span>}
+        {(notice || state.processing_error?.message) && (
+          <span>{notice || state.processing_error?.message}</span>
+        )}
       </p>
+      {state.session.status === "evaluating" && (
+        <Button
+          type="button"
+          variant="outline"
+          disabled={pending !== null || loading}
+          onClick={() => void retryProcessing()}
+        >
+          {pending === "process"
+            ? "Checking explanation..."
+            : "Retry AI response"}
+        </Button>
+      )}
       <div className="session-layout">
         {state.session.objective_labels.length > 0 && (
           <>
@@ -404,7 +503,7 @@ export function SessionView({ id }: { id: string }) {
           )}
           <form
             className="session-composer mt-6"
-            aria-busy={pending}
+            aria-busy={pending !== null}
             onSubmit={(event) => {
               event.preventDefault();
               void submitAnswer();
@@ -416,7 +515,7 @@ export function SessionView({ id }: { id: string }) {
               ref={answerInput}
               value={text}
               onChange={(event) => {
-                setText(event.target.value);
+                saveDraft(event.target.value);
                 setNotice("");
               }}
               rows={4}
@@ -430,7 +529,7 @@ export function SessionView({ id }: { id: string }) {
                 this browser tab until it closes
               </span>
               <Button type="submit" disabled={blocked}>
-                {pending ? "Saving…" : "Send answer"}
+                {pending === "answer" ? "Checking..." : "Send answer"}
               </Button>
             </div>
           </form>

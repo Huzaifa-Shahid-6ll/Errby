@@ -6,6 +6,7 @@ parseEnv(process.env);
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  serverExternalPackages: ["mammoth"],
   // Match the route envelope so Proxy does not truncate a valid 10 MiB PDF.
   experimental: {
     proxyClientMaxBodySize: INGESTION_LIMITS.bytes + 150_000,

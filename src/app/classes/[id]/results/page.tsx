@@ -3,6 +3,7 @@ import { env } from "@/lib/env/server";
 import { getIdentity } from "@/lib/auth/server";
 import { createAdminClient } from "@/lib/db/admin";
 import { classResults } from "@/lib/results/service";
+import { AssessmentReview } from "@/lib/results/review-form";
 
 export const dynamic = "force-dynamic";
 export default async function ClassResultsPage({
@@ -23,6 +24,7 @@ export default async function ClassResultsPage({
       .select("id")
       .eq("id", id)
       .eq("teacher_id", identity.user.id)
+      .eq("active", true)
       .maybeSingle();
     if (owner.data) {
       const listed = await identity.db
@@ -82,6 +84,12 @@ export default async function ClassResultsPage({
             sessions are excluded. Labels describe this lesson, not a
             learner&apos;s ability.
           </p>
+          <p>
+            Class first-try average:{" "}
+            {data.average === null ? "Not enough evidence" : `${data.average}%`}{" "}
+            · {data.participants} learners with eligible attempts. Untested
+            learners are excluded.
+          </p>
           <ul className="mt-6 space-y-4">
             {data.roster.map((member) => (
               <li
@@ -100,12 +108,17 @@ export default async function ClassResultsPage({
                   · Active time:{" "}
                   {member.result.active_ms === null
                     ? "Not measured"
-                    : `about ${Math.round(member.result.active_ms / 60000)} minutes`}
+                    : `about ${Math.round(member.result.active_ms / 1000)} seconds (estimate)`}
                 </p>
                 <p>
-                  Session opened:{" "}
-                  {member.result.opened_at
-                    ? new Date(member.result.opened_at).toLocaleDateString(
+                  Correct after help: {member.result.afterHelp} goals ·
+                  Corrections made: {member.result.corrections}
+                  {member.result.revised && " · Teacher-revised"}
+                </p>
+                <p>
+                  Last assessed attempt:{" "}
+                  {member.result.last_attempt_at
+                    ? new Date(member.result.last_attempt_at).toLocaleString(
                         "en-GB",
                       )
                     : "None"}
@@ -114,7 +127,7 @@ export default async function ClassResultsPage({
                   <summary>Goal evidence status</summary>
                   <ul className="mt-2 list-disc pl-6">
                     {member.result.goals.map((goal) => (
-                      <li key={goal.title}>
+                      <li key={goal.id}>
                         {goal.title}: {goal.state}
                         {goal.evidence && (
                           <span>
@@ -122,10 +135,53 @@ export default async function ClassResultsPage({
                             · Saved answer excerpt: “{goal.evidence}”
                           </span>
                         )}
+                        {goal.uncertainty && (
+                          <p>Needs review: {goal.uncertainty}</p>
+                        )}
                       </li>
                     ))}
                   </ul>
                 </details>
+                {member.result.reviews.map((review) => (
+                  <details className="mt-3" key={review.id}>
+                    <summary>
+                      Review {review.objective_id}: {review.verdict}
+                      {review.revised ? " (revised)" : ""}
+                    </summary>
+                    <p>Submitted answer: {review.answer}</p>
+                    <p>
+                      Evidence excerpt:{" "}
+                      {review.learner_evidence_span || "None recorded"}
+                    </p>
+                    <p>Original model verdict: {review.original_verdict}</p>
+                    {review.revision_reasons.map((reason, index) => (
+                      <p key={index}>
+                        Audited review {index + 1}: {reason}
+                      </p>
+                    ))}
+                    {review.uncertainty_reason && (
+                      <p>Model uncertainty: {review.uncertainty_reason}</p>
+                    )}
+                    <p>
+                      Lesson reference IDs:{" "}
+                      {review.source_refs.join(", ") ||
+                        "No source references recorded"}
+                    </p>
+                    <ul>
+                      {data.references
+                        .filter((reference) =>
+                          review.source_refs.includes(reference.id),
+                        )
+                        .map((reference) => (
+                          <li key={reference.id}>
+                            {reference.id} ({reference.status}):{" "}
+                            {reference.text}
+                          </li>
+                        ))}
+                    </ul>
+                    <AssessmentReview id={review.id} verdict={review.verdict} />
+                  </details>
+                ))}
               </li>
             ))}
           </ul>

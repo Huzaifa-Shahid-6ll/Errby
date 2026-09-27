@@ -1,4 +1,5 @@
 import "server-only";
+import { isSameOrigin } from "@/lib/http/origin";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { IngestionError } from "@/lib/ingestion/server";
 import { handlePreparation } from "@/lib/ingestion/request";
@@ -21,15 +22,7 @@ export async function handleDurablePreparation(
   const headers = { "Cache-Control": "no-store" };
   try {
     if (request.method !== "GET") {
-      const value = request.headers.get("origin") ?? "";
-      const origin = URL.canParse(value) ? new URL(value) : null;
-      const target = new URL(request.url);
-      if (
-        !origin ||
-        origin.origin !== value ||
-        origin.host !== (request.headers.get("host") ?? target.host) ||
-        origin.protocol !== target.protocol
-      )
+      if (!isSameOrigin(request))
         throw new IngestionError(
           "forbidden_origin",
           "Submit this request from Errby.",

@@ -17,6 +17,11 @@ export function summarizeEvidence(
   attempts: Attempt[],
   unresolved: boolean,
   status: string,
+  interventions: {
+    objective_id: string | null;
+    misconception_id: string | null;
+    resolved: boolean;
+  }[] = [],
 ) {
   const required = goals.filter((goal) => goal.required);
   const states = new Map(
@@ -67,7 +72,30 @@ export function summarizeEvidence(
     correct,
     scorable,
     unscored,
+    afterHelp: required.filter(
+      (goal) =>
+        states.get(goal.id) === "explained" &&
+        interventions.some((item) => item.objective_id === goal.id) &&
+        ["incorrect", "partial"].includes(
+          attempts
+            .filter((item) => item.objective_id === goal.id)
+            .sort((a, b) => a.sequence - b.sequence)
+            .find((item) => !["unverified", "off_topic"].includes(item.verdict))
+            ?.verdict ?? "",
+        ),
+    ).length,
+    corrections: new Set(
+      interventions
+        .filter(
+          (item) =>
+            item.resolved &&
+            item.misconception_id &&
+            states.get(item.objective_id ?? "") === "explained",
+        )
+        .map((item) => item.misconception_id),
+    ).size,
     goals: required.map((goal) => ({
+      id: goal.id,
       title: goal.title,
       state: states.get(goal.id) ?? "untested",
     })),

@@ -11,10 +11,7 @@
       "cache": "cold",
       "lcp": 216,
       "cls": 0,
-      "longTasks": [
-        61,
-        94
-      ],
+      "longTasks": [61, 94],
       "events": [
         {
           "name": "pointerdown",
@@ -455,9 +452,7 @@
       "cache": "cold",
       "lcp": 192,
       "cls": 0,
-      "longTasks": [
-        98
-      ],
+      "longTasks": [98],
       "events": [
         {
           "name": "pointerdown",
@@ -675,9 +670,7 @@
       "cache": "cold",
       "lcp": 188,
       "cls": 0,
-      "longTasks": [
-        88
-      ],
+      "longTasks": [88],
       "events": [
         {
           "name": "pointerdown",
@@ -888,13 +881,7 @@
       "cache": "cold",
       "lcp": 1292,
       "cls": 0,
-      "longTasks": [
-        482,
-        61,
-        86,
-        59,
-        60
-      ],
+      "longTasks": [482, 61, 86, 59, 60],
       "events": [
         {
           "name": "pointerdown",
@@ -1117,9 +1104,7 @@
       "cache": "warm",
       "lcp": 196,
       "cls": 0,
-      "longTasks": [
-        60
-      ],
+      "longTasks": [60],
       "events": [
         {
           "name": "pointerdown",

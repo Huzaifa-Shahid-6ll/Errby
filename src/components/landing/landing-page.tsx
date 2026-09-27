@@ -99,14 +99,11 @@ const questions = [
   },
 ];
 
-function ExampleLink({ header = false }: { header?: boolean }) {
+function ExampleLink() {
   return (
-    <Button
-      asChild
-      className={`${styles.primaryButton} landing-cta ${header ? styles.headerCta : ""}`}
-    >
+    <Button asChild className={`${styles.primaryButton} landing-cta`}>
       <a href="#example">
-        See an example{!header && <ArrowRight aria-hidden="true" size={19} />}
+        See an example <ArrowRight aria-hidden="true" size={19} />
       </a>
     </Button>
   );
@@ -140,7 +137,15 @@ export function LandingPage() {
         </nav>
         <div className={styles.headerActions}>
           <ThemeToggle />
-          <ExampleLink header />
+          <Link className={styles.textLink} href="/setup">
+            Sign in
+          </Link>
+          <Button
+            asChild
+            className={`${styles.primaryButton} ${styles.headerCta}`}
+          >
+            <Link href="/setup#sign-up">Sign up</Link>
+          </Button>
         </div>
       </header>
 

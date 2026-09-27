@@ -39,7 +39,11 @@ export const config = {
     "/learn/:path*",
     "/setup/:path*",
     "/prepare/:path*",
+    "/classes/:path*",
+    "/api/classes/:path*",
+    "/api/account/:path*",
     "/api/preparations/:path*",
     "/api/sessions/:path*",
+    "/api/assessments/:path*",
   ],
 };

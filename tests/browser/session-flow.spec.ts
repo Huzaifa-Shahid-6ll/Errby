@@ -337,7 +337,7 @@ test("API-mocked retry: uncertain save keeps text and key, edits receive a new k
     "Fictional connection failure",
   );
   await expect(
-    page.getByText("Your unsent draft is still held", { exact: false }),
+    page.getByText("Your unsent draft is held", { exact: false }),
   ).toBeVisible();
   failRefresh = false;
   await page.getByRole("button", { name: "Retry loading" }).click();
@@ -374,4 +374,163 @@ test("API-mocked tablet and 200% text keep long session content usable", async (
   ).toBeLessThanOrEqual(768);
   await page.keyboard.press("Tab");
   await expect(page.locator(":focus")).toBeVisible();
+});
+
+test("API-mocked failed send: edited draft survives reload with separate retry identity", async ({
+  page,
+}) => {
+  const state = fictionalState();
+  const requests: { text: string; idempotency_key: string }[] = [];
+  await page.route(`**/api/sessions/${sessionId}`, (route) =>
+    route.fulfill({ json: state }),
+  );
+  await page.route(`**/api/sessions/${sessionId}/turns`, (route) => {
+    requests.push(route.request().postDataJSON());
+    return route.abort("failed");
+  });
+  await page.goto(`/learn/sessions/${sessionId}`);
+  const answer = page.getByRole("textbox", { name: "Your explanation" });
+  const send = page.getByRole("button", { name: "Send answer" });
+  await answer.fill("Original answer");
+  await send.click();
+  await expect(send).toBeEnabled();
+  await answer.fill("  Original answer  ");
+  await page.reload();
+  await expect(answer).toHaveValue("  Original answer  ");
+  await send.click();
+  await expect(send).toBeEnabled();
+  expect(requests[1].idempotency_key).toBe(requests[0].idempotency_key);
+  await answer.fill("Edited answer");
+  await page.reload();
+  await expect(answer).toHaveValue("Edited answer");
+  await send.click();
+  await expect(send).toBeEnabled();
+  expect(requests[2].idempotency_key).not.toBe(requests[0].idempotency_key);
+});
+
+test("API-mocked ambiguous save: discovering saved A preserves unsent edited B", async ({
+  page,
+}) => {
+  const state = fictionalState();
+  await page.route(`**/api/sessions/${sessionId}`, (route) =>
+    route.fulfill({ json: state }),
+  );
+  await page.route(`**/api/sessions/${sessionId}/turns`, (route) => {
+    state.messages.push(
+      message(3, "student", route.request().postDataJSON().text),
+    );
+    state.session.last_sequence = 3;
+    state.session.status = "evaluating";
+    return route.abort("failed");
+  });
+  await page.goto(`/learn/sessions/${sessionId}`);
+  const answer = page.getByRole("textbox", { name: "Your explanation" });
+  await answer.fill("Answer A");
+  await page.getByRole("button", { name: "Send answer" }).click();
+  await expect(answer).toBeEnabled();
+  await answer.fill("Draft B");
+  await page.getByRole("button", { name: "Refresh saved session" }).click();
+  await expect(answer).toHaveValue("Draft B");
+  await expect(answer).toBeDisabled();
+  await expect(page.getByRole("list", { name: "Conversation" })).toContainText(
+    "Answer A",
+  );
+  await page.reload();
+  await expect(answer).toHaveValue("Draft B");
+});
+
+test("API-mocked AI retry returns transcript and objective progress; pause and resume retain draft", async ({
+  page,
+}) => {
+  const state = {
+    ...fictionalState("evaluating"),
+    processing_error: {
+      code: "provider_unavailable",
+      message: "AI response unavailable. Your answer is saved.",
+    },
+  };
+  await page.route(`**/api/sessions/${sessionId}`, (route) =>
+    route.fulfill({ json: state }),
+  );
+  await page.route(`**/api/sessions/${sessionId}/process`, async (route) => {
+    expect(route.request().postDataJSON()).toEqual({});
+    state.session.status = "awaiting_student";
+    state.messages.push(
+      message(3, "errby", "Can you explain with a different example?"),
+    );
+    await route.fulfill({
+      json: {
+        session: {
+          ...state.session,
+          objective_progress: [
+            { id: "heat", label: "Explain heat flow", status: "explained" },
+            {
+              id: "example",
+              label: "Use your own example",
+              status: "developing",
+            },
+          ],
+        },
+        messages: state.messages,
+      },
+    });
+  });
+  await page.route(`**/api/sessions/${sessionId}/pause`, (route) => {
+    state.session.status = route.request().postDataJSON().pause
+      ? "paused"
+      : "awaiting_student";
+    return route.fulfill({
+      json: { session: state.session, messages: state.messages },
+    });
+  });
+  await page.goto(`/learn/sessions/${sessionId}`);
+  await page.getByRole("button", { name: "Retry AI response" }).click();
+  await expect(
+    page.getByText("Can you explain with a different example?"),
+  ).toBeVisible();
+  await expect(page.locator(".session-goals-desktop")).toContainText(
+    "Explained",
+  );
+  const answer = page.getByRole("textbox", { name: "Your explanation" });
+  await answer.fill("A draft to return to");
+  await page.getByRole("button", { name: "Pause session" }).click();
+  await expect(answer).toBeDisabled();
+  await expect(page.getByRole("status")).toContainText(
+    "Session paused and saved.",
+  );
+  await page.getByRole("button", { name: "Resume session" }).click();
+  await expect(answer).toBeEnabled();
+  await expect(answer).toHaveValue("A draft to return to");
+});
+
+test("API-mocked submitted answer renders the full persisted AI reply and clears its draft", async ({
+  page,
+}) => {
+  const state = fictionalState();
+  await page.route(`**/api/sessions/${sessionId}`, (route) =>
+    route.fulfill({ json: state }),
+  );
+  await page.route(`**/api/sessions/${sessionId}/turns`, (route) => {
+    const saved = message(3, "student", route.request().postDataJSON().text);
+    state.session.last_sequence = 4;
+    state.messages.push(
+      saved,
+      message(4, "errby", "How would this change with a wooden spoon?"),
+    );
+    return route.fulfill({ json: { ...state, message: saved } });
+  });
+  await page.goto(`/learn/sessions/${sessionId}`);
+  const answer = page.getByRole("textbox", { name: "Your explanation" });
+  await answer.fill("Heat transfers through the metal.");
+  await page.getByRole("button", { name: "Send answer" }).click();
+  await expect(
+    page.getByText("How would this change with a wooden spoon?"),
+  ).toBeVisible();
+  await expect(answer).toBeEnabled();
+  await expect(answer).toHaveValue("");
+  await page.reload();
+  await expect(answer).toHaveValue("");
+  await expect(
+    page.getByRole("list", { name: "Conversation" }).getByRole("listitem"),
+  ).toHaveCount(5);
 });

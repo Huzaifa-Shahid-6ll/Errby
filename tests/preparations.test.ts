@@ -15,6 +15,7 @@ import {
   validateDraft,
   type PreparationActor,
 } from "../src/lib/preparations/service";
+import { generatePreparationDraft } from "../src/lib/ai/preparation";
 import { handleDurablePreparation } from "../src/lib/preparations/request";
 import type { PreparationJob } from "../src/lib/preparations/contracts";
 import type { Lesson } from "../src/lib/lessons/schema";
@@ -344,10 +345,61 @@ test("PGlite only: durable source, owner/class isolation, idempotency, expiring 
       hasCode("step_conflict"),
     );
     await assert.rejects(
-      advancePreparation(db, teacher, job.id, { expected_step: 1 }),
-      hasCode("generation_unavailable"),
+      advancePreparation(
+        db,
+        teacher,
+        job.id,
+        { expected_step: 1 },
+        async () => {
+          throw new IngestionError(
+            "model_unavailable",
+            "No provider in local check.",
+            503,
+          );
+        },
+      ),
+      hasCode("model_unavailable"),
     );
     const draft = draftFor(advanced.job);
+    const calls: string[] = [];
+    const generated = await generatePreparationDraft(
+      db,
+      teacher,
+      advanced.job,
+      async (request) => {
+        calls.push(request.requestKey);
+        assert.equal(request.schema.type, "object");
+        assert.match(request.system, /untrusted data/);
+        return {
+          output:
+            calls.length === 1
+              ? { bad: true }
+              : { ...draft, content_origin: "generated_draft" },
+          model: "mock",
+          tokens: 1,
+        };
+      },
+    );
+    assert.equal(generated.teacher_review.status, "pending");
+    assert.equal(calls.length, 2);
+    assert.notEqual(calls[0], calls[1]);
+    let failures = 0;
+    await assert.rejects(
+      generatePreparationDraft(db, teacher, advanced.job, async () => {
+        failures++;
+        return {
+          output: {
+            ...draft,
+            references: [{ ...draft.references[0], text: "Invented quote" }],
+          },
+          model: "mock",
+          tokens: 1,
+        };
+      }),
+      hasCode("generation_invalid"),
+    );
+    assert.equal(failures, 2);
+
     assert.throws(
       () => validateDraft(draft, advanced.job, learner),
       hasCode("draft_forbidden"),
@@ -466,6 +518,61 @@ test("PGlite only: durable source, owner/class isolation, idempotency, expiring 
     await assert.rejects(
       sql.exec("select * from public.preparation_jobs"),
       /permission denied/,
+    );
+    await sql.exec("reset role;set role service_role");
+    await db.rpc("fail_preparation", {
+      p_owner: learner.id,
+      p_job: privateJob.id,
+      p_token: learnerLease.data.lease_token,
+    });
+    const privatePractice = await advancePreparation(
+      db,
+      learner,
+      privateJob.id,
+      { expected_step: 1 },
+      async (database, actor, job) =>
+        generatePreparationDraft(database, actor, job, async () => ({
+          output: {
+            ...draftFor(job),
+            objectives: draftFor(job).objectives.map((objective) => ({
+              ...objective,
+              unresolved_issues: [],
+            })),
+            illustrative_only: false,
+            content_origin: "generated_draft",
+          },
+          model: "mock",
+          tokens: 1,
+        })),
+    );
+    assert.equal(privatePractice.review_status, "private_ready");
+    assert.equal(privatePractice.lesson?.teacher_review.status, "pending");
+    assert.equal(
+      privatePractice.lesson?.references[0].status,
+      "source_checked",
+    );
+    await sql.exec("reset role;set role authenticated");
+    await sql.query("select set_config('request.jwt.claim.sub',$1,false)", [
+      learner.id,
+    ]);
+    assert.equal(
+      (
+        await sql.query(
+          "select id from public.lesson_versions where review_status='private_ready'",
+        )
+      ).rows.length,
+      1,
+    );
+    await sql.query("select set_config('request.jwt.claim.sub',$1,false)", [
+      teacher.id,
+    ]);
+    assert.equal(
+      (
+        await sql.query(
+          "select id from public.lesson_versions where review_status='private_ready'",
+        )
+      ).rows.length,
+      0,
     );
     await sql.exec(
       "reset role;update public.classes set active=false;set role service_role",

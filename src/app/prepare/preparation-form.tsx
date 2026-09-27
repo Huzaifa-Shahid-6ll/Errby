@@ -19,10 +19,12 @@ export function PreparationForm({
   demo,
   grade,
   classes,
+  initialClassId = "",
 }: {
   demo: boolean;
   grade: string;
   classes: { id: string; title: string }[];
+  initialClassId?: string;
 }) {
   const [kind, setKind] = useState("topic");
   const [initialText] = useState(getPreparationDraft);
@@ -113,7 +115,11 @@ export function PreparationForm({
           {!demo && classes.length > 0 && (
             <label className="grid gap-1">
               Prepare for class
-              <select name="class_id" className={inputClass} defaultValue="">
+              <select
+                name="class_id"
+                className={inputClass}
+                defaultValue={initialClassId}
+              >
                 <option value="">Private preparation</option>
                 {classes.map((item) => (
                   <option key={item.id} value={item.id}>

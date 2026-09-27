@@ -10,13 +10,12 @@ import {
   uuid,
 } from "@/lib/preparations/service";
 import { publicationReadyLessonSchema } from "./schema";
+import { isSameOrigin } from "@/lib/http/origin";
 
 export async function reviewRequest(request: Request, id: string) {
   const headers = { "Cache-Control": "no-store" };
   try {
-    const target = new URL(request.url);
-    const origin = request.headers.get("origin");
-    if (origin !== target.origin || request.headers.get("host") !== target.host)
+    if (!isSameOrigin(request))
       throw new IngestionError("forbidden_origin", "Submit from Errby.", 403);
     if (env.ERRBY_MODE !== "live")
       throw new IngestionError(

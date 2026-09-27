@@ -6,8 +6,8 @@ const schema = z
     SUPABASE_URL: z.string().optional(),
     SUPABASE_PUBLISHABLE_KEY: z.string().optional(),
     SUPABASE_SECRET_KEY: z.string().optional(),
-    OPENAI_API_KEY: z.string().optional(),
-    OPENAI_MODEL: z.string().min(1).default("gpt-4.1-mini"),
+    OPENROUTER_API_KEY: z.string().optional(),
+    OPENROUTER_MODEL: z.string().min(1).default("gpt-4.1-mini"),
   })
   .superRefine((env, ctx) => {
     if (env.ERRBY_MODE === "live") {

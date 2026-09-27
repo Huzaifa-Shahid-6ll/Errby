@@ -171,7 +171,14 @@ export function ClassForms({
           </p>
           <button
             className="mt-2 underline"
-            onClick={() => void navigator.clipboard.writeText(shownCode)}
+            onClick={async () => {
+              try {
+                await navigator.clipboard.writeText(shownCode);
+                setMessage("Class code copied.");
+              } catch {
+                setMessage("Select and copy the displayed code manually.");
+              }
+            }}
           >
             Copy code
           </button>
@@ -189,6 +196,19 @@ export function ClassForms({
                 <span className="ml-2 text-sm text-muted-foreground">
                   {item.grade_band.replace("_", " ")}
                 </span>
+                {role === "teacher" && (
+                  <Link
+                    className="ml-4 underline"
+                    href={`/prepare?class_id=${item.id}`}
+                  >
+                    Prepare lesson
+                  </Link>
+                )}
+                {role === "learner" && (
+                  <Link className="ml-4 underline" href="/learn">
+                    Find class lessons
+                  </Link>
+                )}
                 {role === "teacher" && (
                   <Link
                     className="ml-4 underline"

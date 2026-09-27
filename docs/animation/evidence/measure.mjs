@@ -81,13 +81,11 @@ for (const cpu of [1, 4]) {
       const beforeInteraction = await page.evaluate(() => ({
         ...window.motionMetrics,
         navigation: performance.getEntriesByType("navigation")[0].toJSON(),
-        resources: performance
-          .getEntriesByType("resource")
-          .map((e) => ({
-            name: e.name,
-            transfer: e.transferSize,
-            encoded: e.encodedBodySize,
-          })),
+        resources: performance.getEntriesByType("resource").map((e) => ({
+          name: e.name,
+          transfer: e.transferSize,
+          encoded: e.encodedBodySize,
+        })),
         active: document
           .getAnimations()
           .filter((a) => a.playState === "running").length,

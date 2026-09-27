@@ -23,12 +23,15 @@ export function selectNextTurn(input: {
   preceding_correction?: string;
   unresolved_misconception_id?: string;
   used_misconception_ids: readonly string[];
+  privatePractice?: boolean;
+  remaining_objective_ids?: readonly string[];
 }): NextTurn {
   const { lesson, unresolved_misconception_id: unresolved } = input;
   if (
     lesson.illustrative_only ||
-    lesson.teacher_review.status !== "approved" ||
-    lesson.teacher_review.lesson_version !== lesson.version
+    (!input.privatePractice &&
+      (lesson.teacher_review.status !== "approved" ||
+        lesson.teacher_review.lesson_version !== lesson.version))
   )
     return { kind: "needs_review", reason: "Lesson is not approved" };
 
@@ -51,21 +54,41 @@ export function selectNextTurn(input: {
     .find((item) => item.id === unresolved);
 
   if (unresolved && (!active || !checked(active.reference_ids)))
-    return { kind: "needs_review", reason: "Unresolved correction lacks checked evidence" };
+    return {
+      kind: "needs_review",
+      reason: "Unresolved correction lacks checked evidence",
+    };
   if (decision.supervisor.trigger === "uncertainty")
-    return { kind: "needs_review", reason: "Source or assessment is uncertain" };
+    return {
+      kind: "needs_review",
+      reason: "Source or assessment is uncertain",
+    };
   if (decision.supervisor.trigger === "correction") {
-    if (!active) {
-      const wrong = decision.assessments.find((item) => item.verdict === "incorrect");
-      const objective = lesson.objectives.find((item) => item.id === wrong?.objective_id);
-      if (!objective || !checked(objective.reference_ids) || objective.unresolved_issues.length)
-        return { kind: "needs_review", reason: "No checked objective correction matches this answer" };
+    const wrong = decision.assessments.find(
+      (item) => item.verdict === "incorrect",
+    );
+    const objective = lesson.objectives.find(
+      (item) => item.id === wrong?.objective_id,
+    );
+    if (
+      !active ||
+      !objective?.misconceptions.some((item) => item.id === active.id)
+    ) {
+      if (
+        !objective ||
+        !checked(objective.reference_ids) ||
+        objective.unresolved_issues.length
+      )
+        return {
+          kind: "needs_review",
+          reason: "No checked objective correction matches this answer",
+        };
       return {
         kind: "reply",
         role: "supervisor",
         text: `${objective.correction_criteria.join(" ")} ${objective.application_question}`,
         misconception_id: null,
-        unresolved_misconception_id: null,
+        unresolved_misconception_id: active?.id ?? null,
         reference_ids: objective.reference_ids,
       };
     }
@@ -80,26 +103,73 @@ export function selectNextTurn(input: {
   }
   if (active) {
     const assessment = decision.assessments.find((item) =>
-      lesson.objectives.some((objective) =>
-        objective.misconceptions.some((item) => item.id === active.id) &&
-        objective.id === item.objective_id,
+      lesson.objectives.some(
+        (objective) =>
+          objective.misconceptions.some((item) => item.id === active.id) &&
+          objective.id === item.objective_id,
       ),
     );
+    if (
+      !input.remaining_objective_ids ||
+      !(
+        assessment?.verdict === "correct" &&
+        assessment.independent &&
+        !assessment.assisted
+      )
+    )
+      return {
+        kind: "reply",
+        role: "errby",
+        text: active.changed_example_question,
+        misconception_id: null,
+        unresolved_misconception_id:
+          assessment?.verdict === "correct" &&
+          assessment.independent &&
+          !assessment.assisted
+            ? null
+            : active.id,
+        reference_ids: active.reference_ids,
+      };
+  }
+
+  const nextObjective = lesson.objectives.find((objective) =>
+    input.remaining_objective_ids?.includes(objective.id),
+  );
+  if (
+    nextObjective &&
+    decision.assessments.every(
+      (assessment) =>
+        assessment.verdict === "correct" &&
+        assessment.independent &&
+        !assessment.assisted,
+    )
+  ) {
+    if (
+      !checked(nextObjective.reference_ids) ||
+      nextObjective.unresolved_issues.length
+    )
+      return {
+        kind: "needs_review",
+        reason: "Next objective lacks checked evidence",
+      };
     return {
       kind: "reply",
       role: "errby",
-      text: active.changed_example_question,
+      text: nextObjective.follow_up_questions[0],
       misconception_id: null,
-      unresolved_misconception_id:
-        assessment?.verdict === "correct" && assessment.independent ? null : active.id,
-      reference_ids: active.reference_ids,
+      unresolved_misconception_id: null,
+      reference_ids: nextObjective.reference_ids,
     };
   }
-
   for (const assessment of decision.assessments) {
-    const objective = lesson.objectives.find((item) => item.id === assessment.objective_id)!;
+    const objective = lesson.objectives.find(
+      (item) => item.id === assessment.objective_id,
+    )!;
     if (!checked(objective.reference_ids) || objective.unresolved_issues.length)
-      return { kind: "needs_review", reason: "Objective has unresolved source evidence" };
+      return {
+        kind: "needs_review",
+        reason: "Objective has unresolved source evidence",
+      };
     if (assessment.verdict === "off_topic" || assessment.verdict === "partial")
       return {
         kind: "reply",

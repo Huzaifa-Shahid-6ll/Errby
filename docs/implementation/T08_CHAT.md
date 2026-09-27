@@ -25,3 +25,13 @@ No database, API, environment, dependency or privileged projection changes were 
 ## Handoff
 
 T09 supplies validated evaluator/Supervisor decisions. T10 supplies Errby follow-ups; T11 supplies evidence-based completion; T12 owns durable recovery/pause/resume. Structured intervention references and review actions require their actual contracts and endpoints before this UI can display them. The Supervisor renderer currently displays saved message text only; it never invents citations or corrections.
+
+## Hackathon wiring repair — 27 September 2026
+
+T07's existing genuine opening-question and durable first-turn path was rechecked after the current-membership access gate: all three session SQL/service/HTTP test groups pass locally. This does not establish hosted Auth acceptance.
+
+T08 now persists the current draft separately from its last submitted retry identity. Editing after an ambiguous failure survives reload; finding the saved earlier answer clears only an identical normalized draft, preserving newer edits. Browser storage writes happen in input/send events, and initial recovery follows the asynchronous session read, removing the synchronous effect-state lint error. Identical normalized retries retain their key; changed answers receive a new key.
+
+The view accepts the complete persisted transcript, optional server objective progress and processing errors. It exposes the authenticated `/process` retry action for a saved answer awaiting evaluation, and distinguishes answer processing, pause/resume and AI retry busy states. No client inference completes an objective.
+
+Verification: scoped ESLint and TypeScript pass; 19/20 desktop/phone browser checks pass, including all new draft/retry/progress/pause regressions. The first desktop real-demo navigation exceeded the 30-second timeout during cold route compilation; its phone counterpart passed. An additional full-transcript-on-submit regression was added after that run and awaits the final combined browser suite. All AI responses in these UI checks are explicitly mocked fictional data; hosted AI/persistence acceptance remains separate.

@@ -51,6 +51,30 @@ export default async function Setup({
           </p>
         </>
       )}
+      {!identity && (
+        <section
+          id="sign-up"
+          className="mt-8 scroll-mt-6"
+          aria-labelledby="sign-up-title"
+        >
+          <h2 id="sign-up-title" className="text-xl font-semibold">
+            Sign up for Errby
+          </h2>
+          <p className="mt-3">
+            Accounts are currently created by an approved teacher or
+            administrator. Students: ask your teacher for a username and
+            password. Teachers: ask your school’s Errby administrator for an
+            invitation.
+          </p>
+          <p className="mt-3 text-sm text-muted-foreground">
+            Self-service sign-up is not available yet. You can explore the
+            fictional demo without an account.
+          </p>
+          <Link href="/learn" className="mt-4 inline-block underline">
+            Explore the demo
+          </Link>
+        </section>
+      )}
     </main>
   );
 }

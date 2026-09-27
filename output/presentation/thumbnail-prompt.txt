@@ -1,0 +1,9 @@
+Generated using the built-in imagegen tool.
+Reference: public/images/errby-mascot.png
+
+Use case: ads-marketing.
+Create a polished 16:9 widescreen hackathon presentation thumbnail for Errby, ideally 1920x1080 or higher. Use the attached existing mascot as a strict character identity reference: glossy white friendly rounded robot, dark navy faceplate, two cyan smiling arch eyes, lilac ear pieces and single purple ball antenna. Preserve its recognizable identity.
+Product: students learn by teaching Errby and correcting its intentional misunderstandings, with a separate supportive supervisor. This is an educational prototype, do not imply proven outcomes.
+Composition: premium clean cover design, large typography on left occupying about 55%, big beautifully rendered mascot on right occupying about 40%, entire character and antenna comfortably in frame. Quiet cool off-white #F7F9FC background, dark navy #17223B text, indigo #4F46E5 emphasis and restrained blue/lilac luminous halo behind robot. Use a sweeping subtle indigo curve behind the mascot to give depth. Clean modern rounded sans typography, exceptionally legible at small thumbnail sizes. Sophisticated student-friendly technology brand, generous negative space, strong hierarchy, polished soft studio lighting.
+Exact text and hierarchy: small upper-left eyebrow "HACKATHON PROJECT"; very large brand name "Errby"; below it bold headline on two lines "Learn by teaching." and "Teach the AI."; one small rounded label near lower left "You explain. Errby asks why."
+Include one small restrained speech bubble near mascot that says "But why?" to communicate curiosity. No additional text. No fake app screenshots, metrics, grades, awards, partner logos, UI dashboards, humans, stock icons, excessive confetti, watermarks or clutter. Keep all text inside generous 7% safe margins. This is a finished presentation thumbnail, not a device mockup.

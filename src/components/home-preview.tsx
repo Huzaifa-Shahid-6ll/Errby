@@ -239,7 +239,8 @@ export function HomePreview({
                   <h3>No class lessons yet</h3>
                   <p>
                     This is the empty-state example. You can prepare a fictional
-                    topic above; class joining is not connected yet.
+                    topic above. Joining a class requires a live learner
+                    account.
                   </p>
                 </div>
                 <Button
@@ -305,8 +306,8 @@ export function HomePreview({
               <div className="home-resume">
                 <h3>Resume</h3>
                 <p>
-                  No saved learning sessions in this demo. Starting and resuming
-                  a teaching session are not available yet.
+                  No saved learning sessions in this demo. Sign in to a live
+                  learner account to start or resume a teaching session.
                 </p>
               </div>
             )}
