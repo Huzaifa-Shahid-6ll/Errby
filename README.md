@@ -1,98 +1,354 @@
-# Errby
+<p align="center">
+  <img src="public/images/errby-mascot.png" width="150" alt="Errby, a friendly white robot with a purple antenna" />
+</p>
 
-Authentication has moved to Clerk while Supabase remains the database and private storage. Development settings and a real password sign-in, protected read, refresh and sign-out check passed on 30 September. Final verification is user-owned and still pending. Follow [Clerk setup, migration and validation](docs/implementation/CLERK_AUTH.md); existing legacy accounts require reviewed linking. The 27 September Supabase Auth results are historical, not Clerk acceptance.
+<h1 align="center">Errby</h1>
+<p align="center"><strong>Learn it by teaching it.</strong><br />Your lesson. Your explanation. One curious AI learning partner.</p>
+<p align="center">
+  📚 Bring a lesson &nbsp; · &nbsp; 💬 Explain an idea &nbsp; · &nbsp; 🛡️ Work through mistakes &nbsp; · &nbsp; 🌱 See your progress
+</p>
+<p align="center">
+  <a href="#for-learners-and-teachers">The product</a> ·
+  <a href="#for-developers">The architecture</a> ·
+  <a href="#run-locally">Run locally</a> ·
+  <a href="docs/SETUP_STATUS.md">Project status</a>
+</p>
 
-Errby is a learning app where the learner teaches an AI character, explains mistakes and builds evidence of understanding. A separate Supervisor highlights corrections and uncertainty. The repository includes source preparation, class publication, saved learning sessions, AI evaluation and replies, evidence-based progress, teacher results and operational budget controls.
+---
 
-See [setup status](docs/SETUP_STATUS.md) for current evidence and [release guide](docs/implementation/T20_RELEASE.md) for the historical hackathon checklist. Clerk setup supersedes that guide's old Supabase Auth instructions. Human lesson approval and rollout acceptance remain separate; no deployment or submission is claimed.
+<a id="for-learners-and-teachers"></a>
 
-## Start the local preview
+## 01 · For learners and teachers
 
-Use Windows PowerShell, Node **24.18.0**, npm **11.16.0** and the existing lockfile. Do not use local Docker Desktop or its engine.
+### 👋 Meet the student you get to teach
+
+You can recognise a definition and still struggle to explain it. Errby gives you someone to explain it to: a curious AI character that asks questions, gets selected ideas wrong, and invites you to help it understand.
+
+Bring your notes or a class lesson. Put the idea into your own words. Work through a misunderstanding. Leave with a clearer picture of what you explained and what needs another attempt.
+
+**You do the explaining. Errby keeps the conversation going.** A separate AI Supervisor offers corrections and makes uncertainty visible.
+
+<p align="center">
+  <img src="public/images/errby-notebook.png" width="540" alt="Errby beside an open notebook, illustrating learning through explanation" />
+</p>
+
+### ✨ What you can do with Errby
+
+|     | What you can do                   | Why it helps                                                                        |
+| --- | --------------------------------- | ----------------------------------------------------------------------------------- |
+| 📚  | **Bring your own material**       | Start with a topic outline, pasted notes, or a readable PDF or DOCX.                |
+| 🎯  | **Prepare a focused lesson**      | Work toward specific goals with reference material behind the lesson.               |
+| 💬  | **Teach in your own words**       | Practise explaining through typed conversation, examples and follow-up questions.   |
+| 🧩  | **Spot a misunderstanding**       | Help Errby correct a lesson-specific mistake and explain why it is wrong.           |
+| 🛡️  | **Get feedback when you need it** | The AI Supervisor highlights corrections or says when an answer cannot be verified. |
+| 🌱  | **See progress for each idea**    | Review what you explained, what is developing and what still needs evidence.        |
+| ⏸️  | **Pause and return**              | Reopen saved sessions and revisit your recap in live learning.                      |
+| 🏫  | **Learn with your class**         | Join with a class code and open lessons your teacher has reviewed and published.    |
+| 🔒  | **Practise independently**        | Prepare private practice that stays outside teacher class reports.                  |
+| 🔎  | **Look beyond a score**           | Learners see a recap; teachers can inspect class evidence and review assessments.   |
+
+These workflows are implemented in the app. Saved learning and AI feedback require a configured live service and an approved account. The credential-free demo uses fictional, unreviewed examples; it does not assess or save learning answers.
+
+### 🗺️ From a lesson to an explanation
+
+```mermaid
+flowchart LR
+    A["📚 Your material or class lesson"] --> B["💬 Explain it to Errby"]
+    B --> C["🧩 Work through a misunderstanding"]
+    C --> D["🛡️ Read feedback and try again"]
+    D --> E["🌱 Review evidence for each goal"]
+    style A fill:#EEF2FF,stroke:#4F46E5,color:#17223B
+    style B fill:#EEF2FF,stroke:#4F46E5,color:#17223B
+    style C fill:#FFFFFF,stroke:#77859B,color:#17223B
+    style D fill:#FFF7E6,stroke:#B45309,color:#92400E
+    style E fill:#ECFDF5,stroke:#0F766E,color:#0F766E
+```
+
+**For learners:** open a published class lesson or prepare private practice from your own material. Answer Errby's opening question, explain your reasoning, and use the feedback to try a new example. In live mode, return to saved learning from the home screen.
+
+**For teachers:** create a class, add material, review the generated lesson's goals, references and corrections, then publish it. Share the class code and use class results to find ideas that need another explanation. You can review assessments with an audit trail; you can only access your own class activity.
+
+A topic outline defines what to cover. It does not establish factual correctness. Class lessons need teacher review before publication; private AI-generated practice is explicitly labelled **not teacher-reviewed**.
+
+### 💬 A little lesson in heat transfer
+
+> **Fictional, prewritten and unreviewed illustration.** This conversation is not a grading result.
+
+| Speaker      | Conversation                                                                                   |
+| ------------ | ---------------------------------------------------------------------------------------------- |
+| 🤖 **Errby** | Why does an ice cube melt in a warm room?                                                      |
+| 👤 **You**   | Energy transfers from the warmer surroundings to the colder ice. That energy can melt the ice. |
+| 🤖 **Errby** | So the ice makes the heat it needs to melt?                                                    |
+| 👤 **You**   | No. The energy comes from the warmer surroundings. The ice does not make its own heat.         |
+| 🤖 **Errby** | Then why could wrapping the ice in an insulating material slow its melting?                    |
+
+If you agree with the mistaken idea, the Supervisor can step in with a correction and ask you to explain a fresh example. Copying that correction does not count as independent evidence.
+
+### 🖼️ A visual tour
+
+The images below are **design concepts with fictional sample data**, reused from the repository. They illustrate the product journeys; they are not current application screenshots, verified grades or evidence of student outcomes. Exact screens may differ.
+
+| 📚 Choose what to teach                                                                                                          | 📝 Prepare and review                                                                                                                         |
+| -------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![Design concept: learner home with a topic composer and fictional class lessons](docs/Screens_images/Teach%20Errby%20today.png) | ![Design concept: teacher source upload and lesson drafts awaiting review](docs/Screens_images/Turn%20materials%20into%20lesson%20drafts.png) |
+| Start from a topic, your notes or a class lesson.                                                                                | Check the goals and supporting material before publishing.                                                                                    |
+
+| 🛡️ Work through an idea                                                                                                                                             | 🌱 Look back at your learning                                                                                                                       |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![Design concept: heat-transfer conversation with a separate Supervisor correction](docs/Screens_images/Errby%20Heat%20Transfer%20With%20Supervisor%20Guidance.png) | ![Design concept: lesson recap with fictional goal evidence and sample metrics](docs/Screens_images/Errby%20heat%20transfer%20lesson%20results.png) |
+| Errby asks; you explain; the Supervisor offers feedback.                                                                                                            | Review each goal and the explanations behind its status.                                                                                            |
+
+### 🌱 What the progress labels mean
+
+| Label             | In plain language                                         |
+| ----------------- | --------------------------------------------------------- |
+| ✅ **Explained**  | Your answer provides valid evidence for this lesson goal. |
+| ◐ **Developing**  | This idea needs another explanation.                      |
+| ○ **Untested**    | There is no evidence for this goal yet.                   |
+| ❔ **Unverified** | The answer or supporting evidence could not be confirmed. |
+
+Every required goal needs valid learner evidence before a lesson can finish. These labels describe an idea in a lesson, not a child's ability or a school grade. AI feedback can be wrong; it does not replace a teacher or establish subject-wide mastery.
+
+### 📎 What can I bring?
+
+| Material                         | What to expect                                                                                                                  |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| A topic or short outline         | Sets the lesson scope; add reference text to support factual claims.                                                            |
+| Pasted notes                     | Supplies readable material for lesson preparation and source references.                                                        |
+| Text-based PDF or DOCX           | Extracts readable text and reports missing or unsupported content.                                                              |
+| A webpage or video link          | Supply permitted source text or a transcript alongside the link. Errby does not automatically read the page or watch the video. |
+| A scan, image or audio recording | Convert it to readable text first; OCR, voice and video teaching are outside this version.                                      |
+
+Errby is designed for school-age learners, from primary through high school, using typed English. Younger learners may need help reading or typing. The web interface supports phones and larger screens; there is no native app.
+
+### 🚪 Getting started and availability
+
+Ask the person running your Errby instance for access. In live mode, sign in or sign up, then complete account setup; creating a sign-in account alone does not grant learning access. An operator must approve the learner or teacher account.
+
+For a local tour, follow [Run locally](#run-locally). Demo mode needs no credentials or model spending. Live mode adds saved sessions, classes and configured AI processing.
+
+Errby is a development prototype. Human lesson approval, school/pupil pilot work and production acceptance remain open. No public deployment, learning-gain study or universal AI accuracy is claimed. See the [current verification record](docs/SETUP_STATUS.md) for what has actually been checked.
+
+---
+
+<a id="for-developers"></a>
+
+## 02 · For developers
+
+### 🏗️ Architecture at a glance
+
+Errby is a **Next.js App Router monolith**. React renders the learning experience; server-only domain modules handle identity, authorization, ingestion, preparation, AI calls and session processing. Supabase Postgres holds canonical application state. Clerk handles authentication, while roles and class membership remain in the application database.
+
+```mermaid
+flowchart TD
+    UI["Browser · React UI"] --> APP["Next.js · pages and route handlers"]
+    UI <-->|"Sign-in and session"| CLERK["Clerk"]
+    APP --> AUTH["Server identity and access checks"]
+    CLERK -.->|"Verified session token"| AUTH
+    AUTH --> SERVICES["Preparation · sessions · classes · results"]
+    SERVICES --> DB[("Supabase Postgres · RLS and atomic RPCs")]
+    SERVICES --> PARSE["Bounded text / PDF / DOCX extraction"]
+    SERVICES --> AI["Server AI adapter · reserve budget and validate output"]
+    AI --> MODEL["OpenRouter · GPT-4.1 mini"]
+    AI --> DB
+    OPS["Operator scripts"] --> DB
+    OPS --> CLERK
+    style UI fill:#EEF2FF,stroke:#4F46E5,color:#17223B
+    style APP fill:#EEF2FF,stroke:#4F46E5,color:#17223B
+    style AUTH fill:#FFF7E6,stroke:#B45309,color:#92400E
+    style AI fill:#FFF7E6,stroke:#B45309,color:#92400E
+    style DB fill:#ECFDF5,stroke:#0F766E,color:#0F766E
+```
+
+Supabase verifies Clerk tokens through its native third-party authentication integration. Server session clients retain row-level security (RLS); privileged operations use a separate server-only client with explicit application checks. Private Storage policies exist, but the current ingestion path saves extracted content in Postgres and does **not** persist source binaries to Storage.
+
+| Layer                    | Technology in this repository                                | Responsibility                                                                                   |
+| ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| 🖥️ Application           | Next.js 16.3.5 · React 19.3.0 · TypeScript 6.0.3             | Server-rendered pages, interactive UI and same-origin API routes.                                |
+| 🎨 Interface             | Tailwind CSS 4 · Radix/shadcn patterns · Phosphor and Lucide | Shared controls, responsive layouts, labelled feedback and theme support.                        |
+| 🔑 Identity              | Clerk                                                        | Sign-in, sign-up, account UI and verified sessions.                                              |
+| 🗄️ Persistence           | Supabase Postgres                                            | Profiles, classes, source text, immutable lesson versions, sessions, evidence and budget ledger. |
+| 🧠 AI                    | OpenRouter · `openai/gpt-4.1-mini` · Zod                     | Structured drafts, validated assessments and checked Errby replies.                              |
+| 📄 Ingestion             | PDF.js · Mammoth                                             | Bounded PDF/DOCX text extraction through worker threads.                                         |
+| 🧪 Verification          | Node test runner/tsx · PGlite · Playwright                   | Domain checks, Docker-free SQL validation and browser journeys.                                  |
+| 🚀 Hosting configuration | Vercel · Node 24.x · npm 11.x                                | Repository deployment configuration; deployment is a separate step.                              |
+
+Exact dependency pins live in [package.json](package.json) and [package-lock.json](package-lock.json). The [colour and screen guide](docs/Errby-Colour-and-Screen-Guide.md) and [palette tokens](docs/visual-design/palette-tokens.json) govern presentation.
+
+### 🔄 How the learning loop works
+
+There are three AI responsibilities: **preparation**, **evaluation/Supervisor**, and **Errby's next reply**. They have separate prompts and schemas inside one application, rather than autonomous agents exchanging messages.
+
+```mermaid
+sequenceDiagram
+    participant L as Learner
+    participant S as Application server
+    participant D as Postgres
+    participant M as Model provider
+    L->>S: Submit explanation with retry key and sequence
+    S->>S: Authenticate and check current access
+    S->>D: Persist learner turn and claim processing lease
+    S->>D: Reserve capped evaluation budget
+    S->>M: Evaluate against immutable lesson references
+    M-->>S: Structured assessment
+    S->>S: Validate evidence, references and independence
+    S->>D: Reserve capped reply budget when needed
+    S->>M: Request next reply when needed
+    M-->>S: Structured reply
+    S->>S: Validate reply
+    S->>D: Commit assessments, intervention, progress and reply
+    D-->>L: Render saved state through the application
+```
+
+**Preparation:** validate type, size and ownership; extract source text and location markers; collect missing context; save a resumable job; generate and validate a source-bound draft. Teacher publication creates an immutable reviewed version. Eligible private practice remains explicitly AI-generated and not teacher-reviewed. Steps advance through authorized requests while the preparation view is open; closing it does not imply a background worker keeps running.
+
+**Teaching:** session and preparation leases fence stale workers. Expected sequences and idempotency keys prevent conflicting or repeated submissions from silently advancing state. Provider calls run outside database transactions. Failed processing can be retried from the saved learner turn; completed provider responses can be reused after interrupted application writes.
+
+**Evidence:** assessments connect learner responses to objectives and source references. Correctness alone is insufficient when an answer is copied or assisted. Uncertainty cannot complete an objective, and all required objectives need valid evidence before completion. Results expose scoped summaries and audited teacher assessment revisions; activity time is a bounded estimate.
+
+### 🔐 Identity, privacy and operational boundaries
+
+- **Clerk identity is separate from application approval.** A protected UUID mapping links a verified Clerk subject and issuer to a profile. Roles are not self-selected or taken from editable user metadata. Legacy accounts require reviewed linking, never an automatic email merge.
+- **Access is checked on the server and in SQL.** Current ownership, active class membership and teacher class scope govern private reads and mutations. Private sessions stay outside class reporting. Cookie-based mutations require the expected origin; private responses use `no-store`.
+- **Service and model credentials remain server-only.** `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` is public configuration; it is not a secret. No service, database password or model credential belongs in a `NEXT_PUBLIC_` variable.
+- **Spending must be enabled and reserved first.** The synthetic operator controls cap spending at $1 total and $0.03 per call, with new reservations stopping at 90% of the total cap. Ambiguous provider outcomes retain reserved liability until reconciliation; retries cannot blindly dispatch another paid call.
+- **Retention needs an operator.** Maintenance supports redaction after 30 days and session deletion after 90 days. Scheduling is not configured, so automatic retention is not claimed. Account deletion has separate identity and owned-class safeguards.
+
+See [Clerk identity and migration](docs/implementation/CLERK_AUTH.md), [operations and budget controls](docs/implementation/T17_OPERATIONS.md), and [privacy requirements](docs/specification/PRIVACY_AND_SAFETY.md). Current Clerk instructions supersede historical Supabase Auth guidance.
+
+<a id="run-locally"></a>
+
+### 🛠️ Run locally
+
+Use Windows PowerShell, Node **24.18.0**, npm **11.16.0**, and the existing lockfile. Local checks are Docker-free; do not use local Docker Desktop or its engine.
+
+From the repository root:
 
 ```powershell
-Set-Location 'G:\ONGOING PROJECTS\Errby'
 npm ci
 if (-not (Test-Path .env.local)) { Copy-Item .env.example .env.local }
 $env:ERRBY_MODE = 'demo'
 npm run dev
 ```
 
-Open [http://127.0.0.1:3000/learn](http://127.0.0.1:3000/learn). Stop with Ctrl+C. If port 3000 is occupied, use `npm run dev -- --port 3001`.
+Open the [landing page](http://127.0.0.1:3000/) or [learning workspace](http://127.0.0.1:3000/learn). Stop with Ctrl+C. If port 3000 is occupied, use `npm run dev -- --port 3001`.
 
-Demo needs no credentials and makes no model calls. The example conversation is fictional and unreviewed. `/prepare` performs real pasted-text and sample-document extraction, but demo does not create accounts or save learning to a hosted database. Do not present the preview as live grading.
+Demo needs no credentials and makes no model calls. Preparation can perform real bounded text/sample-document extraction, but demo does not create accounts or persist learning to a hosted database. Live mode fails closed instead of falling back to fictional data.
 
-## Enable the real synthetic flow
+<details>
+<summary><strong>🔌 Configure a hosted synthetic environment</strong></summary>
 
-Follow the [hosted setup steps](docs/implementation/T20_RELEASE.md#hosted-synthetic-setup) in order: configure the dedicated project, apply migrations, provision an approved teacher, create a class, provision synthetic learners, then enable the budget. Setting environment keys alone does not complete these steps.
+Use a dedicated non-local Supabase test project and a matching Clerk development instance. Follow [Clerk setup, approval, migration and validation](docs/implementation/CLERK_AUTH.md) first. Apply repository migrations in filename order, configure native Clerk/Supabase integration, and provision reviewed application identities. Teacher accounts and class membership require their documented approval steps. Setting keys alone is insufficient.
 
-Copy secrets privately into ignored `.env.local`; never paste them into command arguments, recordings, source files or `NEXT_PUBLIC_` variables. All configuration below is server-only.
+Keep real values in ignored `.env.local` or deployment secrets, never source files or command arguments. [.env.example](.env.example) lists the supported settings.
 
-| Variable                        | Purpose                                                                             |
-| ------------------------------- | ----------------------------------------------------------------------------------- |
-| `ERRBY_MODE`                    | `demo` for preview; `live` for genuine authenticated persistence and configured AI. |
-| `SUPABASE_URL`                  | Dedicated non-local HTTPS `*.supabase.co` synthetic test project.                   |
-| `SUPABASE_PUBLISHABLE_KEY`      | Session client, subject to the signed-in user's row policies.                       |
-| `SUPABASE_SECRET_KEY`           | Privileged server operations with application authorization checks.                 |
-| `OPENROUTER_API_KEY`            | Server provider key. Calls also require an enabled database budget.                 |
-| `OPENROUTER_MODEL`              | `gpt-4.1-mini` or `openai/gpt-4.1-mini`; other models are rejected.                 |
-| `ERRBY_APPROVED_TEACHER_EMAILS` | Operator allowlist for already provider-confirmed teacher accounts.                 |
-| `ERRBY_OPERATOR_CONFIRM`        | `synthetic-test-project` opt-in for account and operations commands.                |
+| Variable                                   | Purpose                                                                          |
+| ------------------------------------------ | -------------------------------------------------------------------------------- |
+| `ERRBY_MODE`                               | `demo` or `live`; defaults to demo.                                              |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`        | Public configuration for the matching Clerk instance.                            |
+| `CLERK_SECRET_KEY`                         | Server-only Clerk credential.                                                    |
+| `CLERK_ISSUER_URL`                         | Exact trusted HTTPS issuer without a trailing slash.                             |
+| `ERRBY_APP_ORIGIN`                         | Exact browser origin, including the local port.                                  |
+| `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` | Hosted project and RLS session-client configuration.                             |
+| `SUPABASE_SECRET_KEY`                      | Privileged server operations after application authorization.                    |
+| `OPENROUTER_API_KEY`, `OPENROUTER_MODEL`   | Server provider configuration; model is `gpt-4.1-mini` or `openai/gpt-4.1-mini`. |
+| `SUPABASE_DB_URL`                          | Migration-only connection; use the hosted session pooler where required.         |
+| `ERRBY_APPROVED_TEACHER_EMAILS`            | Operator allowlist for already provider-verified teacher accounts.               |
+| `ERRBY_OPERATOR_CONFIRM`                   | `synthetic-test-project` opt-in for operator actions.                            |
 
-After updating `.env.local`, remove any demo override with `Remove-Item Env:ERRBY_MODE -ErrorAction SilentlyContinue` and restart the app. Live mode does not fall back to fixtures when a service fails.
+After configuring live mode, clear a shell-level demo override and restart on the configured origin:
 
-The AI adapter reserves a conservative maximum before calling OpenRouter, permits one dispatch per request, enforces provider price ceilings and caches completed responses for safe replay. The operator tool permits at most **$1 total**, with **$0.03 per request**; new reservations stop at 90% of the total cap. Unknown provider outcomes remain charged against reserved capacity until an operator reconciles them. [Budget, retention and deletion commands](docs/implementation/T17_OPERATIONS.md).
+```powershell
+Remove-Item Env:ERRBY_MODE -ErrorAction SilentlyContinue
+npm run dev -- --port 3100
+```
 
-## Hackathon journey
+Use synthetic accounts and fictional material. Enable paid calls only with authorized reservations and caps. No real pupil data belongs in development.
 
-1. Teacher signs in at `/setup`, creates a class at `/classes`, then prepares factual synthetic source text or a document at `/prepare`.
-2. AI creates a draft. Teacher checks its objectives, references and corrections before publishing the class lesson. Generation never supplies human approval.
-3. A synthetic learner signs in, opens the published lesson from `/learn`, explains a concept and receives validated Errby/Supervisor feedback. Saved answers drive persisted objective evidence; uncertainty never completes an objective.
-4. Pause, return to `/learn` and reopen saved learning. Inspect the learner recap and the teacher's class results, including review of flagged assessments.
-5. Private learner preparation is labelled AI-generated and not teacher-reviewed, and remains outside the teacher's class results.
+</details>
 
-These paths are implemented; hosted acceptance must demonstrate them before a live presentation. Use adult roleplay and fictional data. Real pupil use remains gated by school and provider privacy requirements.
+### 🧭 Routes and repository map
 
-## Import into Vercel
+| Route                                        | Purpose                                                                                                          |
+| -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `/`                                          | Public landing page and prewritten examples.                                                                     |
+| `/sign-in`, `/sign-up`, `/setup`, `/account` | Authentication, application approval status and account settings.                                                |
+| `/learn`                                     | Learning home, class lessons and saved sessions.                                                                 |
+| `/prepare`, `/prepare/[id]`                  | Source extraction, resumable preparation and lesson review.                                                      |
+| `/learn/sessions/[id]`                       | Typed teaching, feedback and progress.                                                                           |
+| `/learn/sessions/[id]/results`               | Learner recap and evidence.                                                                                      |
+| `/classes`, `/classes/[id]/results`          | Class administration and scoped teacher results.                                                                 |
+| `/api/*`                                     | Same-origin server endpoints; see the [access matrix](docs/implementation/CLERK_AUTH.md#actual-access-surfaces). |
 
-Import the Git repository with the root directory set to `.`. The root `vercel.json` selects Next.js, `npm ci` and `npm run build`; leave the output directory at its framework default. `package.json` selects Node 24.x and allows npm 11.x, while `.node-version` retains the tested local patch. See [Vercel's Node version rules](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions).
+```text
+src/
+├── app/                       Pages and server route handlers
+├── components/                Landing, workspace and shared UI
+└── lib/
+    ├── auth/ · db/             Identity, approval and database clients
+    ├── ingestion/             Text, PDF and DOCX extraction
+    ├── preparations/          Saved jobs and immutable lesson drafts
+    ├── lessons/               Contracts, examples and review
+    ├── ai/                    Budgeted provider, evaluation and replies
+    ├── sessions/              Saved turns, recovery and evidence
+    ├── classes/ · results/    Scoped reporting and teacher review
+    └── env/ · http/           Configuration and request boundaries
+supabase/migrations/           Schema, RLS and atomic transactions
+scripts/                       Account and operations commands
+tests/                         Domain, SQL, integration and browser checks
+docs/                          Specifications, design and verification records
+public/images/                 Existing Errby and learner artwork
+```
 
-For a fictional demo deployment, set `ERRBY_MODE=demo` in Vercel's environment settings; no credentials are required. Demo is also the default when the variable is absent. `.vercelignore` excludes local secrets, generated presentation assets and build/test artifacts from CLI uploads. Keep `docs/specification/EXAMPLE_LESSON.json`: the demo imports it at build time.
-
-For live mode, add `ERRBY_MODE=live`, `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`, `CLERK_ISSUER_URL`, `ERRBY_APP_ORIGIN`, `OPENROUTER_API_KEY` and `OPENROUTER_MODEL` privately in the intended Vercel environment, then redeploy. Complete the [hosted synthetic setup](docs/implementation/T20_RELEASE.md#hosted-synthetic-setup) first. Migration/operator credentials do not belong in the deployed app. Builds never apply database migrations or enable model spending.
-
-Vercel Functions have a [4.5 MB request-body limit](https://vercel.com/docs/functions/limitations#request-body-size), below this app's local 10 MiB document allowance. Use smaller documents or pasted text for the hosted demo; larger uploads require a separate direct-to-storage upload flow. Hosted Auth, storage, worker execution and AI acceptance still need verification after deployment.
-
-## Verify locally
+### 🧪 Verification and current limits
 
 ```powershell
 npm run check
+$env:ERRBY_MODE = 'demo'
 npm run build
 npx playwright install chromium
 npm run test:browser
 ```
 
-`check` runs lint, route types/TypeScript, deterministic and PGlite tests, then formatting. Browser tests start their own demo server on port 3100. `npm run db:test` is the focused Docker-free SQL check. To run the production build locally, use `npm run start` after a successful build.
+`check` runs ESLint, route generation/TypeScript, local tests including PGlite, and formatting. `npm run db:test` is the focused Docker-free SQL check. Browser tests start a demo server on port 3100; free that port before running them. `npm run test:packaging` checks production DOCX dependency tracing. The landing verification record also documents `npm run build -- --webpack` when the default Turbopack build does not complete.
 
-Local SQL tests stub Auth and Storage. Mock provider and browser checks establish application behavior, not actual provider billing, hosted Auth/JWTs, Storage, school approval or screen-reader acceptance. Logs, screenshots and traces belong in ignored `test-results/`; inspect them before sharing. No hosted command runs as part of `npm test`.
+| Evidence                         | What it establishes                                                           | What it does not establish                                          |
+| -------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| Local contracts and PGlite tests | Schema, deterministic behavior and SQL authorization logic under the harness. | Live Clerk sessions, hosted RLS integration or Storage.             |
+| Demo/mocked browser tests        | UI behavior, recovery, responsive layouts and tested keyboard interactions.   | Real model accuracy, billing or human accessibility acceptance.     |
+| Hosted synthetic checks          | Only the actual routes, identities and calls exercised in the dated record.   | Production readiness, school approval or educational effectiveness. |
 
-## Repository map
+**Current authentication status:** the recorded Clerk password login, protected Supabase read, refresh and sign-out passed on 30 September. Expanded hosted write/RLS checks, signup/recovery, guarded deletion and full migration acceptance remain pending. The earlier 27 September Supabase Auth results are historical. Final Clerk verification was handed to the user; see [setup status](docs/SETUP_STATUS.md) and the [Clerk validation record](docs/implementation/CLERK_AUTH.md#validation-record), including its dependency findings.
 
-| Location                                       | Responsibility                                                                                                                  |
-| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `src/app`                                      | Pages and server routes for account, preparation, classes, learning and results.                                                |
-| `src/lib/auth`, `src/lib/db`                   | Identity, scoped provisioning and database clients.                                                                             |
-| `src/lib/ingestion`, `src/lib/preparations`    | Bounded text/PDF/DOCX extraction, source provenance and durable preparation. Links require pasted text; videos are not watched. |
-| `src/lib/ai`                                   | Budgeted provider adapter, source-grounded drafts, evaluation and checked replies.                                              |
-| `src/lib/sessions`, `src/lib/results`          | Saved teaching flow, evidence, completion and scoped summaries/revisions.                                                       |
-| `supabase/migrations`                          | Schema, row policies and atomic server transactions. Apply in filename order.                                                   |
-| `scripts/accounts.ts`, `scripts/operations.ts` | Explicit operator provisioning, budgets, retention and confirmed class deletion.                                                |
-| `tests`                                        | Local SQL, contract, integration and browser checks.                                                                            |
-| `docs/specification`, `docs/visual-design`     | Supplied requirements and authoritative design references.                                                                      |
-| `docs/implementation`                          | Implementation evidence and remaining acceptance.                                                                               |
+Parsing is bounded to **10 MiB**, **50 PDF pages**, **30,000 extracted characters** and a **15-second extraction limit**. Remote page fetching, video watching, OCR and voice are not implemented. Screenshots and traces belong in ignored `test-results/` and should be inspected before sharing.
 
-## AI assistance and attribution
+<details>
+<summary><strong>🚀 Hosting and deployment notes</strong></summary>
 
-OpenAI Codex substantially assisted implementation, migrations, tests, documentation and visual concepts from the supplied specifications. The team must review, understand and accurately attribute that work. UI fixtures are fictional; generated lesson drafts require the displayed review process. No learning-gain, school-participation or model-quality claim is implied by passing engineering tests.
+The root [vercel.json](vercel.json) selects Next.js, `npm ci` and `npm run build`; import with root directory `.` and the framework's default output directory. The package permits Node 24.x/npm 11.x; local patch pins remain in the repository.
 
-Third-party packages and pinned versions are listed in [package.json](package.json) and [package-lock.json](package-lock.json). The Button follows the [MIT-licensed shadcn/ui Radix pattern](https://github.com/shadcn-ui/ui/blob/main/LICENSE.md); the project uses Lucide and Phosphor icons. See [T20](docs/implementation/T20_RELEASE.md) for the honest recording script and contribution record.
+For a fictional demo, set `ERRBY_MODE=demo`. For live mode, configure the application variables listed above for both build and runtime, complete hosted identity/database setup, then verify the deployed flows. Migration and operator credentials do not belong in the deployed application. Builds do not apply migrations or enable model spending.
+
+The documented Vercel Functions [request-body limit](https://vercel.com/docs/functions/limitations#request-body-size) is 4.5 MB, below the app's local 10 MiB document allowance. Use smaller documents or pasted text; larger uploads require a separate direct-to-storage flow. [.vercelignore](.vercelignore) excludes local secrets and generated artifacts. Keep `docs/specification/EXAMPLE_LESSON.json`, which demo imports at build time.
+
+Deployment and hosted runtime verification are separate from pushing repository changes. The [historical release guide](docs/implementation/T20_RELEASE.md) contains the demonstration checklist; use current Clerk instructions for authentication.
+
+</details>
+
+### 📖 Deeper documentation and credits
+
+| Read                                                                                                            | For                                                                                          |
+| --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| [Setup status](docs/SETUP_STATUS.md)                                                                            | Latest observed evidence, blockers and remaining acceptance.                                 |
+| [Product brief](docs/specification/PRODUCT_BRIEF.md) · [learning design](docs/specification/LEARNING_DESIGN.md) | Product intent, goals and evidence rules.                                                    |
+| [Implementation index](docs/implementation/README.md)                                                           | Module-level behavior and verification notes.                                                |
+| [Clerk authentication](docs/implementation/CLERK_AUTH.md)                                                       | Current identity architecture, configuration and migration.                                  |
+| [API contracts](docs/specification/API_CONTRACTS.md) · [data model](docs/specification/DATA_MODEL.md)           | Specification context; reconcile older planning documents with current implementation notes. |
+| [Design guide](docs/Errby-Colour-and-Screen-Guide.md)                                                           | Authoritative palette, speaker semantics and screen concepts.                                |
+| [Landing verification](docs/animation/verification.md)                                                          | Actual landing screenshots, motion checks and their limits.                                  |
+
+OpenAI Codex substantially assisted implementation, migrations, tests, documentation and visual concepts from the supplied specifications. Existing character artwork and screen concepts are reused here; examples remain fictional and unreviewed. The team must review and accurately attribute AI-assisted work.
+
+Third-party dependencies and exact versions are recorded in the package files. The Button follows the [MIT-licensed shadcn/ui Radix pattern](https://github.com/shadcn-ui/ui/blob/main/LICENSE.md); the application uses Lucide and Phosphor icons. Engineering checks do not establish learning gains, school participation or model quality.
+
+<p align="center"><img src="public/images/learner-avatar.png" width="64" alt="Illustrated learner avatar" /><br /><strong>Pick an idea. Explain it to Errby.</strong></p>
