@@ -2,16 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import {
-  X,
-  Play,
-  CheckCircle2,
-  AlertTriangle,
-  ShieldCheck,
-  Sparkles,
-  ArrowRight,
-  RefreshCw,
-} from "lucide-react";
+import { X, Play, CheckCircle2, Sparkles } from "lucide-react";
 
 interface VideoModalProps {
   isOpen: boolean;
@@ -52,7 +43,8 @@ const STEPS = [
     subtitle: "Active evaluation & error-spotting",
     desc: "The student identifies the flaw in Errby's logic and provides the correct scientific rationale.",
     badge: "Step 4 · Spot & Correct",
-    mockMessage: "No! Cold objects don't generate heat. Energy only flows from warm to cold.",
+    mockMessage:
+      "No! Cold objects don't generate heat. Energy only flows from warm to cold.",
     mockSpeaker: "Student",
   },
   {
@@ -68,7 +60,6 @@ const STEPS = [
 
 export function VideoModal({ isOpen, onClose }: VideoModalProps) {
   const [activeStep, setActiveStep] = useState<number>(0);
-  const [isPlaying, setIsPlaying] = useState<boolean>(true);
 
   if (!isOpen) return null;
 
@@ -147,10 +138,12 @@ export function VideoModal({ isOpen, onClose }: VideoModalProps) {
                   <div className="flex-1 bg-[#121f45] border border-indigo-500/30 rounded-2xl p-4 shadow-lg animate-in slide-in-from-left duration-300">
                     <div className="text-[11px] font-bold text-indigo-300 mb-1 flex items-center justify-between">
                       <span>{currentStep.mockSpeaker}</span>
-                      <span className="text-slate-500">Step {activeStep + 1} of 5</span>
+                      <span className="text-slate-500">
+                        Step {activeStep + 1} of 5
+                      </span>
                     </div>
                     <p className="text-sm font-semibold text-white">
-                      "{currentStep.mockMessage}"
+                      &quot;{currentStep.mockMessage}&quot;
                     </p>
                   </div>
                 </div>
@@ -159,7 +152,9 @@ export function VideoModal({ isOpen, onClose }: VideoModalProps) {
               {/* Player Timeline Bar */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-[11px] text-slate-400">
-                  <span>Phase {activeStep + 1}: {currentStep.title}</span>
+                  <span>
+                    Phase {activeStep + 1}: {currentStep.title}
+                  </span>
                   <span>{Math.round(((activeStep + 1) / 5) * 72)}s / 72s</span>
                 </div>
                 <div className="w-full bg-slate-900 h-2 rounded-full overflow-hidden flex">

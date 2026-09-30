@@ -12,5 +12,6 @@ export function safeDestination(value: unknown): string {
     url.pathname === "/prepare/extract"
   )
     return "/learn";
+  url.searchParams.delete("_rsc");
   return url.pathname + url.search;
 }

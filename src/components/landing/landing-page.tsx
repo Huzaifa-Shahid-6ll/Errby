@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Bricolage_Grotesque, DM_Sans } from "next/font/google";
 import {
   ArrowDownIcon,
@@ -146,8 +147,8 @@ export function LandingPage() {
           <a href="#how-it-works">How it works</a>
           <a href="#for-teachers">For teachers</a>
           <a href="#questions">Questions</a>
-          <a href="/sign-in">Sign in</a>
-          <a href="/sign-up">Sign up</a>
+          <Link href="/sign-in">Sign in</Link>
+          <Link href="/sign-up">Sign up</Link>
         </nav>
         <a href="#example" className={styles.headerCta}>
           See an example{" "}

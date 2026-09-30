@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 import { ListIcon } from "@phosphor-icons/react/dist/csr/List";
 import styles from "./landing-page.module.css";
 
@@ -35,8 +36,8 @@ export function LandingMenu() {
         <a href="#for-teachers">For teachers</a>
         <a href="#questions">Questions</a>
         <a href="#example">See an example</a>
-        <a href="/sign-in">Sign in</a>
-        <a href="/sign-up">Sign up</a>
+        <Link href="/sign-in">Sign in</Link>
+        <Link href="/sign-up">Sign up</Link>
       </nav>
     </details>
   );

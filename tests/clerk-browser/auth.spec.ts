@@ -41,39 +41,84 @@ test("real password sign-in, protected write/read, RLS isolation, refresh and si
     process.env.SUPABASE_SECRET_KEY!,
     { auth: { persistSession: false } },
   );
-  const mapped = await admin.from("clerk_identities").select("user_id")
-    .eq("clerk_user_id", process.env.CLERK_TEST_USER_ID!).single();
+  const mapped = await admin
+    .from("clerk_identities")
+    .select("user_id")
+    .eq("clerk_user_id", process.env.CLERK_TEST_USER_ID!)
+    .single();
   expect(mapped.error).toBeNull();
-  const foreign = await admin.from("preparation_jobs").select("id")
-    .neq("owner_id", mapped.data!.user_id).limit(1).single();
+  const foreign = await admin
+    .from("preparation_jobs")
+    .select("id")
+    .neq("owner_id", mapped.data!.user_id)
+    .limit(1)
+    .single();
   expect(foreign.error).toBeNull();
-  expect((await page.request.get(`/api/preparations/${foreign.data!.id}`)).status()).toBe(404);
-  expect((await page.request.post(`/api/preparations/${foreign.data!.id}/step`, {
-    headers: { origin: process.env.ERRBY_APP_ORIGIN! }, data: { expected_step: 0 },
-  })).status()).toBe(404);
-  expect((await page.request.post("/api/preparations", {
-    headers: { origin: "https://untrusted.invalid" }, data: {},
-  })).status()).toBe(403);
+  expect(
+    (await page.request.get(`/api/preparations/${foreign.data!.id}`)).status(),
+  ).toBe(404);
+  expect(
+    (
+      await page.request.post(`/api/preparations/${foreign.data!.id}/step`, {
+        headers: { origin: process.env.ERRBY_APP_ORIGIN! },
+        data: { expected_step: 0 },
+      })
+    ).status(),
+  ).toBe(404);
+  expect(
+    (
+      await page.request.post("/api/preparations", {
+        headers: { origin: "https://untrusted.invalid" },
+        data: {},
+      })
+    ).status(),
+  ).toBe(403);
   // Real session token stays in memory; never saved in traces or printed.
   const token = await page.evaluate(async () => {
-    const client = (window as unknown as { Clerk: { session: { getToken(): Promise<string> } } }).Clerk;
+    const client = (
+      window as unknown as {
+        Clerk: { session: { getToken(): Promise<string> } };
+      }
+    ).Clerk;
     return client.session.getToken();
   });
-  const scoped = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_PUBLISHABLE_KEY!, {
-    accessToken: async () => token,
-  });
-  const isolated = await scoped.from("preparation_jobs").select("id").eq("id", foreign.data!.id);
+  const scoped = createClient(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_PUBLISHABLE_KEY!,
+    {
+      accessToken: async () => token,
+    },
+  );
+  const isolated = await scoped
+    .from("preparation_jobs")
+    .select("id")
+    .eq("id", foreign.data!.id);
   expect(isolated.error).toBeNull();
   expect(isolated.data?.length).toBe(0);
   const saved = await page.request.post("/api/preparations", {
-    headers: { origin: process.env.ERRBY_APP_ORIGIN!, "idempotency-key": randomUUID() },
-    multipart: { kind: "text", text: "Fictional unreviewed test: warm water transfers energy to a cooler object.", subject: "Science", grade: "middle_school", scope: "Heat transfer" },
+    headers: {
+      origin: process.env.ERRBY_APP_ORIGIN!,
+      "idempotency-key": randomUUID(),
+    },
+    multipart: {
+      kind: "text",
+      text: "Fictional unreviewed test: warm water transfers energy to a cooler object.",
+      subject: "Science",
+      grade: "middle_school",
+      scope: "Heat transfer",
+    },
   });
   expect(saved.status()).toBe(201);
   const job = (await saved.json()).job;
-  expect((await page.request.get(`/api/preparations/${job.id}`)).status()).toBe(200);
+  expect((await page.request.get(`/api/preparations/${job.id}`)).status()).toBe(
+    200,
+  );
   // Source extraction/persistence only: never advance into a paid model step.
-  const cleanup = await admin.from("source_documents").delete().eq("id", job.source_id).eq("owner_id", mapped.data!.user_id);
+  const cleanup = await admin
+    .from("source_documents")
+    .delete()
+    .eq("id", job.source_id)
+    .eq("owner_id", mapped.data!.user_id);
   expect(cleanup.error).toBeNull();
   await page.reload();
   await expect(page.getByRole("heading", { name: /^Welcome,/ })).toBeVisible();

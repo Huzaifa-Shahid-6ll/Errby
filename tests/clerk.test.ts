@@ -25,6 +25,11 @@ test("local return paths reject external URLs, encodings and auth loops", () => 
     safeDestination("/classes/abc/results?view=summary"),
     "/classes/abc/results?view=summary",
   );
+  assert.equal(safeDestination("/learn?_rsc=GVyxBV1nCXGnd9F_"), "/learn");
+  assert.equal(
+    safeDestination("/classes/abc/results?view=summary&_rsc=internal"),
+    "/classes/abc/results?view=summary",
+  );
 });
 
 test("live configuration rejects missing/mixed keys and untrusted origins without leaking values", () => {

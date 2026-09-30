@@ -310,7 +310,7 @@ npx playwright install chromium
 npm run test:browser
 ```
 
-`check` runs ESLint, route generation/TypeScript, local tests including PGlite, and formatting. `npm run db:test` is the focused Docker-free SQL check. Browser tests start a demo server on port 3100; free that port before running them. `npm run test:packaging` checks production DOCX dependency tracing. The landing verification record also documents `npm run build -- --webpack` when the default Turbopack build does not complete.
+`check` runs ESLint, route generation/TypeScript, local tests including PGlite, and formatting. `npm run db:test` is the focused Docker-free SQL check. `npm run build` uses Webpack, following repeated local Turbopack builds that did not complete. Browser tests start a demo server on port 3100; free that port before running them. With `CI=true`, they use the existing production build and one worker; otherwise they use the development server. `npm run test:packaging` checks production DOCX dependency tracing.
 
 | Evidence                         | What it establishes                                                           | What it does not establish                                          |
 | -------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------- |

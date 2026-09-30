@@ -10,7 +10,6 @@ import {
   BarChart3,
   Plus,
   CheckCircle2,
-  Clock,
   Sparkles,
   ArrowRight,
   ShieldCheck,
@@ -51,7 +50,8 @@ export function TeacherModal({ isOpen, onClose }: TeacherModalProps) {
                 Teacher Dashboard Prototype
               </h2>
               <p className="text-xs text-slate-400">
-                Plan lessons, review student evidence & publish active learning content
+                Plan lessons, review student evidence & publish active learning
+                content
               </p>
             </div>
           </div>
@@ -74,10 +74,25 @@ export function TeacherModal({ isOpen, onClose }: TeacherModalProps) {
 
             {[
               { id: "classes", label: "Classes", icon: Users, count: "5" },
-              { id: "materials", label: "Materials", icon: FileText, count: "12" },
-              { id: "review", label: "Review Drafts", icon: Search, count: "3" },
+              {
+                id: "materials",
+                label: "Materials",
+                icon: FileText,
+                count: "12",
+              },
+              {
+                id: "review",
+                label: "Review Drafts",
+                icon: Search,
+                count: "3",
+              },
               { id: "publish", label: "Publish", icon: Upload, count: "8" },
-              { id: "evidence", label: "Evidence", icon: BarChart3, count: "89%" },
+              {
+                id: "evidence",
+                label: "Evidence",
+                icon: BarChart3,
+                count: "89%",
+              },
             ].map((tab) => {
               const Icon = tab.icon;
               return (
@@ -145,7 +160,9 @@ export function TeacherModal({ isOpen, onClose }: TeacherModalProps) {
                 </span>
               </div>
               <div className="p-4 rounded-2xl bg-[#132048] border border-indigo-500/20">
-                <span className="text-xs text-slate-400">Enrolled Students</span>
+                <span className="text-xs text-slate-400">
+                  Enrolled Students
+                </span>
                 <p className="text-2xl font-extrabold text-white mt-1">142</p>
                 <span className="text-[11px] text-indigo-300 mt-1">
                   Across 3 subjects
@@ -155,7 +172,8 @@ export function TeacherModal({ isOpen, onClose }: TeacherModalProps) {
                 <span className="text-xs text-slate-400">Avg Completion</span>
                 <p className="text-2xl font-extrabold text-white mt-1">89%</p>
                 <span className="text-[11px] text-emerald-400 flex items-center gap-1 mt-1">
-                  <ShieldCheck className="w-3 h-3" /> Misconception checks passed
+                  <ShieldCheck className="w-3 h-3" /> Misconception checks
+                  passed
                 </span>
               </div>
             </div>
@@ -163,8 +181,12 @@ export function TeacherModal({ isOpen, onClose }: TeacherModalProps) {
             {/* Content Table / Card View based on activeTab */}
             <div className="p-5 rounded-2xl bg-[#071126] border border-indigo-500/20 space-y-4">
               <div className="flex items-center justify-between border-b border-indigo-500/20 pb-3">
-                <h4 className="text-sm font-bold text-white">Recent Activity & Lessons</h4>
-                <span className="text-xs text-slate-400">Fictional Teacher View</span>
+                <h4 className="text-sm font-bold text-white">
+                  Recent Activity & Lessons
+                </h4>
+                <span className="text-xs text-slate-400">
+                  Fictional Teacher View
+                </span>
               </div>
 
               <div className="space-y-3">
@@ -174,7 +196,8 @@ export function TeacherModal({ isOpen, onClose }: TeacherModalProps) {
                     topic: "Conduction & Thermodynamics",
                     students: 32,
                     status: "Review",
-                    statusBg: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+                    statusBg:
+                      "bg-amber-500/20 text-amber-300 border-amber-500/30",
                     badge: "Draft Needs Review",
                   },
                   {
@@ -182,7 +205,8 @@ export function TeacherModal({ isOpen, onClose }: TeacherModalProps) {
                     topic: "Mitochondria & ATP Respiration",
                     students: 45,
                     status: "Published",
-                    statusBg: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
+                    statusBg:
+                      "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
                     badge: "Live Lesson",
                   },
                   {
@@ -190,7 +214,8 @@ export function TeacherModal({ isOpen, onClose }: TeacherModalProps) {
                     topic: "Exothermic vs Endothermic",
                     students: 28,
                     status: "Published",
-                    statusBg: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
+                    statusBg:
+                      "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
                     badge: "Live Lesson",
                   },
                 ].map((lesson, idx) => (
@@ -199,8 +224,12 @@ export function TeacherModal({ isOpen, onClose }: TeacherModalProps) {
                     className="flex flex-wrap items-center justify-between p-4 rounded-xl bg-[#132048] border border-indigo-500/10 hover:border-indigo-500/30 transition-colors gap-3"
                   >
                     <div>
-                      <h5 className="text-sm font-bold text-white">{lesson.title}</h5>
-                      <p className="text-xs text-slate-400">{lesson.topic} · {lesson.students} students</p>
+                      <h5 className="text-sm font-bold text-white">
+                        {lesson.title}
+                      </h5>
+                      <p className="text-xs text-slate-400">
+                        {lesson.topic} · {lesson.students} students
+                      </p>
                     </div>
                     <div className="flex items-center gap-3">
                       <span

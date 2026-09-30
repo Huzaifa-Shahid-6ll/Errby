@@ -126,7 +126,8 @@ const SUBJECTS: SubjectData[] = [
     name: "Biology",
     topic: "Cellular Respiration & Mitochondria",
     icon: Dna,
-    question: "What is the main purpose of cellular respiration in human cells?",
+    question:
+      "What is the main purpose of cellular respiration in human cells?",
     presetAnswers: [
       "To break down glucose to generate ATP energy for cellular processes.",
       "To produce carbon dioxide that our lungs need to breathe in.",
@@ -152,14 +153,14 @@ const SUBJECTS: SubjectData[] = [
 
 export function DemoModal({ isOpen, onClose }: DemoModalProps) {
   const [selectedSubject, setSelectedSubject] = useState<SubjectData>(
-    SUBJECTS[0]
+    SUBJECTS[0],
   );
   const [step, setStep] = useState<"choose" | "answer" | "spot" | "complete">(
-    "choose"
+    "choose",
   );
   const [userExplanation, setUserExplanation] = useState<string>("");
   const [selectedCorrection, setSelectedCorrection] = useState<number | null>(
-    null
+    null,
   );
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
@@ -244,10 +245,10 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
                 step === "choose"
                   ? "25%"
                   : step === "answer"
-                  ? "50%"
-                  : step === "spot"
-                  ? "75%"
-                  : "100%",
+                    ? "50%"
+                    : step === "spot"
+                      ? "75%"
+                      : "100%",
             }}
           />
         </div>
@@ -290,10 +291,11 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
                         {subj.topic}
                       </h4>
                       <p className="text-xs text-slate-400 mt-1 line-clamp-2">
-                        "{subj.question}"
+                        &quot;{subj.question}&quot;
                       </p>
                       <div className="mt-4 text-xs font-semibold text-indigo-400 group-hover:translate-x-1 transition-transform flex items-center gap-1">
-                        Start this example <ArrowRight className="w-3.5 h-3.5" />
+                        Start this example{" "}
+                        <ArrowRight className="w-3.5 h-3.5" />
                       </div>
                     </button>
                   );
@@ -369,7 +371,7 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
                             : "bg-[#101c40] border-indigo-500/20 text-slate-300 hover:border-indigo-400/40 hover:text-white"
                         }`}
                       >
-                        "{preset}"
+                        &quot;{preset}&quot;
                       </button>
                     ))}
                   </div>
@@ -437,7 +439,7 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
                       </span>
                     </div>
                     <p className="text-sm font-semibold text-white">
-                      "{selectedSubject.misconception}"
+                      &quot;{selectedSubject.misconception}&quot;
                     </p>
                   </div>
                 </div>
@@ -446,16 +448,15 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
               {/* Correction options */}
               <div className="bg-[#071126] border border-indigo-500/20 rounded-2xl p-5 space-y-4">
                 <h4 className="text-xs font-bold text-amber-300 uppercase tracking-wider">
-                  Can you catch Errby's mistake? Select the accurate response:
+                  Can you catch Errby&apos;s mistake? Select the accurate
+                  response:
                 </h4>
 
                 <div className="space-y-3">
                   {selectedSubject.corrections.map((option, idx) => (
                     <button
                       key={idx}
-                      onClick={() =>
-                        handlePickCorrection(idx, option.correct)
-                      }
+                      onClick={() => handlePickCorrection(idx, option.correct)}
                       className={`w-full text-left p-4 rounded-xl text-xs transition-all border ${
                         selectedCorrection === idx
                           ? option.correct
@@ -524,7 +525,8 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
                     disabled={!isCorrect}
                     className="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-xl font-semibold text-sm shadow-lg shadow-emerald-600/30 disabled:opacity-50"
                   >
-                    Complete Mastery Check <ArrowRight className="w-4 h-4 ml-2" />
+                    Complete Mastery Check{" "}
+                    <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </div>
               </div>
@@ -547,7 +549,7 @@ export function DemoModal({ isOpen, onClose }: DemoModalProps) {
                 </h3>
                 <p className="text-sm text-slate-300 max-w-md mx-auto">
                   You successfully articulated your understanding, spotted
-                  Errby's deliberate mistake, and corrected it.
+                  Errby&apos;s deliberate mistake, and corrected it.
                 </p>
               </div>
 
