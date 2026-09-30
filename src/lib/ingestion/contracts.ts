@@ -5,6 +5,9 @@ export const INGESTION_LIMITS = {
   milliseconds: 15_000,
 } as const;
 
+// Leave multipart overhead below the hosted 4.5 MB request limit.
+export const CHAT_UPLOAD_BYTES = 4 * 1024 * 1024;
+
 export type Extraction = {
   kind: "topic" | "text" | "pdf" | "docx";
   source_role: "scope" | "evidence";

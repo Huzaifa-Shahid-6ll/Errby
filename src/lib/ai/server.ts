@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { env } from "@/lib/env/server";
 import { IngestionError } from "@/lib/ingestion/server";
+import { readEvents } from "@/lib/http/event-stream";
 
 export type AiRole = "preparation" | "evaluation" | "errby";
 type ModelInput = {
@@ -15,6 +16,7 @@ type ModelInput = {
   input: unknown;
   schema: Record<string, unknown>;
   maxOutputTokens?: number;
+  onText?: (text: string) => void;
 };
 
 export function modelRequestKey(value: string) {
@@ -55,38 +57,45 @@ export async function requestModel(
       "model_limit",
       "This AI request exceeds the configured limit.",
     );
+  if (input.onText && input.role !== "errby")
+    throw unavailable(
+      "model_limit",
+      "Structured assessments cannot stream as text.",
+    );
   const payload = {
     model,
     messages: [
       { role: "system", content: input.system },
       { role: "user", content: JSON.stringify(input.input) },
     ],
-    response_format: {
-      type: "json_schema",
-      json_schema: {
-        name: "errby_response",
-        strict: true,
-        // Zod emits oneOf for disjoint discriminators and URI formats. The
-        // provider accepts anyOf; callers still validate the original Zod schema.
-        schema: JSON.parse(
-          JSON.stringify(input.schema, (key, value) => {
-            if (key === "format" && value === "uri") return undefined;
-            if (value && typeof value === "object" && "oneOf" in value) {
-              const { oneOf, ...rest } = value;
-              return { ...rest, anyOf: oneOf };
-            }
-            return value;
-          }),
-        ),
-      },
-    },
+    response_format: input.onText
+      ? undefined
+      : {
+          type: "json_schema",
+          json_schema: {
+            name: "errby_response",
+            strict: true,
+            // Zod emits oneOf for disjoint discriminators and URI formats. The
+            // provider accepts anyOf; callers still validate the original Zod schema.
+            schema: JSON.parse(
+              JSON.stringify(input.schema, (key, value) => {
+                if (key === "format" && value === "uri") return undefined;
+                if (value && typeof value === "object" && "oneOf" in value) {
+                  const { oneOf, ...rest } = value;
+                  return { ...rest, anyOf: oneOf };
+                }
+                return value;
+              }),
+            ),
+          },
+        },
     provider: {
       require_parameters: true,
       data_collection: "deny",
       zdr: true,
       max_price: { prompt: "0.4", completion: "1.6", request: "0" },
     },
-    stream: false,
+    stream: Boolean(input.onText),
     temperature: 0,
     max_tokens: maxTokens,
   };
@@ -180,7 +189,43 @@ export async function requestModel(
         signal: AbortSignal.timeout(45_000),
       },
     );
-    raw = await response.json();
+    if (input.onText && response.ok && response.body) {
+      let content = "";
+      let id: unknown;
+      let usage: unknown;
+      let finish: unknown;
+      let refused = false;
+      for await (const chunk of readEvents(response.body, true)) {
+        if (chunk.error) throw new Error("Provider stream failed");
+        id = chunk.id ?? id;
+        usage = chunk.usage ?? usage;
+        const choice = chunk.choices?.[0];
+        finish = choice?.finish_reason ?? finish;
+        refused ||= Boolean(choice?.delta?.refusal);
+        const text = choice?.delta?.content;
+        if (typeof text === "string") {
+          content += text;
+          if (content.length > 8000)
+            throw new Error("Provider output too large");
+          input.onText(text);
+        }
+      }
+      raw = {
+        id,
+        usage,
+        choices: [
+          {
+            finish_reason: finish,
+            message: {
+              content: JSON.stringify({ text: content }),
+              refusal: refused,
+            },
+          },
+        ],
+      };
+    } else {
+      raw = await response.json();
+    }
   } catch {
     // Ambiguous dispatch remains fully reserved; never retry or release automatically.
     throw unavailable(

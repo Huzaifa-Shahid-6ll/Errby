@@ -6,10 +6,9 @@ export const clerkAccountCommand = z
   .object({
     clerkUserId: z.string().regex(/^user_[A-Za-z0-9]+$/),
     existingUserId: z.uuid().optional(),
-    role: z.enum(["learner", "teacher"]),
+    role: z.literal("learner"),
     alias: z.string().trim().min(1).max(80),
     grade: z.enum(["primary", "middle_school", "high_school"]).optional(),
-    classId: z.uuid().optional(),
   })
   .strict();
 
@@ -25,7 +24,7 @@ export async function provisionClerkAccount(
     p_role: input.role,
     p_alias: input.alias,
     p_grade: input.grade ?? null,
-    p_class_id: input.classId ?? null,
+    p_class_id: null,
   });
   if (result.error || typeof result.data !== "string")
     throw new Error(

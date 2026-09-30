@@ -166,9 +166,39 @@ textarea {
 button,
 a {
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 button {
   cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+.app-loading {
+  max-width: 760px;
+  margin: 10vh auto;
+  padding: 24px;
+}
+.app-loading [role="status"],
+.session-loading {
+  color: var(--secondary);
+}
+.loading-line {
+  height: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  background: var(--errby-surface);
+}
+.loading-line:nth-child(2) {
+  width: 80%;
+}
+.loading-line:nth-child(3) {
+  width: 60%;
 }
 :focus-visible {
   outline: 3px solid var(--primary);

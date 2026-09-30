@@ -33,7 +33,7 @@ export function LandingMenu() {
         }}
       >
         <a href="#how-it-works">How it works</a>
-        <a href="#for-teachers">For teachers</a>
+        <a href="#sources-title">Your notes</a>
         <a href="#questions">Questions</a>
         <a href="#example">See an example</a>
         <Link href="/sign-in">Sign in</Link>

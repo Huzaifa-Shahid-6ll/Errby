@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useActivity } from "@/lib/results/use-activity";
 import { Bot, ShieldCheck, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { readReply } from "@/lib/http/event-stream";
 import {
   TURN_CHARACTER_LIMIT,
   type SessionMessageRole,
@@ -58,10 +59,20 @@ const speakers = {
   { label: string; detail: string; Icon: typeof Bot }
 >;
 
-export function SessionView({ id }: { id: string }) {
+export function SessionView({
+  id,
+  quiet = false,
+}: {
+  id: string;
+  quiet?: boolean;
+}) {
   const [state, setState] = useState<SessionState | null>(null);
+  const [opening, setOpening] = useState<
+    { role: "student" | "errby"; text: string }[]
+  >([]);
   const [loadError, setLoadError] = useState("");
   const [notice, setNotice] = useState("");
+  const [stage, setStage] = useState("");
   const [text, setText] = useState("");
   const [pending, setPending] = useState<"answer" | "pause" | "process" | null>(
     null,
@@ -103,6 +114,24 @@ export function SessionView({ id }: { id: string }) {
     function restoreDraft() {
       if (!draftLoaded.current) {
         draftLoaded.current = true;
+        try {
+          const intro = JSON.parse(
+            sessionStorage.getItem(`errby:session:${id}:opening`) ?? "[]",
+          );
+          if (
+            Array.isArray(intro) &&
+            intro.length <= 41 &&
+            intro.every(
+              (m) =>
+                ["student", "errby"].includes(m.role) &&
+                typeof m.text === "string" &&
+                m.text.length <= 8000,
+            )
+          )
+            setOpening(intro);
+        } catch {
+          /* An unavailable local opening does not affect the saved session. */
+        }
         try {
           const saved = JSON.parse(sessionStorage.getItem(draftKey) ?? "null");
           if (typeof saved?.text === "string") {
@@ -207,6 +236,7 @@ export function SessionView({ id }: { id: string }) {
       return;
     }
     setPending("answer");
+    setStage("Saving your explanation…");
     setNotice("");
     const sequence = state.session.last_sequence;
     if (turn.current?.text !== trimmed || turn.current.sequence !== sequence)
@@ -217,7 +247,10 @@ export function SessionView({ id }: { id: string }) {
         `/api/sessions/${encodeURIComponent(id)}/turns`,
         {
           method: "POST",
-          headers: { "content-type": "application/json" },
+          headers: {
+            "content-type": "application/json",
+            Accept: "text/event-stream",
+          },
           body: JSON.stringify({
             text: trimmed,
             expected_sequence: sequence,
@@ -225,7 +258,9 @@ export function SessionView({ id }: { id: string }) {
           }),
         },
       );
-      const payload = await response.json().catch(() => null);
+      const payload = await readReply(response, (event) => {
+        if (event.type === "status") setStage(event.message);
+      });
       if (!response.ok || !payload?.message || !payload?.session) {
         setNotice(
           payload?.user_message ??
@@ -242,9 +277,11 @@ export function SessionView({ id }: { id: string }) {
       saveDraft("");
       setNotice(payload.processing_error?.message ?? "Answer saved.");
       requestAnimationFrame(() => statusRegion.current?.focus());
-    } catch {
+    } catch (error) {
       setNotice(
-        "We could not confirm your answer was saved. Check your connection, then retry or refresh the saved session. Your text is unchanged.",
+        error instanceof Error && error.message !== "Failed to fetch"
+          ? error.message
+          : "We could not confirm your answer was saved. Check your connection, then retry or refresh the saved session. Your text is unchanged.",
       );
     } finally {
       setPending(null);
@@ -288,17 +325,23 @@ export function SessionView({ id }: { id: string }) {
   async function retryProcessing() {
     if (!state || pending || loading) return;
     setPending("process");
+    setStage("Checking your saved explanation…");
     setNotice("");
     try {
       const response = await fetch(
         `/api/sessions/${encodeURIComponent(id)}/process`,
         {
           method: "POST",
-          headers: { "content-type": "application/json" },
+          headers: {
+            "content-type": "application/json",
+            Accept: "text/event-stream",
+          },
           body: "{}",
         },
       );
-      const payload = await response.json().catch(() => null);
+      const payload = await readReply(response, (event) => {
+        if (event.type === "status") setStage(event.message);
+      });
       if (
         !response.ok ||
         !payload?.session ||
@@ -314,9 +357,11 @@ export function SessionView({ id }: { id: string }) {
       setNotice(
         payload.processing_error?.message ?? "Saved conversation updated.",
       );
-    } catch {
+    } catch (error) {
       setNotice(
-        "Your answer is saved. Check your connection, then retry the AI response.",
+        error instanceof Error && error.message !== "Failed to fetch"
+          ? error.message
+          : "Your answer is saved. Check your connection, then retry the AI response.",
       );
     } finally {
       setPending(null);
@@ -350,9 +395,12 @@ export function SessionView({ id }: { id: string }) {
 
   if (!state)
     return (
-      <p role="status" className="mt-8 text-muted-foreground">
-        Loading saved session…
-      </p>
+      <div className="session-loading" role="status">
+        <p>Loading saved conversation…</p>
+        <div className="loading-line" />
+        <div className="loading-line" />
+        <div className="loading-line" />
+      </div>
     );
 
   const [statusLabel, statusDescription] = statuses[state.session.status];
@@ -381,7 +429,10 @@ export function SessionView({ id }: { id: string }) {
   );
 
   return (
-    <section aria-labelledby="session-title" className="session-shell mt-8">
+    <section
+      aria-labelledby="session-title"
+      className={`session-shell mt-8 ${quiet ? "session-quiet" : ""}`}
+    >
       <header className="session-heading">
         <div>
           <p className="eyebrow">
@@ -428,11 +479,11 @@ export function SessionView({ id }: { id: string }) {
       >
         <strong>
           {pending === "answer"
-            ? "Saving answer and checking your explanation..."
+            ? stage
             : pending === "pause"
               ? "Saving session state..."
               : pending === "process"
-                ? "Checking your saved explanation..."
+                ? stage
                 : statusLabel}
         </strong>
         <span>{statusDescription}</span>
@@ -453,7 +504,7 @@ export function SessionView({ id }: { id: string }) {
         </Button>
       )}
       <div className="session-layout">
-        {state.session.objective_labels.length > 0 && (
+        {!quiet && state.session.objective_labels.length > 0 && (
           <>
             <details className="session-goals-mobile">
               <summary>
@@ -472,6 +523,29 @@ export function SessionView({ id }: { id: string }) {
           </>
         )}
         <div className="session-conversation">
+          {quiet && opening.length > 0 && (
+            <div className="mb-6">
+              <p className="session-note">
+                Opening conversation · kept in this browser tab
+              </p>
+              <ol
+                className="session-messages list-none p-0"
+                aria-label="Opening conversation"
+              >
+                {opening.map((message, index) => (
+                  <li
+                    key={index}
+                    className={`session-message session-${message.role}`}
+                  >
+                    <strong>
+                      {message.role === "student" ? "You" : "Errby"}
+                    </strong>
+                    <p>{message.text}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
           <h2 className="sr-only" id="conversation-title">
             Conversation
           </h2>
@@ -480,11 +554,13 @@ export function SessionView({ id }: { id: string }) {
             className="session-messages list-none p-0"
           >
             {state.messages.map((message) => {
-              const { label, detail, Icon } = speakers[message.role];
+              const displayRole =
+                quiet && message.role === "supervisor" ? "errby" : message.role;
+              const { label, detail, Icon } = speakers[displayRole];
               return (
                 <li
                   key={message.id}
-                  className={`session-message session-${message.role}`}
+                  className={`session-message session-${displayRole}`}
                 >
                   <div className="session-role">
                     <Icon size={20} aria-hidden="true" />
@@ -501,6 +577,18 @@ export function SessionView({ id }: { id: string }) {
               There are no saved messages in this session yet.
             </p>
           )}
+          {pending === "answer" && (
+            <div
+              className="session-message session-student mt-4"
+              aria-label="Sending explanation"
+            >
+              <strong>You · Sending</strong>
+              <p>{text}</p>
+            </div>
+          )}
+          {(pending === "answer" || pending === "process") && (
+            <p className="session-pending">{stage}</p>
+          )}
           <form
             className="session-composer mt-6"
             aria-busy={pending !== null}
@@ -512,6 +600,9 @@ export function SessionView({ id }: { id: string }) {
             <label htmlFor="answer">Your explanation</label>
             <textarea
               id="answer"
+              name="explanation"
+              autoComplete="off"
+              placeholder="Explain it in your own words…"
               ref={answerInput}
               value={text}
               onChange={(event) => {
@@ -522,11 +613,21 @@ export function SessionView({ id }: { id: string }) {
               maxLength={TURN_CHARACTER_LIMIT}
               disabled={blocked}
               aria-describedby="answer-note session-status"
+              onKeyDown={(event) => {
+                if (
+                  event.key === "Enter" &&
+                  !event.shiftKey &&
+                  !event.nativeEvent.isComposing
+                ) {
+                  event.preventDefault();
+                  void submitAnswer();
+                }
+              }}
             />
             <div className="session-composer-footer">
               <span id="answer-note">
                 {text.length}/{TURN_CHARACTER_LIMIT} characters · drafts stay in
-                this browser tab until it closes
+                this browser tab until it closes · Shift + Enter for a new line
               </span>
               <Button type="submit" disabled={blocked}>
                 {pending === "answer" ? "Checking..." : "Send answer"}

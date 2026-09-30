@@ -14,9 +14,8 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
     async (auth, request) => {
       const pathname = request.nextUrl.pathname;
       const dataRequest =
-        (pathname.startsWith("/api/") && pathname !== "/api/health") ||
-        pathname === "/prepare/extract";
-      const protectedPage = /^\/(learn|prepare|classes)(\/|$)/.test(pathname);
+        pathname.startsWith("/api/") && pathname !== "/api/health";
+      const protectedPage = /^\/learn(\/|$)/.test(pathname);
       const session = await auth({
         acceptsToken: "session_token",
         treatPendingAsSignedOut: true,

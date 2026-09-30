@@ -21,14 +21,11 @@ test("local return paths reject external URLs, encodings and auth loops", () => 
     "/learn\n",
   ])
     assert.equal(safeDestination(bad), "/learn");
-  assert.equal(
-    safeDestination("/classes/abc/results?view=summary"),
-    "/classes/abc/results?view=summary",
-  );
+  assert.equal(safeDestination("/classes/abc/results?view=summary"), "/learn");
   assert.equal(safeDestination("/learn?_rsc=GVyxBV1nCXGnd9F_"), "/learn");
   assert.equal(
     safeDestination("/classes/abc/results?view=summary&_rsc=internal"),
-    "/classes/abc/results?view=summary",
+    "/learn",
   );
 });
 

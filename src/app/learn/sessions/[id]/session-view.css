@@ -181,3 +181,38 @@
   color: var(--secondary);
   font-size: 0.875rem;
 }
+.session-loading {
+  margin: 32px 0;
+  padding: 20px;
+}
+.session-pending {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--errby-surface);
+  color: var(--errby-text);
+}
+.session-quiet .session-composer {
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--control-border);
+  border-radius: 20px;
+}
+.session-quiet .session-composer textarea {
+  border: 0;
+  padding: 8px 0;
+}
+.session-quiet .session-composer:focus-within {
+  border-color: var(--primary);
+}
+.session-quiet .session-message {
+  border: 0;
+  border-radius: 16px;
+  padding: 18px;
+}
+.session-quiet .session-student {
+  margin-left: clamp(16px, 5vw, 48px);
+}
+.session-quiet .session-errby {
+  margin-right: clamp(16px, 5vw, 48px);
+}

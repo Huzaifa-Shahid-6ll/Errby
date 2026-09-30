@@ -15,8 +15,7 @@ export default async function SignUpPage() {
       <h1 className="my-6 text-3xl font-semibold">Sign up for Errby</h1>
       <p className="mb-6">
         Create your student account and start learning. Choose a username and
-        password; no student email or teacher approval is required. You can join
-        a class later with a class code.
+        password, then head straight into chat with Errby.
       </p>
       {env.ERRBY_MODE === "live" ? (
         <SignUp

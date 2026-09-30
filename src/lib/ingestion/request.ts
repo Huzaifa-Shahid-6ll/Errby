@@ -17,6 +17,7 @@ export async function handlePreparation(
   request: Request,
   mode: "demo" | "live",
   identity: () => Promise<{ grade: string } | null>,
+  maxFileBytes: number = INGESTION_LIMITS.bytes,
 ) {
   const headers = { "Cache-Control": "no-store" };
   try {
@@ -47,7 +48,7 @@ export async function handlePreparation(
       );
     const form = await boundedFormData(
       request,
-      mode === "live" ? INGESTION_LIMITS.bytes + 150_000 : 150_000,
+      mode === "live" ? maxFileBytes + 150_000 : 150_000,
     );
     const allowed = [
       "kind",
@@ -106,10 +107,10 @@ export async function handlePreparation(
           "Choose one PDF or DOCX.",
           400,
         );
-      if (file.size > INGESTION_LIMITS.bytes)
+      if (file.size > maxFileBytes)
         throw new IngestionError(
           "too_large",
-          "Use one PDF or DOCX no larger than 10 MiB.",
+          `Use one PDF or DOCX no larger than ${maxFileBytes / 1024 / 1024} MiB.`,
           413,
         );
       source = await (kind === "pdf" ? extractPdf : extractDocx)(

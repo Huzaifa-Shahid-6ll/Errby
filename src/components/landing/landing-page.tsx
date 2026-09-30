@@ -7,9 +7,6 @@ import {
   ArrowRightIcon,
   ArrowUpRightIcon,
   CaretDownIcon,
-  CheckCircleIcon,
-  CircleHalfIcon,
-  CircleIcon,
 } from "@phosphor-icons/react/ssr";
 import { LandingMenu } from "./landing-menu";
 import styles from "./landing-page.module.css";
@@ -30,31 +27,31 @@ const bodyFont = DM_Sans({
 const questions = [
   [
     "Is Errby the teacher?",
-    "The student does the explaining. Errby is an AI learning character designed to ask questions and introduce lesson-specific misunderstandings to work through.",
+    "The student does the explaining. Errby is an AI learning character designed to ask questions and introduce focused misunderstandings to work through.",
   ],
   [
     "Why does Errby sometimes get something wrong?",
-    "The learning design uses selected misunderstandings to invite a clearer explanation. The first question is genuine, and deliberate mistakes belong to a defined lesson.",
+    "The learning design uses selected misunderstandings to invite a clearer explanation. The first question is genuine, and deliberate mistakes stay within the idea being explored.",
   ],
   [
     "What if the learner agrees with a wrong idea?",
-    "A separate AI Supervisor is designed to intervene after a submitted answer. It gives feedback or flags uncertainty. It is not a human teacher and can be wrong.",
+    "An AI Supervisor checks in the background. Errby shares the correction or uncertainty in the same conversation. AI feedback can be wrong.",
   ],
   [
     "Who is it designed for?",
     "Errby is designed for school-age learners, from primary through high school. The intended interaction is typed and in English; younger learners may need help reading or typing.",
   ],
   [
-    "Can teachers use their own material?",
-    "The planned classroom workflow starts with a topic list or learning material. Teachers review lesson drafts before publishing them.",
+    "Can I use my own notes?",
+    "Yes. Paste reference notes directly in chat to start saved practice with evidence-based feedback.",
   ],
   [
     "Does ‘Explained’ mean mastery of the subject?",
-    "No. It describes evidence for a particular lesson goal. It is not a subject-wide judgement or a school grade. Every required goal needs valid evidence before a lesson can be complete.",
+    "No. Progress is based on evidence from your explanations. It is not a subject-wide judgement or a school grade, and uncertainty never counts as completion.",
   ],
   [
     "Is Errby available to use?",
-    "This page demonstrates the intended experience with prewritten examples. The separate development workspace has account and setup requirements; this page does not assess or save answers.",
+    "This page demonstrates the intended experience with prewritten examples. Sign in to open the chat workspace; this illustrative page does not assess or save answers.",
   ],
 ];
 
@@ -145,7 +142,7 @@ export function LandingPage() {
         </a>
         <nav className={styles.desktopNav} aria-label="Main navigation">
           <a href="#how-it-works">How it works</a>
-          <a href="#for-teachers">For teachers</a>
+          <a href="#sources-title">Your notes</a>
           <a href="#questions">Questions</a>
           <Link href="/sign-in">Sign in</Link>
           <Link href="/sign-up">Sign up</Link>
@@ -173,8 +170,8 @@ export function LandingPage() {
                 See an example{" "}
                 <ArrowRightIcon size={20} weight="bold" aria-hidden="true" />
               </a>
-              <a href="#for-teachers" className={styles.textLink}>
-                For teachers{" "}
+              <a href="#sources-title" className={styles.textLink}>
+                Your notes{" "}
                 <ArrowUpRightIcon size={20} weight="bold" aria-hidden="true" />
               </a>
             </div>
@@ -222,10 +219,9 @@ export function LandingPage() {
           <ol className={styles.steps}>
             <li>
               <span className={styles.number}>01</span>
-              <h3>Start with a lesson.</h3>
+              <h3>Start with a message.</h3>
               <p>
-                Use a topic or learning material, or join a lesson your teacher
-                has prepared.
+                Say hello, name a topic, or paste your notes directly in chat.
               </p>
             </li>
             <li>
@@ -238,10 +234,10 @@ export function LandingPage() {
             </li>
             <li>
               <span className={styles.number}>03</span>
-              <h3>See what needs another explanation.</h3>
+              <h3>Keep the conversation going.</h3>
               <p>
-                Review progress against the lesson’s goals, with evidence from
-                the conversation.
+                Errby asks follow-ups while understanding is checked quietly in
+                the background.
               </p>
             </li>
           </ol>
@@ -266,7 +262,7 @@ export function LandingPage() {
             <div className={styles.legend}>
               <span>Errby · AI learning character</span>
               <span>Learner · example response</span>
-              <span>Supervisor · AI feedback</span>
+              <span>Background AI checking</span>
             </div>
             <div className={styles.transcript}>
               <div className={styles.previewHeader}>
@@ -290,7 +286,7 @@ export function LandingPage() {
             <details className={styles.branch}>
               <summary>
                 <span>
-                  Supervisor helps{" "}
+                  Errby works through a correction{" "}
                   <span className={styles.summaryHint}>
                     A second prewritten example
                   </span>
@@ -318,7 +314,7 @@ export function LandingPage() {
                     Yes, the ice makes heat to melt.
                   </Message>
                   <div className={styles.supervisor}>
-                    <strong>Supervisor · AI feedback</strong>
+                    <strong>Errby · AI learning partner</strong>
                     <p>
                       That idea needs correcting: energy transfers from the
                       warmer surroundings to the colder ice. The ice is not
@@ -342,124 +338,15 @@ export function LandingPage() {
 
         <section className={styles.section} aria-labelledby="feedback-title">
           <div className={styles.sectionIntro}>
-            <span className={styles.eyebrow}>Evidence for each idea</span>
-            <h2 id="feedback-title">
-              Understand the feedback,
-              <br className={styles.desktopBreak} /> not just the result.
-            </h2>
+            <span className={styles.eyebrow}>Room to think</span>
+            <h2 id="feedback-title">You explain. Errby listens.</h2>
             <p>
-              The planned Supervisor checks submitted explanations against the
-              lesson’s reference material. It can correct a misunderstanding or
-              flag an answer it cannot verify. Progress is tied to specific
-              lesson goals.
+              An AI Supervisor checks explanations in the background. Errby
+              brings any corrections or uncertainty into the conversation.
+              Progress depends on your own explanations, not how many messages
+              you send.
             </p>
-          </div>
-          <div className={styles.feedbackGrid}>
-            <div>
-              <div className={styles.supervisor}>
-                <span className={styles.smallLabel}>Illustrative feedback</span>
-                <h3>Supervisor · AI feedback</h3>
-                <p>
-                  Try explaining where the energy comes from in a new example.
-                </p>
-              </div>
-              <p className={styles.caveat}>
-                The Supervisor is AI feedback, not a live teacher, and it can be
-                wrong.
-              </p>
-            </div>
-            <div className={styles.goals}>
-              <span className={styles.smallLabel}>
-                Illustrative progress · not calculated from this transcript
-              </span>
-              <h3>1 of 3 goals explained</h3>
-              <ul>
-                <li>
-                  <span>Where the energy comes from</span>
-                  <span className={styles.explained}>
-                    <CheckCircleIcon size={20} aria-hidden="true" /> Explained
-                  </span>
-                </li>
-                <li>
-                  <span>Melting and temperature</span>
-                  <span>
-                    <CircleHalfIcon size={20} aria-hidden="true" /> Developing
-                  </span>
-                </li>
-                <li>
-                  <span>How insulation slows transfer</span>
-                  <span>
-                    <CircleIcon size={20} aria-hidden="true" /> Untested
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <p className={styles.stateKey}>
-            <strong>Explained</strong> means there is learner evidence for that
-            goal. <strong>Developing</strong> needs another explanation.{" "}
-            <strong>Untested</strong> has no evidence yet.{" "}
-            <strong>Unverified</strong> means evidence could not be confirmed.
-            These describe an idea, not a child.
-          </p>
-        </section>
-
-        <section
-          id="for-teachers"
-          className={styles.teacherSection}
-          aria-labelledby="teacher-title"
-        >
-          <div className={styles.teacherGrid}>
-            <div>
-              <span className={styles.eyebrow}>For the classroom</span>
-              <h2 id="teacher-title">
-                Bring a topic list.
-                <br />
-                Review the lessons.
-                <br />
-                Let students explain.
-              </h2>
-              <p>
-                Errby’s planned classroom workflow starts with a short outline
-                or learning material. Review the drafted lessons, publish the
-                ones you want to use, and share a class code.
-              </p>
-              <ol className={styles.teacherSteps}>
-                <li>Add material</li>
-                <li>Review drafts</li>
-                <li>Publish lessons</li>
-                <li>Share a code</li>
-              </ol>
-              <p className={styles.caveat}>
-                Classroom reporting is intended for assigned activity.
-                Independent sessions should stay private.
-              </p>
-            </div>
-            <div id="classroom-preview" className={styles.draft}>
-              <div className={styles.previewHeader}>
-                <span className={styles.smallLabel}>
-                  Example classroom data · fictional
-                </span>
-                <h3>Heat transfer</h3>
-                <span className={styles.review}>
-                  Draft · needs teacher review
-                </span>
-              </div>
-              <div className={styles.draftBody}>
-                <h4>Proposed lesson goals</h4>
-                <p className={styles.smallLabel}>
-                  Teachers would edit and review these before publication.
-                </p>
-                <ol>
-                  <li>Explain where the energy to melt ice comes from.</li>
-                  <li>Distinguish melting from a temperature increase.</li>
-                  <li>Explain how insulation slows energy transfer.</li>
-                </ol>
-                <div className={styles.draftNote}>
-                  Review comes before publication.
-                </div>
-              </div>
-            </div>
+            <p>AI feedback can be wrong. Uncertain claims stay unresolved.</p>
           </div>
         </section>
 
@@ -474,9 +361,9 @@ export function LandingPage() {
                 <br className={styles.desktopBreak} /> you want to understand.
               </h2>
               <p>
-                Errby’s lesson design starts with a defined topic and reference
-                material. If a source cannot be read, the intended flow asks for
-                usable text or another supported file.
+                Start chatting about an idea. Paste a short passage from your
+                notes when you want saved practice grounded in reference
+                material.
               </p>
             </div>
             <Image
@@ -501,8 +388,8 @@ export function LandingPage() {
             </div>
             <div>
               <span>03</span>
-              <h3>A teacher’s lesson</h3>
-              <p>A draft reviewed before it reaches the class.</p>
+              <h3>Your explanation</h3>
+              <p>An idea in your own words, ready for a follow-up question.</p>
             </div>
           </div>
         </section>
@@ -564,7 +451,7 @@ export function LandingPage() {
         </div>
         <nav aria-label="Footer navigation">
           <a href="#how-it-works">How it works</a>
-          <a href="#for-teachers">For teachers</a>
+          <a href="#sources-title">Your notes</a>
           <a href="#questions">Questions</a>
         </nav>
       </footer>

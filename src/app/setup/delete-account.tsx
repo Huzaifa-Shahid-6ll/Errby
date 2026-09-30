@@ -43,7 +43,6 @@ export function DeleteAccount() {
       </h2>
       <p className="mt-2 text-sm">
         This permanently removes your account and saved learning records.
-        Teachers must remove or transfer classes first.
       </p>
       <label htmlFor="delete-confirm" className="mt-4 block text-sm">
         Type DELETE to confirm

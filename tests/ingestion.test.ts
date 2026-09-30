@@ -242,6 +242,19 @@ test("parser has a real cancellation deadline and releases admission after termi
 });
 
 test("request gate denies cross-origin/demo uploads and verifies live identity before consuming body", async () => {
+  const oversized = await handlePreparation(
+    request({
+      kind: "pdf",
+      file: new Blob([new Uint8Array(4 * 1024 * 1024 + 1)], {
+        type: "application/pdf",
+      }),
+    }),
+    "live",
+    async () => ({ grade: "middle_school" }),
+    4 * 1024 * 1024,
+  );
+  assert.equal(oversized.status, 413);
+  assert.match((await oversized.json()).user_message, /4 MiB/);
   const unauthorized = request({
     kind: "pdf",
     file: new Blob([syntheticPdf(demoPdfPages)], { type: "application/pdf" }),

@@ -737,6 +737,26 @@ test("HTTP boundary with injected identity/database errors: auth before body, or
     assert.equal(response.status, status);
     assert.equal((await response.json()).error_code, code);
     assert.equal(response.headers.get("cache-control"), "no-store");
+    const streamed = turns({
+      text: "answer",
+      expected_sequence: 0,
+      idempotency_key: id(100),
+    });
+    streamed.headers.set("accept", "text/event-stream");
+    const streamedResponse = await handleSessionApi(
+      streamed,
+      access(message),
+      id(300),
+      true,
+    );
+    assert.match(
+      streamedResponse.headers.get("content-type")!,
+      /text\/event-stream/,
+    );
+    const events = await streamedResponse.text();
+    assert.match(events, /"type":"status"/);
+    assert.match(events, /"type":"error"/);
+    assert.doesNotMatch(events, /"type":"result"|Answer saved/);
   }
   assert.equal(
     (

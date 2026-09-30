@@ -66,10 +66,10 @@ test("mobile menu dismisses with Escape and sends focus to its destination", asy
   await expect(menu).not.toHaveAttribute("open");
   await expect(summary).toBeFocused();
   await summary.click();
-  await menu.getByRole("link", { name: "For teachers" }).click();
+  await menu.getByRole("link", { name: "Your notes" }).click();
   await expect(menu).not.toHaveAttribute("open");
-  await expect(page.locator("#for-teachers")).toBeFocused();
-  await expect(page).toHaveURL(/#for-teachers$/);
+  await expect(page.locator("#sources-title")).toBeFocused();
+  await expect(page).toHaveURL(/#sources-title$/);
 });
 
 test("responsive concept stays light with enlarged text, reduced motion and saved dark preference", async ({

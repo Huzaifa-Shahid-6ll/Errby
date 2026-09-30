@@ -190,7 +190,7 @@ const fictionalState = (
   ],
 });
 
-test("API-mocked three-role chat: accessible identity, safe text, goals and responsive themes", async ({
+test("API-mocked quiet supervision: accessible identity, safe text and responsive themes", async ({
   page,
 }, testInfo) => {
   const state = fictionalState("needs_review");
@@ -205,40 +205,29 @@ test("API-mocked three-role chat: accessible identity, safe text, goals and resp
   const conversation = page.getByRole("list", { name: "Conversation" });
   await expect(conversation).toBeVisible({ timeout: 30000 });
   await expect(conversation.getByRole("listitem")).toHaveCount(3);
-  for (const role of ["Errby", "You", "Supervisor"])
-    await expect(conversation.getByText(role, { exact: true })).toBeVisible();
+  await expect(conversation.getByText("Errby", { exact: true })).toHaveCount(2);
+  await expect(conversation.getByText("You", { exact: true })).toBeVisible();
+  await expect(
+    conversation.getByText("Supervisor", { exact: true }),
+  ).toHaveCount(0);
   await expect(conversation.locator("svg")).toHaveCount(3);
   await expect(conversation.locator("img")).toHaveCount(0);
   await expect(conversation.locator(".session-student p")).toHaveCSS(
     "white-space",
     "pre-wrap",
   );
-  await expect(conversation.locator(".session-supervisor")).toHaveCSS(
-    "border-left-style",
-    "double",
-  );
   await expect(page.getByRole("status")).toContainText("remain unresolved");
-  if (testInfo.project.name === "phone") {
-    const goals = page.locator("summary");
-    await goals.focus();
-    await page.keyboard.press("Enter");
-    await expect(page.locator("details")).toHaveAttribute("open", "");
-    await expect(
-      page.locator("details").getByText("Use your own example"),
-    ).toBeVisible();
-  } else {
-    await expect(
-      page.getByRole("complementary", { name: "What you will explain" }),
-    ).toBeVisible();
-  }
+  await expect(
+    page.locator(".session-goals-desktop, .session-goals-mobile"),
+  ).toHaveCount(0);
   await page.screenshot({
     path: testInfo.outputPath("chat-light.png"),
     fullPage: true,
   });
   await page.evaluate(() => document.documentElement.classList.add("dark"));
-  await expect(conversation.locator(".session-supervisor")).toHaveCSS(
+  await expect(conversation.locator(".session-errby").last()).toHaveCSS(
     "background-color",
-    "rgb(51, 41, 27)",
+    "rgb(36, 43, 72)",
   );
   await expect(
     page.getByRole("button", { name: "Refresh saved session" }),
@@ -258,7 +247,7 @@ test("API-mocked three-role chat: accessible identity, safe text, goals and resp
   ).toBe(true);
   await expect(
     conversation.getByText("Supervisor", { exact: true }),
-  ).toBeVisible();
+  ).toHaveCount(0);
   expect(errors).toEqual([]);
 });
 
@@ -488,9 +477,7 @@ test("API-mocked AI retry returns transcript and objective progress; pause and r
   await expect(
     page.getByText("Can you explain with a different example?"),
   ).toBeVisible();
-  await expect(page.locator(".session-goals-desktop")).toContainText(
-    "Explained",
-  );
+  await expect(page.locator(".session-goals-desktop")).toHaveCount(0);
   const answer = page.getByRole("textbox", { name: "Your explanation" });
   await answer.fill("A draft to return to");
   await page.getByRole("button", { name: "Pause session" }).click();

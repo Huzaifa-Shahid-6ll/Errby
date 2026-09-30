@@ -18,7 +18,7 @@ export function sessionRequest(
       if (env.ERRBY_MODE !== "live")
         throw new IngestionError(
           "live_setup_required",
-          "Learning sessions require live mode, a hosted Supabase project with all migrations applied, a signed-in learner account and a teacher-published lesson. The local demo does not open or save sessions.",
+          "Saved learning requires live mode and a signed-in student account. The fictional preview does not open or save sessions.",
           503,
         );
       const identity = await getIdentity();

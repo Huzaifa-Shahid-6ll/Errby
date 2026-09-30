@@ -46,19 +46,6 @@ try {
       throw new Error(
         "Imported Clerk external_id must match the reviewed legacy UUID",
       );
-    if (command.role === "teacher") {
-      const allowed = (process.env.ERRBY_APPROVED_TEACHER_EMAILS ?? "")
-        .split(",")
-        .map((v) => v.trim().toLowerCase());
-      if (
-        !user.emailAddresses.some(
-          (e) =>
-            e.verification?.status === "verified" &&
-            allowed.includes(e.emailAddress.toLowerCase()),
-        )
-      )
-        throw new Error("A confirmed, allowlisted teacher account is required");
-    }
     if (command.existingUserId) {
       const old = await db
         .from("profiles")
@@ -87,7 +74,7 @@ try {
 } catch {
   // Never print provider errors, user records, manifests or credentials.
   console.error(
-    "Account preflight/apply failed. Check configuration, reviewed IDs, verified teacher allowlist, class and migration status. Completed entries are idempotent; rerun the same manifest after repair.",
+    "Account preflight/apply failed. Check configuration, reviewed IDs and migration status. Completed entries are idempotent; rerun the same manifest after repair.",
   );
   process.exitCode = 1;
 }

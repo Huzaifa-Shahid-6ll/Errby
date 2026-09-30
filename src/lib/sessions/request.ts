@@ -2,6 +2,7 @@ import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { IngestionError } from "@/lib/ingestion/server";
 import { processSession } from "./process";
+import { streamResponse } from "@/lib/http/stream-response";
 import {
   getSession,
   openSession,
@@ -75,6 +76,13 @@ export async function handleSessionApi(
           "Retry the saved turn with an empty JSON object.",
           400,
         );
+      if (request.headers.get("accept")?.includes("text/event-stream")) {
+        const sessionId = id;
+        return streamResponse(async (emit) => {
+          emit({ type: "status", message: "Checking your saved explanation…" });
+          return processSession(db, actor, sessionId);
+        });
+      }
       return Response.json(await processSession(db, actor, id), { headers });
     }
     if (action) {
@@ -103,6 +111,20 @@ export async function handleSessionApi(
         "This session route only accepts turn submissions.",
         405,
       );
+    if (request.headers.get("accept")?.includes("text/event-stream")) {
+      const sessionId = id;
+      return streamResponse(async (emit) => {
+        emit({ type: "status", message: "Saving your explanation…" });
+        const saved = await submitTurn(db, actor, sessionId, body);
+        emit({
+          type: "status",
+          message:
+            "Answer saved. Checking the evidence and preparing Errby’s reply…",
+        });
+        const state = await processSession(db, actor, sessionId);
+        return { ...state, message: saved.message };
+      });
+    }
     const saved = await submitTurn(db, actor, id, body);
     const state = await processSession(db, actor, id);
     return Response.json({ ...state, message: saved.message }, { headers });
@@ -122,7 +144,7 @@ export async function handleSessionApi(
   }
 }
 
-async function boundedJson(request: Request) {
+export async function boundedJson(request: Request) {
   const maximum = 500_000;
   if (Number(request.headers.get("content-length")) > maximum)
     throw new IngestionError("too_large", "Use an answer below 500 kB.", 413);

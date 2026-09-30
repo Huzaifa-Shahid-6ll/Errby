@@ -7,11 +7,7 @@ export function safeDestination(value: unknown): string {
   )
     return "/learn";
   const url = new URL(value, "https://errby.invalid");
-  if (
-    !/^\/(learn|prepare|classes)(\/|$)/.test(url.pathname) ||
-    url.pathname === "/prepare/extract"
-  )
-    return "/learn";
+  if (!/^\/learn(\/|$)/.test(url.pathname)) return "/learn";
   url.searchParams.delete("_rsc");
   return url.pathname + url.search;
 }

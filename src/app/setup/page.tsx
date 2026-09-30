@@ -59,10 +59,8 @@ export default async function Setup() {
             Sign up for Errby
           </h2>
           <p className="mt-3">
-            Students can create an account and start learning independently.
-            Join a class later with a class code. Teachers: ask your
-            administrator for teacher access. A class code never grants teacher
-            access.
+            Create your student account, open the chat, and teach Errby an idea
+            in your own words.
           </p>
           <Link
             href={env.ERRBY_MODE === "live" ? "/sign-up" : "/learn"}

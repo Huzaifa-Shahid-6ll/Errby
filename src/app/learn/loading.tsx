@@ -1,0 +1,15 @@
+export default function Loading() {
+  return (
+    <main className="app-loading" aria-busy="true" aria-label="Loading page">
+      <p className="wordmark">
+        errby<span>.</span>
+      </p>
+      <p role="status">Opening your workspace…</p>
+      <div aria-hidden="true">
+        <div className="loading-line" />
+        <div className="loading-line" />
+        <div className="loading-line" />
+      </div>
+    </main>
+  );
+}

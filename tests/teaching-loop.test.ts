@@ -55,6 +55,30 @@ test("PGlite + mocked provider: atomic multi-turn teaching, recovery, fencing, p
         JSON.stringify(lesson),
       ],
     );
+    const openedChat = await sql.query<{ id: string }>(
+      "select public.open_private_chat($1,$2) as id",
+      [actor.id, versionId],
+    );
+    const replayChat = await sql.query<{ id: string }>(
+      "select public.open_private_chat($1,$2) as id",
+      [actor.id, versionId],
+    );
+    assert.equal(openedChat.rows[0].id, replayChat.rows[0].id);
+    await assert.rejects(
+      sql.query("select public.open_private_chat($1,$2)", [
+        "00000000-0000-4000-8000-000000000099",
+        versionId,
+      ]),
+      /private_lesson_denied/,
+    );
+    assert.equal(
+      (
+        await sql.query<{ allowed: boolean }>(
+          "select has_function_privilege('authenticated','public.open_private_chat(uuid,uuid)','execute') as allowed",
+        )
+      ).rows[0].allowed,
+      false,
+    );
     const db = {
       async rpc(name: string, args: Record<string, unknown>) {
         assert.match(name, /^[a-z_]+$/);

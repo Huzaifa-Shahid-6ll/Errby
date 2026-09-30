@@ -67,7 +67,7 @@ export async function generatePreparationDraft(
       if (attempt === 1)
         throw new IngestionError(
           "generation_invalid",
-          "The generated draft failed validation twice. Your source is saved. A teacher can author a draft or you can prepare clearer source material.",
+          "The generated draft failed validation twice. Your notes are saved. Paste clearer reference notes and try again.",
           503,
         );
     }

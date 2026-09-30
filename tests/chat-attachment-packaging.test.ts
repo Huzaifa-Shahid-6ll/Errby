@@ -24,7 +24,7 @@ test("production ingestion traces contain a usable DOCX parser and its dependenc
     "word/document.xml",
     '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body><w:p><w:r><w:t>Fictional packaging check</w:t></w:r></w:p></w:body></w:document>',
   );
-  for (const route of ["api/preparations", "prepare/extract"]) {
+  for (const route of ["api/chat/attachment"]) {
     const tracePath = path.resolve(
       `.next/server/app/${route}/route.js.nft.json`,
     );
@@ -55,6 +55,11 @@ test("production ingestion traces contain a usable DOCX parser and its dependenc
       );
       assert.equal(output.trim(), "Fictional packaging check", route);
     } finally {
+      assert.equal(
+        path.dirname(path.resolve(isolated)),
+        path.resolve(tmpdir()),
+      );
+      assert.ok(path.basename(isolated).startsWith("errby-docx-trace-"));
       await rm(isolated, { recursive: true, force: true });
     }
   }

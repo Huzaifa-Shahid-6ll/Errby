@@ -10,5 +10,7 @@ test("demo account screen is honest and offers no fake sign-in", async ({
   await expect(page.getByText(/Account sign-in is unavailable/)).toBeVisible();
   await expect(page.getByLabel("Password", { exact: true })).toHaveCount(0);
   await page.getByRole("link", { name: "Back to Errby" }).click();
-  await expect(page.getByText("Local demo", { exact: true })).toBeVisible();
+  await expect(
+    page.getByText("Fictional preview", { exact: true }),
+  ).toBeVisible();
 });

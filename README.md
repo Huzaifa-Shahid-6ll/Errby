@@ -3,12 +3,12 @@
 </p>
 
 <h1 align="center">Errby</h1>
-<p align="center"><strong>Learn it by teaching it.</strong><br />Your lesson. Your explanation. One curious AI learning partner.</p>
+<p align="center"><strong>Learn it by teaching it.</strong><br />Your idea. Your explanation. One curious AI learning partner.</p>
 <p align="center">
-  📚 Bring a lesson &nbsp; · &nbsp; 💬 Explain an idea &nbsp; · &nbsp; 🛡️ Work through mistakes &nbsp; · &nbsp; 🌱 See your progress
+  📚 Pick an idea &nbsp; · &nbsp; 💬 Explain an idea &nbsp; · &nbsp; 🛡️ Work through mistakes &nbsp; · &nbsp; 🌱 Build understanding
 </p>
 <p align="center">
-  <a href="#for-learners-and-teachers">The product</a> ·
+  <a href="#for-learners">The product</a> ·
   <a href="#for-developers">The architecture</a> ·
   <a href="#run-locally">Run locally</a> ·
   <a href="docs/SETUP_STATUS.md">Project status</a>
@@ -16,59 +16,33 @@
 
 ---
 
-<a id="for-learners-and-teachers"></a>
+<a id="for-learners"></a>
 
-## 01 · For learners and teachers
+## 01 · For learners
 
 ### 👋 Meet the student you get to teach
 
 You can recognise a definition and still struggle to explain it. Errby gives you someone to explain it to: a curious AI character that asks questions, gets selected ideas wrong, and invites you to help it understand.
 
-Bring your notes or a class lesson. Put the idea into your own words. Work through a misunderstanding. Leave with a clearer picture of what you explained and what needs another attempt.
+Start with a message or paste your notes. Put the idea into your own words. Work through a misunderstanding. Leave with a clearer picture of what you explained and what needs another attempt.
 
-**You do the explaining. Errby keeps the conversation going.** A separate AI Supervisor offers corrections and makes uncertainty visible.
+**You do the explaining. Errby keeps the conversation going.** An AI Supervisor checks understanding in the background; Errby brings corrections and uncertainty into the conversation.
 
 <p align="center">
   <img src="public/images/errby-notebook.png" width="540" alt="Errby beside an open notebook, illustrating learning through explanation" />
 </p>
 
-### ✨ What you can do with Errby
+### ✨ The current hackathon flow
 
-|     | What you can do                   | Why it helps                                                                        |
-| --- | --------------------------------- | ----------------------------------------------------------------------------------- |
-| 📚  | **Bring your own material**       | Start with a topic outline, pasted notes, or a readable PDF or DOCX.                |
-| 🎯  | **Prepare a focused lesson**      | Work toward specific goals with reference material behind the lesson.               |
-| 💬  | **Teach in your own words**       | Practise explaining through typed conversation, examples and follow-up questions.   |
-| 🧩  | **Spot a misunderstanding**       | Help Errby correct a lesson-specific mistake and explain why it is wrong.           |
-| 🛡️  | **Get feedback when you need it** | The AI Supervisor highlights corrections or says when an answer cannot be verified. |
-| 🌱  | **See progress for each idea**    | Review what you explained, what is developing and what still needs evidence.        |
-| ⏸️  | **Pause and return**              | Reopen saved sessions and revisit your recap in live learning.                      |
-| 🏫  | **Learn with your class**         | Join with a class code and open lessons your teacher has reviewed and published.    |
-| 🔒  | **Practise independently**        | Prepare private practice that stays outside teacher class reports.                  |
-| 🔎  | **Look beyond a score**           | Learners see a recap; teachers can inspect class evidence and review assessments.   |
+Sign in or sign up → `/learn` → start chatting. The student teaches Errby; Errby asks questions. Attach a readable PDF/DOCX directly in the composer or paste notes. There is no teacher dashboard, class joining, or lesson-planning screen.
 
-These workflows are implemented in the app. Saved learning and AI feedback require a configured live service and a signed-in account. Students can register themselves. The credential-free demo uses fictional, unreviewed examples; it does not assess or save learning answers.
+Opening replies stream from OpenRouter; the ungraded conversation stays in the current browser tab. Reference notes start saved, evidence-based practice with live preparation and answer-processing status. Assessed replies appear after validation and saving. The existing private objectives, Supervisor, evidence checks and retry handling run internally. Progress panels are hidden; corrections appear in the conversation through Errby. A topic alone is not a factual answer key, and uncertainty cannot complete learning.
 
-### 🗺️ From a lesson to an explanation
+Attachments accept PDF/DOCX up to 4 MiB, within the hosted request ceiling. Upload progress, cancellation, extraction coverage and a text preview precede an explicit action to use the text. Existing drafts are retained until that action. Imported notes remain unreviewed; only the selected text is used, and the original file is not stored. For sources over 8,000 characters, the preview explicitly offers the first 8,000; edit before sending or use a shorter document. Scans require pasted readable text.
 
-```mermaid
-flowchart LR
-    A["📚 Your material or class lesson"] --> B["💬 Explain it to Errby"]
-    B --> C["🧩 Work through a misunderstanding"]
-    C --> D["🛡️ Read feedback and try again"]
-    D --> E["🌱 Review evidence for each goal"]
-    style A fill:#EEF2FF,stroke:#4F46E5,color:#17223B
-    style B fill:#EEF2FF,stroke:#4F46E5,color:#17223B
-    style C fill:#FFFFFF,stroke:#77859B,color:#17223B
-    style D fill:#FFF7E6,stroke:#B45309,color:#92400E
-    style E fill:#ECFDF5,stroke:#0F766E,color:#0F766E
-```
+Saved practice is private and available from Recent chats. The demo is visibly fictional and does not run AI, accept personal uploads or save learning. Teacher/class/preparation pages and their public APIs remain retired; the new chat attachment endpoint reuses the existing bounded parser. Historical schema and domain checks are preserved rather than destructively rewritten.
 
-**For learners:** open a published class lesson or prepare private practice from your own material. Answer Errby's opening question, explain your reasoning, and use the feedback to try a new example. In live mode, return to saved learning from the home screen.
-
-**For teachers:** create a class, add material, review the generated lesson's goals, references and corrections, then publish it. Share the class code and use class results to find ideas that need another explanation. You can review assessments with an audit trail; you can only access your own class activity.
-
-A topic outline defines what to cover. It does not establish factual correctness. Class lessons need teacher review before publication; private AI-generated practice is explicitly labelled **not teacher-reviewed**.
+[Agreed plan and limits](docs/implementation/CHAT_FIRST_PLAN.md) · [Observed verification](docs/SETUP_STATUS.md)
 
 ### 💬 A little lesson in heat transfer
 
@@ -238,7 +212,7 @@ Demo needs no credentials and makes no model calls. Preparation can perform real
 <details>
 <summary><strong>🔌 Configure a hosted synthetic environment</strong></summary>
 
-Use a dedicated non-local Supabase test project and a matching Clerk development instance. Follow [Clerk setup, student registration, migration and validation](docs/implementation/CLERK_AUTH.md) first. Apply repository migrations in filename order and configure native Clerk/Supabase integration. Student profiles are created automatically on authenticated access; teacher identities and legacy linking require operator review. Class membership is optional and uses the class-code join flow. Setting keys alone is insufficient. Match `ERRBY_APP_ORIGIN` to the exact browser hostname and server port.
+Use a dedicated non-local Supabase test project and a matching Clerk development instance. Follow [Clerk setup, student registration, migration and validation](docs/implementation/CLERK_AUTH.md) first. Apply repository migrations in filename order and configure native Clerk/Supabase integration. Student profiles are created automatically on authenticated access; legacy identity linking requires operator review. The current account command accepts learners only. Setting keys alone is insufficient. Match `ERRBY_APP_ORIGIN` to the exact browser hostname and server port.
 
 Keep real values in ignored `.env.local` or deployment secrets, never source files or command arguments. [.env.example](.env.example) lists the supported settings.
 
@@ -253,7 +227,6 @@ Keep real values in ignored `.env.local` or deployment secrets, never source fil
 | `SUPABASE_SECRET_KEY`                      | Privileged server operations after application authorization.                    |
 | `OPENROUTER_API_KEY`, `OPENROUTER_MODEL`   | Server provider configuration; model is `gpt-4.1-mini` or `openai/gpt-4.1-mini`. |
 | `SUPABASE_DB_URL`                          | Migration-only connection; use the hosted session pooler where required.         |
-| `ERRBY_APPROVED_TEACHER_EMAILS`            | Operator allowlist for already provider-verified teacher accounts.               |
 | `ERRBY_OPERATOR_CONFIRM`                   | `synthetic-test-project` opt-in for operator actions.                            |
 
 After configuring live mode, clear a shell-level demo override and restart on the configured origin:
@@ -269,16 +242,14 @@ Use synthetic accounts and fictional material. Enable paid calls only with autho
 
 ### 🧭 Routes and repository map
 
-| Route                                        | Purpose                                                                                                          |
-| -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `/`                                          | Public landing page and prewritten examples.                                                                     |
-| `/sign-in`, `/sign-up`, `/setup`, `/account` | Authentication, student registration and account settings.                                                       |
-| `/learn`                                     | Learning home, class lessons and saved sessions.                                                                 |
-| `/prepare`, `/prepare/[id]`                  | Source extraction, resumable preparation and lesson review.                                                      |
-| `/learn/sessions/[id]`                       | Typed teaching, feedback and progress.                                                                           |
-| `/learn/sessions/[id]/results`               | Learner recap and evidence.                                                                                      |
-| `/classes`, `/classes/[id]/results`          | Class administration and scoped teacher results.                                                                 |
-| `/api/*`                                     | Same-origin server endpoints; see the [access matrix](docs/implementation/CLERK_AUTH.md#actual-access-surfaces). |
+| Route                                          | Purpose                                                                                                          |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `/`                                            | Public landing page and prewritten examples.                                                                     |
+| `/sign-in`, `/sign-up`, `/setup`, `/account`   | Authentication, student registration and account settings.                                                       |
+| `/learn`                                       | Direct chat entry and private saved conversations.                                                               |
+| `/learn/sessions/[id]`                         | Compatibility redirect to the main chat screen.                                                                  |
+| `/learn/sessions/[id]/results`                 | Learner recap and evidence.                                                                                      |
+| `/api/chat`, `/api/sessions/*`, `/api/account` | Same-origin server endpoints; see the [access matrix](docs/implementation/CLERK_AUTH.md#actual-access-surfaces). |
 
 ```text
 src/
@@ -310,7 +281,7 @@ npx playwright install chromium
 npm run test:browser
 ```
 
-`check` runs ESLint, route generation/TypeScript, local tests including PGlite, and formatting. `npm run db:test` is the focused Docker-free SQL check. `npm run build` uses Webpack, following repeated local Turbopack builds that did not complete. Browser tests start a demo server on port 3100; free that port before running them. With `CI=true`, they use the existing production build and one worker; otherwise they use the development server. `npm run test:packaging` checks production DOCX dependency tracing.
+`check` runs ESLint, route generation/TypeScript, local tests including PGlite, and formatting. `npm run db:test` is the focused Docker-free SQL check. `npm run build` uses Webpack, following repeated local Turbopack builds that did not complete. Browser tests start a demo server on port 3100; free that port before running them. With `CI=true`, they use the existing production build and one worker; otherwise they use the development server. Upload-route packaging checks were retired with the upload routes.
 
 | Evidence                         | What it establishes                                                           | What it does not establish                                          |
 | -------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------- |
