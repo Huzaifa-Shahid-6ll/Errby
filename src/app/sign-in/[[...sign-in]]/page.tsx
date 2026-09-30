@@ -24,7 +24,7 @@ export default async function SignInPage({
           routing="path"
           path="/sign-in"
           forceRedirectUrl={next}
-          signUpForceRedirectUrl="/setup"
+          signUpForceRedirectUrl="/learn"
           signUpUrl="/sign-up"
         />
       ) : (

@@ -1,5 +1,6 @@
 import "server-only";
 import { createSessionClient } from "@/lib/db/server";
+import { createAdminClient } from "@/lib/db/admin";
 import { env } from "@/lib/env/server";
 import { profileSchema, trustedClerkClaims } from "./identity";
 
@@ -29,7 +30,28 @@ export async function getIdentity() {
   if (!token) return null;
   const db = createSessionClient(token);
   // Map verified issuer + subject to the existing UUID. Never match by email.
-  const mapped = await db.rpc("current_app_user_id");
+  let mapped = await db.rpc("current_app_user_id");
+  if (!mapped.error && mapped.data === null) {
+    try {
+      const { clerkClient } = await import("@clerk/nextjs/server");
+      const clerk = await clerkClient();
+      const user = await clerk.users.getUser(session.userId);
+      // Deleted/disabled users cannot bootstrap using an unexpired old token.
+      // Imported identities still need reviewed linking to their existing UUID.
+      if (user.banned || user.locked || user.externalId) return null;
+      if (user.deleteSelfEnabled)
+        await clerk.users.updateUser(user.id, { deleteSelfEnabled: false });
+      const created = await createAdminClient().rpc("ensure_student_profile", {
+        p_clerk_user_id: session.userId,
+        p_issuer: env.CLERK_ISSUER_URL!,
+      });
+      if (created.error) return null;
+      // Resolve through the user's RLS client again, never a privileged read.
+      mapped = await db.rpc("current_app_user_id");
+    } catch {
+      return null;
+    }
+  }
   if (mapped.error || typeof mapped.data !== "string") return null;
   const result = await db
     .from("profiles")

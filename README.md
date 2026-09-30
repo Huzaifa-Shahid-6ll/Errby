@@ -47,7 +47,7 @@ Bring your notes or a class lesson. Put the idea into your own words. Work throu
 | 🔒  | **Practise independently**        | Prepare private practice that stays outside teacher class reports.                  |
 | 🔎  | **Look beyond a score**           | Learners see a recap; teachers can inspect class evidence and review assessments.   |
 
-These workflows are implemented in the app. Saved learning and AI feedback require a configured live service and an approved account. The credential-free demo uses fictional, unreviewed examples; it does not assess or save learning answers.
+These workflows are implemented in the app. Saved learning and AI feedback require a configured live service and a signed-in account. Students can register themselves. The credential-free demo uses fictional, unreviewed examples; it does not assess or save learning answers.
 
 ### 🗺️ From a lesson to an explanation
 
@@ -123,7 +123,7 @@ Errby is designed for school-age learners, from primary through high school, usi
 
 ### 🚪 Getting started and availability
 
-Ask the person running your Errby instance for access. In live mode, sign in or sign up, then complete account setup; creating a sign-in account alone does not grant learning access. An operator must approve the learner or teacher account.
+In live mode, students can sign up with a username and password and go straight to their dashboard. No teacher invitation, student email or class membership is required. Sign-in also opens the dashboard (or the protected page you originally requested). Students can prepare private material or join a class later with its code. Teacher access still requires administrator approval.
 
 For a local tour, follow [Run locally](#run-locally). Demo mode needs no credentials or model spending. Live mode adds saved sessions, classes and configured AI processing.
 
@@ -238,7 +238,7 @@ Demo needs no credentials and makes no model calls. Preparation can perform real
 <details>
 <summary><strong>🔌 Configure a hosted synthetic environment</strong></summary>
 
-Use a dedicated non-local Supabase test project and a matching Clerk development instance. Follow [Clerk setup, approval, migration and validation](docs/implementation/CLERK_AUTH.md) first. Apply repository migrations in filename order, configure native Clerk/Supabase integration, and provision reviewed application identities. Teacher accounts and class membership require their documented approval steps. Setting keys alone is insufficient.
+Use a dedicated non-local Supabase test project and a matching Clerk development instance. Follow [Clerk setup, student registration, migration and validation](docs/implementation/CLERK_AUTH.md) first. Apply repository migrations in filename order and configure native Clerk/Supabase integration. Student profiles are created automatically on authenticated access; teacher identities and legacy linking require operator review. Class membership is optional and uses the class-code join flow. Setting keys alone is insufficient. Match `ERRBY_APP_ORIGIN` to the exact browser hostname and server port.
 
 Keep real values in ignored `.env.local` or deployment secrets, never source files or command arguments. [.env.example](.env.example) lists the supported settings.
 
@@ -260,7 +260,7 @@ After configuring live mode, clear a shell-level demo override and restart on th
 
 ```powershell
 Remove-Item Env:ERRBY_MODE -ErrorAction SilentlyContinue
-npm run dev -- --port 3100
+npm run dev
 ```
 
 Use synthetic accounts and fictional material. Enable paid calls only with authorized reservations and caps. No real pupil data belongs in development.
@@ -272,7 +272,7 @@ Use synthetic accounts and fictional material. Enable paid calls only with autho
 | Route                                        | Purpose                                                                                                          |
 | -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | `/`                                          | Public landing page and prewritten examples.                                                                     |
-| `/sign-in`, `/sign-up`, `/setup`, `/account` | Authentication, application approval status and account settings.                                                |
+| `/sign-in`, `/sign-up`, `/setup`, `/account` | Authentication, student registration and account settings.                                                       |
 | `/learn`                                     | Learning home, class lessons and saved sessions.                                                                 |
 | `/prepare`, `/prepare/[id]`                  | Source extraction, resumable preparation and lesson review.                                                      |
 | `/learn/sessions/[id]`                       | Typed teaching, feedback and progress.                                                                           |

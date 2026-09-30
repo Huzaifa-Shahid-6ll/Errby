@@ -40,26 +40,29 @@ Clerk's management client does **not** authenticate incoming requests.
 with the configured issuer and authorized party. SDK verification handles
 signatures, expiry and key rotation. Machine/API/OAuth access tokens are denied.
 `getIdentity()` sends the Clerk token to Supabase's native third-party verifier,
-then resolves the protected UUID mapping and profile through RLS. It never falls
-back to a service key for an unauthenticated identity.
+then resolves the protected UUID mapping and profile through RLS. An unmapped,
+authenticated student gets a learner profile automatically, after a current
+Clerk user check. Only this bounded bootstrap uses service credentials; profile
+reads still use the original user's RLS client. Unauthenticated requests never
+reach provisioning.
 
 ## Actual access surfaces
 
-| Surface | Access | Identity | Permission | Enforcement |
-| --- | --- | --- | --- | --- |
-| `/`, static assets, `/api/health` | Public | None | None | Public routes; health discloses no credentials |
-| `/sign-in/**`, `/sign-up/**` | Public | Clerk flow, including callback subpaths | Completed session needed for learning | Clerk prebuilt flows; local redirect allowlist |
-| `/setup` | Public shell, private account details | Clerk session | Own identity; approval required for learning | Server component and `getIdentity` |
-| `/account/**` | Protected | Clerk session | Own sign-in settings | Server guard and Clerk UserProfile |
-| `/learn`, `/learn/sessions/[id]`, `/learn/sessions/[id]/results`, `/prepare`, `/prepare/[id]`, `/classes`, `/classes/[id]/results` | Protected in live mode | Clerk session + mapped profile | Ownership/current class membership; teacher for class administration | Proxy, server identity, existing scoped services and RLS |
-| `/api/preparations`, `/api/preparations/[id]`, `/step`, `/review` (the latter two under `[id]`) | Protected | Same | Owner; active owned class; teacher publication approval | Proxy + route access + service predicates/RPC |
-| `/api/sessions`, `/api/sessions/[id]`, `/turns`, `/pause`, `/process`, `/activity` (under `[id]`) | Protected | Same | Session owner and current class access; private sessions remain private | Proxy + session services/RPC and RLS |
-| `/api/classes`, `/api/classes/[id]/code`, `/api/classes/[id]/results` | Protected | Same | Teacher and owned class | Server role/class checks |
-| `/api/classes/preview`, `/api/classes/join` | Protected | Same | Approved learner; bounded valid class code | Server role/code checks |
-| `/api/assessments/[id]/review` | Protected | Same | Teacher of the assessment's class | Server scoped review service/RPC |
-| `/prepare/extract` | Protected live; fictional bounded sample in demo | Same in live mode | Authenticated approved profile | Proxy + extraction guard before body parsing |
-| `DELETE /api/account` | Protected | Recent Clerk session + remote active-session check | Self; no owned classes remaining | Origin check, confirmation, deletion RPC, Clerk Backend API |
-| Operator scripts and private database RPC | Service-only | Server service credentials | Explicit synthetic-project confirmation, reviewed mapping/teacher allowlist | CLI checks and SQL grants |
+| Surface                                                                                                                            | Access                                           | Identity                                           | Permission                                                                  | Enforcement                                                 |
+| ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | -------------------------------------------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| `/`, static assets, `/api/health`                                                                                                  | Public                                           | None                                               | None                                                                        | Public routes; health discloses no credentials              |
+| `/sign-in/**`, `/sign-up/**`                                                                                                       | Public                                           | Clerk flow, including callback subpaths            | Completed session needed for learning                                       | Clerk prebuilt flows; local redirect allowlist              |
+| `/setup`                                                                                                                           | Public shell, private account details            | Clerk session                                      | Own identity; automatic student registration                                | Server component and `getIdentity`                          |
+| `/account/**`                                                                                                                      | Protected                                        | Clerk session                                      | Own sign-in settings                                                        | Server guard and Clerk UserProfile                          |
+| `/learn`, `/learn/sessions/[id]`, `/learn/sessions/[id]/results`, `/prepare`, `/prepare/[id]`, `/classes`, `/classes/[id]/results` | Protected in live mode                           | Clerk session + mapped profile                     | Ownership/current class membership; teacher for class administration        | Proxy, server identity, existing scoped services and RLS    |
+| `/api/preparations`, `/api/preparations/[id]`, `/step`, `/review` (the latter two under `[id]`)                                    | Protected                                        | Same                                               | Owner; active owned class; teacher publication approval                     | Proxy + route access + service predicates/RPC               |
+| `/api/sessions`, `/api/sessions/[id]`, `/turns`, `/pause`, `/process`, `/activity` (under `[id]`)                                  | Protected                                        | Same                                               | Session owner and current class access; private sessions remain private     | Proxy + session services/RPC and RLS                        |
+| `/api/classes`, `/api/classes/[id]/code`, `/api/classes/[id]/results`                                                              | Protected                                        | Same                                               | Teacher and owned class                                                     | Server role/class checks                                    |
+| `/api/classes/preview`, `/api/classes/join`                                                                                        | Protected                                        | Same                                               | Learner; bounded valid class code                                           | Server role/code checks                                     |
+| `/api/assessments/[id]/review`                                                                                                     | Protected                                        | Same                                               | Teacher of the assessment's class                                           | Server scoped review service/RPC                            |
+| `/prepare/extract`                                                                                                                 | Protected live; fictional bounded sample in demo | Same in live mode                                  | Authenticated profile                                                       | Proxy + extraction guard before body parsing                |
+| `DELETE /api/account`                                                                                                              | Protected                                        | Recent Clerk session + remote active-session check | Self; no owned classes remaining                                            | Origin check, confirmation, deletion RPC, Clerk Backend API |
+| Operator scripts and private database RPC                                                                                          | Service-only                                     | Server service credentials                         | Explicit synthetic-project confirmation, reviewed mapping/teacher allowlist | CLI checks and SQL grants                                   |
 
 There are no app webhooks, GraphQL handlers, sockets, public download handlers,
 Clerk organizations, billing entitlements, native clients or invitation flows.
@@ -74,20 +77,20 @@ Use `.env.example`; keep actual values in ignored `.env.local` or deployment
 secret settings. Live configuration validates at startup/build and fails closed.
 Demo requires no credentials. Never mix development and production instances.
 
-| Variable | Purpose/source | Scope | Required |
-| --- | --- | --- | --- |
-| `ERRBY_MODE` | `demo` or `live` | Server | All, defaults demo |
-| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Clerk instance → API keys | Public browser configuration | Live build/runtime |
-| `CLERK_SECRET_KEY` | Same instance → API keys | Server only | Live build/runtime |
-| `CLERK_ISSUER_URL` | Exact Clerk domain, HTTPS, no trailing slash | Server | Live |
-| `ERRBY_APP_ORIGIN` | Exact application origin; local `http://127.0.0.1:3100` | Server, passed as public origin | Live |
-| `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` | Hosted test project API settings | Server RLS client | Live |
-| `SUPABASE_SECRET_KEY` | Hosted test project privileged API key | Server only | Live mutations/operator |
-| `SUPABASE_DB_URL` | Dashboard session-pooler connection | Migration process only | Hosted SQL migration |
-| `ERRBY_OPERATOR_CONFIRM` | Literal `synthetic-test-project` | Operator only | Account apply |
-| `ERRBY_APPROVED_TEACHER_EMAILS` | Operator-approved, already verified teachers | Operator only | Teacher approval |
-| `CLERK_TEST_IDENTIFIER`, `CLERK_TEST_PASSWORD`, `CLERK_TEST_USER_ID` | Dedicated synthetic password account | Test runner only | Real browser checks |
-| `OPENROUTER_API_KEY`, `OPENROUTER_MODEL` | Existing budget-controlled AI configuration | Server only | AI, not authentication |
+| Variable                                                             | Purpose/source                                          | Scope                           | Required                |
+| -------------------------------------------------------------------- | ------------------------------------------------------- | ------------------------------- | ----------------------- |
+| `ERRBY_MODE`                                                         | `demo` or `live`                                        | Server                          | All, defaults demo      |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`                                  | Clerk instance → API keys                               | Public browser configuration    | Live build/runtime      |
+| `CLERK_SECRET_KEY`                                                   | Same instance → API keys                                | Server only                     | Live build/runtime      |
+| `CLERK_ISSUER_URL`                                                   | Exact Clerk domain, HTTPS, no trailing slash            | Server                          | Live                    |
+| `ERRBY_APP_ORIGIN`                                                   | Exact application origin; local `http://127.0.0.1:3000` | Server, passed as public origin | Live                    |
+| `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`                           | Hosted test project API settings                        | Server RLS client               | Live                    |
+| `SUPABASE_SECRET_KEY`                                                | Hosted test project privileged API key                  | Server only                     | Live mutations/operator |
+| `SUPABASE_DB_URL`                                                    | Dashboard session-pooler connection                     | Migration process only          | Hosted SQL migration    |
+| `ERRBY_OPERATOR_CONFIRM`                                             | Literal `synthetic-test-project`                        | Operator only                   | Account apply           |
+| `ERRBY_APPROVED_TEACHER_EMAILS`                                      | Operator-approved, already verified teachers            | Operator only                   | Teacher approval        |
+| `CLERK_TEST_IDENTIFIER`, `CLERK_TEST_PASSWORD`, `CLERK_TEST_USER_ID` | Dedicated synthetic password account                    | Test runner only                | Real browser checks     |
+| `OPENROUTER_API_KEY`, `OPENROUTER_MODEL`                             | Existing budget-controlled AI configuration             | Server only                     | AI, not authentication  |
 
 Development Dashboard checklist (observed settings verified 30 September):
 
@@ -103,8 +106,11 @@ Development Dashboard checklist (observed settings verified 30 September):
 4. Clerk → User & authentication → Settings: disable user self-deletion.
    Verified false through the instance API. Operator approval also disables it
    per user before creating the application mapping.
-5. Keep sign-in `/sign-in`, sign-up `/sign-up`, fallback `/learn` and sign-up
-   continuation `/setup`. Use the exact local origin above. Clerk handles its
+5. Keep sign-in `/sign-in`, sign-up `/sign-up`, and both continuations `/learn`.
+   `ERRBY_APP_ORIGIN` must match the browser's hostname and running port exactly.
+   The current local server uses `http://127.0.0.1:3000`; the old 3100 setting
+   rejected otherwise valid sessions and caused repeated sign-in redirects.
+   Clerk handles its
    configured provider callbacks inside the catch-all auth routes. No new social
    provider, organization, MFA policy or webhook was enabled by this work.
 
@@ -127,15 +133,38 @@ were retained. They are **not migrated Clerk accounts** and need reviewed linkin
 their old Supabase sessions no longer grant application access. One separate
 approved synthetic Clerk learner was created for acceptance testing.
 
-Signup creates only a Clerk identity. Existing product policy requires operator
-approval before learning access; there is deliberately no self-selected role or
-automatic profile. Approval is atomic and idempotent, with an advisory transaction
-lock and uniqueness constraints. No eventual webhook is needed on first use.
+Students register with Clerk and continue directly to `/learn`. Migration
+`20260930000100_student_self_registration.sql` adds the service-only
+`ensure_student_profile` RPC. On first authenticated access it creates an
+independent learner with alias `Student`, no assumed grade and no membership.
+Students supply the grade when preparing material and may join a class later.
+No teacher invitation or approval is required. Existing unmapped Clerk students
+also gain access on their next visit; mapped teachers and learners retain their
+UUID, role and data.
+
+The server verifies Clerk and Supabase authentication before provisioning, checks
+the provider user still exists and is not banned/locked, and disables direct
+provider self-deletion if needed. Imported users with an external ID require
+reviewed linking. The RPC shares the operator provisioner's transaction lock,
+rejects issuer conflicts and deletion markers, and never accepts a selectable
+role or class. Anonymous/authenticated database clients cannot execute it.
+No webhook, email match or paid model call is involved.
+
+Teacher access and legacy identity linking still require an operator. The
+existing operator flow below provisions a reviewed teacher before their first
+application visit; it cannot promote an existing immutable learner role.
 
 Prepare a private JSON array such as:
 
 ```json
-[{"clerkUserId":"user_REVIEWED","role":"learner","alias":"Synthetic Learner","grade":"middle_school"}]
+[
+  {
+    "clerkUserId": "user_REVIEWED",
+    "role": "learner",
+    "alias": "Synthetic Learner",
+    "grade": "middle_school"
+  }
+]
 ```
 
 For an existing account add `existingUserId` with its reviewed UUID; the Clerk
@@ -181,7 +210,7 @@ remote session status. No guarantee of instant global permission propagation is 
 
 ```powershell
 npm ci
-npm run dev -- --port 3100
+npm run dev
 # Separate terminal, no demo override:
 npm run typecheck
 npm test

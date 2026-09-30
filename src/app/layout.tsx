@@ -45,7 +45,7 @@ export default function RootLayout({
             signInUrl="/sign-in"
             signUpUrl="/sign-up"
             signInFallbackRedirectUrl="/learn"
-            signUpFallbackRedirectUrl="/setup"
+            signUpFallbackRedirectUrl="/learn"
             allowedRedirectOrigins={[env.ERRBY_APP_ORIGIN!]}
             appearance={{
               theme: shadcn,

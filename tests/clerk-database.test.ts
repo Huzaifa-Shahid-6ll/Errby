@@ -3,7 +3,7 @@ import test from "node:test";
 import { readFileSync, readdirSync } from "node:fs";
 import { PGlite } from "@electric-sql/pglite";
 
-test("Clerk SQL mapping: preserved UUIDs, isolation, idempotency, approval and deletion (not live Auth)", async () => {
+test("Clerk SQL mapping: student self-registration, isolation, stable roles and deletion (not live Auth)", async () => {
   const db = new PGlite();
   try {
     await db.exec(`create role anon; create role authenticated; create role service_role bypassrls;
@@ -54,7 +54,13 @@ test("Clerk SQL mapping: preserved UUIDs, isolation, idempotency, approval and d
     const become = async (sub: string, iss = issuer, extra = {}) => {
       await db.exec("reset role");
       await db.query("select set_config('request.jwt.claims',$1,false)", [
-        JSON.stringify({ sub, iss, role: "authenticated", ...extra }),
+        JSON.stringify({
+          sub,
+          iss,
+          sid: "sess_synthetic",
+          role: "authenticated",
+          ...extra,
+        }),
       ]);
       await db.exec("set role authenticated");
     };
@@ -87,6 +93,64 @@ test("Clerk SQL mapping: preserved UUIDs, isolation, idempotency, approval and d
         0,
       );
     }
+    const ensureStudent = async (sub = "user_selfRegistered", iss = issuer) =>
+      (
+        await db.query<{ id: string }>(
+          "select public.ensure_student_profile($1,$2) id",
+          [sub, iss],
+        )
+      ).rows[0].id;
+    // First visits need no operator, metadata, email, class or chosen role.
+    await db.exec("reset role; set role service_role");
+    const student = await ensureStudent();
+    assert.equal(await ensureStudent(), student);
+    assert.equal(await ensureStudent("user_teacher"), oldId);
+    await assert.rejects(
+      ensureStudent("user_selfRegistered", "https://wrong.clerk.accounts.dev"),
+      /identity_unavailable/,
+    );
+    await assert.rejects(ensureStudent(oldId), /invalid_identity/);
+    await assert.rejects(ensureStudent("user_invalid", ""), /invalid_identity/);
+    await become("user_selfRegistered", issuer, {
+      metadata: { role: "teacher" },
+    });
+    assert.deepEqual(
+      (
+        await db.query(
+          "select auth_user_id,role,alias,grade_band,setup_mode from public.profiles",
+        )
+      ).rows,
+      [
+        {
+          auth_user_id: student,
+          role: "learner",
+          alias: "Student",
+          grade_band: null,
+          setup_mode: "independent",
+        },
+      ],
+    );
+    assert.equal(
+      (await db.query("select * from public.memberships")).rows.length,
+      0,
+    );
+    await assert.rejects(
+      db.query("update public.profiles set role='teacher'"),
+      /permission denied/,
+    );
+    await assert.rejects(ensureStudent(), /permission denied/);
+    await become("user_teacher");
+    assert.equal(
+      (await db.query<{ role: string }>("select role from public.profiles"))
+        .rows[0].role,
+      "teacher",
+    );
+    await db.exec("reset role; set role anon");
+    await assert.rejects(ensureStudent(), /permission denied/);
+    await db.exec("reset role; set role service_role");
+    await db.query("delete from public.profiles where auth_user_id=$1", [
+      student,
+    ]);
     await db.exec("reset role; set role service_role");
     const classroom = (
       await db.query<{ id: string }>(
@@ -111,6 +175,7 @@ test("Clerk SQL mapping: preserved UUIDs, isolation, idempotency, approval and d
       0,
     );
     await db.exec("reset role; set role service_role");
+    await assert.rejects(ensureStudent("user_learner"), /identity_unavailable/);
     await assert.rejects(
       provision("user_learner", "learner"),
       /identity_conflict/,

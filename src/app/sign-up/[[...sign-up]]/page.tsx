@@ -6,7 +6,7 @@ import { getClerkSession } from "@/lib/auth/server";
 
 export const dynamic = "force-dynamic";
 export default async function SignUpPage() {
-  if (await getClerkSession()) redirect("/setup");
+  if (await getClerkSession()) redirect("/learn");
   return (
     <main className="mx-auto max-w-lg p-6 sm:p-10">
       <Link href="/" className="underline">
@@ -14,15 +14,15 @@ export default async function SignUpPage() {
       </Link>
       <h1 className="my-6 text-3xl font-semibold">Sign up for Errby</h1>
       <p className="mb-6">
-        Your teacher or administrator must approve access before you can use
-        saved learning. Students can use an assigned username; no student email
-        is required.
+        Create your student account and start learning. Choose a username and
+        password; no student email or teacher approval is required. You can join
+        a class later with a class code.
       </p>
       {env.ERRBY_MODE === "live" ? (
         <SignUp
           routing="path"
           path="/sign-up"
-          forceRedirectUrl="/setup"
+          forceRedirectUrl="/learn"
           signInForceRedirectUrl="/learn"
           signInUrl="/sign-in"
         />

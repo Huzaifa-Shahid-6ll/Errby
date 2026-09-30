@@ -29,10 +29,9 @@ export default async function Setup() {
             </p>
           ) : (
             <p role="status">
-              Your identity is signed in, but approved learning access is
-              unavailable. Ask your teacher or administrator to approve or link
-              your account. If it was already approved, retry after the service
-              recovers. Signing up again will not recover old records.
+              You are signed in, but your learning account is temporarily
+              unavailable. Retry using Continue to learning. If this continues,
+              contact support; you do not need to sign up again.
             </p>
           )}
           <Link href="/account" className="underline">
@@ -60,9 +59,10 @@ export default async function Setup() {
             Sign up for Errby
           </h2>
           <p className="mt-3">
-            Students: ask your teacher for an assigned username and password.
-            Teachers: ask your administrator for approval. A class code never
-            grants teacher access.
+            Students can create an account and start learning independently.
+            Join a class later with a class code. Teachers: ask your
+            administrator for teacher access. A class code never grants teacher
+            access.
           </p>
           <Link
             href={env.ERRBY_MODE === "live" ? "/sign-up" : "/learn"}

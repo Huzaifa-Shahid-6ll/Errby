@@ -1,5 +1,17 @@
 # Setup status — updated 30 September 2026
 
+## Supabase migration sync — 30 September 2026
+
+- Ran `db push --include-all` against the configured hosted Supabase database. All 18 repository migrations, including student self-registration, already appear in remote migration history; the push confirmed the remote database is up to date. No pending migration, history repair, seed import or Docker operation was needed.
+
+## Student self-registration and dashboard redirects — 30 September 2026
+
+- Students can now register themselves without teacher approval or class membership. Signup and ordinary signin lead directly to `/learn`; protected-page signin retains its validated return destination. The server creates an independent learner profile on first authenticated access, including for existing unmapped Clerk students. Teacher privileges, legacy linking, class scope and private records retain their existing restrictions. This supersedes the historical manual-student-approval policy below and in the original specification pack.
+- Fixed the local origin mismatch: the active server is `http://127.0.0.1:3000`, while `.env.local` previously expected port 3100 and rejected valid sessions. Updated the ignored local setting, environment example and current setup instructions. Use that exact URL; any different hostname or port must match `ERRBY_APP_ORIGIN`.
+- Added and applied only `20260930000100_student_self_registration.sql` to the configured hosted synthetic project after a dry run and PGlite checks. The service-only RPC creates learners only, is idempotent, shares the operator identity lock, preserves existing roles/UUIDs, and rejects deletion markers and issuer conflicts. Bootstrap checks the current Clerk user and rereads the new profile through user-scoped RLS.
+- Verified a fresh synthetic username/password signup through the maintained Clerk form automatically reached the dashboard, with no manually provisioned application profile. Verified dashboard refresh, protected read 200, teacher-class creation denial 403, sign-out/private read 401, password signin back to the dashboard, and guarded deletion 200 followed by protected read 401. Used a Clerk development testing token for automated signup after CAPTCHA stalled; this does not verify ordinary CAPTCHA completion. The temporary account was deleted; no verification emails, real pupil data or paid model calls were used.
+- All 47 local tests pass, including SQL registration/role/deletion checks. TypeScript, scoped zero-warning ESLint, formatting and the live-mode production Webpack build pass; the existing ingestion `createRequire` warning remains. T3 preview DOM checks succeeded; its screenshot operation failed, so no screenshot-based visual verification is claimed. No commit, repository push or deployment was performed. Historical full Clerk acceptance items remain open where not explicitly verified here.
+
 ## Clerk authentication — verification handed to user, 30 September 2026
 
 - Integrated the official Next.js Clerk SDK, maintained sign-in/sign-up/profile screens, server session guards and Supabase native third-party authentication. Existing application roles, class scoping and ownership remain enforced. [Architecture, route matrix, configuration, migration and validation](implementation/CLERK_AUTH.md).

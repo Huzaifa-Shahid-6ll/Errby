@@ -73,14 +73,19 @@ export default async function Home() {
         <p className="mt-4">
           {identity
             ? `You are signed in as a ${identity.profile.role}. `
-            : "Sign in with your approved account. "}
+            : "You are signed in, but your learning account is temporarily unavailable. Retry shortly or contact support. "}
           {identity?.profile.role === "teacher"
             ? "Create a class, prepare material, then review and publish lessons for your learners."
             : "Choose a class lesson, return to saved learning, or prepare your own source for private practice."}
         </p>
         <Link href="/setup" className="mt-6 inline-block underline">
-          {identity ? "Your account" : "Sign in"}
+          Your account
         </Link>
+        {!identity && (
+          <a href="/learn" className="ml-6 inline-block underline">
+            Retry loading your dashboard
+          </a>
+        )}
         {identity && (
           <Link href="/prepare" className="ml-6 inline-block underline">
             Prepare your material
@@ -164,8 +169,8 @@ export default async function Home() {
             </h2>
             {lessons.length === 0 ? (
               <p className="mt-3 text-muted-foreground">
-                No published lessons yet. Lessons appear here after your teacher
-                publishes them.
+                No class lessons yet. You can prepare your own material below,
+                or join a class with a code to see its published lessons.
               </p>
             ) : (
               <ul className="mt-4 list-none space-y-4 p-0">
