@@ -1,0 +1,61 @@
+.learning-orb,
+.errby-avatar {
+  display: inline-flex;
+  vertical-align: middle;
+  align-items: center;
+  margin-right: 8px;
+  flex: none;
+}
+.composer-beam {
+  width: 100%;
+  min-width: 0;
+}
+.composer-beam > form {
+  width: 100%;
+}
+.reply-glow {
+  max-width: 100%;
+}
+.reply-glow > p {
+  position: relative;
+  z-index: 1;
+}
+.send-accent {
+  display: inline-flex;
+  position: relative;
+  flex: none;
+}
+.send-shine {
+  position: absolute !important;
+  background: transparent !important;
+  inset: 0;
+  pointer-events: none;
+}
+.send-shine-surface {
+  display: block;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+}
+.send-shine .metal-fx-inner {
+  background: transparent;
+}
+.motion-toggle {
+  min-width: 44px;
+  min-height: 44px;
+}
+.welcome-art {
+  display: block;
+  position: relative;
+  width: 112px;
+  height: 112px;
+  margin: 0 auto 16px;
+  border-radius: 24px;
+}
+.welcome-reveal {
+  position: absolute !important;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: 24px;
+}

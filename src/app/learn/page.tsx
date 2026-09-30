@@ -6,6 +6,7 @@ import { SessionView } from "./sessions/[id]/session-view";
 import { z } from "zod";
 import "./chat-workspace.css";
 import { ThemeToggle } from "@/components/landing/landing-controls";
+import { MotionToggle } from "@/components/ui/learning-effects";
 
 export const metadata = {
   title: "Errby · Teach me something",
@@ -79,6 +80,7 @@ export default async function Home({
                 : "Private conversation"}
             </span>
             <ThemeToggle />
+            <MotionToggle />
           </div>
         </header>
         {history.length > 0 && (

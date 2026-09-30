@@ -4,7 +4,10 @@ export default function Loading() {
       <p className="wordmark">
         errby<span>.</span>
       </p>
-      <p role="status">Opening your workspace…</p>
+      <p role="status">
+        <Thinking state="connecting" />
+        Opening your workspace…
+      </p>
       <div aria-hidden="true">
         <div className="loading-line" />
         <div className="loading-line" />
@@ -13,3 +16,4 @@ export default function Loading() {
     </main>
   );
 }
+import { Thinking } from "@/components/ui/learning-effects";

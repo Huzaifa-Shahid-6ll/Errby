@@ -31,8 +31,14 @@ function subscribe(onChange: () => void) {
   };
 }
 
+export function useAppTheme() {
+  return useSyncExternalStore(subscribe, isDark, () => false)
+    ? "dark"
+    : "light";
+}
+
 export function ThemeToggle({ className = "" }: { className?: string }) {
-  const dark = useSyncExternalStore(subscribe, isDark, () => false);
+  const dark = useAppTheme() === "dark";
 
   return (
     <Button

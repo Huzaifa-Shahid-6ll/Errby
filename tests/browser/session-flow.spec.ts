@@ -210,7 +210,9 @@ test("API-mocked quiet supervision: accessible identity, safe text and responsiv
   await expect(
     conversation.getByText("Supervisor", { exact: true }),
   ).toHaveCount(0);
-  await expect(conversation.locator("svg")).toHaveCount(3);
+  await expect(
+    conversation.locator(".session-role svg, .session-role canvas"),
+  ).toHaveCount(3);
   await expect(conversation.locator("img")).toHaveCount(0);
   await expect(conversation.locator(".session-student p")).toHaveCSS(
     "white-space",

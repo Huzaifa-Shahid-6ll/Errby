@@ -4,6 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import { useActivity } from "@/lib/results/use-activity";
 import { Bot, ShieldCheck, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  ComposerBeam,
+  ErrbyAvatar,
+  MotionToggle,
+  ReplyGlow,
+  Thinking,
+} from "@/components/ui/learning-effects";
 import { readReply } from "@/lib/http/event-stream";
 import {
   TURN_CHARACTER_LIMIT,
@@ -396,7 +403,10 @@ export function SessionView({
   if (!state)
     return (
       <div className="session-loading" role="status">
-        <p>Loading saved conversation…</p>
+        <p>
+          <Thinking state="connecting" />
+          Loading saved conversation…
+        </p>
         <div className="loading-line" />
         <div className="loading-line" />
         <div className="loading-line" />
@@ -446,6 +456,7 @@ export function SessionView({
           </h1>
         </div>
         <div className="flex gap-2 flex-wrap">
+          {!quiet && <MotionToggle />}
           {state.session.status !== "completed" &&
             state.session.status !== "ended_incomplete" && (
               <Button
@@ -478,6 +489,15 @@ export function SessionView({
         className={`session-state session-state-${state.session.status}`}
       >
         <strong>
+          {(pending || loading) && (
+            <Thinking
+              state={
+                pending === "answer" || pending === "process"
+                  ? "solving"
+                  : "connecting"
+              }
+            />
+          )}
           {pending === "answer"
             ? stage
             : pending === "pause"
@@ -563,7 +583,11 @@ export function SessionView({
                   className={`session-message session-${displayRole}`}
                 >
                   <div className="session-role">
-                    <Icon size={20} aria-hidden="true" />
+                    {displayRole === "errby" ? (
+                      <ErrbyAvatar />
+                    ) : (
+                      <Icon size={20} aria-hidden="true" />
+                    )}
                     <span>{label}</span>
                     <span className="session-role-detail">{detail}</span>
                   </div>
@@ -587,53 +611,58 @@ export function SessionView({
             </div>
           )}
           {(pending === "answer" || pending === "process") && (
-            <p className="session-pending">{stage}</p>
+            <ReplyGlow>
+              <p className="session-pending">{stage}</p>
+            </ReplyGlow>
           )}
-          <form
-            className="session-composer mt-6"
-            aria-busy={pending !== null}
-            onSubmit={(event) => {
-              event.preventDefault();
-              void submitAnswer();
-            }}
-          >
-            <label htmlFor="answer">Your explanation</label>
-            <textarea
-              id="answer"
-              name="explanation"
-              autoComplete="off"
-              placeholder="Explain it in your own words…"
-              ref={answerInput}
-              value={text}
-              onChange={(event) => {
-                saveDraft(event.target.value);
-                setNotice("");
+          <ComposerBeam active={pending === "answer" || pending === "process"}>
+            <form
+              className="session-composer mt-6"
+              aria-busy={pending !== null}
+              onSubmit={(event) => {
+                event.preventDefault();
+                void submitAnswer();
               }}
-              rows={4}
-              maxLength={TURN_CHARACTER_LIMIT}
-              disabled={blocked}
-              aria-describedby="answer-note session-status"
-              onKeyDown={(event) => {
-                if (
-                  event.key === "Enter" &&
-                  !event.shiftKey &&
-                  !event.nativeEvent.isComposing
-                ) {
-                  event.preventDefault();
-                  void submitAnswer();
-                }
-              }}
-            />
-            <div className="session-composer-footer">
-              <span id="answer-note">
-                {text.length}/{TURN_CHARACTER_LIMIT} characters · drafts stay in
-                this browser tab until it closes · Shift + Enter for a new line
-              </span>
-              <Button type="submit" disabled={blocked}>
-                {pending === "answer" ? "Checking..." : "Send answer"}
-              </Button>
-            </div>
-          </form>
+            >
+              <label htmlFor="answer">Your explanation</label>
+              <textarea
+                id="answer"
+                name="explanation"
+                autoComplete="off"
+                placeholder="Explain it in your own words…"
+                ref={answerInput}
+                value={text}
+                onChange={(event) => {
+                  saveDraft(event.target.value);
+                  setNotice("");
+                }}
+                rows={4}
+                maxLength={TURN_CHARACTER_LIMIT}
+                disabled={blocked}
+                aria-describedby="answer-note session-status"
+                onKeyDown={(event) => {
+                  if (
+                    event.key === "Enter" &&
+                    !event.shiftKey &&
+                    !event.nativeEvent.isComposing
+                  ) {
+                    event.preventDefault();
+                    void submitAnswer();
+                  }
+                }}
+              />
+              <div className="session-composer-footer">
+                <span id="answer-note">
+                  {text.length}/{TURN_CHARACTER_LIMIT} characters · drafts stay
+                  in this browser tab until it closes · Shift + Enter for a new
+                  line
+                </span>
+                <Button type="submit" disabled={blocked}>
+                  {pending === "answer" ? "Checking..." : "Send answer"}
+                </Button>
+              </div>
+            </form>
+          </ComposerBeam>
         </div>
       </div>
     </section>

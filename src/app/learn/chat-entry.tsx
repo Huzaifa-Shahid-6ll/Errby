@@ -2,9 +2,18 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { ArrowUp, FileText, Paperclip, X, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  ComposerBeam,
+  ErrbyAvatar,
+  ReplyGlow,
+  SendAccent,
+  SourceAction,
+  SourceActions,
+  Thinking,
+  WelcomeArt,
+} from "@/components/ui/learning-effects";
 import { readReply } from "@/lib/http/event-stream";
 import { CHAT_UPLOAD_BYTES, type Extraction } from "@/lib/ingestion/contracts";
 
@@ -309,13 +318,7 @@ export function ChatEntry({
     <div className="chat-entry">
       {messages.length === 0 && !pending ? (
         <section className="chat-welcome">
-          <Image
-            src="/images/errby-mascot.png"
-            alt=""
-            width={112}
-            height={112}
-            priority
-          />
+          <WelcomeArt />
           <p className="chat-eyebrow">Your curious AI learning partner</p>
           <h1>
             Hey, I’m Errby.
@@ -336,7 +339,16 @@ export function ChatEntry({
         >
           {messages.map((message, i) => (
             <li key={i} className={`chat-bubble chat-bubble-${message.role}`}>
-              <strong>{message.role === "student" ? "You" : "Errby"}</strong>
+              <strong>
+                {message.role === "student" ? (
+                  "You"
+                ) : (
+                  <>
+                    <ErrbyAvatar />
+                    Errby
+                  </>
+                )}
+              </strong>
               <p>{message.text}</p>
             </li>
           ))}
@@ -352,12 +364,15 @@ export function ChatEntry({
               </li>
               <li className="chat-bubble chat-bubble-errby" aria-busy="true">
                 <strong>
+                  <Thinking state={streamed ? "composing" : "working"} />
                   Errby{" "}
                   <span className="chat-draft-label">
                     · {streamed ? "Replying" : "Thinking"}
                   </span>
                 </strong>
-                <p>{streamed || stage}</p>
+                <ReplyGlow>
+                  <p>{streamed || stage}</p>
+                </ReplyGlow>
               </li>
             </>
           )}
@@ -383,6 +398,9 @@ export function ChatEntry({
       {uploadProgress !== null && (
         <div className="chat-attachment">
           <p>
+            <Thinking
+              state={uploadProgress < 100 ? "connecting" : "searching"}
+            />
             {uploadProgress < 100
               ? `Uploading document · ${uploadProgress}%`
               : "Reading document text…"}
@@ -454,90 +472,98 @@ export function ChatEntry({
           </Button>
         </section>
       )}
-      <form
-        className="chat-entry-composer"
-        onSubmit={(event) => {
-          event.preventDefault();
-          void send();
-        }}
-        aria-busy={pending}
-      >
-        <label className="chat-composer-label" htmlFor="chat-message">
-          {notes ? "Paste reference notes" : "Message Errby"}
-        </label>
-        <textarea
-          id="chat-message"
-          name="message"
-          autoComplete="off"
-          ref={input}
-          value={text}
-          onChange={(event) => setText(event.target.value)}
-          rows={3}
-          maxLength={8000}
-          disabled={pending || !ready}
-          placeholder={
-            notes
-              ? "Paste a short factual passage from your reference notes…"
-              : "Try: I can explain why ice melts…"
-          }
-          onKeyDown={(event) => {
-            if (
-              event.key === "Enter" &&
-              !event.shiftKey &&
-              !event.nativeEvent.isComposing
-            ) {
-              event.preventDefault();
-              void send();
-            }
+      <ComposerBeam active={pending || uploadProgress !== null}>
+        <form
+          className="chat-entry-composer"
+          onSubmit={(event) => {
+            event.preventDefault();
+            void send();
           }}
-          aria-describedby="chat-note"
-        />
-        <div className="chat-composer-actions">
-          <div className="chat-source-actions">
-            <input
-              ref={fileInput}
-              className="sr-only"
-              type="file"
-              tabIndex={-1}
-              aria-label="Attach PDF or DOCX"
-              accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-              disabled={pending || uploadProgress !== null}
-              onChange={(event) => {
-                attach(event.target.files?.[0]);
-                event.target.value = "";
-              }}
-            />
-            <Button
-              type="button"
-              variant="ghost"
-              disabled={pending || uploadProgress !== null}
-              onClick={() => fileInput.current?.click()}
-            >
-              <Paperclip size={18} aria-hidden="true" /> Attach
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              aria-pressed={notes}
-              disabled={pending}
-              onClick={() => {
-                setNotes(!notes);
-                input.current?.focus();
-              }}
-            >
-              <FileText size={18} aria-hidden="true" />{" "}
-              {notes ? "Notes selected" : "Paste notes"}
-            </Button>
+          aria-busy={pending}
+        >
+          <label className="chat-composer-label" htmlFor="chat-message">
+            {notes ? "Paste reference notes" : "Message Errby"}
+          </label>
+          <textarea
+            id="chat-message"
+            name="message"
+            autoComplete="off"
+            ref={input}
+            value={text}
+            onChange={(event) => setText(event.target.value)}
+            rows={3}
+            maxLength={8000}
+            disabled={pending || !ready}
+            placeholder={
+              notes
+                ? "Paste a short factual passage from your reference notes…"
+                : "Try: I can explain why ice melts…"
+            }
+            onKeyDown={(event) => {
+              if (
+                event.key === "Enter" &&
+                !event.shiftKey &&
+                !event.nativeEvent.isComposing
+              ) {
+                event.preventDefault();
+                void send();
+              }
+            }}
+            aria-describedby="chat-note"
+          />
+          <div className="chat-composer-actions">
+            <SourceActions>
+              <input
+                ref={fileInput}
+                className="sr-only"
+                type="file"
+                tabIndex={-1}
+                aria-label="Attach PDF or DOCX"
+                accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                disabled={pending || uploadProgress !== null}
+                onChange={(event) => {
+                  attach(event.target.files?.[0]);
+                  event.target.value = "";
+                }}
+              />
+              <SourceAction>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  disabled={pending || uploadProgress !== null}
+                  onClick={() => fileInput.current?.click()}
+                >
+                  <Paperclip size={18} aria-hidden="true" /> Attach
+                </Button>
+              </SourceAction>
+              <SourceAction>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  aria-pressed={notes}
+                  disabled={pending}
+                  onClick={() => {
+                    setNotes(!notes);
+                    input.current?.focus();
+                  }}
+                >
+                  <FileText size={18} aria-hidden="true" />{" "}
+                  {notes ? "Notes selected" : "Paste notes"}
+                </Button>
+              </SourceAction>
+            </SourceActions>
+            <SendAccent>
+              <Button
+                type="submit"
+                disabled={pending || !ready || uploadProgress !== null}
+                aria-label="Send message"
+              >
+                <ArrowUp size={20} aria-hidden="true" />
+              </Button>
+            </SendAccent>
           </div>
-          <Button
-            type="submit"
-            disabled={pending || !ready || uploadProgress !== null}
-            aria-label="Send message"
-          >
-            <ArrowUp size={20} aria-hidden="true" />
-          </Button>
-        </div>
-      </form>
+        </form>
+      </ComposerBeam>
       <p className="chat-input-help">
         PDF / DOCX up to 4 MiB · Enter to send · Shift + Enter for a new line{" "}
         <span>{text.length.toLocaleString("en")}/8,000</span>
