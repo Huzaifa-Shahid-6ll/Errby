@@ -1,1004 +1,572 @@
-"use client";
-
-import { useState, useEffect } from "react";
+import type { ReactNode } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { Bricolage_Grotesque, DM_Sans } from "next/font/google";
 import {
-  ArrowRight,
-  Play,
-  CheckCircle2,
-  Sparkles,
-  ShieldCheck,
-  ShieldAlert,
-  Users,
-  FileText,
-  Search,
-  Upload,
-  BarChart3,
-  Brain,
-  Zap,
-  GraduationCap,
-  ChevronDown,
-  Menu,
-  X,
-  Atom,
-  Lightbulb,
-  BookOpen,
-  HelpCircle,
-  Flame,
-  MessageSquare,
-  Check,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "./landing-controls";
-import { DemoModal } from "./demo-modal";
-import { VideoModal } from "./video-modal";
-import { TeacherModal } from "./teacher-modal";
+  ArrowDownIcon,
+  ArrowRightIcon,
+  ArrowUpRightIcon,
+  CaretDownIcon,
+  CheckCircleIcon,
+  CircleHalfIcon,
+  CircleIcon,
+} from "@phosphor-icons/react/ssr";
+import { LandingMenu } from "./landing-menu";
 import styles from "./landing-page.module.css";
 import "./landing-motion.css";
 
-const heroConversation = [
-  {
-    speaker: "Errby",
-    time: "10:24",
-    message: "Why does ice melt in a warm room?",
-    isErrby: true,
-    badge: null,
-  },
-  {
-    speaker: "Student",
-    time: "10:25",
-    message: "Heat moves from the warmer room into the ice.",
-    isErrby: false,
-    badge: { text: "Good start", type: "success" },
-  },
-  {
-    speaker: "Errby",
-    time: "10:26",
-    qualifier: " · deliberate mistake",
-    message: "So the ice makes its own heat?",
-    isErrby: true,
-    badge: { text: "Intentional mistake", type: "warning" },
-  },
-  {
-    speaker: "Student",
-    time: "10:27",
-    message: "No. The energy comes from the warmer surroundings.",
-    isErrby: false,
-    badge: { text: "Correct!", type: "success" },
-  },
+const headingFont = Bricolage_Grotesque({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-landing-heading",
+});
+
+const bodyFont = DM_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-landing-body",
+});
+
+const questions = [
+  [
+    "Is Errby the teacher?",
+    "The student does the explaining. Errby is an AI learning character designed to ask questions and introduce lesson-specific misunderstandings to work through.",
+  ],
+  [
+    "Why does Errby sometimes get something wrong?",
+    "The learning design uses selected misunderstandings to invite a clearer explanation. The first question is genuine, and deliberate mistakes belong to a defined lesson.",
+  ],
+  [
+    "What if the learner agrees with a wrong idea?",
+    "A separate AI Supervisor is designed to intervene after a submitted answer. It gives feedback or flags uncertainty. It is not a human teacher and can be wrong.",
+  ],
+  [
+    "Who is it designed for?",
+    "Errby is designed for school-age learners, from primary through high school. The intended interaction is typed and in English; younger learners may need help reading or typing.",
+  ],
+  [
+    "Can teachers use their own material?",
+    "The planned classroom workflow starts with a topic list or learning material. Teachers review lesson drafts before publishing them.",
+  ],
+  [
+    "Does ‘Explained’ mean mastery of the subject?",
+    "No. It describes evidence for a particular lesson goal. It is not a subject-wide judgement or a school grade. Every required goal needs valid evidence before a lesson can be complete.",
+  ],
+  [
+    "Is Errby available to use?",
+    "This page demonstrates the intended experience with prewritten examples. The separate development workspace has account and setup requirements; this page does not assess or save answers.",
+  ],
 ];
 
-const learningSteps = [
-  {
-    num: "01",
-    title: "Errby asks",
-    description: "Errby poses a question about your topic.",
-    icon: HelpCircle,
-  },
-  {
-    num: "02",
-    title: "You explain",
-    description: "You share your thinking in your own words.",
-    icon: MessageSquare,
-  },
-  {
-    num: "03",
-    title: "Spot the mistake",
-    description: "Errby sometimes gets things wrong on purpose.",
-    icon: Zap,
-  },
-  {
-    num: "04",
-    title: "Correct it",
-    description: "You explain what's not quite right and try again.",
-    icon: CheckCircle2,
-  },
-];
+function Mark({ large = false }: { large?: boolean }) {
+  return (
+    <Image
+      src="/images/errby-mascot.png"
+      alt=""
+      width={1254}
+      height={1254}
+      sizes={large ? "144px" : "40px"}
+      className={large ? styles.mascot : styles.mark}
+    />
+  );
+}
 
-const whyDifferentCards = [
-  {
-    title: "Students explain, not just consume.",
-    description:
-      "Rather than passively reading answers, students articulate their own reasoning. Explaining concepts in natural language builds deep comprehension and long-term memory retention.",
-    icon: Brain,
-    accent: "from-purple-500 to-indigo-600",
-  },
-  {
-    title: "AI challenges misconceptions.",
-    description:
-      "Errby introduces controlled errors to test student comprehension. Spotting and correcting mistakes forces learners to analyze logic, prove accuracy, and eliminate false assumptions.",
-    icon: Zap,
-    accent: "from-blue-500 to-cyan-500",
-  },
-  {
-    title: "Teachers see evidence of understanding.",
-    description:
-      "Teachers gain real visibility into how students think, not just multiple-choice scores. Track explanation quality, identify class-wide gaps, and review student evidence effortlessly.",
-    icon: GraduationCap,
-    accent: "from-emerald-500 to-teal-500",
-  },
-];
+function Message({
+  role,
+  children,
+}: {
+  role: "Errby" | "Learner";
+  children: ReactNode;
+}) {
+  return (
+    <div
+      className={role === "Errby" ? styles.errbyMessage : styles.learnerMessage}
+    >
+      <span className={styles.role}>
+        {role === "Errby" ? (
+          <Mark />
+        ) : (
+          <Image
+            src="/images/learner-avatar.png"
+            alt=""
+            width={1254}
+            height={1254}
+            sizes="32px"
+            className={styles.learnerMark}
+          />
+        )}
+        {role}
+      </span>
+      <p>{children}</p>
+    </div>
+  );
+}
 
-const statsData = [
-  { value: "5+", label: "Classes", sub: "Active in demo workspace" },
-  { value: "142", label: "Students", sub: "Enrolled & practicing" },
-  { value: "89%", label: "Completion", sub: "Misconception checks passed" },
-  { value: "4.8/5", label: "Overall rating", sub: "Student & teacher feedback" },
-];
+function Opening() {
+  return (
+    <>
+      <Message role="Errby">Why does an ice cube melt in a warm room?</Message>
+      <Message role="Learner">
+        Energy transfers from the warmer surroundings to the colder ice. That
+        energy can melt the ice.
+      </Message>
+    </>
+  );
+}
 
-const faqData = [
-  {
-    id: "faq-1",
-    question: "What is Errby?",
-    answer:
-      "Errby is an AI learning app where students learn by EXPLAINING concepts instead of simply receiving answers. You teach Errby, catch its intentional mistakes, and correct them to build genuine mastery.",
-  },
-  {
-    id: "faq-2",
-    question: "How does the Supervisor work?",
-    answer:
-      "The Supervisor is an independent verification layer separate from Errby. It monitors the conversation, identifies misconceptions, flags unverified claims, and ensures inaccurate information is never presented as fact.",
-  },
-  {
-    id: "faq-3",
-    question: "Why does Errby make mistakes?",
-    answer:
-      "Making mistakes on purpose triggers active evaluation and critical thinking. When students actively spot and explain an error, their understanding is strengthened far more than by passively reading correct statements.",
-  },
-  {
-    id: "faq-4",
-    question: "Is Errby suitable for all subjects?",
-    answer:
-      "Yes! Errby works across STEM subjects like Physics, Biology, Chemistry, Maths, and Computer Science, as well as Humanities where logical structure, explanation, and evidence matter.",
-  },
-  {
-    id: "faq-5",
-    question: "How do teachers get started?",
-    answer:
-      "Teachers can set up a class in seconds, upload lesson materials or topic guides, review draft questions generated by Errby, and publish them to their student roster.",
-  },
-  {
-    id: "faq-6",
-    question: "Can I try Errby for free?",
-    answer:
-      "Yes! You can test our interactive learning loop right now without creating an account. Click 'Start a free example' anywhere on this page to launch the live demo.",
-  },
-  {
-    id: "faq-7",
-    question: "What makes Errby different?",
-    answer:
-      "Unlike traditional AI tutors that just give answers, Errby flips the learning model: Errby asks questions, challenges students with deliberate errors, and validates reasoning with an independent Supervisor.",
-  },
-];
+function Correction() {
+  return (
+    <div className={styles.correction}>
+      <span className={styles.smallLabel}>A misunderstanding to correct</span>
+      <Message role="Errby">
+        So the ice makes the heat it needs to melt?
+      </Message>
+      <Message role="Learner">
+        No. The energy comes from the warmer surroundings. The ice does not make
+        its own heat.
+      </Message>
+    </div>
+  );
+}
 
 export function LandingPage() {
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-  const [isDemoModalOpen, setIsDemoModalOpen] = useState<boolean>(false);
-  const [isVideoModalOpen, setIsVideoModalOpen] = useState<boolean>(false);
-  const [isTeacherModalOpen, setIsTeacherModalOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
-    <div id="top" className={`landing-page ${styles.page}`}>
-      <a href="#main" className="skip-link">
+    <div
+      id="top"
+      className={`landing-page ${styles.page} ${headingFont.variable} ${bodyFont.variable}`}
+    >
+      <a href="#main" className={styles.skip}>
         Skip to content
       </a>
-
-      {/* NAVBAR */}
-      <header
-        className={`${styles.navbarHeader} ${
-          isScrolled ? styles.navbarScrolled : ""
-        }`}
-      >
-        <div className={styles.navbarInner}>
-          {/* Logo */}
-          <a className={styles.wordmark} href="#top" aria-label="Errby home">
-            ERRBY<span>.</span>
-          </a>
-
-          {/* Desktop Navigation */}
-          <nav className={styles.navigation} aria-label="Main navigation">
-            <a href="#top" className={styles.navLink}>
-              Home
-            </a>
-            <a href="#how-it-works" className={styles.navLink}>
-              How it works
-            </a>
-            <a href="#teachers" className={styles.navLink}>
-              For teachers
-            </a>
-            <a href="#why-different" className={styles.navLink}>
-              Questions
-            </a>
-            <a href="#faq" className={styles.navLink}>
-              FAQ
-            </a>
-          </nav>
-
-          {/* Right Actions */}
-          <div className={styles.headerActions}>
-            <ThemeToggle />
-            <Button
-              onClick={() => setIsDemoModalOpen(true)}
-              className={styles.navbarCta}
-            >
-              Get started →
-            </Button>
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={styles.hamburgerBtn}
-              aria-label="Toggle menu"
-            >
-              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Dropdown Drawer */}
-        {mobileMenuOpen && (
-          <div className={styles.mobileDrawer}>
-            <nav className={styles.mobileNav}>
-              <a href="#top" onClick={() => setMobileMenuOpen(false)}>
-                Home
-              </a>
-              <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)}>
-                How it works
-              </a>
-              <a href="#teachers" onClick={() => setMobileMenuOpen(false)}>
-                For teachers
-              </a>
-              <a href="#why-different" onClick={() => setMobileMenuOpen(false)}>
-                Questions
-              </a>
-              <a href="#faq" onClick={() => setMobileMenuOpen(false)}>
-                FAQ
-              </a>
-              <div className="pt-2 flex flex-col gap-2">
-                <Button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    setIsDemoModalOpen(true);
-                  }}
-                  className="w-full bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-bold py-3 rounded-xl"
-                >
-                  Start a free example →
-                </Button>
-              </div>
-            </nav>
-          </div>
-        )}
+      <header className={styles.header}>
+        <a href="#top" className={styles.wordmark} aria-label="Errby home">
+          <Mark />
+          errby<span className={styles.dot}>.</span>
+        </a>
+        <nav className={styles.desktopNav} aria-label="Main navigation">
+          <a href="#how-it-works">How it works</a>
+          <a href="#for-teachers">For teachers</a>
+          <a href="#questions">Questions</a>
+          <a href="/sign-in">Sign in</a>
+          <a href="/sign-up">Sign up</a>
+        </nav>
+        <a href="#example" className={styles.headerCta}>
+          See an example{" "}
+          <ArrowUpRightIcon size={20} weight="bold" aria-hidden="true" />
+        </a>
+        <LandingMenu />
       </header>
-
       <main id="main" tabIndex={-1}>
-        {/* HERO SECTION */}
-        <section className={styles.heroSection} aria-labelledby="hero-title">
-          <div className={styles.heroGlowOverlay} aria-hidden="true" />
-          <div className={`${styles.container} ${styles.heroGrid}`}>
-            {/* Left Column */}
-            <div className={styles.heroCopy}>
-              <div className={styles.heroPill}>
-                <Sparkles className="w-3.5 h-3.5 text-indigo-400 animate-pulse" />
-                <span>AI that learns by being challenged</span>
-              </div>
-
-              <h1 id="hero-title" className={styles.heroTitle}>
-                Don’t just learn it.{" "}
-                <span className={styles.titleGradient}>Teach it to Errby.</span>
-              </h1>
-
-              <p className={styles.heroDescription}>
-                You explain the concept. Errby asks questions, makes mistakes on
-                purpose, and you catch and correct them. With a Supervisor for
-                uncertainty, you get deeper understanding — not just answers.
-              </p>
-
-              <div className={styles.heroActions}>
-                <Button
-                  onClick={() => setIsDemoModalOpen(true)}
-                  className={styles.heroPrimaryBtn}
-                >
-                  Start a free example →
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => setIsVideoModalOpen(true)}
-                  className={styles.heroSecondaryBtn}
-                >
-                  <Play className="w-4 h-4 fill-current text-indigo-400 mr-2" />
-                  Watch how it works <span className={styles.heroTime}>1:12</span>
-                </Button>
-              </div>
-
-              {/* 3 Benefits list */}
-              <div className={styles.heroBenefits}>
-                <div className={styles.benefitItem}>
-                  <Check className="w-4 h-4 text-emerald-400 stroke-[3]" />
-                  <span>Builds real understanding</span>
-                </div>
-                <div className={styles.benefitItem}>
-                  <Check className="w-4 h-4 text-emerald-400 stroke-[3]" />
-                  <span>Encourages critical thinking</span>
-                </div>
-                <div className={styles.benefitItem}>
-                  <Check className="w-4 h-4 text-emerald-400 stroke-[3]" />
-                  <span>Perfect for students & teachers</span>
-                </div>
-              </div>
+        <section className={styles.hero} aria-labelledby="hero-title">
+          <div className={styles.heroCopy}>
+            <span className={styles.eyebrow}>Product concept</span>
+            <h1 id="hero-title">
+              Learn it by <span>teaching Errby.</span>
+            </h1>
+            <p className={styles.lead}>
+              Errby is designed to help students practise explaining a lesson,
+              correct misunderstandings, and see which ideas need another
+              attempt.
+            </p>
+            <div className={styles.actions}>
+              <a href="#example" className={`landing-cta ${styles.primary}`}>
+                See an example{" "}
+                <ArrowRightIcon size={20} weight="bold" aria-hidden="true" />
+              </a>
+              <a href="#for-teachers" className={styles.textLink}>
+                For teachers{" "}
+                <ArrowUpRightIcon size={20} weight="bold" aria-hidden="true" />
+              </a>
             </div>
-
-            {/* Right Column: Conversation Card + Robot Floating */}
-            <div className={styles.heroRightVisual}>
-              <div className={styles.heroCardContainer}>
-                {/* Conversation Card Header */}
-                <div className={styles.heroCardHeader}>
-                  <div className="flex items-center gap-2">
-                    <span className={styles.heroTopicBadge}>Physics</span>
-                    <span className="text-slate-400 text-xs">→</span>
-                    <span className="text-xs font-semibold text-slate-200">
-                      Heat Transfer
-                    </span>
-                  </div>
-                  <div className={styles.heroProgressArea}>
-                    <span className="text-xs font-mono text-indigo-300">
-                      Progress: 3/5
-                    </span>
-                    <div className={styles.heroProgressBar}>
-                      <div className={styles.heroProgressFill} />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Conversation Transcript */}
-                <div className={styles.heroTranscript}>
-                  {heroConversation.map((item, idx) => (
-                    <div
-                      key={idx}
-                      className={`${styles.turnRow} ${
-                        item.isErrby ? styles.errbyTurn : styles.studentTurn
-                      }`}
-                    >
-                      <div className={styles.turnAvatar}>
-                        <Image
-                          src={
-                            item.isErrby
-                              ? "/images/errby-mascot.png"
-                              : "/images/learner-avatar.png"
-                          }
-                          alt=""
-                          fill
-                          sizes="40px"
-                        />
-                      </div>
-                      <div
-                        className={`${styles.turnBubble} ${
-                          item.isErrby
-                            ? styles.errbyBubble
-                            : styles.studentBubble
-                        }`}
-                      >
-                        <div className={styles.turnMeta}>
-                          <span className={styles.turnSpeaker}>
-                            {item.speaker}
-                            {item.qualifier && (
-                              <span className={styles.deliberateTag}>
-                                {item.qualifier}
-                              </span>
-                            )}
-                          </span>
-                          <span className={styles.turnTime}>{item.time}</span>
-                        </div>
-                        <p className={styles.turnMessage}>{item.message}</p>
-                        {item.badge && (
-                          <div
-                            className={`${styles.turnBadge} ${
-                              item.badge.type === "success"
-                                ? styles.successBadge
-                                : styles.warningBadge
-                            }`}
-                          >
-                            {item.badge.type === "success" ? "✓ " : "⚡ "}
-                            {item.badge.text}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Floating handwritten note callout */}
-                <div className={styles.heroCalloutNote}>
-                  <span>Small mistakes = big learning! ⤶</span>
-                </div>
-              </div>
-
-              {/* Floating Robot Mascot */}
-              <div className={styles.floatingRobotWrapper}>
-                <Image
-                  src="/images/errby-mascot.png"
-                  alt="Errby AI Robot"
-                  width={140}
-                  height={150}
-                  priority
-                  className={styles.floatingRobotImg}
-                />
-              </div>
-
-              {/* Floating Educational Particles */}
-              <div
-                className={`${styles.floatingObj} ${styles.objAtom}`}
-                aria-hidden="true"
-              >
-                <Atom className="w-5 h-5 text-indigo-400 animate-spin-slow" />
-              </div>
-              <div
-                className={`${styles.floatingObj} ${styles.objBulb}`}
-                aria-hidden="true"
-              >
-                <Lightbulb className="w-5 h-5 text-amber-400 animate-pulse" />
-              </div>
-              <div
-                className={`${styles.floatingObj} ${styles.objBook}`}
-                aria-hidden="true"
-              >
-                <BookOpen className="w-5 h-5 text-blue-400" />
-              </div>
-            </div>
+            <p className={styles.heroNote}>
+              You explain. Errby asks.
+              <br />
+              You work through the idea.
+            </p>
           </div>
+          <figure className={styles.heroPreview}>
+            <div className={styles.heroMascot} data-landing-mascot="greeting">
+              <Mark large />
+            </div>
+            <div className={styles.previewHeader}>
+              <span className={styles.topic}>
+                A little lesson in heat transfer
+              </span>
+              <span className={styles.smallLabel}>
+                Illustrative example · prewritten conversation
+              </span>
+            </div>
+            <div className={styles.messages}>
+              <Opening />
+              <Correction />
+            </div>
+            <figcaption>
+              <a href="#example">
+                Read the complete example{" "}
+                <ArrowDownIcon size={20} weight="bold" aria-hidden="true" />
+              </a>
+            </figcaption>
+          </figure>
         </section>
 
-        {/* SECTION 2 — HOW IT WORKS */}
         <section
           id="how-it-works"
-          className={styles.howSection}
-          aria-labelledby="how-title"
+          className={styles.section}
+          aria-labelledby="flow-title"
         >
-          <div className={styles.container}>
-            <div className={styles.sectionHeaderCenter}>
-              <span className={styles.sectionSubBadge}>HOW IT WORKS</span>
-              <h2 id="how-title" className={styles.sectionTitleDark}>
-                A different way to practise.
-              </h2>
-              <p className={styles.sectionLeadDark}>
-                Errby turns your explanations into active learning. Follow a simple
-                process, get real understanding.
+          <span className={styles.eyebrow}>The intended learning flow</span>
+          <h2 id="flow-title">
+            A lesson you explain,
+            <br className={styles.desktopBreak} /> not just read.
+          </h2>
+          <ol className={styles.steps}>
+            <li>
+              <span className={styles.number}>01</span>
+              <h3>Start with a lesson.</h3>
+              <p>
+                Use a topic or learning material, or join a lesson your teacher
+                has prepared.
+              </p>
+            </li>
+            <li>
+              <span className={styles.number}>02</span>
+              <h3>Teach it in your own words.</h3>
+              <p>
+                Answer Errby’s questions and help it work through a
+                misunderstanding.
+              </p>
+            </li>
+            <li>
+              <span className={styles.number}>03</span>
+              <h3>See what needs another explanation.</h3>
+              <p>
+                Review progress against the lesson’s goals, with evidence from
+                the conversation.
+              </p>
+            </li>
+          </ol>
+        </section>
+
+        <section
+          id="example"
+          className={styles.exampleSection}
+          aria-labelledby="example-title"
+        >
+          <div className={styles.section}>
+            <div className={styles.sectionIntro}>
+              <span className={styles.eyebrow}>
+                A conversation, with a purpose
+              </span>
+              <h2 id="example-title">What teaching Errby looks like.</h2>
+              <p>
+                Here’s a prewritten example about heat transfer. Errby asks
+                first, then gives the learner a misunderstanding to correct.
               </p>
             </div>
-
-            {/* 4-Step Horizontal Loop */}
-            <div className={styles.stepsLoopGrid}>
-              {learningSteps.map((step, idx) => {
-                const Icon = step.icon;
-                return (
-                  <div key={step.num} className={styles.stepCard}>
-                    <div className={styles.stepHeaderRow}>
-                      <div className={styles.stepNumCircle}>{step.num}</div>
-                      <div className={styles.stepIconWrapper}>
-                        <Icon className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-                      </div>
-                    </div>
-                    <h3 className={styles.stepTitle}>{step.title}</h3>
-                    <p className={styles.stepDesc}>{step.description}</p>
-                    {idx < learningSteps.length - 1 && (
-                      <div className={styles.stepArrowDivider} aria-hidden="true">
-                        →
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
+            <div className={styles.legend}>
+              <span>Errby · AI learning character</span>
+              <span>Learner · example response</span>
+              <span>Supervisor · AI feedback</span>
             </div>
-          </div>
-        </section>
-
-        {/* SECTION 3 — LEARNER PRODUCT */}
-        <section
-          className={styles.learnerSection}
-          aria-labelledby="learner-title"
-        >
-          <div className={styles.container}>
-            <div className={styles.learnerCardGradient}>
-              <div className={styles.learnerGrid}>
-                {/* Left side info */}
-                <div className={styles.learnerCopy}>
-                  <span className={styles.learnerBadge}>For learners</span>
-                  <h2 id="learner-title" className={styles.learnerHeading}>
-                    Master any subject with confidence.
-                  </h2>
-                  <p className={styles.learnerDesc}>
-                    Errby adapts to your level, spots your gaps, and helps you learn
-                    faster — with fewer misconceptions and more "aha!" moments.
-                  </p>
-
-                  <ul className={styles.learnerFeatureList}>
-                    <li>
-                      <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0" />
-                      <span>Personalised feedback</span>
-                    </li>
-                    <li>
-                      <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0" />
-                      <span>Builds confidence</span>
-                    </li>
-                    <li>
-                      <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0" />
-                      <span>Learn at your own pace</span>
-                    </li>
-                  </ul>
-
-                  <Button
-                    onClick={() => setIsDemoModalOpen(true)}
-                    className={styles.learnerCtaBtn}
-                  >
-                    Try it now →
-                  </Button>
-                </div>
-
-                {/* Right side: Smartphone Mockup */}
-                <div className={styles.phoneMockupWrapper}>
-                  <div className={styles.phoneFrame}>
-                    <div className={styles.phoneNotch} />
-                    <div className={styles.phoneScreen}>
-                      <div className={styles.phoneHeader}>
-                        <div className={styles.phoneLogo}>errby.</div>
-                        <div className={styles.phoneDot} />
-                      </div>
-
-                      <div className={styles.phoneChat}>
-                        <div className={styles.phoneMsgErrby}>
-                          "Why does ice melt?"
-                        </div>
-                        <div className={styles.phoneMsgStudent}>
-                          "Your explanation..."
-                        </div>
-                        <div className={styles.phoneMsgErrbyHighlight}>
-                          "Can you think of another reason this might happen?"
-                        </div>
-                      </div>
-
-                      <div className={styles.phoneMascotFooter}>
-                        <Image
-                          src="/images/errby-mascot.png"
-                          alt=""
-                          width={45}
-                          height={48}
-                          className="mx-auto"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            <div className={styles.transcript}>
+              <div className={styles.previewHeader}>
+                <h3>Learner corrects Errby</h3>
+                <span className={styles.smallLabel}>
+                  Illustrative example · prewritten conversation · unreviewed
+                </span>
               </div>
+              <div className={styles.messages}>
+                <Opening />
+                <Correction />
+                <Message role="Errby">
+                  Then why could wrapping the ice in an insulating material slow
+                  its melting?
+                </Message>
+              </div>
+              <p className={styles.transcriptNote}>
+                The conversation continues with a new example.
+              </p>
             </div>
-          </div>
-        </section>
-
-        {/* SECTION 4 — SUPERVISOR */}
-        <section
-          className={styles.supervisorSection}
-          aria-labelledby="supervisor-title"
-        >
-          <div className={styles.container}>
-            <div className={styles.supervisorGrid}>
-              {/* Left Info */}
-              <div className={styles.supervisorCopy}>
-                <span className={styles.supervisorTag}>CRITICAL SAFEGUARD</span>
-                <h2 id="supervisor-title" className={styles.supervisorHeading}>
-                  The Supervisor.
-                  <br />
-                  For when certainty matters.
-                </h2>
-                <p className={styles.supervisorDesc}>
-                  The Supervisor is separate from Errby. It helps address
-                  misconceptions, verify claims and flag uncertainty.
+            <details className={styles.branch}>
+              <summary>
+                <span>
+                  Supervisor helps{" "}
+                  <span className={styles.summaryHint}>
+                    A second prewritten example
+                  </span>
+                </span>
+                <CaretDownIcon
+                  className="landing-chevron"
+                  size={20}
+                  weight="bold"
+                  aria-hidden="true"
+                />
+              </summary>
+              <div className={styles.messages}>
+                <p className={styles.smallLabel}>
+                  Illustrative example · prewritten conversation · unreviewed
                 </p>
-
-                <div className={styles.supervisorBullets}>
-                  <div className={styles.supBullet}>
-                    <ShieldCheck className="w-5 h-5 text-indigo-400 flex-shrink-0" />
-                    <span>Verifies important claims</span>
-                  </div>
-                  <div className={styles.supBullet}>
-                    <ShieldCheck className="w-5 h-5 text-indigo-400 flex-shrink-0" />
-                    <span>Flags uncertainty</span>
-                  </div>
-                  <div className={styles.supBullet}>
-                    <ShieldCheck className="w-5 h-5 text-indigo-400 flex-shrink-0" />
-                    <span>Keeps learning accurate</span>
+                <Opening />
+                <div className={styles.correction}>
+                  <span className={styles.smallLabel}>
+                    A misunderstanding and its correction
+                  </span>
+                  <Message role="Errby">
+                    So the ice makes the heat it needs to melt?
+                  </Message>
+                  <Message role="Learner">
+                    Yes, the ice makes heat to melt.
+                  </Message>
+                  <div className={styles.supervisor}>
+                    <strong>Supervisor · AI feedback</strong>
+                    <p>
+                      That idea needs correcting: energy transfers from the
+                      warmer surroundings to the colder ice. The ice is not
+                      producing its own heat to melt. Try explaining where the
+                      energy comes from in a new example.
+                    </p>
                   </div>
                 </div>
+                <Message role="Errby">
+                  If you put a cold spoon in warm water, which way does energy
+                  transfer?
+                </Message>
+                <p className={styles.smallLabel}>
+                  Copying a correction earns no progress. A real lesson needs
+                  independently valid evidence in a new response.
+                </p>
               </div>
-
-              {/* Right: Supervisor Interactive Card */}
-              <div className={styles.supervisorCardDark}>
-                <div className={styles.supCardHeader}>
-                  <ShieldAlert className="w-7 h-7 text-amber-400 flex-shrink-0" />
-                  <div>
-                    <h3 className="text-base font-bold text-white">
-                      Supervisor Active Guard
-                    </h3>
-                    <p className="text-xs text-amber-300">
-                      Independent Verification Layer
-                    </p>
-                  </div>
-                </div>
-
-                <div className={styles.supCardBody}>
-                  <div className={styles.supPrompt}>
-                    "Let's check where the heat comes from."
-                  </div>
-
-                  {/* Unverified Errby turn */}
-                  <div className={styles.supTurnUnverified}>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-slate-300">
-                        Errby Statement
-                      </span>
-                      <span className={styles.unverifiedBadge}>Unverified</span>
-                    </div>
-                    <p className="text-xs text-slate-300 mt-1">
-                      "The ice makes its own heat."
-                    </p>
-                  </div>
-
-                  {/* Verified Supervisor Intervention */}
-                  <div className={styles.supTurnVerified}>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-emerald-300">
-                        Supervisor Correction
-                      </span>
-                      <span className={styles.factCheckedBadge}>
-                        ✓ Fact checked
-                      </span>
-                    </div>
-                    <p className="text-xs text-white font-semibold mt-1">
-                      "Correct: Heat flows from the warmer surroundings into the
-                      ice."
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </details>
           </div>
         </section>
 
-        {/* SECTION 5 — TEACHER DASHBOARD */}
+        <section className={styles.section} aria-labelledby="feedback-title">
+          <div className={styles.sectionIntro}>
+            <span className={styles.eyebrow}>Evidence for each idea</span>
+            <h2 id="feedback-title">
+              Understand the feedback,
+              <br className={styles.desktopBreak} /> not just the result.
+            </h2>
+            <p>
+              The planned Supervisor checks submitted explanations against the
+              lesson’s reference material. It can correct a misunderstanding or
+              flag an answer it cannot verify. Progress is tied to specific
+              lesson goals.
+            </p>
+          </div>
+          <div className={styles.feedbackGrid}>
+            <div>
+              <div className={styles.supervisor}>
+                <span className={styles.smallLabel}>Illustrative feedback</span>
+                <h3>Supervisor · AI feedback</h3>
+                <p>
+                  Try explaining where the energy comes from in a new example.
+                </p>
+              </div>
+              <p className={styles.caveat}>
+                The Supervisor is AI feedback, not a live teacher, and it can be
+                wrong.
+              </p>
+            </div>
+            <div className={styles.goals}>
+              <span className={styles.smallLabel}>
+                Illustrative progress · not calculated from this transcript
+              </span>
+              <h3>1 of 3 goals explained</h3>
+              <ul>
+                <li>
+                  <span>Where the energy comes from</span>
+                  <span className={styles.explained}>
+                    <CheckCircleIcon size={20} aria-hidden="true" /> Explained
+                  </span>
+                </li>
+                <li>
+                  <span>Melting and temperature</span>
+                  <span>
+                    <CircleHalfIcon size={20} aria-hidden="true" /> Developing
+                  </span>
+                </li>
+                <li>
+                  <span>How insulation slows transfer</span>
+                  <span>
+                    <CircleIcon size={20} aria-hidden="true" /> Untested
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <p className={styles.stateKey}>
+            <strong>Explained</strong> means there is learner evidence for that
+            goal. <strong>Developing</strong> needs another explanation.{" "}
+            <strong>Untested</strong> has no evidence yet.{" "}
+            <strong>Unverified</strong> means evidence could not be confirmed.
+            These describe an idea, not a child.
+          </p>
+        </section>
+
         <section
-          id="teachers"
+          id="for-teachers"
           className={styles.teacherSection}
           aria-labelledby="teacher-title"
         >
-          <div className={styles.container}>
-            <div className={styles.sectionHeaderCenter}>
-              <span className={styles.sectionSubBadge}>FOR TEACHERS</span>
-              <h2 id="teacher-title" className={styles.sectionTitleDark}>
-                Plan. Teach. Review.
+          <div className={styles.teacherGrid}>
+            <div>
+              <span className={styles.eyebrow}>For the classroom</span>
+              <h2 id="teacher-title">
+                Bring a topic list.
+                <br />
+                Review the lessons.
+                <br />
+                Let students explain.
               </h2>
-              <p className={styles.sectionLeadDark}>
-                Everything teachers need to create classes, prepare lessons and
-                understand what students actually learned.
+              <p>
+                Errby’s planned classroom workflow starts with a short outline
+                or learning material. Review the drafted lessons, publish the
+                ones you want to use, and share a class code.
+              </p>
+              <ol className={styles.teacherSteps}>
+                <li>Add material</li>
+                <li>Review drafts</li>
+                <li>Publish lessons</li>
+                <li>Share a code</li>
+              </ol>
+              <p className={styles.caveat}>
+                Classroom reporting is intended for assigned activity.
+                Independent sessions should stay private.
               </p>
             </div>
-
-            <div className={styles.teacherDashboardGrid}>
-              {/* Teacher Dashboard Mockup */}
-              <div className={styles.dashboardMockupCard}>
-                <div className={styles.dashHeaderBar}>
-                  <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-rose-500/80" />
-                    <span className="w-3 h-3 rounded-full bg-amber-500/80" />
-                    <span className="w-3 h-3 rounded-full bg-emerald-500/80" />
-                  </div>
-                  <span className="text-xs font-mono text-slate-400">
-                    errby.app/teacher/dashboard
-                  </span>
-                </div>
-
-                <div className={styles.dashBody}>
-                  {/* Dashboard Sidebar */}
-                  <div className={styles.dashSidebar}>
-                    <div className={styles.dashNavItemActive}>Classes</div>
-                    <div className={styles.dashNavItem}>Materials</div>
-                    <div className={styles.dashNavItem}>Review</div>
-                    <div className={styles.dashNavItem}>Publish</div>
-                    <div className={styles.dashNavItem}>Evidence</div>
-                  </div>
-
-                  {/* Dashboard Main Content */}
-                  <div className={styles.dashMain}>
-                    <div className="flex items-center justify-between mb-4">
-                      <h4 className="text-base font-bold text-white">
-                        My Classes
-                      </h4>
-                      <Button
-                        size="sm"
-                        onClick={() => setIsTeacherModalOpen(true)}
-                        className="bg-indigo-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg"
-                      >
-                        + New class
-                      </Button>
-                    </div>
-
-                    <div className="grid grid-cols-3 gap-3 mb-4">
-                      <div className="p-3 rounded-xl bg-[#071126] border border-indigo-500/20">
-                        <span className="text-[11px] text-slate-400">
-                          Classes
-                        </span>
-                        <p className="text-lg font-bold text-white">5</p>
-                      </div>
-                      <div className="p-3 rounded-xl bg-[#071126] border border-indigo-500/20">
-                        <span className="text-[11px] text-slate-400">
-                          Students
-                        </span>
-                        <p className="text-lg font-bold text-white">142</p>
-                      </div>
-                      <div className="p-3 rounded-xl bg-[#071126] border border-indigo-500/20">
-                        <span className="text-[11px] text-slate-400">
-                          Completion
-                        </span>
-                        <p className="text-lg font-bold text-emerald-400">
-                          89%
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Class rows */}
-                    <div className="space-y-2">
-                      <div className="p-2.5 rounded-lg bg-[#071126] border border-indigo-500/10 flex items-center justify-between text-xs">
-                        <span className="font-semibold text-white">
-                          Physics — Heat Transfer
-                        </span>
-                        <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-medium">
-                          Review
-                        </span>
-                      </div>
-                      <div className="p-2.5 rounded-lg bg-[#071126] border border-indigo-500/10 flex items-center justify-between text-xs">
-                        <span className="font-semibold text-white">
-                          Biology — Cell Structure
-                        </span>
-                        <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-medium">
-                          Published
-                        </span>
-                      </div>
-                      <div className="p-2.5 rounded-lg bg-[#071126] border border-indigo-500/10 flex items-center justify-between text-xs">
-                        <span className="font-semibold text-white">
-                          Chemistry — Reactions
-                        </span>
-                        <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-medium">
-                          Published
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            <div id="classroom-preview" className={styles.draft}>
+              <div className={styles.previewHeader}>
+                <span className={styles.smallLabel}>
+                  Example classroom data · fictional
+                </span>
+                <h3>Heat transfer</h3>
+                <span className={styles.review}>
+                  Draft · needs teacher review
+                </span>
               </div>
-
-              {/* Beside Feature List */}
-              <div className={styles.teacherFeaturesSide}>
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
-                  Streamlined tools for educators
-                </h3>
-
-                <ul className={styles.teacherFeatureChecklist}>
-                  <li>
-                    <CheckCircle2 className="w-5 h-5 text-indigo-600 dark:text-indigo-400 flex-shrink-0" />
-                    <span>Create classes & manage rosters</span>
-                  </li>
-                  <li>
-                    <CheckCircle2 className="w-5 h-5 text-indigo-600 dark:text-indigo-400 flex-shrink-0" />
-                    <span>Add learning materials & topics</span>
-                  </li>
-                  <li>
-                    <CheckCircle2 className="w-5 h-5 text-indigo-600 dark:text-indigo-400 flex-shrink-0" />
-                    <span>Review lesson drafts & edit questions</span>
-                  </li>
-                  <li>
-                    <CheckCircle2 className="w-5 h-5 text-indigo-600 dark:text-indigo-400 flex-shrink-0" />
-                    <span>Publish lessons to students</span>
-                  </li>
-                  <li>
-                    <CheckCircle2 className="w-5 h-5 text-indigo-600 dark:text-indigo-400 flex-shrink-0" />
-                    <span>Review student evidence & understanding</span>
-                  </li>
-                </ul>
-
-                <Button
-                  onClick={() => setIsTeacherModalOpen(true)}
-                  className={styles.teacherExploreBtn}
-                >
-                  Explore teacher dashboard →
-                </Button>
+              <div className={styles.draftBody}>
+                <h4>Proposed lesson goals</h4>
+                <p className={styles.smallLabel}>
+                  Teachers would edit and review these before publication.
+                </p>
+                <ol>
+                  <li>Explain where the energy to melt ice comes from.</li>
+                  <li>Distinguish melting from a temperature increase.</li>
+                  <li>Explain how insulation slows energy transfer.</li>
+                </ol>
+                <div className={styles.draftNote}>
+                  Review comes before publication.
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* SECTION 6 — WHY ERRBY IS DIFFERENT */}
-        <section
-          id="why-different"
-          className={styles.whySection}
-          aria-labelledby="why-title"
-        >
-          <div className={styles.container}>
-            <div className={styles.sectionHeaderCenter}>
-              <span className={styles.sectionSubBadge}>KEY DIFFERENCE</span>
-              <h2 id="why-title" className={styles.sectionTitleDark}>
-                Why Errby is different.
+        <section className={styles.section} aria-labelledby="sources-title">
+          <div className={styles.sourceIntro}>
+            <div className={styles.sectionIntro}>
+              <span className={styles.eyebrow}>
+                A starting point for curiosity
+              </span>
+              <h2 id="sources-title">
+                Start from the lesson
+                <br className={styles.desktopBreak} /> you want to understand.
               </h2>
-            </div>
-
-            <div className={styles.whyCardsGrid}>
-              {whyDifferentCards.map((card, idx) => {
-                const Icon = card.icon;
-                return (
-                  <div key={idx} className={styles.whyCard}>
-                    <div
-                      className={`w-12 h-12 rounded-2xl bg-gradient-to-r ${card.accent} flex items-center justify-center text-white mb-5 shadow-lg shadow-indigo-500/20`}
-                    >
-                      <Icon className="w-6 h-6" />
-                    </div>
-                    <h3 className={styles.whyCardTitle}>{card.title}</h3>
-                    <p className={styles.whyCardDesc}>{card.description}</p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* SECTION 7 — IMPACT / STATS */}
-        <section className={styles.statsSection} aria-label="Product impact metrics">
-          <div className={styles.container}>
-            <div className={styles.statsStripCard}>
-              <div className={styles.statsGrid}>
-                {statsData.map((stat, idx) => (
-                  <div key={idx} className={styles.statBox}>
-                    <span className={styles.statVal}>{stat.value}</span>
-                    <span className={styles.statLabel}>{stat.label}</span>
-                    <span className={styles.statSub}>{stat.sub}</span>
-                  </div>
-                ))}
-              </div>
-              <p className={styles.statsFootnote}>
-                * Illustrative prototype metrics for product preview
+              <p>
+                Errby’s lesson design starts with a defined topic and reference
+                material. If a source cannot be read, the intended flow asks for
+                usable text or another supported file.
               </p>
             </div>
+            <Image
+              src="/images/errby-notebook.png"
+              alt=""
+              width={1536}
+              height={1024}
+              sizes="(max-width: 767px) 280px, 380px"
+              className={styles.notebook}
+            />
+          </div>
+          <div className={styles.sourceRows}>
+            <div>
+              <span>01</span>
+              <h3>A topic</h3>
+              <p>A specific idea to explore.</p>
+            </div>
+            <div>
+              <span>02</span>
+              <h3>Your notes</h3>
+              <p>Reference material to ground the lesson.</p>
+            </div>
+            <div>
+              <span>03</span>
+              <h3>A teacher’s lesson</h3>
+              <p>A draft reviewed before it reaches the class.</p>
+            </div>
           </div>
         </section>
 
-        {/* SECTION 8 — FAQ */}
         <section
-          id="faq"
-          className={styles.faqSection}
-          aria-labelledby="faq-title"
+          id="questions"
+          className={styles.questionSection}
+          aria-labelledby="questions-title"
         >
-          <div className={styles.container}>
-            <div className={styles.sectionHeaderCenter}>
-              <span className={styles.sectionSubBadge}>GOT QUESTIONS?</span>
-              <h2 id="faq-title" className={styles.sectionTitleDark}>
-                Frequently asked questions
-              </h2>
-            </div>
-
-            <div className={styles.faqAccordionList}>
-              {faqData.map((item) => (
-                <details key={item.id} className={styles.faqCard}>
-                  <summary className={styles.faqSummary}>
-                    <span>{item.question}</span>
-                    <ChevronDown className={styles.faqChevron} size={20} />
-                  </summary>
-                  <div className={styles.faqBody}>
-                    <p>{item.answer}</p>
-                  </div>
-                </details>
-              ))}
-            </div>
+          <div>
+            <span className={styles.eyebrow}>A few good questions</span>
+            <h2 id="questions-title">Curious about Errby?</h2>
           </div>
-        </section>
-
-        {/* SECTION 9 — FINAL CTA */}
-        <section className={styles.ctaSection} aria-labelledby="cta-title">
-          <div className={styles.container}>
-            <div className={styles.ctaCardGradient}>
-              <div className={styles.ctaGrid}>
-                <div className={styles.ctaRobotWrapper}>
-                  <Image
-                    src="/images/errby-mascot.png"
-                    alt="Errby Mascot"
-                    width={180}
-                    height={195}
-                    className="mx-auto drop-shadow-2xl"
+          <div className={styles.faq}>
+            {questions.map(([question, answer]) => (
+              <details key={question}>
+                <summary>
+                  <span>{question}</span>
+                  <CaretDownIcon
+                    className="landing-chevron"
+                    size={20}
+                    weight="bold"
+                    aria-hidden="true"
                   />
-                </div>
-
-                <div className={styles.ctaCopy}>
-                  <h2 id="cta-title" className={styles.ctaTitle}>
-                    Better questions.
-                    <br />
-                    Deeper learning.
-                  </h2>
-                  <p className={styles.ctaDesc}>
-                    Give Errby a concept. See what you really understand.
-                  </p>
-                  <Button
-                    onClick={() => setIsDemoModalOpen(true)}
-                    className={styles.ctaPrimaryBtn}
-                  >
-                    Start a free example →
-                  </Button>
-                </div>
-              </div>
-            </div>
+                </summary>
+                <p>{answer}</p>
+              </details>
+            ))}
           </div>
+        </section>
+
+        <section
+          className={styles.invitation}
+          aria-labelledby="invitation-title"
+        >
+          <Mark large />
+          <span className={styles.eyebrow}>Start with the example</span>
+          <h2 id="invitation-title">
+            Pick an idea.
+            <br />
+            Explain it to Errby.
+          </h2>
+          <p>
+            See how a small misunderstanding can turn into a clearer
+            explanation.
+          </p>
+          <a href="#example" className={`landing-cta ${styles.primary}`}>
+            See an example{" "}
+            <ArrowRightIcon size={20} weight="bold" aria-hidden="true" />
+          </a>
         </section>
       </main>
-
-      {/* FOOTER */}
-      <footer className={styles.footerDark}>
-        <div className={styles.container}>
-          <div className={styles.footerGrid}>
-            <div className={styles.footerBrand}>
-              <a href="#top" className={styles.wordmarkLight}>
-                errby<span>.</span>
-              </a>
-              <p className={styles.footerTagline}>
-                Better questions. Deeper learning.
-              </p>
-            </div>
-
-            <nav className={styles.footerNavLinks} aria-label="Footer links">
-              <a href="#top">Product</a>
-              <a href="#how-it-works">How it works</a>
-              <a href="#teachers">For teachers</a>
-              <a href="#faq">FAQ</a>
-              <Link href="/learn" className="text-indigo-400 font-semibold">
-                Learning Workspace
-              </Link>
-            </nav>
-
-            <div className={styles.footerSocials}>
-              <a href="#" aria-label="Discord" className={styles.socialIcon}>
-                🎮
-              </a>
-              <a href="#" aria-label="X (Twitter)" className={styles.socialIcon}>
-                𝕏
-              </a>
-              <a href="#" aria-label="YouTube" className={styles.socialIcon}>
-                ▶
-              </a>
-              <a href="#" aria-label="LinkedIn" className={styles.socialIcon}>
-                in
-              </a>
-            </div>
-          </div>
-
-          <div className={styles.footerBottomBar}>
-            <p>© 2026 Errby. All rights reserved.</p>
-          </div>
+      <footer className={styles.footer}>
+        <div>
+          <a href="#top" className={styles.wordmark} aria-label="Errby home">
+            errby<span className={styles.dot}>.</span>
+          </a>
+          <p>Product concept — illustrative examples</p>
         </div>
+        <nav aria-label="Footer navigation">
+          <a href="#how-it-works">How it works</a>
+          <a href="#for-teachers">For teachers</a>
+          <a href="#questions">Questions</a>
+        </nav>
       </footer>
-
-      {/* MODALS */}
-      <DemoModal
-        isOpen={isDemoModalOpen}
-        onClose={() => setIsDemoModalOpen(false)}
-      />
-      <VideoModal
-        isOpen={isVideoModalOpen}
-        onClose={() => setIsVideoModalOpen(false)}
-      />
-      <TeacherModal
-        isOpen={isTeacherModalOpen}
-        onClose={() => setIsTeacherModalOpen(false)}
-      />
     </div>
   );
 }

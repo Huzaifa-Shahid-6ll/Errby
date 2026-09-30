@@ -1,0 +1,1069 @@
+{
+  "phase": "baseline",
+  "date": "2026-09-30T15:19:27.407Z",
+  "browser": "153.0.8010.12",
+  "url": "http://127.0.0.1:3200",
+  "conditions": "Windows, headless Chromium, 1366x768 DPR1, localhost production webpack build, no network throttling, each cold run fresh context; warm reload same context. Baseline means reduced motion on the same redesigned page, not the original page. CPU4 is CDP emulation, not a real low-end phone.",
+  "samples": [
+    {
+      "cpu": 1,
+      "run": 0,
+      "cache": "cold",
+      "lcp": 136,
+      "cls": 0,
+      "longTasks": [],
+      "events": [
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        },
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        },
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        }
+      ],
+      "navigation": {
+        "name": "http://127.0.0.1:3200/",
+        "entryType": "navigation",
+        "startTime": 0,
+        "duration": 170.39999999990687,
+        "navigationId": 410,
+        "initiatorType": "navigation",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.1",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "text/html",
+        "contentEncoding": "gzip",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 0.09999999962747097,
+        "domainLookupStart": 1,
+        "domainLookupEnd": 1,
+        "connectStart": 1,
+        "secureConnectionStart": 0,
+        "connectEnd": 1.5,
+        "requestStart": 1.599999999627471,
+        "responseStart": 5.199999999720603,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 5.199999999720603,
+        "responseEnd": 5.699999999720603,
+        "transferSize": 10418,
+        "encodedBodySize": 10118,
+        "decodedBodySize": 73691,
+        "responseStatus": 200,
+        "serverTiming": [],
+        "unloadEventStart": 0,
+        "unloadEventEnd": 0,
+        "domInteractive": 120.6999999997206,
+        "domContentLoadedEventStart": 120.6999999997206,
+        "domContentLoadedEventEnd": 120.6999999997206,
+        "domComplete": 170.29999999981374,
+        "loadEventStart": 170.39999999990687,
+        "loadEventEnd": 170.39999999990687,
+        "type": "navigate",
+        "redirectCount": 0,
+        "activationStart": 0,
+        "criticalCHRestart": 0,
+        "notRestoredReasons": null,
+        "confidence": {
+          "randomizedTriggerRate": 0.4994798,
+          "value": "low"
+        }
+      },
+      "resources": [
+        {
+          "name": "http://127.0.0.1:3200/_next/static/css/107d9adf41c6a007.css",
+          "transfer": 15685,
+          "encoded": 15385
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/css/4e9750f03560f829.css",
+          "transfer": 4271,
+          "encoded": 3971
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/webpack-5f2b8be401afcc73.js",
+          "transfer": 2069,
+          "encoded": 1769
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/main-app-3ecd57ab36598341.js",
+          "transfer": 816,
+          "encoded": 516
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/4bd1b696-93bf506b236d6248.js",
+          "transfer": 63600,
+          "encoded": 63300
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/3794-a5847af9175ef2fe.js",
+          "transfer": 65904,
+          "encoded": 65604
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/app/error-6427ae1e6285ef2e.js",
+          "transfer": 1080,
+          "encoded": 780
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/8437-e10d8aef5cc17123.js",
+          "transfer": 5941,
+          "encoded": 5641
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/8500-f4d7bfbe7500f274.js",
+          "transfer": 3854,
+          "encoded": 3554
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/app/page-8ca5578ff123a8ee.js",
+          "transfer": 1841,
+          "encoded": 1541
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/image?url=%2Fimages%2Ferrby-mascot.png&w=48&q=75",
+          "transfer": 2134,
+          "encoded": 1834
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/image?url=%2Fimages%2Ferrby-mascot.png&w=256&q=75",
+          "transfer": 12846,
+          "encoded": 12546
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/image?url=%2Fimages%2Flearner-avatar.png&w=32&q=75",
+          "transfer": 1242,
+          "encoded": 942
+        }
+      ],
+      "active": 0,
+      "frameP95": 16.700000000000045,
+      "frameMax": 16.800000000000068,
+      "frameCount": 96,
+      "errors": [],
+      "cdp": {
+        "LayoutDuration": 0.081084,
+        "RecalcStyleDuration": 0.013332,
+        "ScriptDuration": 0.060157,
+        "TaskDuration": 0.233064,
+        "JSHeapUsedSize": 4281696
+      }
+    },
+    {
+      "cpu": 1,
+      "run": 0,
+      "cache": "warm",
+      "lcp": 44,
+      "cls": 0,
+      "longTasks": [],
+      "events": [
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        },
+        {
+          "name": "pointerdown",
+          "duration": 32
+        },
+        {
+          "name": "pointerup",
+          "duration": 32
+        },
+        {
+          "name": "click",
+          "duration": 32
+        },
+        {
+          "name": "pointerdown",
+          "duration": 24
+        },
+        {
+          "name": "pointerup",
+          "duration": 24
+        },
+        {
+          "name": "click",
+          "duration": 24
+        }
+      ],
+      "navigation": {
+        "name": "http://127.0.0.1:3200/",
+        "entryType": "navigation",
+        "startTime": 0,
+        "duration": 38,
+        "navigationId": 7091,
+        "initiatorType": "navigation",
+        "deliveryType": "cache",
+        "nextHopProtocol": "",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "text/html",
+        "contentEncoding": "gzip",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 0.19999999972060323,
+        "domainLookupStart": 0.19999999972060323,
+        "domainLookupEnd": 0.19999999972060323,
+        "connectStart": 0.19999999972060323,
+        "secureConnectionStart": 0,
+        "connectEnd": 0.19999999972060323,
+        "requestStart": 0.6999999997206032,
+        "responseStart": 3.1999999997206032,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 3.1999999997206032,
+        "responseEnd": 3.6999999997206032,
+        "transferSize": 300,
+        "encodedBodySize": 10118,
+        "decodedBodySize": 73691,
+        "responseStatus": 200,
+        "serverTiming": [],
+        "unloadEventStart": 6.199999999720603,
+        "unloadEventEnd": 6.199999999720603,
+        "domInteractive": 15.899999999906868,
+        "domContentLoadedEventStart": 15.899999999906868,
+        "domContentLoadedEventEnd": 16,
+        "domComplete": 37.89999999990687,
+        "loadEventStart": 38,
+        "loadEventEnd": 38,
+        "type": "reload",
+        "redirectCount": 0,
+        "activationStart": 0,
+        "criticalCHRestart": 0,
+        "notRestoredReasons": null,
+        "confidence": {
+          "randomizedTriggerRate": 0.4994798,
+          "value": "high"
+        }
+      },
+      "resources": [
+        {
+          "name": "http://127.0.0.1:3200/_next/static/css/107d9adf41c6a007.css",
+          "transfer": 0,
+          "encoded": 15385
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/css/4e9750f03560f829.css",
+          "transfer": 0,
+          "encoded": 3971
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/webpack-5f2b8be401afcc73.js",
+          "transfer": 0,
+          "encoded": 1769
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/4bd1b696-93bf506b236d6248.js",
+          "transfer": 0,
+          "encoded": 63300
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/3794-a5847af9175ef2fe.js",
+          "transfer": 0,
+          "encoded": 65604
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/main-app-3ecd57ab36598341.js",
+          "transfer": 0,
+          "encoded": 516
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/8500-f4d7bfbe7500f274.js",
+          "transfer": 0,
+          "encoded": 3554
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/app/error-6427ae1e6285ef2e.js",
+          "transfer": 0,
+          "encoded": 780
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/8437-e10d8aef5cc17123.js",
+          "transfer": 0,
+          "encoded": 5641
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/app/page-8ca5578ff123a8ee.js",
+          "transfer": 0,
+          "encoded": 1541
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/image?url=%2Fimages%2Ferrby-mascot.png&w=256&q=75",
+          "transfer": 0,
+          "encoded": 12546
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/image?url=%2Fimages%2Flearner-avatar.png&w=32&q=75",
+          "transfer": 0,
+          "encoded": 942
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/image?url=%2Fimages%2Ferrby-notebook.png&w=384&q=75",
+          "transfer": 0,
+          "encoded": 16102
+        }
+      ],
+      "active": 0,
+      "frameP95": 16.700000000000045,
+      "frameMax": 16.80000000000001,
+      "frameCount": 97,
+      "errors": [],
+      "cdp": {
+        "LayoutDuration": 0.002345,
+        "RecalcStyleDuration": 0.005433,
+        "ScriptDuration": 0.01656,
+        "TaskDuration": 0.098074,
+        "JSHeapUsedSize": 6239912
+      }
+    },
+    {
+      "cpu": 1,
+      "run": 1,
+      "cache": "cold",
+      "lcp": 132,
+      "cls": 0,
+      "longTasks": [],
+      "events": [
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        },
+        {
+          "name": "pointerdown",
+          "duration": 24
+        },
+        {
+          "name": "pointerup",
+          "duration": 24
+        },
+        {
+          "name": "click",
+          "duration": 24
+        },
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        }
+      ],
+      "navigation": {
+        "name": "http://127.0.0.1:3200/",
+        "entryType": "navigation",
+        "startTime": 0,
+        "duration": 159.6999999997206,
+        "navigationId": 343,
+        "initiatorType": "navigation",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.1",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "text/html",
+        "contentEncoding": "gzip",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 0.09999999962747097,
+        "domainLookupStart": 0.599999999627471,
+        "domainLookupEnd": 0.8999999999068677,
+        "connectStart": 0.8999999999068677,
+        "secureConnectionStart": 0,
+        "connectEnd": 1.1999999997206032,
+        "requestStart": 1.3999999999068677,
+        "responseStart": 4.399999999906868,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 4.399999999906868,
+        "responseEnd": 5,
+        "transferSize": 10418,
+        "encodedBodySize": 10118,
+        "decodedBodySize": 73691,
+        "responseStatus": 200,
+        "serverTiming": [],
+        "unloadEventStart": 0,
+        "unloadEventEnd": 0,
+        "domInteractive": 113.39999999990687,
+        "domContentLoadedEventStart": 113.5,
+        "domContentLoadedEventEnd": 113.5,
+        "domComplete": 159.6999999997206,
+        "loadEventStart": 159.6999999997206,
+        "loadEventEnd": 159.6999999997206,
+        "type": "navigate",
+        "redirectCount": 0,
+        "activationStart": 0,
+        "criticalCHRestart": 0,
+        "notRestoredReasons": null,
+        "confidence": {
+          "randomizedTriggerRate": 0.4994798,
+          "value": "low"
+        }
+      },
+      "resources": [
+        {
+          "name": "http://127.0.0.1:3200/_next/static/css/107d9adf41c6a007.css",
+          "transfer": 15685,
+          "encoded": 15385
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/css/4e9750f03560f829.css",
+          "transfer": 4271,
+          "encoded": 3971
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/webpack-5f2b8be401afcc73.js",
+          "transfer": 2069,
+          "encoded": 1769
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/4bd1b696-93bf506b236d6248.js",
+          "transfer": 63600,
+          "encoded": 63300
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/main-app-3ecd57ab36598341.js",
+          "transfer": 816,
+          "encoded": 516
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/app/error-6427ae1e6285ef2e.js",
+          "transfer": 1080,
+          "encoded": 780
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/8500-f4d7bfbe7500f274.js",
+          "transfer": 3854,
+          "encoded": 3554
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/3794-a5847af9175ef2fe.js",
+          "transfer": 65904,
+          "encoded": 65604
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/8437-e10d8aef5cc17123.js",
+          "transfer": 5941,
+          "encoded": 5641
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/app/page-8ca5578ff123a8ee.js",
+          "transfer": 1841,
+          "encoded": 1541
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/image?url=%2Fimages%2Ferrby-mascot.png&w=48&q=75",
+          "transfer": 2134,
+          "encoded": 1834
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/image?url=%2Fimages%2Flearner-avatar.png&w=32&q=75",
+          "transfer": 1242,
+          "encoded": 942
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/image?url=%2Fimages%2Ferrby-mascot.png&w=256&q=75",
+          "transfer": 12846,
+          "encoded": 12546
+        }
+      ],
+      "active": 0,
+      "frameP95": 16.700000000000045,
+      "frameMax": 16.800000000000182,
+      "frameCount": 97,
+      "errors": [],
+      "cdp": {
+        "LayoutDuration": 0.0756,
+        "RecalcStyleDuration": 0.013898,
+        "ScriptDuration": 0.058353,
+        "TaskDuration": 0.223686,
+        "JSHeapUsedSize": 4374440
+      }
+    },
+    {
+      "cpu": 1,
+      "run": 2,
+      "cache": "cold",
+      "lcp": 132,
+      "cls": 0,
+      "longTasks": [],
+      "events": [
+        {
+          "name": "pointerdown",
+          "duration": 24
+        },
+        {
+          "name": "pointerup",
+          "duration": 24
+        },
+        {
+          "name": "click",
+          "duration": 24
+        },
+        {
+          "name": "pointerdown",
+          "duration": 24
+        },
+        {
+          "name": "pointerup",
+          "duration": 24
+        },
+        {
+          "name": "click",
+          "duration": 24
+        },
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        }
+      ],
+      "navigation": {
+        "name": "http://127.0.0.1:3200/",
+        "entryType": "navigation",
+        "startTime": 0,
+        "duration": 165.29999999981374,
+        "navigationId": 5390,
+        "initiatorType": "navigation",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.1",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "text/html",
+        "contentEncoding": "gzip",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 0.10000000009313226,
+        "domainLookupStart": 0.6000000000931323,
+        "domainLookupEnd": 0.8999999999068677,
+        "connectStart": 0.8999999999068677,
+        "secureConnectionStart": 0,
+        "connectEnd": 1.1999999997206032,
+        "requestStart": 1.2999999998137355,
+        "responseStart": 4.5,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 4.5,
+        "responseEnd": 4.7999999998137355,
+        "transferSize": 10418,
+        "encodedBodySize": 10118,
+        "decodedBodySize": 73691,
+        "responseStatus": 200,
+        "serverTiming": [],
+        "unloadEventStart": 0,
+        "unloadEventEnd": 0,
+        "domInteractive": 119.5,
+        "domContentLoadedEventStart": 119.5,
+        "domContentLoadedEventEnd": 119.5,
+        "domComplete": 165.29999999981374,
+        "loadEventStart": 165.29999999981374,
+        "loadEventEnd": 165.29999999981374,
+        "type": "navigate",
+        "redirectCount": 0,
+        "activationStart": 0,
+        "criticalCHRestart": 0,
+        "notRestoredReasons": null,
+        "confidence": {
+          "randomizedTriggerRate": 0.4994798,
+          "value": "low"
+        }
+      },
+      "resources": [
+        {
+          "name": "http://127.0.0.1:3200/_next/static/css/107d9adf41c6a007.css",
+          "transfer": 15685,
+          "encoded": 15385
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/css/4e9750f03560f829.css",
+          "transfer": 4271,
+          "encoded": 3971
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/webpack-5f2b8be401afcc73.js",
+          "transfer": 2069,
+          "encoded": 1769
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/4bd1b696-93bf506b236d6248.js",
+          "transfer": 63600,
+          "encoded": 63300
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/3794-a5847af9175ef2fe.js",
+          "transfer": 65904,
+          "encoded": 65604
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/main-app-3ecd57ab36598341.js",
+          "transfer": 816,
+          "encoded": 516
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/app/error-6427ae1e6285ef2e.js",
+          "transfer": 1080,
+          "encoded": 780
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/8437-e10d8aef5cc17123.js",
+          "transfer": 5941,
+          "encoded": 5641
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/8500-f4d7bfbe7500f274.js",
+          "transfer": 3854,
+          "encoded": 3554
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/app/page-8ca5578ff123a8ee.js",
+          "transfer": 1841,
+          "encoded": 1541
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/image?url=%2Fimages%2Ferrby-mascot.png&w=48&q=75",
+          "transfer": 2134,
+          "encoded": 1834
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/image?url=%2Fimages%2Ferrby-mascot.png&w=256&q=75",
+          "transfer": 12846,
+          "encoded": 12546
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/image?url=%2Fimages%2Flearner-avatar.png&w=32&q=75",
+          "transfer": 1242,
+          "encoded": 942
+        }
+      ],
+      "active": 0,
+      "frameP95": 16.799999999999955,
+      "frameMax": 16.800000000000068,
+      "frameCount": 97,
+      "errors": [],
+      "cdp": {
+        "LayoutDuration": 0.078549,
+        "RecalcStyleDuration": 0.012606,
+        "ScriptDuration": 0.058912,
+        "TaskDuration": 0.224437,
+        "JSHeapUsedSize": 4374108
+      }
+    },
+    {
+      "cpu": 4,
+      "run": 0,
+      "cache": "cold",
+      "lcp": 476,
+      "cls": 0,
+      "longTasks": [196],
+      "events": [
+        {
+          "name": "pointerdown",
+          "duration": 24
+        },
+        {
+          "name": "pointerup",
+          "duration": 24
+        },
+        {
+          "name": "click",
+          "duration": 24
+        },
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        }
+      ],
+      "navigation": {
+        "name": "http://127.0.0.1:3200/",
+        "entryType": "navigation",
+        "startTime": 0,
+        "duration": 758.7999999998137,
+        "navigationId": 3289,
+        "initiatorType": "navigation",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.1",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "text/html",
+        "contentEncoding": "gzip",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 0.20000000018626451,
+        "domainLookupStart": 0.6000000000931323,
+        "domainLookupEnd": 0.7999999998137355,
+        "connectStart": 0.7999999998137355,
+        "secureConnectionStart": 0,
+        "connectEnd": 1.1000000000931323,
+        "requestStart": 1.1000000000931323,
+        "responseStart": 4.7999999998137355,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 4.7999999998137355,
+        "responseEnd": 5.2000000001862645,
+        "transferSize": 10418,
+        "encodedBodySize": 10118,
+        "decodedBodySize": 73691,
+        "responseStatus": 200,
+        "serverTiming": [],
+        "unloadEventStart": 0,
+        "unloadEventEnd": 0,
+        "domInteractive": 491.20000000018626,
+        "domContentLoadedEventStart": 491.39999999990687,
+        "domContentLoadedEventEnd": 491.89999999990687,
+        "domComplete": 758.3999999999069,
+        "loadEventStart": 758.7999999998137,
+        "loadEventEnd": 758.7999999998137,
+        "type": "navigate",
+        "redirectCount": 0,
+        "activationStart": 0,
+        "criticalCHRestart": 0,
+        "notRestoredReasons": null,
+        "confidence": {
+          "randomizedTriggerRate": 0.4994798,
+          "value": "high"
+        }
+      },
+      "resources": [
+        {
+          "name": "http://127.0.0.1:3200/_next/static/css/107d9adf41c6a007.css",
+          "transfer": 15685,
+          "encoded": 15385
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/css/4e9750f03560f829.css",
+          "transfer": 4271,
+          "encoded": 3971
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/webpack-5f2b8be401afcc73.js",
+          "transfer": 2069,
+          "encoded": 1769
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/4bd1b696-93bf506b236d6248.js",
+          "transfer": 63600,
+          "encoded": 63300
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/3794-a5847af9175ef2fe.js",
+          "transfer": 65904,
+          "encoded": 65604
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/main-app-3ecd57ab36598341.js",
+          "transfer": 816,
+          "encoded": 516
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/8500-f4d7bfbe7500f274.js",
+          "transfer": 3854,
+          "encoded": 3554
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/app/error-6427ae1e6285ef2e.js",
+          "transfer": 1080,
+          "encoded": 780
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/8437-e10d8aef5cc17123.js",
+          "transfer": 5941,
+          "encoded": 5641
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/app/page-8ca5578ff123a8ee.js",
+          "transfer": 1841,
+          "encoded": 1541
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/image?url=%2Fimages%2Ferrby-mascot.png&w=48&q=75",
+          "transfer": 2134,
+          "encoded": 1834
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/image?url=%2Fimages%2Ferrby-mascot.png&w=256&q=75",
+          "transfer": 12846,
+          "encoded": 12546
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/image?url=%2Fimages%2Flearner-avatar.png&w=32&q=75",
+          "transfer": 1242,
+          "encoded": 942
+        }
+      ],
+      "active": 0,
+      "frameP95": 16.800000000000068,
+      "frameMax": 16.800000000000182,
+      "frameCount": 96,
+      "errors": [],
+      "cdp": {
+        "LayoutDuration": 0.385713,
+        "RecalcStyleDuration": 0.060345,
+        "ScriptDuration": 0.275527,
+        "TaskDuration": 1.058873,
+        "JSHeapUsedSize": 4387560
+      }
+    },
+    {
+      "cpu": 4,
+      "run": 0,
+      "cache": "warm",
+      "lcp": 172,
+      "cls": 0,
+      "longTasks": [],
+      "events": [
+        {
+          "name": "pointerdown",
+          "duration": 24
+        },
+        {
+          "name": "pointerup",
+          "duration": 24
+        },
+        {
+          "name": "click",
+          "duration": 24
+        },
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        },
+        {
+          "name": "pointerdown",
+          "duration": 16
+        },
+        {
+          "name": "pointerup",
+          "duration": 16
+        },
+        {
+          "name": "click",
+          "duration": 16
+        }
+      ],
+      "navigation": {
+        "name": "http://127.0.0.1:3200/",
+        "entryType": "navigation",
+        "startTime": 0,
+        "duration": 195,
+        "navigationId": 329,
+        "initiatorType": "navigation",
+        "deliveryType": "cache",
+        "nextHopProtocol": "",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "text/html",
+        "contentEncoding": "gzip",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 0.10000000009313226,
+        "domainLookupStart": 0.10000000009313226,
+        "domainLookupEnd": 0.10000000009313226,
+        "connectStart": 0.10000000009313226,
+        "secureConnectionStart": 0,
+        "connectEnd": 0.10000000009313226,
+        "requestStart": 0.7000000001862645,
+        "responseStart": 2.8000000002793968,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 2.8000000002793968,
+        "responseEnd": 3.3000000002793968,
+        "transferSize": 300,
+        "encodedBodySize": 10118,
+        "decodedBodySize": 73691,
+        "responseStatus": 200,
+        "serverTiming": [],
+        "unloadEventStart": 26.5,
+        "unloadEventEnd": 26.5,
+        "domInteractive": 119,
+        "domContentLoadedEventStart": 119.20000000018626,
+        "domContentLoadedEventEnd": 119.5,
+        "domComplete": 194.8000000002794,
+        "loadEventStart": 195,
+        "loadEventEnd": 195,
+        "type": "reload",
+        "redirectCount": 0,
+        "activationStart": 0,
+        "criticalCHRestart": 0,
+        "notRestoredReasons": null,
+        "confidence": {
+          "randomizedTriggerRate": 0.4994798,
+          "value": "high"
+        }
+      },
+      "resources": [
+        {
+          "name": "http://127.0.0.1:3200/_next/static/css/107d9adf41c6a007.css",
+          "transfer": 0,
+          "encoded": 15385
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/css/4e9750f03560f829.css",
+          "transfer": 0,
+          "encoded": 3971
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/webpack-5f2b8be401afcc73.js",
+          "transfer": 0,
+          "encoded": 1769
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/4bd1b696-93bf506b236d6248.js",
+          "transfer": 0,
+          "encoded": 63300
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/3794-a5847af9175ef2fe.js",
+          "transfer": 0,
+          "encoded": 65604
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/main-app-3ecd57ab36598341.js",
+          "transfer": 0,
+          "encoded": 516
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/8500-f4d7bfbe7500f274.js",
+          "transfer": 0,
+          "encoded": 3554
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/app/error-6427ae1e6285ef2e.js",
+          "transfer": 0,
+          "encoded": 780
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/8437-e10d8aef5cc17123.js",
+          "transfer": 0,
+          "encoded": 5641
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/static/chunks/app/page-8ca5578ff123a8ee.js",
+          "transfer": 0,
+          "encoded": 1541
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/image?url=%2Fimages%2Ferrby-mascot.png&w=256&q=75",
+          "transfer": 0,
+          "encoded": 12546
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/image?url=%2Fimages%2Flearner-avatar.png&w=32&q=75",
+          "transfer": 0,
+          "encoded": 942
+        },
+        {
+          "name": "http://127.0.0.1:3200/_next/image?url=%2Fimages%2Ferrby-notebook.png&w=384&q=75",
+          "transfer": 0,
+          "encoded": 16102
+        }
+      ],
+      "active": 0,
+      "frameP95": 16.700000000000045,
+      "frameMax": 16.800000000000068,
+      "frameCount": 97,
+      "errors": [],
+      "cdp": {
+        "LayoutDuration": 0.012759,
+        "RecalcStyleDuration": 0.028352,
+        "ScriptDuration": 0.070553,
+        "TaskDuration": 0.420907,
+        "JSHeapUsedSize": 6243300
+      }
+    }
+  ],
+  "stylesheet": {
+    "sourceBytes": 2473,
+    "gzipBytes": 816
+  }
+}

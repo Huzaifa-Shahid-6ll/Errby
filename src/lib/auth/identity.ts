@@ -1,5 +1,16 @@
 import { z } from "zod";
 
+// Call only after Clerk's signature/session verification.
+export function trustedClerkClaims(
+  claims: { iss?: unknown; azp?: unknown } | null | undefined,
+  issuer: string | undefined,
+  origin: string | undefined,
+) {
+  return (
+    !!issuer && !!origin && claims?.iss === issuer && claims.azp === origin
+  );
+}
+
 export const usernameSchema = z.string().regex(/^learner-[a-f0-9]{24}$/);
 export const profileSchema = z.object({
   auth_user_id: z.uuid(),

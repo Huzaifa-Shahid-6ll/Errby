@@ -9,7 +9,7 @@ test("model reservations fail closed, settle idempotently, and stay private", as
     await db.exec(`create role anon; create role authenticated; create role service_role bypassrls;
       create schema auth; create table auth.users(id uuid primary key, raw_user_meta_data jsonb not null default '{}');
       create function auth.uid() returns uuid language sql stable as
-        $$ select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid $$;
+        $$ select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid $$;create function auth.jwt() returns jsonb language sql stable as $$select jsonb_build_object('sub','user_' || replace(current_setting('request.jwt.claim.sub',true),'-',''),'iss','https://synthetic.clerk.accounts.dev','role','authenticated')$$;
       grant usage on schema auth, public to authenticated, anon, service_role;
       create schema storage; create table storage.buckets(id text primary key, name text, public boolean,
         file_size_limit bigint, allowed_mime_types text[]);`);
@@ -17,6 +17,11 @@ test("model reservations fail closed, settle idempotently, and stay private", as
       .filter((n) => n.endsWith(".sql"))
       .sort())
       await db.exec(readFileSync(`supabase/migrations/${name}`, "utf8"));
+
+    // Test fixture mapping only; actual provisioning is covered separately.
+    await db.exec(`create function public.test_clerk_mapping() returns trigger language plpgsql as $$begin
+      insert into public.clerk_identities(user_id,clerk_user_id,issuer) values(new.auth_user_id,'user_' || replace(new.auth_user_id::text,'-',''),'https://synthetic.clerk.accounts.dev'); return new; end;$$;
+      create trigger test_clerk_mapping after insert on public.profiles for each row execute function public.test_clerk_mapping();`);
     const owner = "00000000-0000-0000-0000-000000000001";
     const key = "00000000-0000-0000-0000-000000000002";
     await db.query("insert into auth.users(id) values ($1)", [owner]);
@@ -189,7 +194,9 @@ test("model reservations fail closed, settle idempotently, and stay private", as
       `update public.usage_ledger set response_json = '{"result":"synthetic"}' where request_key=$1`,
       [key],
     );
-    await db.query("delete from auth.users where id=$1", [owner]);
+    await db.query("delete from public.profiles where auth_user_id=$1", [
+      owner,
+    ]);
     assert.equal(
       (
         await db.query<{ response_json: unknown }>(

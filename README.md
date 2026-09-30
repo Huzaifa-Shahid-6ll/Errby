@@ -1,8 +1,10 @@
 # Errby
 
+Authentication has moved to Clerk while Supabase remains the database and private storage. Development settings and a real password sign-in, protected read, refresh and sign-out check passed on 30 September. Final verification is user-owned and still pending. Follow [Clerk setup, migration and validation](docs/implementation/CLERK_AUTH.md); existing legacy accounts require reviewed linking. The 27 September Supabase Auth results are historical, not Clerk acceptance.
+
 Errby is a learning app where the learner teaches an AI character, explains mistakes and builds evidence of understanding. A separate Supervisor highlights corrections and uncertainty. The repository includes source preparation, class publication, saved learning sessions, AI evaluation and replies, evidence-based progress, teacher results and operational budget controls.
 
-**Current acceptance is local.** Hosted Auth/database verification, observed paid model results, human lesson approval and a real walkthrough remain pending. The supplied direct database connection is unreachable from this IPv4 environment; a reachable hosted session-pooler connection is needed before migration verification. See [setup status](docs/SETUP_STATUS.md) for the latest evidence and [release guide](docs/implementation/T20_RELEASE.md) for the hackathon checklist. No deployment, recording or submission is claimed.
+See [setup status](docs/SETUP_STATUS.md) for current evidence and [release guide](docs/implementation/T20_RELEASE.md) for the historical hackathon checklist. Clerk setup supersedes that guide's old Supabase Auth instructions. Human lesson approval and rollout acceptance remain separate; no deployment or submission is claimed.
 
 ## Start the local preview
 
@@ -57,7 +59,7 @@ Import the Git repository with the root directory set to `.`. The root `vercel.j
 
 For a fictional demo deployment, set `ERRBY_MODE=demo` in Vercel's environment settings; no credentials are required. Demo is also the default when the variable is absent. `.vercelignore` excludes local secrets, generated presentation assets and build/test artifacts from CLI uploads. Keep `docs/specification/EXAMPLE_LESSON.json`: the demo imports it at build time.
 
-For live mode, add `ERRBY_MODE=live`, `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `OPENROUTER_API_KEY` and `OPENROUTER_MODEL` privately in the intended Vercel environment, then redeploy. Complete the [hosted synthetic setup](docs/implementation/T20_RELEASE.md#hosted-synthetic-setup) first. Migration/operator credentials do not belong in the deployed app. Builds never apply database migrations or enable model spending.
+For live mode, add `ERRBY_MODE=live`, `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`, `CLERK_ISSUER_URL`, `ERRBY_APP_ORIGIN`, `OPENROUTER_API_KEY` and `OPENROUTER_MODEL` privately in the intended Vercel environment, then redeploy. Complete the [hosted synthetic setup](docs/implementation/T20_RELEASE.md#hosted-synthetic-setup) first. Migration/operator credentials do not belong in the deployed app. Builds never apply database migrations or enable model spending.
 
 Vercel Functions have a [4.5 MB request-body limit](https://vercel.com/docs/functions/limitations#request-body-size), below this app's local 10 MiB document allowance. Use smaller documents or pasted text for the hosted demo; larger uploads require a separate direct-to-storage upload flow. Hosted Auth, storage, worker execution and AI acceptance still need verification after deployment.
 

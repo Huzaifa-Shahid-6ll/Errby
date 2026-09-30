@@ -1,0 +1,65 @@
+[
+  {
+    "name": "body",
+    "fg": "#17223b",
+    "bg": "#f7f9fc",
+    "ratio": 14.99,
+    "threshold": 4.5
+  },
+  {
+    "name": "secondary",
+    "fg": "#526179",
+    "bg": "#ffffff",
+    "ratio": 6.28,
+    "threshold": 4.5
+  },
+  {
+    "name": "Errby",
+    "fg": "#4338ca",
+    "bg": "#eef2ff",
+    "ratio": 7.07,
+    "threshold": 4.5
+  },
+  {
+    "name": "Supervisor",
+    "fg": "#92400e",
+    "bg": "#fff7e6",
+    "ratio": 6.65,
+    "threshold": 4.5
+  },
+  {
+    "name": "goal",
+    "fg": "#0f766e",
+    "bg": "#ffffff",
+    "ratio": 5.47,
+    "threshold": 4.5
+  },
+  {
+    "name": "primary",
+    "fg": "#ffffff",
+    "bg": "#4f46e5",
+    "ratio": 6.29,
+    "threshold": 4.5
+  },
+  {
+    "name": "hover",
+    "fg": "#ffffff",
+    "bg": "#4338ca",
+    "ratio": 7.9,
+    "threshold": 4.5
+  },
+  {
+    "name": "pressed",
+    "fg": "#ffffff",
+    "bg": "#3730a3",
+    "ratio": 9.93,
+    "threshold": 4.5
+  },
+  {
+    "name": "boundary",
+    "fg": "#77859b",
+    "bg": "#ffffff",
+    "ratio": 3.74,
+    "threshold": 3
+  }
+]

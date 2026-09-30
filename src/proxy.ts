@@ -1,49 +1,63 @@
-import { createServerClient } from "@supabase/ssr";
-import { NextResponse, type NextRequest } from "next/server";
+import {
+  NextResponse,
+  type NextRequest,
+  type NextFetchEvent,
+} from "next/server";
 import { env } from "@/lib/env/server";
+import { safeDestination } from "@/lib/auth/redirect";
+import { trustedClerkClaims } from "@/lib/auth/identity";
 
-export async function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest, event: NextFetchEvent) {
   if (env.ERRBY_MODE !== "live") return NextResponse.next();
-  let response = NextResponse.next({ request });
-  const db = createServerClient(
-    env.SUPABASE_URL!,
-    env.SUPABASE_PUBLISHABLE_KEY!,
+  const { clerkMiddleware } = await import("@clerk/nextjs/server");
+  const clerkProxy = clerkMiddleware(
+    async (auth, request) => {
+      const pathname = request.nextUrl.pathname;
+      const dataRequest =
+        (pathname.startsWith("/api/") && pathname !== "/api/health") ||
+        pathname === "/prepare/extract";
+      const protectedPage = /^\/(learn|prepare|classes)(\/|$)/.test(pathname);
+      const session = await auth({
+        acceptsToken: "session_token",
+        treatPendingAsSignedOut: true,
+      });
+      const signedIn =
+        session.isAuthenticated &&
+        trustedClerkClaims(
+          session.sessionClaims,
+          env.CLERK_ISSUER_URL,
+          env.ERRBY_APP_ORIGIN,
+        );
+      let response = NextResponse.next();
+      if (!signedIn && dataRequest) {
+        response = NextResponse.json(
+          {
+            error_code: "unauthenticated",
+            user_message: "Sign in to continue.",
+          },
+          { status: 401 },
+        );
+      } else if (!signedIn && protectedPage) {
+        const destination = new URL("/sign-in", request.url);
+        destination.searchParams.set(
+          "next",
+          safeDestination(pathname + request.nextUrl.search),
+        );
+        response = NextResponse.redirect(destination);
+      }
+      response.headers.set("Cache-Control", "private, no-store");
+      return response;
+    },
     {
-      cookieOptions: {
-        httpOnly: true,
-        sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-      },
-      cookies: {
-        getAll: () => request.cookies.getAll(),
-        setAll: (values, headers) => {
-          for (const { name, value } of values)
-            request.cookies.set(name, value);
-          response = NextResponse.next({ request });
-          for (const { name, value, options } of values)
-            response.cookies.set(name, value, options);
-          for (const [name, value] of Object.entries(headers))
-            response.headers.set(name, value);
-        },
-      },
+      authorizedParties: env.ERRBY_APP_ORIGIN ? [env.ERRBY_APP_ORIGIN] : [],
+      signInUrl: "/sign-in",
+      signUpUrl: "/sign-up",
     },
   );
-  // This refreshes the cookie only. Protected reads reverify Auth and profile.
-  await db.auth.getUser();
-  response.headers.set("Cache-Control", "private, no-store");
-  return response;
+
+  return clerkProxy(request, event);
 }
 
 export const config = {
-  matcher: [
-    "/learn/:path*",
-    "/setup/:path*",
-    "/prepare/:path*",
-    "/classes/:path*",
-    "/api/classes/:path*",
-    "/api/account/:path*",
-    "/api/preparations/:path*",
-    "/api/sessions/:path*",
-    "/api/assessments/:path*",
-  ],
+  matcher: ["/((?!_next|icon.svg|favicon.ico).*)"],
 };

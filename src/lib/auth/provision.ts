@@ -1,3 +1,5 @@
+// Legacy Supabase provisioning retained for pre-cutover recovery/tests only.
+// Active operator entry point is scripts/accounts.ts (Clerk); do not use after cutover.
 import "server-only";
 import { randomBytes } from "node:crypto";
 import { z } from "zod";

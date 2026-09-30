@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { clearLearningState } from "@/components/auth-session";
 
 export function DeleteAccount() {
-  const router = useRouter();
   const [confirmation, setConfirmation] = useState("");
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
@@ -22,8 +21,8 @@ export function DeleteAccount() {
         throw new Error(
           result.user_message ?? "Deletion could not be confirmed.",
         );
-      router.push("/setup");
-      router.refresh();
+      clearLearningState();
+      window.location.replace("/setup");
     } catch (error) {
       setMessage(
         error instanceof Error

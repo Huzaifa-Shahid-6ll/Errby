@@ -1,4 +1,24 @@
-# Setup status — updated 27 September 2026
+# Setup status — updated 30 September 2026
+
+## Clerk authentication — verification handed to user, 30 September 2026
+
+- Integrated the official Next.js Clerk SDK, maintained sign-in/sign-up/profile screens, server session guards and Supabase native third-party authentication. Existing application roles, class scoping and ownership remain enforced. [Architecture, route matrix, configuration, migration and validation](implementation/CLERK_AUTH.md).
+- Verified development username/password enabled, email optional and self-deletion disabled. A real synthetic password login, approved profile, protected Supabase read, refresh and sign-out followed by API 401 passed. No verification messages or paid model calls were sent.
+- Applied only `20260928000100_clerk_identity.sql` to the configured hosted synthetic project after dry-run. Preserved the three historical profile UUIDs; these accounts still require reviewed Clerk linking. Created one separate approved synthetic learner. Credentials remain in ignored `.env.clerk-test`.
+- Passed 47 local tests (including PGlite authorization and installed-SDK cryptographic rejection tests) and an earlier type check. These do not establish production acceptance.
+- Expanded real browser coverage stopped at an invalid test mutation payload (400, expected ownership-denial 404). Corrected it to a valid step payload without rerunning after the user took over verification. Subsequent hosted write/RLS assertions, final auth build/lint/format/bundle audit and regression checks remain pending. Separate landing verification below is not verification of the final auth diff.
+- Remaining: run the documented checks, verify signup/recovery and guarded deletion, review/link historical identities, and reconcile 13 moderate transitive Clerk UI dependency findings before release. No commit, push or deployment was performed.
+
+## Marketing landing and motion — 30 September 2026
+
+- Typography follow-up: landing headings/wordmark now use Bricolage Grotesque, with DM Sans for body/UI text, self-hosted through route-scoped `next/font` variables. Verified actual font loading, production build/TypeScript and six desktop/phone landing checks including 320px and 200% text. Scoped lint flagged two separately added native sign-in/sign-up links; those navigation edits were preserved. Earlier performance measurements predate the font change.
+- Phosphor follow-up: replaced text-symbol arrows, disclosure chevrons and progress indicators, and added the mobile menu icon using the existing Phosphor dependency. Character artwork retained. Demo production Webpack build, TypeScript, scoped ESLint and all 14 landing/motion desktop/phone checks pass; the performance measurements below predate this icon change.
+- Rebuilt the existing public `/` as the supplied eight-section, light-first concept page; preserved `/learn` and application/authentication code. Both heat-transfer branches are prewritten, fictional/unreviewed and server-rendered; corrections stay adjacent, Supervisor is labelled AI, and illustrative progress never implies completion. Unsupported pricing, ratings, live-demo and safety claims are no longer rendered.
+- Used the user's existing Errby/learner artwork and generated one authorized notebook illustration. Reused scoped CSS for a finite mascot greeting, arrow feedback and native-disclosure chevrons; no motion JavaScript or dependency added. Mobile menu supports Escape and destination focus, with native no-JS fallback.
+- Updated all 60 research rows and 60 implementation dispositions, refreshed 12 live references, and documented routes, assets, screenshots, recording, limitations and rollback in [landing verification](animation/verification.md).
+- Final demo production Webpack build, TypeScript, task-scoped ESLint and formatting pass. Twenty desktop/phone landing/workspace checks passed together, followed by two added delayed-image checks. The first run exposed and led to a 1024px halo overflow repair; a no-JS pointer-stability test wait was replaced with verified keyboard disclosure operation. Default Turbopack build did not complete; Webpack retains an unrelated ingestion createRequire warning.
+- Matched production lab: cold LCP median 132ms reduced versus 124ms normal motion; CLS 0 in all samples, p95 frame interval at most 16.8ms. These are local samples, not field metrics or proof of improvement. Motion CSS is 816 gzip bytes; first-view images 15,322 encoded bytes; new notebook derivative 16,102 bytes in the inspected desktop view.
+- Preview available at http://127.0.0.1:3200/ in demo mode; existing 3100 development server left running. New Clerk/live learning acceptance, physical devices, screen-reader speech and human teaching-content review were not verified by this marketing task. No Docker, database mutation, paid learning-model call, commit, push or deployment.
 
 ## Hosted integration — verified, 27 September 2026
 

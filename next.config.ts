@@ -6,6 +6,9 @@ parseEnv(process.env);
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // Preserve the browser's loopback hostname for Clerk's internal rewrite;
+  // Next's normalization of 127.0.0.1 to localhost otherwise proxies to itself.
+  skipProxyUrlNormalize: true,
   serverExternalPackages: ["mammoth"],
   // Match the route envelope so Proxy does not truncate a valid 10 MiB PDF.
   experimental: {

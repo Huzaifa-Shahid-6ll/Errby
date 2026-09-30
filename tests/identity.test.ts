@@ -11,6 +11,10 @@ test("identity input rejects role/username tricks and bounds credentials", () =>
     SUPABASE_URL: "https://synthetic-test.supabase.co",
     SUPABASE_PUBLISHABLE_KEY: "placeholder",
     SUPABASE_SECRET_KEY: "placeholder",
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "pk_test_fixture",
+    CLERK_SECRET_KEY: "sk_test_fixture",
+    CLERK_ISSUER_URL: "https://synthetic.clerk.accounts.dev",
+    ERRBY_APP_ORIGIN: "http://127.0.0.1:3100",
   };
   assert.equal(parseEnv(configured).ERRBY_MODE, "live");
   assert.throws(

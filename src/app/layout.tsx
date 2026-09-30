@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Manrope, Figtree } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { ClerkProvider } from "@clerk/nextjs";
+import { shadcn } from "@clerk/ui/themes";
+import { env } from "@/lib/env/server";
+import { AuthSession } from "@/components/auth-session";
 
 const figtreeHeading = Figtree({
   subsets: ["latin"],
@@ -34,7 +38,31 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {env.ERRBY_MODE === "live" ? (
+          <ClerkProvider
+            dynamic
+            signInUrl="/sign-in"
+            signUpUrl="/sign-up"
+            signInFallbackRedirectUrl="/learn"
+            signUpFallbackRedirectUrl="/setup"
+            allowedRedirectOrigins={[env.ERRBY_APP_ORIGIN!]}
+            appearance={{
+              theme: shadcn,
+              variables: {
+                colorPrimary: "var(--primary)",
+                colorBackground: "var(--surface)",
+                colorForeground: "var(--text)",
+                colorPrimaryForeground: "var(--primary-text)",
+              },
+            }}
+          >
+            <AuthSession>{children}</AuthSession>
+          </ClerkProvider>
+        ) : (
+          children
+        )}
+      </body>
     </html>
   );
 }

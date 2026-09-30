@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { LandingPage } from "@/components/landing/landing-page";
 
 export const metadata: Metadata = {
-  title: "Errby · Teach. Spot mistakes. Explain your thinking.",
+  title: "Errby — Learn by teaching",
   description:
-    "Teach a curious AI, catch its deliberate mistakes and explain your thinking. Explore a fictional Errby example and the planned teacher workflow.",
+    "Explore Errby’s approach to learning through explanation: teach a concept, work through misunderstandings, and review progress against lesson goals.",
 };
 
 export default function Home() {

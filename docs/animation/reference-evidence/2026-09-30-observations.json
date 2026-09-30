@@ -1,0 +1,354 @@
+{
+  "date": "2026-09-30",
+  "method": "T3 collaborative browser, 1280x800 CSS pixels; post-load DOM/media/animation sampling. Does not prove absence of JS/canvas animation. No signup or purchase. Khanmigo separately inspected with same method: audience links, rotating role headline, zero CSS animations at sample, no video.",
+  "observations": [
+    {
+      "requestedUrl": "https://www.synthesis.com/tutor",
+      "animations": [],
+      "headings": [
+        "Your child's personal math tutor.",
+        "Your child's personal math tutor.",
+        "Unlike any other app.A personalized math companion.",
+        "A revolution in math learning.",
+        "Master the foundations.Then go beyond."
+      ],
+      "text": "Tutor\nTeams\nFor Educators\nGift Tutor\nLog in\nTry it for free\nYour child's personal math tutor.\nWarm, patient, encouraging. The Tutor adapts to your child, so you never have to worry about them falling behind. Immediate results for less than $1/day.\nTry it for free\nJoin over 35,000 forward-thinking families. Designed for ages 5-11.\nPlay video\nUnlike any other app.\nA personalized math companion.\nTry it for free\nA revolution in math learning.\n35,000+ families can't be wrong.\nBuild your child's skills and confidence with Synthesis Tutor.\n“\nOur seven-year-old daughter could spend two hours on Synthesis. She loves the engagement and encouragement from her Tutor. She no longer feels intimidated by m",
+      "title": "Synthesis Tutor",
+      "url": "https://www.synthesis.com/tutor",
+      "videos": [
+        {
+          "autoplay": true,
+          "controls": false,
+          "paused": false
+        },
+        {
+          "autoplay": true,
+          "controls": false,
+          "paused": false
+        },
+        {
+          "autoplay": true,
+          "controls": false,
+          "paused": false
+        },
+        {
+          "autoplay": true,
+          "controls": false,
+          "paused": false
+        }
+      ]
+    },
+    {
+      "requestedUrl": "https://www.magicschool.ai/magicstudent",
+      "animations": [],
+      "headings": [
+        "AI tools for students, trusted by teachers",
+        "Learning-first AI, made for classrooms",
+        "Safe, secure AI for schools",
+        "Resources that support student learning",
+        "Why classrooms love our AI for students"
+      ],
+      "text": "Press Alt+1 for screen-reader mode, Alt+0 to cancel\nAccessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window\n\nWe value your privacy\n\nWe use cookies to enhance your browsing experience, serve personalized ads or content, and analyze our traffic. By clicking \"Accept All\", you consent to our use of cookies.\n\nCustomize\nReject All\nAccept All\nJust re-launched: Meet your new favorite Presentation Generator.\nCreate classroom-ready slides now\nAI Solutions\nOutcomes\nResources\nPricing\nLogin\nFree for teachers\nGet in touch\nAI tools for students, trusted by teachers\n\nA guided way for students to learn, create, and build skills responsibly.\n\nFree for teachers\nDesigned for student succes",
+      "title": "AI Tools for K-12 Students & Learners | MagicSchool",
+      "url": "https://www.magicschool.ai/magicstudent",
+      "videos": []
+    },
+    {
+      "requestedUrl": "https://brilliant.org/",
+      "animations": [
+        {
+          "duration": 300,
+          "iterations": "1",
+          "state": "running",
+          "target": "DIV"
+        },
+        {
+          "duration": 300,
+          "iterations": "1",
+          "state": "running",
+          "target": "DIV"
+        },
+        {
+          "duration": 300,
+          "iterations": "1",
+          "state": "running",
+          "target": "SPAN"
+        },
+        {
+          "duration": 300,
+          "iterations": "1",
+          "state": "running",
+          "target": "SPAN"
+        },
+        {
+          "duration": 300,
+          "iterations": "1",
+          "state": "running",
+          "target": "SPAN"
+        }
+      ],
+      "headings": [
+        "Your personal tutor for math and coding",
+        "Meet Koji, your personal tutor",
+        "Effective and trusted",
+        "From grade 5 to college and beyond",
+        "Students, parents, and teachers love us"
+      ],
+      "text": "Sign in\nYour personal tutor for math\nand coding\n\nA world-class tutor for every home. Built by top learning experts from MIT and Harvard.\n\nI’m a learner\nI’m a parent or teacher\nFully accredited\n\nby ACS WASC\n\n100,000+\n\n5-star app store reviews\n\n10 million+\n\nlearners around the world\n\nMeet Koji, your personal tutor\nMath\nCoding\nA visual, interactive tutor, not a cheating machine\n\nUnlike other AI chatbots and homework help tools, Koji never just gives you the answer. He ensures you actually understand math.\n\nYou learn with Koji on a shared interactive canvas. He asks guiding questions, sketches on your screen, gives hints, and provides visual help.\n\nLike the best human tutors, he gets to the hear",
+      "title": "Brilliant | Your Personal Tutor for Math and Coding",
+      "url": "https://brilliant.org/",
+      "videos": [
+        {
+          "autoplay": true,
+          "controls": false,
+          "paused": true
+        },
+        {
+          "autoplay": true,
+          "controls": false,
+          "paused": true
+        },
+        {
+          "autoplay": true,
+          "controls": false,
+          "paused": true
+        },
+        {
+          "autoplay": true,
+          "controls": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "requestedUrl": "https://linear.app/",
+      "animations": [
+        {
+          "duration": 2800,
+          "iterations": "Infinity",
+          "state": "running"
+        },
+        {
+          "duration": 2800,
+          "iterations": "Infinity",
+          "state": "running"
+        },
+        {
+          "duration": 2800,
+          "iterations": "Infinity",
+          "state": "running"
+        }
+      ],
+      "headings": [
+        "The product development system for teams and agentsThe product developmentsystem for teams and agentsThe product development system for teams and agents",
+        "A new species of product tool. Purpose-built for modern teams with AI workflows at its core, Linear sets a new standard for planning and building products.",
+        "Intakeand integrations",
+        "Planningand monitoring"
+      ],
+      "text": "Skip to content →\nProduct\nResources\nCustomers\nPricing\nNow\nContact\nLog in\nSign up\nThe product development\nsystem for teams and agents\nThe product development system for teams and agents\n\nPurpose-built for planning and building products. Designed for t",
+      "title": "Linear – The system for product development",
+      "url": "https://linear.app/",
+      "videos": []
+    },
+    {
+      "requestedUrl": "https://www.notion.com/",
+      "animations": [
+        {
+          "duration": 150,
+          "iterations": "1",
+          "state": "running"
+        },
+        {
+          "duration": 300,
+          "iterations": "1",
+          "state": "running"
+        },
+        {
+          "duration": "auto",
+          "iterations": "1",
+          "state": "running"
+        }
+      ],
+      "headings": [
+        "Where teams and agents Think together.",
+        "AI where your team works.",
+        "Bring everything into one system of record.",
+        "Get answers, instantly—with citations."
+      ],
+      "text": "Product\nResources\nPricing\nRequest a demo\nLog in\nGet Notion free\nWhere teams and agents \nThink\n together.\n\nCapture context, find answers, and automate tasks with AI built for your team.\n\nGet Notion free\nRequest a demo\nPlay\n\nThe most ambitious companie",
+      "title": "The AI workspace that works for you. | Notion",
+      "url": "https://www.notion.com/",
+      "videos": [
+        {
+          "autoplay": false,
+          "controls": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "requestedUrl": "https://stripe.com/",
+      "animations": [
+        {
+          "duration": 1200,
+          "iterations": "1",
+          "state": "running"
+        },
+        {
+          "duration": 300,
+          "iterations": "1",
+          "state": "running"
+        },
+        {
+          "duration": 300,
+          "iterations": "1",
+          "state": "running"
+        }
+      ],
+      "headings": [
+        "Financial infrastructure to grow your revenue. Accept payments, offer financial services, and implement custom revenue models—from your first transaction to your billionth.",
+        "Financial infrastructure to grow your revenue. Accept payments, offer financial services, and implement custom revenue models—from your first transaction to your billionth.",
+        "Flexible solutions for every business model.",
+        "Get Stripe product recommendations"
+      ],
+      "text": "Products\nSolutions\nDevelopers\nResources\nPricing\nGuide me\nSign in\nSign in\nContact sales\nGlobal GDP running on Stripe: \n1.72434288%\nFinancial infrastructure to grow your revenue. Accept payments, offer financial services, and implement custom revenue m",
+      "title": "Stripe | Financial Infrastructure to Grow Your Revenue",
+      "url": "https://stripe.com/",
+      "videos": []
+    },
+    {
+      "requestedUrl": "https://www.gov.uk/",
+      "animations": [],
+      "headings": [
+        "Cookies on GOV.UK",
+        "\n        Navigation menu\n      ",
+        "\n        The best place to find government services and information\n      ",
+        "\n    Popular on GOV.UK\n"
+      ],
+      "text": "Cookies on GOV.UK\n\nWe use some essential cookies to make this website work.\n\nWe’d like to set additional cookies to understand how you use GOV.UK, remember your settings and improve government services.\n\nWe also use cookies set by other sites to help",
+      "title": "Welcome to GOV.UK",
+      "url": "https://www.gov.uk/",
+      "videos": []
+    },
+    {
+      "requestedUrl": "https://www.pentagram.com/",
+      "animations": [
+        {
+          "duration": 300,
+          "iterations": "1",
+          "state": "running"
+        },
+        {
+          "duration": 300,
+          "iterations": "1",
+          "state": "running"
+        },
+        {
+          "duration": 300,
+          "iterations": "1",
+          "state": "running"
+        }
+      ],
+      "headings": [
+        "\n                \n                    \n    \n\n                    Pentagram\n                \n            ",
+        "Site navigation",
+        "\n            \n                \n    \n\n                Pentagram\n            \n        ",
+        "Site navigation"
+      ],
+      "text": "We value your privacy\n\nWe use cookies to enhance your browsing experience, serve personalised ads or content, and analyse our traffic. By clicking \"Accept All\", you consent to our use of cookies.\n\nCustomise\nReject All\nAccept All\nPentagram\nSite naviga",
+      "title": "Pentagram — The world’s largest independent design consultancy",
+      "url": "https://www.pentagram.com/",
+      "videos": [
+        {
+          "autoplay": true,
+          "controls": false,
+          "paused": true
+        },
+        {
+          "autoplay": true,
+          "controls": false,
+          "paused": true
+        },
+        {
+          "autoplay": true,
+          "controls": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "requestedUrl": "https://www.wearecollins.com/",
+      "animations": [
+        {
+          "duration": 1000,
+          "iterations": "1",
+          "state": "running"
+        },
+        {
+          "duration": 2000,
+          "iterations": "1",
+          "state": "running"
+        },
+        {
+          "duration": 1000,
+          "iterations": "1",
+          "state": "running"
+        }
+      ],
+      "headings": [
+        "Rewrite your worth.",
+        "Programs",
+        "Case Studies",
+        "Arts & Culture"
+      ],
+      "text": "Rewrite your worth.\n\n8x Agency of the Year\n\nAdAge 2026\n\nAdAge 2025\n\nAdAge 2024\n\nAdAge 2023\n\nD&AD 2021\n\nAdAge 2021\n\nAdAge 2020\n\nAdAge 2019\n\nPrograms\n\nEleven ways we help brands find and command their unique premium.\n\nExplore Programs\nBrand Refresh\nSta",
+      "title": "COLLINS",
+      "url": "https://wearecollins.com/",
+      "videos": []
+    },
+    {
+      "requestedUrl": "https://www.headspace.com/",
+      "animations": [
+        {
+          "duration": 100,
+          "iterations": "1",
+          "state": "running"
+        },
+        {
+          "duration": 100,
+          "iterations": "1",
+          "state": "running"
+        },
+        {
+          "duration": 100,
+          "iterations": "1",
+          "state": "running"
+        }
+      ],
+      "headings": [
+        "all with Headspace",
+        "What kind of headspace are you looking for?",
+        "Members are enjoying happier and healthier lives",
+        "Trusted by thousands of employers, health plans, and partners globally"
+      ],
+      "text": "Sword is acquiring Headspace to shape the future of mental healthcare. Learn more →\n\nFor You\nWhat we offer\nMeditation\nOnline therapy\nMindfulness\nSleep\nMental health coaching\nEbb AI companion\nHow we help\nAnxiety\nStress\nSleep better\nMental health\nMindf",
+      "title": "Mental Health App for Meditation & Sleep - Headspace",
+      "url": "https://www.headspace.com/",
+      "videos": []
+    },
+    {
+      "requestedUrl": "https://www.w3.org/WAI/",
+      "animations": [],
+      "headings": [
+        "W3C Web Accessibility Initiative Home",
+        "\n      Making the Web Accessible\n    ",
+        "\n             \n            News\n          ",
+        "\n          See what we have for you: \n          Get Resources for…\n        "
+      ],
+      "text": "Skip to Content Change Text Size or Colors All Translations \nStrategies, standards, resources to make the Web accessible to people with disabilities\nGet Involved\nAbout W3C WAI\nSearch:\nAccessibility Fundamentals\nPlanning & Policies\nDesign & Develop\nTe",
+      "title": "Home | Web Accessibility Initiative (WAI) | W3C",
+      "url": "https://www.w3.org/WAI/",
+      "videos": []
+    }
+  ]
+}

@@ -1,54 +1,59 @@
 # Errby landing motion specification
 
-19 September 2026. Scope: public `/`; preserve the approved composition and all four fictional conversation turns. `/learn` and `/prepare` remain separate product work. ThemeToggle is a shared control; its behaviour remains unchanged unless verification reveals a defect.
+30 September 2026. Scope: public `/` only. Learning entry stays `/learn`. Light concept mode, deterministic transcript, no authenticated workflows imported. Supersedes September 19 implementation details.
 
-## Direction and boundaries
+## Direction
 
-Three options were considered: **Quiet clarity** (only native state feedback); **Curious performance** (sequential chat, bouncing mascot and section entrances); **A small hello** (recommended: one small mascot greeting plus immediate control feedback). The balanced option gives the robot character without making the visitor wait to read who made the mistake. Sequential chat could suggest a live assessed lesson, conceal the correction and compete with the CTA. It is rejected.
+Three options: **Quiet clarity** (state changes only), **Curious performance** (chat sequencing and section entrances), **A small hello** (selected: one small character greeting and restrained controls). The selected direction uses the existing character without hiding the adjacent correction. Reject timed chat, animated headlines, bouncing loops, parallax, particles, scroll pinning, custom cursors, magnetic buttons, counters, video and simulated uploads. They do not explain this concept better.
 
-The existing baseline has two 500 ms/8 px whole-hero entrances, two 650 ms mascot entrances, 150 ms CTA movement/shadow and chevron transitions. Refine it to one mascot greeting: copy, transcript, primary action and footer remain stationary. This is a design hypothesis, not a demonstrated conversion improvement.
+## Tokens and budgets
 
-## Tokens and budgets (declared before refinement)
+Retain existing motion tokens: feedback 140ms; state 180ms; greeting 600ms; feedback cubic-bezier(.2,0,0,1); arrival cubic-bezier(.16,1,.3,1). Greeting -3deg/+3px to identity around 50% 90%; below 640px -2deg/+2px, 480ms. Maximum content reveal/stagger delay **0ms**. These are design choices to inspect, not universal perceptual thresholds.
 
-Scope tokens to `.landing-page`: feedback 140 ms; state change 180 ms; greeting 600 ms. Feedback curve `cubic-bezier(.2,0,0,1)`; arrival `cubic-bezier(.16,1,.3,1)`. Greeting begins -3 deg/3 px and settles at identity; mobile (<640px) -2 deg/2 px, 480 ms. Arrow travels 2 px on fine-pointer hover. Maximum cumulative content reveal delay **0 ms**. No springs, staggers, text masks, progress counters or infinite effects.
+- Animation JS: **0 added bytes**. Existing CSS file reused; no engine import.
+- Motion stylesheet: **<=2.5KiB gzip**; current source gzip 816 bytes before final formatting.
+- Optimized first-viewport image payload: **<=150KiB**; additional below-fold notebook derivative **<=100KiB**. Original masters are not the delivery budget.
+- No new fonts or dependencies. Shared root already loads Manrope/Figtree and, in live mode, Clerk; marketing uses a system font and does not change those application dependencies.
+- Animation-caused CLS **0**; total lab CLS target **<=0.01**.
+- Compare identical production page with reduced motion (static control) versus normal motion, same viewport/browser/cache/CPU. Three cold samples plus warm reload; median LCP delta **<=150ms or 10%, whichever is larger**. This isolates motion, not the total redesign. No reproducible original-page production baseline was captured before replacement.
+- Native action response target **<=200ms** in lab; not field INP. Idle/greeting p95 rAF interval target **<=33.4ms** unthrottled, report actual display cadence and 4x CPU separately.
+- Persistent animation listeners/observers/timers/rAF loops **0**. No will-change or continuously animated media.
 
-| Budget                        | Threshold and measurement                                                                                                                                  |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Added animation JavaScript    | 0 bytes: no new client motion component or engine                                                                                                          |
-| Additional animation media    | 0 bytes: existing optimized mascot reused                                                                                                                  |
-| Final motion stylesheet       | ≤2.5 KiB gzip source; report before/after bytes separately from production bundle                                                                          |
-| Animation-caused layout shift | 0; lab total CLS ≤0.01 for matched runs                                                                                                                    |
-| Initial-render impact         | Median LCP after ≤before +150 ms or +10%, whichever is larger; three matched localhost lab runs, cold browser cache, precompiled server                    |
-| Interaction                   | Native disclosure/anchor state immediate; sampled interaction duration ≤200 ms. This is a lab proxy, not field INP                                         |
-| Frame pacing                  | During 1.6s greeting/idle sample, p95 rAF interval ≤33.4ms unthrottled; report actual intervals and 4× CPU slowdown separately, not a universal 60Hz claim |
-| Persistent resources          | No animation observers, timers, scroll listeners, continuous loops or `will-change`; ThemeToggle existing observer/listener cleaned on unmount             |
+Budget deviations stay visible in [verification](verification.md); do not declare field Core Web Vitals from local measurements.
 
-Development server measurements include framework tooling and concurrent workstation load. They cannot certify production Core Web Vitals; deviations must be reported and investigated rather than silently passed. Reference thresholds: [Web Vitals](https://web.dev/articles/vitals), [INP](https://web.dev/articles/inp). Repeat exactly the same browser/viewport/network/CPU scenario before and after.
+## Section inventory
 
-## Section inventory and motion map
+| Section                 | Visitor question / action            | Motion role                               | Static alternative                         |
+| ----------------------- | ------------------------------------ | ----------------------------------------- | ------------------------------------------ |
+| Header                  | Find teachers/questions              | None; native disclosure on narrow screens | Same links and menu                        |
+| Hero                    | Who teaches whom? See example        | M01 mascot only; M02 CTA arrow/color      | Complete copy, artwork, transcript and CTA |
+| Three steps             | What is the intended flow?           | None                                      | Numbered semantic list                     |
+| Transcript              | How is a misunderstanding corrected? | M03 alternative-branch chevron            | Both examples in HTML, native disclosure   |
+| Supervisor/goals        | What does feedback mean?             | None                                      | Amber role and labelled goal states        |
+| Teacher preview         | Who reviews before publication?      | None                                      | Fictional unreviewed draft                 |
+| Source material         | What can I start with?               | None                                      | Generated decorative notebook illustration |
+| FAQ                     | Clarify limitations                  | M03 chevron only                          | Native disclosure                          |
+| Final invitation/footer | See the example                      | M02 CTA only                              | Static character and anchors               |
 
-| Section            | Visitor question/action                      | Existing issue                                     | Chosen role/static alternative                                             |
-| ------------------ | -------------------------------------------- | -------------------------------------------------- | -------------------------------------------------------------------------- |
-| Header             | Where are teacher information and questions? | Native anchors already sufficient                  | Static navigation, immediate focus; theme switch changes palette instantly |
-| Hero copy/CTA      | What is Errby? See an example                | Whole text/action group moved on initial load      | Stationary text and targets; local arrow feedback only                     |
-| Transcript         | Who explains, errs, and corrects?            | Entire conversation moved; no need to pace reading | All turns visible from HTML; one small robot greeting outside text         |
-| Learning steps     | What are the four stages?                    | No defect                                          | Static ordered list; no implied completion                                 |
-| Supervisor         | What helps with uncertainty?                 | No defect                                          | Static amber guidance; no success or error animation                       |
-| Teacher plan       | Which tools are planned?                     | No defect                                          | Static steps/draft/provenance; no simulated uploads                        |
-| FAQ                | Is this real?                                | Native state already correct                       | Chevron follows disclosure; answer visibility changes immediately          |
-| Closing CTA/footer | What next?                                   | Offscreen mascot entrance runs unseen              | Static mascot and native anchors                                           |
+## Effect map
 
-| Effect               | Benefit/research                         | Trigger and states                                                                 | Timing/sequence                                 | Replay/interruption                                                                                                   | Desktop / mobile / reduced                                             | Owner and verification                                                                        |
-| -------------------- | ---------------------------------------- | ---------------------------------------------------------------------------------- | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| M01 greeting         | Friendly identity, R02/10/16/21          | Initial document render; small robot at -3 deg,+3 px → identity; no opacity change | 600 ms arrival, no delay or dependency          | Once per document appearance; rerenders do not restart; browser handles pause; reduced preference cancels to identity | Mobile -2 deg,+2 px/480 ms; reduced/static identity                    | landing-motion.css; controlled 0 / middle / end frames, playback, live preference change      |
-| M02 action feedback  | Recognize actionable link, R09/18/23/37  | Fine-pointer hover: arrow0→2 px; press: immediate background; target never moves   | 140 ms feedback; no delayed navigation          | CSS reverses from current value; repeated clicks remain native                                                        | Touch no hover translation; focus outline independent; reduced instant | landing-motion.css; hover/press/reverse, keyboard and touch CTA journey                       |
-| M03 disclosure state | Understand expanded/collapsed, R05/29/35 | Native `open`: chevron180 deg/0 deg; answer shown/hidden immediately               | 180 ms feedback; content not height-animated    | Rapid toggles replace transition; no queues or callbacks                                                              | Same on all widths; reduced chevron state instant                      | landing-motion.css + existing native details; rapid keyboard and pointer toggles              |
-| M04 safety/static    | Preserve access, R31/32/39/40/48         | Reduced-motion preference or manual `data-motion="off"` on page root               | All nonessential animations/transitions removed | Changes apply without reload; no recovery work                                                                        | Native scroll, complete visible HTML, forced-color focus/CTA border    | landing-motion.css; no-JS, CSS animation-disabled, preference-change and forced-colors checks |
+| ID  | Benefit / research                              | Trigger; start -> end                                                                         | Timing and sequence                       | Replay / interruption                                                                                        | Desktop; mobile; reduced                                                   | Owner / verification                                                              |
+| --- | ----------------------------------------------- | --------------------------------------------------------------------------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| M01 | Warm character; R02/10/15/16/21                 | Document appearance; -3deg/+3px -> identity; opaque throughout                                | 600ms arrival; no dependency/delay        | Once per document; native rerender retains element; refresh replays; preference cancellation leaves identity | Desktop 3px; phone 2px/480ms; reduced/static identity                      | landing-motion.css and hero data hook; controlled frames and live preference test |
+| M02 | Recognize action; R09/18/23/37/38               | Fine-pointer hover arrow 0 -> 2px; button background indigo -> darker indigo; press immediate | 140ms feedback; no delayed click          | CSS reversal; no callbacks                                                                                   | Mouse arrow only; touch color feedback; reduced no transition/moving arrow | CSS + landing-cta class; fixed bounding box, touch and contrast checks            |
+| M03 | Show expansion state; R05/18/24/29/35           | Native details open; chevron 0 -> 180deg                                                      | 180ms feedback; text visibility immediate | Rapid retoggle retargets; no queue                                                                           | Same semantic operation; reduced static rotated state                      | CSS/HTML; repeated Space/Enter, focus and no-JS tests                             |
+| M04 | Escape and section orientation; R24/35/40/46/47 | Menu key/click, immediate close and destination focus                                         | No animation or timer                     | React-owned handlers; no persistent subscriptions                                                            | Only narrow menu; no-JS native toggle/anchors remain                       | landing-menu.tsx; Escape and destination focus tests                              |
 
-No scroll engine, pinning, parallax, custom cursor, magnetic target, preloader, animated typography, background gradients, particles, WebGL, autoplay media, fake counters or testimonial carousel. None explains this teaching loop better than the visible transcript. No new package, animation asset or tracking request.
+## Fallback and maintenance
 
-## Maintenance and rollback
+Set `data-motion="off"` on the existing `.landing-page` root to disable all timelines/transitions. Remove the landing-motion.css import to remove decorative choreography entirely. Native details remain functional and expanded states remain meaningful. Reduced motion is automatic and dynamic; root globals already switch native smooth scrolling to auto. No theme or global app tokens were changed.
 
-Change semantic tokens in `src/components/landing/landing-motion.css`. Keep `#example [data-landing-mascot]` as the only entrance target. Do not add JS initialization or hidden starting states. To disable decoration, set `data-motion="off"` on `.landing-page`; keep theme icon and FAQ state CSS. Removing the stylesheet wholesale also removes theme icon rules, so use the switch instead. Native reading/navigation/disclosure remains complete.
+Use the existing small timing scale rather than introducing per-card timelines. Never animate the correction, progress, teacher approval or product outcomes. Add no image text or UI screenshots masquerading as real product evidence. Empty alt text marks decorative artwork; speaker names remain actual text.
 
-Research, implementation disposition and actual measurement results are in [research.md](research.md), [implementation-status.md](implementation-status.md) and [verification.md](verification.md).
+## Assets
+
+Existing errby-mascot.png and learner-avatar.png are user-authorized generated assets with prior provenance in [the asset register](../design-research/LANDING_PAGE_ASSETS.md). New `public/images/errby-notebook.png`: generated September 30 with built-in imagegen, using existing Errby as identity reference; transparent 1536×1024 PNG, 1,453,751-byte master. Prompt requested a listening robot beside blank notebook/pencil, no text, logos, UI or humans. Original retained at `C:/Users/HUZAIFA/.codex/generated_images/01a0f2c4-5fc1-7841-9160-7123fc2f1d2a/exec-f86c96a3-800d-4346-b2ea-0a4c0dffa0c1.png`. Copied into the project; served through Next Image with explicit aspect ratio and responsive sizes. No competitor asset copied. Next/React installed licenses are MIT; existing font OFL files remain in public/licenses.
+
+## Outcome hypothesis
+
+A brief greeting may make the character feel approachable while the complete transcript explains the task. Test comprehension and teacher navigation with consenting participants later. No analytics added, no conversion uplift claimed.

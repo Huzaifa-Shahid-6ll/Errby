@@ -14,6 +14,14 @@ assert(new URL(url).hostname.endsWith(".supabase.co"));
 const db = createClient(url, process.env.SUPABASE_SECRET_KEY!, {
   auth: { persistSession: false, autoRefreshToken: false },
 });
+const clerkCutover = await db
+  .from("clerk_identities")
+  .select("user_id")
+  .limit(1);
+assert(
+  clerkCutover.error?.code === "PGRST205",
+  "Legacy provisioner is disabled after Clerk migration (or if schema state cannot be confirmed)",
+);
 writeFileSync(
   ".env.hackathon",
   "# Synthetic hackathon accounts. Private: do not commit or share publicly.\nERRBY_OPERATOR_CONFIRM=synthetic-test-project\n",

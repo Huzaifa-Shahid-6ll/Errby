@@ -11,7 +11,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "tsx --test tests/foundation.test.ts tests/database.test.ts tests/lessons.test.ts && npm run test:identity && npm run test:ingestion && npm run test:preparations && npm run test:sessions && npm run test:classes && npm run test:teacher-review && node --conditions=react-server --import tsx --test tests/evaluation.test.ts tests/next-turn.test.ts tests/results.test.ts tests/budget.test.ts tests/model.test.ts tests/origin.test.ts tests/operations.test.ts",
-    "test:identity": "node --conditions=react-server --import tsx --test tests/identity.test.ts",
+    "test:identity": "node --conditions=react-server --import tsx --test tests/identity.test.ts tests/clerk.test.ts tests/clerk-database.test.ts",
     "test:ingestion": "node --conditions=react-server --import tsx --test tests/ingestion.test.ts",
     "test:packaging": "node --import tsx --test tests/ingestion-packaging.test.ts",
     "test:preparations": "node --conditions=react-server --import tsx --test tests/preparations.test.ts",
@@ -22,13 +22,16 @@
     "db:test": "tsx --test tests/database.test.ts",
     "test:sessions": "node --conditions=react-server --import tsx --test tests/sessions.test.ts tests/teaching-loop.test.ts",
     "test:classes": "node --conditions=react-server --import tsx --test tests/classes.test.ts",
-    "test:teacher-review": "node --conditions=react-server --import tsx --test tests/teacher-review.test.ts"
+    "test:teacher-review": "node --conditions=react-server --import tsx --test tests/teacher-review.test.ts",
+    "test:clerk:browser": "node --env-file=.env.local node_modules/@playwright/test/cli.js test --config=playwright.clerk.config.ts"
   },
   "type": "module",
   "dependencies": {
+    "@clerk/backend": "3.20.1",
+    "@clerk/nextjs": "7.9.7",
+    "@clerk/ui": "1.36.0",
     "@phosphor-icons/react": "2.1.10",
     "@radix-ui/react-slot": "1.3.3",
-    "@supabase/ssr": "0.12.7",
     "@supabase/supabase-js": "2.116.0",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
@@ -48,6 +51,7 @@
     "zod": "4.6.5"
   },
   "devDependencies": {
+    "@clerk/testing": "2.2.39",
     "@electric-sql/pglite": "0.5.8",
     "@playwright/test": "1.63.0",
     "@tailwindcss/postcss": "4.3.3",

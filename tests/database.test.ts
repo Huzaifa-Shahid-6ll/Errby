@@ -14,7 +14,7 @@ test("migrations, role isolation, private sessions, duplicate turns and immutabl
       create schema auth;
       create table auth.users (id uuid primary key, raw_user_meta_data jsonb not null default '{}');
       create function auth.uid() returns uuid language sql stable as
-        $$ select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid $$;
+        $$ select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid $$;create function auth.jwt() returns jsonb language sql stable as $$select jsonb_build_object('sub','user_' || replace(current_setting('request.jwt.claim.sub',true),'-',''),'iss','https://synthetic.clerk.accounts.dev','role','authenticated')$$;
       grant usage on schema auth, public to authenticated, anon, service_role;
       create schema storage;
       create table storage.buckets (id text primary key, name text, public boolean, file_size_limit bigint, allowed_mime_types text[]);
@@ -24,6 +24,11 @@ test("migrations, role isolation, private sessions, duplicate turns and immutabl
       .sort()) {
       await db.exec(readFileSync(`supabase/migrations/${file}`, "utf8"));
     }
+
+    // Test fixture mapping only; actual provisioning is covered separately.
+    await db.exec(`create function public.test_clerk_mapping() returns trigger language plpgsql as $$begin
+      insert into public.clerk_identities(user_id,clerk_user_id,issuer) values(new.auth_user_id,'user_' || replace(new.auth_user_id::text,'-',''),'https://synthetic.clerk.accounts.dev'); return new; end;$$;
+      create trigger test_clerk_mapping after insert on public.profiles for each row execute function public.test_clerk_mapping();`);
     const id = (n: number) =>
       `00000000-0000-0000-0000-${String(n).padStart(12, "0")}`;
     for (let n = 1; n <= 4; n++) {
@@ -441,7 +446,7 @@ test("migrations, role isolation, private sessions, duplicate turns and immutabl
     const rls = await db.query<{ relrowsecurity: boolean }>(
       "select relrowsecurity from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind='r'",
     );
-    assert.equal(rls.rows.length, 19);
+    assert.equal(rls.rows.length, 20);
     assert.ok(rls.rows.every((row) => row.relrowsecurity));
     assert.equal(
       (

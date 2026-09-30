@@ -95,12 +95,17 @@ test("PGlite only: durable source, owner/class isolation, idempotency, expiring 
   const sql = new PGlite();
   try {
     await sql.exec(
-      `create role anon;create role authenticated;create role service_role bypassrls;create schema auth;create table auth.users(id uuid primary key);create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;grant usage on schema auth,public to anon,authenticated,service_role;create schema storage;create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);`,
+      `create role anon;create role authenticated;create role service_role bypassrls;create schema auth;create table auth.users(id uuid primary key);create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;create function auth.jwt() returns jsonb language sql stable as $$select jsonb_build_object('sub','user_' || replace(current_setting('request.jwt.claim.sub',true),'-',''),'iss','https://synthetic.clerk.accounts.dev','role','authenticated')$$;grant usage on schema auth,public to anon,authenticated,service_role;create schema storage;create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);`,
     );
     for (const file of readdirSync("supabase/migrations")
       .filter((f) => f.endsWith(".sql"))
       .sort())
       await sql.exec(readFileSync(`supabase/migrations/${file}`, "utf8"));
+    // Test fixture mapping only; actual provisioning is covered separately.
+    await sql.exec(`create function public.test_clerk_mapping() returns trigger language plpgsql as $$begin
+      insert into public.clerk_identities(user_id,clerk_user_id,issuer) values(new.auth_user_id,'user_' || replace(new.auth_user_id::text,'-',''),'https://synthetic.clerk.accounts.dev'); return new; end;$$;
+      create trigger test_clerk_mapping after insert on public.profiles for each row execute function public.test_clerk_mapping();`);
+
     for (let n = 1; n <= 4; n++) {
       await sql.query("insert into auth.users values($1)", [id(n)]);
       await sql.query(

@@ -1,5 +1,6 @@
 import { env } from "@/lib/env/server";
-import { getIdentity } from "@/lib/auth/server";
+import { getClerkSession } from "@/lib/auth/server";
+import { clerkClient } from "@clerk/nextjs/server";
 import { createAdminClient } from "@/lib/db/admin";
 import { isSameOrigin } from "@/lib/http/origin";
 
@@ -20,8 +21,14 @@ export async function DELETE(request: Request) {
       "live_setup_required",
       "Account deletion requires live hosted setup.",
     );
-  const identity = await getIdentity();
-  if (!identity) return reply(401, "unauthenticated", "Sign in to continue.");
+  const session = await getClerkSession();
+  if (!session) return reply(401, "unauthenticated", "Sign in to continue.");
+  if (!session.has({ reverification: "strict" }))
+    return reply(
+      403,
+      "recent_sign_in_required",
+      "Sign out and sign in again before deleting your account.",
+    );
   if (
     request.headers.get("content-type") !== "application/json" ||
     Number(request.headers.get("content-length")) > 128
@@ -53,33 +60,52 @@ export async function DELETE(request: Request) {
     (body as { confirmation?: unknown }).confirmation !== "DELETE"
   )
     return reply(400, "invalid_request", "Type DELETE to confirm.");
-  if (identity.profile.role === "teacher") {
-    const { count, error } = await identity.db
-      .from("classes")
-      .select("id", { count: "exact", head: true })
-      .eq("teacher_id", identity.user.id);
-    if (error)
+  try {
+    const clerk = await clerkClient();
+    // Sensitive operation: check current provider revocation, not just JWT age.
+    const active = await clerk.sessions.getSession(session.sessionId);
+    if (active.status !== "active" || active.userId !== session.userId)
+      return reply(401, "unauthenticated", "Sign in to continue.");
+    const db = createAdminClient();
+    const pending = await db.rpc("begin_clerk_account_deletion", {
+      p_clerk_user_id: session.userId,
+      p_issuer: env.CLERK_ISSUER_URL,
+    });
+    if (pending.error) {
+      if (pending.error.message.includes("classes_remain"))
+        return reply(
+          409,
+          "classes_remain",
+          "Ask the Errby operator to remove or transfer your classes before deleting your account.",
+        );
       return reply(
         503,
-        "storage_unavailable",
-        "Could not confirm class ownership. Try again.",
+        "deletion_unconfirmed",
+        "Could not start deletion. Please retry.",
       );
-    if (count)
-      return reply(
-        409,
-        "classes_remain",
-        "Contact the Errby operator to remove your classes before deleting your account. Class removal permanently deletes their lessons and learner sessions.",
-      );
-  }
-  const { error } = await createAdminClient().auth.admin.deleteUser(
-    identity.user.id,
-  );
-  if (error)
+    }
+    // RLS and application access are already disabled durably. A provider
+    // failure can be retried here; a later DB failure needs operator cleanup.
+    await clerk.users.deleteUser(session.userId);
+    if (pending.data) {
+      const removed = await db
+        .from("profiles")
+        .delete()
+        .eq("auth_user_id", pending.data);
+      if (removed.error)
+        return reply(
+          503,
+          "cleanup_pending",
+          "Sign-in was deleted and learning access is disabled. Contact the operator to finish deleting saved records.",
+        );
+    }
+  } catch {
     return reply(
       503,
       "deletion_unconfirmed",
-      "Deletion could not be confirmed. Your account may still be active; sign in and check before retrying.",
+      "Deletion is not confirmed. Learning access may be disabled. Retry or contact the operator.",
     );
+  }
   return Response.json(
     { status: "deleted" },
     { headers: { "Cache-Control": "no-store" } },

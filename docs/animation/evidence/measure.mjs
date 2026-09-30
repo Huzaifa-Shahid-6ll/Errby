@@ -3,8 +3,8 @@ import { mkdir, writeFile, readFile } from "node:fs/promises";
 import { gzipSync } from "node:zlib";
 
 const phase = process.argv[2] || "after";
-const url = process.env.MOTION_URL || "http://127.0.0.1:3001";
-const output = new URL("./", import.meta.url);
+const url = process.env.MOTION_URL || "http://127.0.0.1:3200";
+const output = new URL("./2026-09-30/", import.meta.url);
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch();
 // Compile the development route before measuring; sample contexts still start with empty caches.
@@ -17,7 +17,7 @@ const result = {
   browser: browser.version(),
   url,
   conditions:
-    "Windows, headless Chromium, 1366x768 DPR1, localhost, no network throttling, precompiled dev server, each cold run fresh context; warm reload same context. CPU4 is CDP emulation, not a real low-end phone.",
+    "Windows, headless Chromium, 1366x768 DPR1, localhost production webpack build, no network throttling, each cold run fresh context; warm reload same context. Baseline means reduced motion on the same redesigned page, not the original page. CPU4 is CDP emulation, not a real low-end phone.",
   samples: [],
 };
 for (const cpu of [1, 4]) {
@@ -27,6 +27,9 @@ for (const cpu of [1, 4]) {
       deviceScaleFactor: 1,
     });
     const page = await context.newPage();
+    await page.emulateMedia({
+      reducedMotion: phase === "baseline" ? "reduce" : "no-preference",
+    });
     const cdp = await context.newCDPSession(page);
     await cdp.send("Emulation.setCPUThrottlingRate", { rate: cpu });
     await cdp.send("Performance.enable");
@@ -59,8 +62,13 @@ for (const cpu of [1, 4]) {
       const errors = [];
       const onError = (e) => errors.push(e.message);
       page.on("pageerror", onError);
-      if (cache === "warm") await page.reload({ waitUntil: "load" });
-      else await page.goto(url, { waitUntil: "load" });
+      if (cache === "warm") {
+        await page.evaluate(() => {
+          history.replaceState(null, "", location.pathname);
+          window.scrollTo({ top: 0, behavior: "instant" });
+        });
+        await page.reload({ waitUntil: "load" });
+      } else await page.goto(url, { waitUntil: "load" });
       await page.locator("#hero-title").waitFor();
       await page.evaluate(() => document.fonts.ready);
       const frames = await page.evaluate(
