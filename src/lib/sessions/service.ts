@@ -2,6 +2,7 @@ import "server-only";
 import { z } from "zod";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { IngestionError } from "@/lib/ingestion/server";
+import { visualSchema } from "@/lib/visuals/schema";
 import {
   openSessionSchema,
   submitTurnSchema,
@@ -34,6 +35,15 @@ type RawMessage = {
 };
 
 const failures: Record<string, [number, string]> = {
+  visual_conflict: [
+    409,
+    "This graph changed. Reload the saved conversation before updating it.",
+  ],
+  visual_not_found: [404, "This graph is unavailable in this conversation."],
+  invalid_visual: [
+    400,
+    "These graph settings are invalid. The saved graph is unchanged.",
+  ],
   session_learner_required: [
     403,
     "Learning sessions are learner activities. Sign in with your learner account.",
@@ -213,13 +223,29 @@ export async function getSession(
   const raw = data as RawSession;
   const messages = await db
     .from("messages")
-    .select("id,sequence,role,text,created_at")
+    .select(
+      "id,sequence,role,text,created_at,visual_json,visual_context_json,visual_request,visual_assistance",
+    )
     .eq("session_id", id)
     .order("sequence", { ascending: true });
   if (messages.error) sessionFailure(messages.error);
   return {
     session: await summary(db, raw),
-    messages: (messages.data ?? []) as SessionMessage[],
+    messages: (messages.data ?? []).map((message) => {
+      const visual = visualSchema.safeParse(message.visual_json);
+      const context = visualSchema.safeParse(message.visual_context_json);
+      return {
+        id: message.id,
+        sequence: message.sequence,
+        role: message.role,
+        text: message.text,
+        created_at: message.created_at,
+        ...(visual.success ? { visual: visual.data } : {}),
+        ...(context.success ? { visual_context: context.data } : {}),
+        ...(message.visual_request ? { visual_request: true } : {}),
+        ...(message.visual_assistance ? { visual_assistance: true } : {}),
+      };
+    }),
   };
 }
 
@@ -232,12 +258,14 @@ export async function submitTurn(
   const parsed = submitTurnSchema.safeParse(input);
   if (!parsed.success)
     throw new IngestionError("invalid_turn", failures.invalid_turn[1], 400);
-  const { data, error } = await db.rpc("record_student_turn", {
+  const { data, error } = await db.rpc("record_student_visual_turn", {
     p_learner: actor.id,
     p_session_id: id,
     p_turn_id: parsed.data.idempotency_key,
     p_text: parsed.data.text,
     p_expected_sequence: parsed.data.expected_sequence,
+    p_visual_request: parsed.data.visual_request ?? false,
+    p_current_visual: parsed.data.current_visual ?? null,
   });
   if (error) sessionFailure(error);
   const result = data as { session: RawSession; message: RawMessage };

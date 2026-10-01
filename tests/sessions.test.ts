@@ -139,12 +139,14 @@ test("PGlite only: session open binds the published opening question, enforces s
       assert_learning_session_access: ["p_learner", "p_session_id"],
       set_learning_session_paused: ["p_learner", "p_session_id", "p_pause"],
       open_learning_session: ["p_learner", "p_lesson_version_id"],
-      record_student_turn: [
+      record_student_visual_turn: [
         "p_learner",
         "p_session_id",
         "p_turn_id",
         "p_text",
         "p_expected_sequence",
+        "p_visual_request",
+        "p_current_visual",
       ],
     };
     const db = {

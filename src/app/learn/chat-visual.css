@@ -1,0 +1,200 @@
+.chat-visual {
+  container: chat-visual / inline-size;
+  min-width: 0;
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid var(--control-border);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+.chat-visual-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.chat-visual-header > div {
+  min-width: 0;
+}
+.chat-visual-label {
+  display: flex;
+  align-items: start;
+  gap: 8px;
+  color: var(--errby-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.chat-visual-label svg {
+  flex-shrink: 0;
+}
+.chat-visual h3 {
+  margin-top: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.chat-visual-caption,
+.chat-visual-hint {
+  color: var(--secondary);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+.chat-visual-caption {
+  margin-top: 12px;
+}
+.chat-visual-body {
+  display: grid;
+  min-width: 0;
+  gap: 16px;
+  margin-top: 12px;
+}
+.chat-visual-figure {
+  min-width: 0;
+}
+.chat-visual-figure svg {
+  display: block;
+  width: 100%;
+  max-width: 440px;
+  margin-inline: auto;
+  overflow: visible;
+}
+.chat-visual-grid line {
+  stroke: var(--control-border);
+  opacity: 0.35;
+}
+.chat-visual-grid text,
+.chat-visual-axis text {
+  fill: var(--secondary);
+  stroke: none;
+  font-size: 18px;
+}
+.chat-visual-axis {
+  stroke: var(--secondary);
+  stroke-width: 1.5;
+}
+.chat-visual-line {
+  stroke: var(--errby-text);
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+}
+.chat-visual-comparison {
+  stroke: var(--supervisor-text);
+  stroke-dasharray: 7 5;
+}
+.chat-visual-equations {
+  display: grid;
+  gap: 4px;
+  text-align: center;
+  font-size: 0.875rem;
+}
+.chat-visual-equations > :first-child {
+  color: var(--errby-text);
+}
+.chat-visual-equations > :nth-child(2) {
+  color: var(--supervisor-text);
+}
+.chat-visual-controls {
+  display: grid;
+  align-content: center;
+  min-width: 0;
+  gap: 16px;
+}
+.chat-visual-control label {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.chat-visual-control output {
+  font-variant-numeric: tabular-nums;
+}
+.chat-visual-control input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  accent-color: var(--primary);
+}
+.chat-visual button,
+.chat-visual-dialog button {
+  height: auto;
+  min-height: 44px;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.chat-visual-values {
+  grid-column: 1 / -1;
+  min-width: 0;
+  font-size: 0.875rem;
+}
+.chat-visual-values summary {
+  min-height: 44px;
+  padding-block: 10px;
+  cursor: pointer;
+  color: var(--errby-text);
+}
+.chat-visual-values table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+.chat-visual-values caption {
+  padding: 8px;
+  text-align: start;
+  color: var(--secondary);
+}
+.chat-visual-values th,
+.chat-visual-values td {
+  padding: 8px 4px;
+  text-align: center;
+  border-bottom: 1px solid var(--control-border);
+  font-variant-numeric: tabular-nums;
+}
+.chat-visual-control input:focus-visible,
+.chat-visual-values summary:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.chat-visual-dialog {
+  width: calc(100vw - 32px);
+  max-width: 850px;
+  max-height: 90dvh;
+  overflow-y: auto;
+  background: var(--surface);
+  color: var(--text);
+  padding: 24px;
+}
+.chat-visual-dialog > * {
+  min-width: 0;
+}
+.chat-visual-save {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+.chat-visual-save > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.chat-visual-dialog [data-slot="dialog-title"] {
+  padding-right: 28px;
+  overflow-wrap: anywhere;
+}
+@container chat-visual (min-width: 560px) {
+  .chat-visual-body {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  }
+}
+@media (min-width: 700px) {
+  .chat-visual-dialog .chat-visual-body {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  }
+}

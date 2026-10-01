@@ -1,6 +1,7 @@
 import "server-only";
 import type { Lesson } from "@/lib/lessons/schema";
 import { validateEvaluationDecision } from "./evaluation";
+import type { LinearVisual } from "@/lib/visuals/schema";
 
 export type NextTurn =
   | { kind: "needs_review"; reason: string }
@@ -11,6 +12,7 @@ export type NextTurn =
       misconception_id: string | null;
       unresolved_misconception_id: string | null;
       reference_ids: string[];
+      visual?: LinearVisual;
     };
 
 // Authored lesson text is the only reply source until a paid provider has

@@ -3,6 +3,8 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { lessonSchema } from "@/lib/lessons/schema";
 import { evaluateAnswer, EVALUATION_PROMPT_VERSION } from "@/lib/ai/evaluate";
 import { generateReply } from "@/lib/ai/reply";
+import { generateVisualReply } from "@/lib/visuals/server";
+import type { NextTurn } from "@/lib/ai/next-turn";
 import { IngestionError } from "@/lib/ingestion/server";
 import {
   assertSessionAccess,
@@ -15,7 +17,11 @@ export async function processSession(
   db: SupabaseClient,
   actor: SessionActor,
   id: string,
-  providers = { evaluateAnswer, generateReply },
+  providers: {
+    evaluateAnswer: typeof evaluateAnswer;
+    generateReply: typeof generateReply;
+    generateVisualReply?: typeof generateVisualReply;
+  } = { evaluateAnswer, generateReply, generateVisualReply },
   signal?: AbortSignal,
 ) {
   await assertSessionAccess(db, actor, id);
@@ -46,6 +52,65 @@ export async function processSession(
     const precedingCorrection = state.messages.findLast(
       (message) => message.role === "supervisor",
     )?.text;
+    const currentVisual = state.messages.findLast(
+      (message) =>
+        message.visual &&
+        (!answer.visual_context ||
+          message.visual.id === answer.visual_context.id),
+    )?.visual;
+    // ponytail: retain eight distinct supplied snapshots in the model context;
+    // immediate assistance remains an application/SQL guard, not a model guess.
+    const visualSnapshots = [
+      ...new Map(
+        state.messages.flatMap((message) =>
+          [message.visual_context, message.visual]
+            .filter((value) => value !== undefined)
+            .map((value) => [JSON.stringify(value), value] as const),
+        ),
+      ).values(),
+    ].slice(-8);
+    if (answer.visual_request) {
+      const generated = await (
+        providers.generateVisualReply ?? generateVisualReply
+      )({
+        db,
+        ownerId: actor.id,
+        requestKey: `${answer.id}:visual`,
+        message: answer.text,
+        current_visual: currentVisual,
+        context: {
+          question: state.messages.at(-2)?.text,
+          references: lesson.references.filter(
+            (reference) =>
+              reference.status === "source_checked" &&
+              reference.purpose === "evidence",
+          ),
+        },
+        signal,
+      });
+      signal?.throwIfAborted();
+      const reply: NextTurn = {
+        kind: "reply",
+        role: "errby",
+        text: generated.text,
+        misconception_id: null,
+        unresolved_misconception_id: null,
+        reference_ids: [],
+        ...(generated.visual ? { visual: generated.visual } : {}),
+      };
+      const finished = await db.rpc("finish_learning_turn", {
+        p_learner: actor.id,
+        p_session_id: id,
+        p_token: token,
+        p_message_id: answer.id,
+        p_assessments: [],
+        p_rubric_version: EVALUATION_PROMPT_VERSION,
+        p_model_id: "visual-help-ungraded",
+        p_reply: reply,
+      });
+      if (finished.error) sessionFailure(finished.error);
+      return getSession(db, actor, id);
+    }
     const evaluated = await providers.evaluateAnswer({
       db,
       signal,
@@ -55,6 +120,10 @@ export async function processSession(
       learnerAnswer: answer.text,
       conversation: state.messages.slice(0, -1),
       precedingCorrection,
+      visualAssistance: visualSnapshots,
+      visualAssisted: Boolean(
+        answer.visual_context || state.messages.at(-2)?.visual_assistance,
+      ),
     });
     signal?.throwIfAborted();
     const [history, interventions, progress, evaluations] = await Promise.all([
@@ -129,6 +198,7 @@ export async function processSession(
         .filter((o) => !explained.has(o.id))
         .map((o) => o.id),
       unsuccessful_attempts: unsuccessfulAttempts,
+      current_visual: answer.visual_context ? currentVisual : undefined,
     });
     signal?.throwIfAborted();
     // Never cancel an atomic evidence commit in flight; reload decides its outcome.

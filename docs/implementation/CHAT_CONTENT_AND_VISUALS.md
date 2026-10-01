@@ -1,6 +1,6 @@
 # Chat content, useful interactions and visuals
 
-1 October 2026. Scope: the existing private learner chat. This extends the [UX plan](UX_PATTERN_PLAN_2026-10-01.md); it does not restore teacher/class screens. Interface treatments below are implemented. The teaching visuals roadmap is a plan, not a delivered generation capability.
+1 October 2026. Scope: the existing private learner chat. This extends the [UX plan](UX_PATTERN_PLAN_2026-10-01.md); it does not restore teacher/class screens. Interface treatments and the first interactive straight-line graph flow are implemented locally. Broader diagrams, simulations and arbitrary generated mini-apps remain future work.
 
 ## What fits the app now
 
@@ -44,7 +44,19 @@ Read the [public index](https://invisibledetails.com/llms.txt), landing examples
 
 ## Interactive chat visuals: A2UI research and revised plan
 
-Updated 1 October 2026 after the user clarified the target: a visualization tool inside chat, with diagrams, graphs and controls that respond to interaction and follow-up messages. This supersedes the earlier static-first topic-preview roadmap. Research and proposed work below are not implemented capabilities.
+Updated 1 October 2026 after the user clarified the target: a visualization tool inside chat, with diagrams, graphs and controls that respond to interaction and follow-up messages. This supersedes the earlier static-first topic-preview roadmap. The implementation status below supersedes prospective wording in the research and sequence that follow.
+
+### Implemented first slice
+
+- Installed exact `@a2ui/react` and `@a2ui/web_core` 0.12.0. An isolated npm resolution check confirmed nested Zod 3 coexists with Errby's Zod 4; no peer override or application validator downgrade. A narrow DOMPurify 3.4.16 override fixes the vulnerable version pinned by A2UI's Markdown dependency. The catalog does not expose Markdown/HTML or remote components.
+- A server-validated `linear_graph` descriptor becomes A2UI v0.9 create/data/component messages in the client. A custom catalog exposes one reviewed React graph component. The model supplies bounded parameters and optional comparison; the server owns identity and revision. Existing SSE carries the complete accepted result atomically. Partial JSON never renders, and ordinary opening text retains its existing streaming path.
+- Both chat surfaces offer **Explore a graph**. Opening chat also recognizes graph-related requests. The graph has a Phosphor marker, caption, slope/intercept controls, a dashed comparison, reset, expansion and a numerical table. Controls update locally with no request per movement. A follow-up updates the existing figure. The renderer loads only when a graph is present, with a text fallback on renderer failure. Wider cards place controls beside the graph; phones stack them.
+- Opening state stays in tab storage, including graph values. Saved controls become durable on **Save graph settings** or a submitted follow-up, with an explicit unsaved notice. SQL binds each surface to its session/message and checks ownership, revision and immutable metadata. Saved history restores accepted descriptors without regeneration; older surfaces update in place. Failed updates preserve the previous figure; unconfirmed requests retain their original payload for retry.
+- Explicit saved graph requests are ungraded assistance turns and preserve existing objective evidence. Immediate answers after assistance and answers with an attached graph cannot earn independent credit, enforced by application and SQL. The opening-to-saved handoff records assistance atomically. The evaluator receives up to eight distinct recent visual snapshots; this is not unlimited historical copying detection.
+
+The current catalog supports only unitless straight lines `y = mx + b`, slope −5…5, intercept −10…10 and axes −10…10. Unsupported requests receive text. It does not provide general charts, curved functions, arbitrary diagrams, simulations, source-figure extraction or executable generated artifacts. No model-request tool framework was added: the structured visual reply uses the existing provider/budget layer with an 800-token output cap.
+
+Saved-session support uses migration `supabase/migrations/20261001000500_chat_visuals.sql`, adding visual/context/assistance columns and fenced RPCs. After Docker-free PGlite verification, it was applied to the configured hosted project on 1 October 2026 at the user's request. Remote migration history matches all 22 local versions; read-only hosted checks confirmed the visual columns and descriptor validator. Full hosted visual-session/Auth acceptance and actual-provider visual quality remain unverified. See [setup status](../SETUP_STATUS.md) for final checks.
 
 ### What A2UI provides
 
@@ -52,7 +64,7 @@ Updated 1 October 2026 after the user clarified the target: a visualization tool
 
 The [maintained renderer matrix](https://a2ui.org/reference/renderers/) currently lists React support for stable protocol v0.9.1; v1.0 support is planned. The [React README](https://github.com/a2ui-project/a2ui/blob/main/renderers/react/README.md), also retrieved through Context7, documents custom catalogs and the `/v0_9` entry points. Use a tested, pinned release compatible with that protocol; package and protocol version numbers are separate.
 
-There is a concrete dependency question before adoption: the [React package manifest on main](https://github.com/a2ui-project/a2ui/blob/main/renderers/react/package.json) declares React 18/19 peers and Zod `^3.25.76`, while Errby uses React 19.3.0 and Zod 4.6.5. Main is not proof of the published npm package. Verify the exact published renderer/core pair in an isolated compatibility check; do not force peer resolution or downgrade Errby's validators to make an installation pass.
+The [React package manifest on main](https://github.com/a2ui-project/a2ui/blob/main/renderers/react/package.json) raised a compatibility question by declaring Zod `^3.25.76` while Errby uses Zod 4.6.5. Checking the actual published package resolved it: Zod 3 is also a regular nested dependency, and the exact renderer/core pair installed successfully alongside React 19.3.0. Runtime catalog schemas use the root package's `zod/v3` compatibility API; application descriptors remain validated with Zod 4.
 
 [A2UI actions](https://a2ui.org/concepts/actions/) distinguish local registered functions from events sent to the server. Input controls can update bound state locally. This supports immediate slider feedback without a model request for every change; a deliberate follow-up can send the selected state to Errby. Our visual component must implement the actual calculation.
 
@@ -87,4 +99,4 @@ The first slice must show a correct graph, immediate keyboard/pointer control up
 
 The evaluator must receive assistance context whenever a visual reveals an answer; interacting with it never awards learning credit. Source links must belong to the session, and neither an attractive figure nor a “fact” label establishes truth. Claim-level fact cards still require actual claim-to-reference data. Observe whether the learner can explain the relationship, beyond simply preferring the appearance.
 
-Only documentation changed for this A2UI research. No renderer was installed, no visualization tool was implemented and no model call was made. Implementation verification and remaining limits are recorded in [setup status](../SETUP_STATUS.md).
+The subsequent implementation delivers the first graph flow described above. Implementation verification and remaining limits are recorded in [setup status](../SETUP_STATUS.md).

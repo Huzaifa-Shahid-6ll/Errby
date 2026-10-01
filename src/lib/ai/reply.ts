@@ -4,6 +4,8 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { IngestionError } from "@/lib/ingestion/server";
 import { selectNextTurn } from "./next-turn";
 import { requestModel } from "./server";
+import { wantsVisual, type LinearVisual } from "@/lib/visuals/schema";
+import { generateVisualReply } from "@/lib/visuals/server";
 
 const replySchema = z.strictObject({
   text: z.string().trim().min(1).max(1200),
@@ -16,6 +18,7 @@ export async function generateReply(
     ownerId: string;
     messageId: string;
     signal?: AbortSignal;
+    current_visual?: LinearVisual;
   },
   runModel = requestModel,
 ) {
@@ -30,6 +33,26 @@ export async function generateReply(
     // Keep authored corrections; skip cosmetic generation when no objective
     // remains. Only the database transaction can decide actual completion.
     return selected;
+  if (wantsVisual(input.learner_answer, input.current_visual)) {
+    const reply = await generateVisualReply(
+      {
+        db: input.db,
+        ownerId: input.ownerId,
+        requestKey: `${input.messageId}:reply:visual`,
+        message: input.learner_answer,
+        current_visual: input.current_visual,
+        context: {
+          question: selected.text,
+          references: input.lesson.references.filter((reference) =>
+            selected.reference_ids.includes(reference.id),
+          ),
+        },
+        signal: input.signal,
+      },
+      runModel,
+    );
+    return { ...selected, ...reply };
+  }
   const schema = z.toJSONSchema(replySchema, { target: "draft-07" });
   delete schema.$schema;
   for (let attempt = 0; attempt < 2; attempt++) {

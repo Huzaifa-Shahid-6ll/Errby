@@ -11,12 +11,20 @@ import {
 import { requestModel } from "@/lib/ai/server";
 import type { ProgressEvent } from "@/lib/http/event-stream";
 import { documentPreparation } from "@/lib/documents/service";
+import {
+  visualSchema,
+  wantsVisual,
+  type LinearVisual,
+} from "@/lib/visuals/schema";
+import { generateVisualReply } from "@/lib/visuals/server";
 
 export const entrySchema = z
   .strictObject({
     key: z.uuid(),
     text: z.string().trim().min(1).max(8000),
     notes: z.boolean(),
+    visual_request: z.boolean().optional(),
+    current_visual: visualSchema.optional(),
     document_id: z.uuid().optional(),
     source_mode: z.enum(["full", "excerpt"]).optional(),
     history: z
@@ -47,7 +55,10 @@ export async function enterChat(
   },
   emit?: (event: ProgressEvent) => void,
   signal?: AbortSignal,
-) {
+): Promise<
+  | { reply: string; visual?: LinearVisual; session_id?: never }
+  | { session_id: string; reply?: never; visual?: never }
+> {
   signal?.throwIfAborted();
   if (actor.role !== "learner")
     throw new IngestionError(
@@ -57,6 +68,30 @@ export async function enterChat(
     );
   if (!input.notes) {
     emit?.({ type: "status", message: "Errby is thinking…" });
+    if (input.visual_request || wantsVisual(input.text, input.current_visual)) {
+      const result = await generateVisualReply(
+        {
+          db,
+          ownerId: actor.id,
+          requestKey: `${input.key}:chat-entry-visual`,
+          message: input.text,
+          current_visual: input.current_visual,
+          conversation: input.history,
+          signal,
+        },
+        dependencies.requestModel,
+      ).catch((error: unknown) => {
+        throw new IngestionError(
+          error instanceof IngestionError ? error.code : "chat_unavailable",
+          "Errby couldn't confirm a reply. Your draft remains in this browser tab. Try again later; contact support if the request stays pending.",
+          error instanceof IngestionError ? error.status : 503,
+        );
+      });
+      return {
+        reply: result.text,
+        ...(result.visual ? { visual: result.visual } : {}),
+      };
+    }
     const response = await dependencies
       .requestModel({
         db,
@@ -152,10 +187,16 @@ export async function enterChat(
         "I couldn't find enough clear reference evidence in those notes to check our understanding. Could you paste a short factual passage about one idea? Your notes are saved privately, but no progress has been awarded.",
     };
   emit?.({ type: "status", message: "Opening your private practice…" });
-  const opened = await db.rpc("open_private_chat", {
-    p_learner: actor.id,
-    p_version: state.job.partial_results.lesson_version_id,
-  });
+  const opened = input.current_visual
+    ? await db.rpc("open_private_chat_with_visual", {
+        p_learner: actor.id,
+        p_version: state.job.partial_results.lesson_version_id,
+        p_visual: input.current_visual,
+      })
+    : await db.rpc("open_private_chat", {
+        p_learner: actor.id,
+        p_version: state.job.partial_results.lesson_version_id,
+      });
   if (opened.error || typeof opened.data !== "string")
     throw new IngestionError(
       "chat_unavailable",

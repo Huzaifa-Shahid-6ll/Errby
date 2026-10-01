@@ -2,9 +2,15 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { ConversationEnd, CopyMessage } from "../../chat-controls";
 import { ContentLabel, MessageText } from "../../chat-content";
 import { SourcePanel } from "../../source-panel";
+import {
+  visualSchema as linearVisualSchema,
+  type LinearVisual,
+} from "@/lib/visuals/schema";
+import { ChartLineIcon as ChartLine } from "@phosphor-icons/react/dist/ssr/ChartLine";
 import { useActivity } from "@/lib/results/use-activity";
 import { Bot, ShieldCheck, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -23,6 +29,11 @@ import {
   type SessionStatus,
 } from "@/lib/sessions/contracts";
 import "./session-view.css";
+
+const ChatVisual = dynamic(
+  () => import("../../chat-visual").then((module) => module.ChatVisual),
+  { ssr: false, loading: () => <p>Loading interactive graph…</p> },
+);
 
 const statuses = {
   ready: [
@@ -79,14 +90,19 @@ export function SessionView({
 }) {
   const [state, setState] = useState<SessionState | null>(null);
   const [opening, setOpening] = useState<
-    { role: "student" | "errby"; text: string }[]
+    { role: "student" | "errby"; text: string; visual?: LinearVisual }[]
   >([]);
   const [loadError, setLoadError] = useState("");
   const [notice, setNotice] = useState("");
   const [stage, setStage] = useState("");
   const [text, setText] = useState("");
+  const [visualRequest, setVisualRequest] = useState(false);
+  const [visualDrafts, setVisualDrafts] = useState<
+    Record<string, LinearVisual>
+  >({});
+  const [activeVisualId, setActiveVisualId] = useState<string | null>(null);
   const [pending, setPending] = useState<
-    "answer" | "pause" | "process" | "help" | null
+    "answer" | "pause" | "process" | "help" | "visual" | null
   >(null);
   const [loading, setLoading] = useState(true);
   const [simpler, setSimpler] = useState<{
@@ -102,23 +118,31 @@ export function SessionView({
       !loading,
   );
   const [reloadKey, setReloadKey] = useState(0);
-  const turn = useRef<{ text: string; sequence: number; key: string } | null>(
-    null,
-  );
+  const turn = useRef<{
+    text: string;
+    sequence: number;
+    key: string;
+    visual_request?: boolean;
+    current_visual?: LinearVisual;
+  } | null>(null);
   const answerInput = useRef<HTMLTextAreaElement>(null);
   const statusRegion = useRef<HTMLParagraphElement>(null);
   const draftKey = `errby:session:${id}:draft`;
   const draftLoaded = useRef(false);
   const draftText = useRef("");
 
-  function saveDraft(value: string) {
+  function saveDraft(value: string, graphMode = visualRequest) {
     draftText.current = value;
     setText(value);
     try {
       if (value || turn.current)
         sessionStorage.setItem(
           draftKey,
-          JSON.stringify({ text: value, pendingTurn: turn.current }),
+          JSON.stringify({
+            text: value,
+            pendingTurn: turn.current,
+            visual_request: graphMode,
+          }),
         );
       else sessionStorage.removeItem(draftKey);
     } catch {
@@ -145,7 +169,16 @@ export function SessionView({
                 m.text.length <= 8000,
             )
           )
-            setOpening(intro);
+            setOpening(
+              intro.map((message) => {
+                const visual = linearVisualSchema.safeParse(message.visual);
+                return {
+                  role: message.role,
+                  text: message.text,
+                  ...(visual.success ? { visual: visual.data } : {}),
+                };
+              }),
+            );
         } catch {
           /* An unavailable local opening does not affect the saved session. */
         }
@@ -154,6 +187,10 @@ export function SessionView({
           if (typeof saved?.text === "string") {
             draftText.current = saved.text;
             setText(saved.text);
+            setVisualRequest(
+              saved.visual_request === true ||
+                saved.pendingTurn?.visual_request === true,
+            );
             const attempt = saved.pendingTurn ?? saved;
             if (
               typeof attempt.text === "string" &&
@@ -193,6 +230,15 @@ export function SessionView({
           return;
         }
         setState(payload as SessionState);
+        const pendingVisual = linearVisualSchema.safeParse(
+          turn.current?.current_visual,
+        );
+        setVisualDrafts(
+          pendingVisual.success &&
+            turn.current?.sequence === payload.session.last_sequence
+            ? { [pendingVisual.data.id]: pendingVisual.data }
+            : {},
+        );
         if (
           turn.current &&
           payload.messages.some(
@@ -256,8 +302,31 @@ export function SessionView({
     setStage("Saving your explanation…");
     setNotice("");
     const sequence = state.session.last_sequence;
-    if (turn.current?.text !== trimmed || turn.current.sequence !== sequence)
-      turn.current = { text: trimmed, sequence, key: crypto.randomUUID() };
+    const visualMessage = [...state.messages]
+      .reverse()
+      .find(
+        (message) =>
+          message.visual &&
+          (!activeVisualId || message.visual.id === activeVisualId),
+      );
+    const draftVisual =
+      visualMessage?.visual && visualDrafts[visualMessage.visual.id];
+    const currentVisual =
+      draftVisual ?? (visualRequest ? visualMessage?.visual : undefined);
+    if (
+      turn.current?.text !== trimmed ||
+      turn.current.sequence !== sequence ||
+      turn.current.visual_request !== visualRequest ||
+      JSON.stringify(turn.current.current_visual) !==
+        JSON.stringify(currentVisual)
+    )
+      turn.current = {
+        text: trimmed,
+        sequence,
+        key: crypto.randomUUID(),
+        visual_request: visualRequest,
+        current_visual: currentVisual,
+      };
     saveDraft(text);
     const controller = new AbortController();
     processing.current = controller;
@@ -274,6 +343,8 @@ export function SessionView({
             text: trimmed,
             expected_sequence: sequence,
             idempotency_key: turn.current.key,
+            visual_request: turn.current.visual_request,
+            current_visual: turn.current.current_visual,
           }),
           signal: controller.signal,
         },
@@ -295,7 +366,9 @@ export function SessionView({
         messages: payload.messages ?? [...state.messages, payload.message],
         processing_error: payload.processing_error,
       });
-      saveDraft("");
+      saveDraft("", false);
+      setVisualRequest(false);
+      setVisualDrafts({});
       setNotice(payload.processing_error?.message ?? "Answer saved.");
       requestAnimationFrame(() =>
         statusRegion.current?.focus({ preventScroll: true }),
@@ -310,6 +383,54 @@ export function SessionView({
       );
     } finally {
       processing.current = null;
+      setPending(null);
+    }
+  }
+
+  async function saveVisual(messageId: string, visual: LinearVisual) {
+    if (pending || loading) return;
+    setPending("visual");
+    setNotice("");
+    try {
+      const response = await fetch(
+        `/api/sessions/${encodeURIComponent(id)}/visual`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message_id: messageId, visual }),
+        },
+      );
+      const payload = await response.json();
+      const accepted = linearVisualSchema.safeParse(payload.visual);
+      if (!response.ok || !accepted.success)
+        throw new Error(
+          payload.user_message ??
+            "Graph settings could not be saved. Your changes remain here.",
+        );
+      setState(
+        (previous) =>
+          previous && {
+            ...previous,
+            messages: previous.messages.map((message) =>
+              message.id === messageId
+                ? { ...message, visual: accepted.data }
+                : message,
+            ),
+          },
+      );
+      setVisualDrafts((previous) => {
+        const next = { ...previous };
+        delete next[visual.id];
+        return next;
+      });
+      setNotice("Graph settings saved. Learning progress is unchanged.");
+    } catch (error) {
+      setNotice(
+        error instanceof Error
+          ? error.message
+          : "Graph settings could not be saved. Your changes remain here.",
+      );
+    } finally {
       setPending(null);
     }
   }
@@ -581,7 +702,9 @@ export function SessionView({
                 ? stage
                 : pending === "help"
                   ? "Rewording the question…"
-                  : statusLabel}
+                  : pending === "visual"
+                    ? "Saving graph settings…"
+                    : statusLabel}
         </strong>
         <span>{statusDescription}</span>
         {(notice || state.processing_error?.message) && (
@@ -658,6 +781,28 @@ export function SessionView({
                       {message.role === "student" ? "You" : "Errby"}
                     </strong>
                     <MessageText text={message.text} />
+                    {message.visual && (
+                      <ChatVisual
+                        visual={message.visual}
+                        disabled={pending !== null}
+                        onChange={(visual) => {
+                          setOpening((previous) => {
+                            const next = previous.map((item, i) =>
+                              i === index ? { ...item, visual } : item,
+                            );
+                            try {
+                              sessionStorage.setItem(
+                                `errby:session:${id}:opening`,
+                                JSON.stringify(next),
+                              );
+                            } catch {
+                              /* Optional tab storage. */
+                            }
+                            return next;
+                          });
+                        }}
+                      />
+                    )}
                     <CopyMessage
                       text={message.text}
                       speaker={message.role === "student" ? "your" : "Errby"}
@@ -678,6 +823,10 @@ export function SessionView({
               const displayRole =
                 quiet && message.role === "supervisor" ? "errby" : message.role;
               const { label, detail, Icon } = speakers[displayRole];
+              const parsedVisual = linearVisualSchema.safeParse(message.visual);
+              const visual = parsedVisual.success
+                ? (visualDrafts[parsedVisual.data.id] ?? parsedVisual.data)
+                : undefined;
               return (
                 <li
                   key={message.id}
@@ -701,6 +850,36 @@ export function SessionView({
                     </div>
                   ) : (
                     <MessageText text={message.text} />
+                  )}
+                  {visual && (
+                    <>
+                      <ChatVisual
+                        visual={visual}
+                        disabled={pending !== null || loading}
+                        onChange={(next) => {
+                          setActiveVisualId(next.id);
+                          setVisualDrafts((previous) => ({
+                            ...previous,
+                            [next.id]: next,
+                          }));
+                        }}
+                      />
+                      {visualDrafts[visual.id] && (
+                        <div className="chat-visual-save">
+                          <span>
+                            Graph changes stay here until you save or send them.
+                          </span>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            disabled={pending !== null || loading}
+                            onClick={() => void saveVisual(message.id, visual)}
+                          >
+                            Save graph settings
+                          </Button>
+                        </div>
+                      )}
+                    </>
                   )}
                   <CopyMessage
                     text={message.text}
@@ -761,12 +940,18 @@ export function SessionView({
                 void submitAnswer();
               }}
             >
-              <label htmlFor="answer">Your explanation</label>
+              <label htmlFor="answer">
+                {visualRequest ? "Describe your graph" : "Your explanation"}
+              </label>
               <textarea
                 id="answer"
                 name="explanation"
                 autoComplete="off"
-                placeholder="Explain it in your own words…"
+                placeholder={
+                  visualRequest
+                    ? "Try: show y = 2x + 1, or compare a negative slope…"
+                    : "Explain it in your own words…"
+                }
                 ref={answerInput}
                 value={text}
                 onChange={(event) => {
@@ -794,12 +979,36 @@ export function SessionView({
                   in this browser tab until it closes · Shift + Enter for a new
                   line
                 </span>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  aria-pressed={visualRequest}
+                  disabled={blocked}
+                  onClick={() => {
+                    setVisualRequest(!visualRequest);
+                    saveDraft(text, !visualRequest);
+                    answerInput.current?.focus();
+                  }}
+                >
+                  <ChartLine size={18} weight="duotone" aria-hidden="true" />{" "}
+                  Explore a graph
+                </Button>
                 <Button type="submit" disabled={blocked}>
-                  {pending === "answer" ? "Checking..." : "Send answer"}
+                  {pending === "answer"
+                    ? "Working…"
+                    : visualRequest
+                      ? "Send graph request"
+                      : "Send answer"}
                 </Button>
               </div>
             </form>
           </ComposerBeam>
+          {visualRequest && (
+            <p className="session-note">
+              Explore a straight-line relationship. This request is assistance,
+              not an assessed answer.
+            </p>
+          )}
         </div>
       </div>
     </section>

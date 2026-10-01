@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { visualSchema, type LinearVisual } from "@/lib/visuals/schema";
 
 export const TURN_CHARACTER_LIMIT = 2000;
 
@@ -35,6 +36,10 @@ export type SessionMessage = {
   role: SessionMessageRole;
   text: string;
   created_at: string;
+  visual?: LinearVisual;
+  visual_request?: boolean;
+  visual_assistance?: boolean;
+  visual_context?: LinearVisual;
 };
 export type SessionState = {
   session: SessionSummary;
@@ -61,4 +66,6 @@ export const submitTurnSchema = z.strictObject({
   text: z.string().trim().min(1).max(TURN_CHARACTER_LIMIT),
   expected_sequence: z.number().int().min(0),
   idempotency_key: z.uuid(),
+  visual_request: z.boolean().optional(),
+  current_visual: visualSchema.optional(),
 });

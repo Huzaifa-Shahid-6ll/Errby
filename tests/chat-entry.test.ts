@@ -145,6 +145,64 @@ test("notes reuse private preparation and ready session handoff; incomplete evid
   calls.length = 0;
   await enterChat(db, actor, { ...input, notes: true }, dependencies);
   assert.deepEqual(calls, ["save", "open_private_chat"]);
+  const visual = {
+    version: 1 as const,
+    kind: "linear_graph" as const,
+    id: input.key,
+    revision: 0,
+    title: "An illustrative line",
+    caption: "An illustrative mathematical example.",
+    slope: 1,
+    intercept: 0,
+    comparison: null,
+  };
+  let handoffCalls = 0;
+  const handoff = {
+    rpc: async (name: string, args: Record<string, unknown>) => {
+      handoffCalls++;
+      assert.equal(name, "open_private_chat_with_visual");
+      assert.equal(args.p_learner, actor.id);
+      assert.equal(args.p_version, input.key);
+      assert.deepEqual(args.p_visual, visual);
+      return { data: input.key, error: null };
+    },
+  } as unknown as SupabaseClient;
+  assert.deepEqual(
+    await enterChat(
+      handoff,
+      actor,
+      {
+        ...input,
+        notes: true,
+        current_visual: visual,
+      },
+      dependencies,
+    ),
+    { session_id: input.key },
+  );
+  assert.equal(
+    handoffCalls,
+    1,
+    "session opening and help context share one atomic RPC",
+  );
+  await assert.rejects(
+    enterChat(
+      {
+        rpc: async () => ({
+          data: null,
+          error: { message: "visual_conflict" },
+        }),
+      } as unknown as SupabaseClient,
+      actor,
+      {
+        ...input,
+        notes: true,
+        current_visual: visual,
+      },
+      dependencies,
+    ),
+    /couldn't open/,
+  );
   ready = false;
   calls.length = 0;
   const result = await enterChat(

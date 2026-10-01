@@ -17,7 +17,8 @@
     "ops:manage": "node --conditions=react-server --env-file=.env.local --import tsx scripts/operations.ts",
     "account:manage": "node --conditions=react-server --env-file=.env.local --import tsx scripts/accounts.ts",
     "test:browser": "playwright test",
-    "check": "npm run lint && npm run typecheck && npm test && npm run format:check",
+    "test:visuals": "node --conditions=react-server --import tsx --test tests/visuals.test.ts tests/visual-persistence.test.ts",
+    "check": "npm run lint && npm run typecheck && npm test && npm run test:visuals && npm run format:check",
     "db:test": "tsx --test tests/database.test.ts",
     "test:sessions": "node --conditions=react-server --import tsx --test tests/sessions.test.ts tests/teaching-loop.test.ts",
     "test:classes": "node --conditions=react-server --import tsx --test tests/classes.test.ts",
@@ -26,6 +27,8 @@
   },
   "type": "module",
   "dependencies": {
+    "@a2ui/react": "0.12.0",
+    "@a2ui/web_core": "0.12.0",
     "@clerk/backend": "3.20.1",
     "@clerk/nextjs": "7.9.7",
     "@clerk/ui": "1.36.0",
@@ -73,6 +76,11 @@
     "tailwindcss": "4.3.3",
     "tsx": "4.23.13",
     "typescript": "6.0.3"
+  },
+  "overrides": {
+    "@a2ui/markdown-it": {
+      "dompurify": "3.4.16"
+    }
   },
   "private": true,
   "engines": {

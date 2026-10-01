@@ -171,6 +171,64 @@ test("approved, checked misconception is selected once; unresolved error is neve
   assert.ok(!ordinaryWrong.text.includes("Untrusted model text"));
 });
 
+test("eligible saved graph follow-ups use source context and current controls without replacing corrections", async () => {
+  const current = {
+    version: 1 as const,
+    kind: "linear_graph" as const,
+    id: "00000000-0000-4000-8000-000000000004",
+    revision: 2,
+    title: "An illustrative line",
+    caption: "An illustrative mathematical example.",
+    slope: 2,
+    intercept: 1,
+    comparison: null,
+  };
+  const result = await generateReply(
+    {
+      db: {} as SupabaseClient,
+      ownerId: "synthetic",
+      messageId: "synthetic",
+      lesson,
+      learner_answer: "Can you show this as a graph?",
+      current_visual: current,
+      used_misconception_ids: [],
+      decision: {
+        assessments: [
+          {
+            ...assessment,
+            learner_quote: "Can you show this as a graph?",
+            verdict: "partial",
+          },
+        ],
+        supervisor: { trigger: "none" },
+      },
+    },
+    async (request) => {
+      const context = request.input as {
+        current_visual: typeof current;
+        source_context: { references: { id: string }[] };
+      };
+      assert.deepEqual(context.current_visual, current);
+      assert.deepEqual(
+        context.source_context.references.map((reference) => reference.id),
+        objective.reference_ids,
+      );
+      return {
+        output: {
+          text: "These notes explain heat transfer, so this straight-line tool cannot illustrate them faithfully. Could you describe the direction?",
+          visual: null,
+        },
+        model: "mock",
+        tokens: 0,
+      };
+    },
+  );
+  assert.equal(result.kind, "reply");
+  if (result.kind !== "reply") return;
+  assert.equal(result.visual, undefined);
+  assert.match(result.text, /cannot illustrate/);
+});
+
 test("three unsuccessful attempts offer checked support and a pause without awarding progress", () => {
   const input = {
     lesson,

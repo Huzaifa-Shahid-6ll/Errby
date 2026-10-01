@@ -2,11 +2,17 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import { ArrowUp, FileText, Paperclip, X } from "lucide-react";
 import { ConversationEnd, CopyMessage } from "./chat-controls";
 import { ContentLabel, MessageText } from "./chat-content";
 import { DocumentLibrary } from "./document-library";
 import { TopicStarters } from "./topic-starters";
+import {
+  visualSchema as linearVisualSchema,
+  type LinearVisual,
+} from "@/lib/visuals/schema";
+import { ChartLineIcon as ChartLine } from "@phosphor-icons/react/dist/ssr/ChartLine";
 import type { TopicNotes } from "@/lib/chat/topic-sources";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,7 +28,16 @@ import {
 import { readReply } from "@/lib/http/event-stream";
 import { CHAT_UPLOAD_BYTES, type Extraction } from "@/lib/ingestion/contracts";
 
-type Message = { role: "student" | "errby"; text: string };
+const ChatVisual = dynamic(
+  () => import("./chat-visual").then((module) => module.ChatVisual),
+  { ssr: false, loading: () => <p>Loading interactive graph…</p> },
+);
+
+type Message = {
+  role: "student" | "errby";
+  text: string;
+  visual?: LinearVisual;
+};
 type Attempt = {
   key: string;
   text: string;
@@ -30,6 +45,8 @@ type Attempt = {
   history: Message[];
   document_id?: string;
   source_mode?: "full" | "excerpt";
+  visual_request?: boolean;
+  current_visual?: LinearVisual;
 };
 export function NewChat({ accountId }: { accountId: string }) {
   const router = useRouter();
@@ -61,6 +78,7 @@ export function ChatEntry({
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState("");
   const [notes, setNotes] = useState(false);
+  const [visualRequest, setVisualRequest] = useState(false);
   const [starter, setStarter] = useState<TopicNotes | null>(null);
   const [selectedSource, setSelectedSource] = useState<{
     id: string;
@@ -112,7 +130,17 @@ export function ChatEntry({
               m.text.length <= 8000,
           )
         ) {
-          setMessages(saved.messages);
+          setMessages(
+            saved.messages.map((message: Message) => {
+              const visual = linearVisualSchema.safeParse(message.visual);
+              return {
+                role: message.role,
+                text: message.text,
+                ...(visual.success ? { visual: visual.data } : {}),
+              };
+            }),
+          );
+          setVisualRequest(saved.visualRequest === true);
           if (typeof saved.text === "string" && saved.text.length <= 8000)
             setText(saved.text);
           setNotes(saved.notes === true);
@@ -149,6 +177,7 @@ export function ChatEntry({
           messages,
           text,
           notes,
+          visualRequest,
           source: selectedSource,
           attempt: attempt.current,
         }),
@@ -156,7 +185,16 @@ export function ChatEntry({
     } catch {
       /* Current tab state still works. */
     }
-  }, [messages, text, notes, selectedSource, pending, ready, storageKey]);
+  }, [
+    messages,
+    text,
+    notes,
+    visualRequest,
+    selectedSource,
+    pending,
+    ready,
+    storageKey,
+  ]);
   useEffect(() => {
     return () => {
       upload.current?.abort();
@@ -251,11 +289,17 @@ export function ChatEntry({
     const controller = new AbortController();
     replyRequest.current = controller;
     const normalized = text.trim();
+    const currentVisual = [...messages]
+      .reverse()
+      .find((message) => message.visual)?.visual;
     if (
       attempt.current?.text !== normalized ||
       attempt.current.notes !== notes ||
       attempt.current.document_id !== selectedSource?.id ||
-      attempt.current.source_mode !== selectedSource?.mode
+      attempt.current.source_mode !== selectedSource?.mode ||
+      attempt.current.visual_request !== (!notes && visualRequest) ||
+      JSON.stringify(attempt.current.current_visual) !==
+        JSON.stringify(currentVisual)
     )
       attempt.current = {
         key: crypto.randomUUID(),
@@ -263,9 +307,11 @@ export function ChatEntry({
         notes,
         document_id: selectedSource?.id,
         source_mode: selectedSource?.mode,
+        visual_request: !notes && visualRequest,
+        current_visual: currentVisual,
         history: messages
           .slice(-8)
-          .map((m) => ({ ...m, text: m.text.slice(0, 2000) })),
+          .map((m) => ({ role: m.role, text: m.text.slice(0, 2000) })),
       };
     try {
       const response = await fetch("/api/chat", {
@@ -314,17 +360,34 @@ export function ChatEntry({
         return;
       }
       if (typeof payload.reply !== "string") throw new Error("Missing reply");
+      const acceptedVisual = linearVisualSchema.safeParse(payload.visual);
+      const visual = acceptedVisual.success ? acceptedVisual.data : undefined;
       setMessages(
         // ponytail: retain twenty opening exchanges locally; durable cross-device chat needs a separate persistence change.
-        (previous) =>
-          [
-            ...previous,
+        (previous) => {
+          const updatesExisting =
+            visual &&
+            previous
+              .slice(-38)
+              .some((message) => message.visual?.id === visual.id);
+          return [
+            ...previous.map((message) =>
+              visual && message.visual?.id === visual.id
+                ? { ...message, visual }
+                : message,
+            ),
             { role: "student", text: normalized },
-            { role: "errby", text: payload.reply },
-          ].slice(-40) as Message[],
+            {
+              role: "errby",
+              text: payload.reply,
+              ...(!updatesExisting && visual ? { visual } : {}),
+            },
+          ].slice(-40) as Message[];
+        },
       );
       setText("");
       setNotes(false);
+      setVisualRequest(false);
       setSelectedSource(null);
       attempt.current = null;
       setNotice("Reply ready. Your turn.");
@@ -417,6 +480,19 @@ export function ChatEntry({
                 )}
               </strong>
               <MessageText text={message.text} />
+              {message.visual && (
+                <ChatVisual
+                  visual={message.visual}
+                  disabled={pending}
+                  onChange={(visual) =>
+                    setMessages((previous) =>
+                      previous.map((item, index) =>
+                        index === i ? { ...item, visual } : item,
+                      ),
+                    )
+                  }
+                />
+              )}
               <CopyMessage
                 text={message.text}
                 speaker={message.role === "student" ? "your" : "Errby"}
@@ -683,6 +759,19 @@ export function ChatEntry({
                 disabled={pending || uploadProgress !== null}
                 onSelect={setAttachment}
               />
+              <Button
+                type="button"
+                variant="ghost"
+                aria-pressed={visualRequest}
+                disabled={pending || notes}
+                onClick={() => {
+                  setVisualRequest(!visualRequest);
+                  input.current?.focus();
+                }}
+              >
+                <ChartLine size={18} weight="duotone" aria-hidden="true" />{" "}
+                Explore a graph
+              </Button>
             </SourceActions>
             <SendAccent>
               <Button
@@ -696,6 +785,12 @@ export function ChatEntry({
           </div>
         </form>
       </ComposerBeam>
+      {visualRequest && !notes && (
+        <p className="chat-input-help">
+          Describe a straight-line graph to explore, such as y = 2x + 1.
+          Illustrative models are not checked learning evidence.
+        </p>
+      )}
       {pending && (
         <Button
           type="button"
