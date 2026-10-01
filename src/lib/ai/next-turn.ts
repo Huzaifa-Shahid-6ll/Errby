@@ -25,6 +25,7 @@ export function selectNextTurn(input: {
   used_misconception_ids: readonly string[];
   privatePractice?: boolean;
   remaining_objective_ids?: readonly string[];
+  unsuccessful_attempts?: Readonly<Record<string, number>>;
 }): NextTurn {
   const { lesson, unresolved_misconception_id: unresolved } = input;
   if (
@@ -58,17 +59,49 @@ export function selectNextTurn(input: {
       kind: "needs_review",
       reason: "Unresolved correction lacks checked evidence",
     };
-  if (decision.supervisor.trigger === "uncertainty")
+  if (
+    decision.assessments.some(
+      (assessment) => assessment.verdict === "unverified",
+    )
+  )
     return {
       kind: "needs_review",
       reason: "Source or assessment is uncertain",
     };
-  if (decision.supervisor.trigger === "correction") {
-    const wrong = decision.assessments.find(
-      (item) => item.verdict === "incorrect",
-    );
+  const firstIncorrect = decision.assessments.find(
+    (assessment) => assessment.verdict === "incorrect",
+  );
+  const struggling = decision.assessments.find(
+    (assessment) =>
+      (!firstIncorrect || assessment === firstIncorrect) &&
+      (input.unsuccessful_attempts?.[assessment.objective_id] ?? 0) >= 3 &&
+      !(
+        assessment.verdict === "correct" &&
+        assessment.independent &&
+        !assessment.assisted
+      ),
+  );
+  if (struggling) {
     const objective = lesson.objectives.find(
-      (item) => item.id === wrong?.objective_id,
+      (item) => item.id === struggling.objective_id,
+    )!;
+    if (!checked(objective.reference_ids) || objective.unresolved_issues.length)
+      return { kind: "needs_review", reason: "Support needs checked evidence" };
+    const misconception = objective.misconceptions.find(
+      (item) => item.id === active?.id,
+    );
+    return {
+      kind: "reply",
+      role: "supervisor",
+      text: `Let's take this one step at a time. ${misconception?.correction ?? objective.correction_criteria.join(" ")} ${misconception?.changed_example_question ?? objective.application_question} You can also pause and come back when you're ready.`,
+      misconception_id: null,
+      unresolved_misconception_id: active?.id ?? null,
+      reference_ids: misconception?.reference_ids ?? objective.reference_ids,
+    };
+  }
+  if (decision.supervisor.trigger === "correction") {
+    const objective = lesson.objectives.find(
+      (item) => item.id === firstIncorrect?.objective_id,
     );
     if (
       !active ||

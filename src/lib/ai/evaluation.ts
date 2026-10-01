@@ -39,6 +39,21 @@ export const evaluationDecisionSchema = z.strictObject({
 
 export type EvaluationDecision = z.infer<typeof evaluationDecisionSchema>;
 
+export function isCopiedCorrection(answer: string, correction?: string) {
+  const normalize = (value: string) =>
+    value
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, " ")
+      .replace(/[.!?]+$/, "");
+  const explanation = normalize(answer);
+  // ponytail: catches literal excerpts, not paraphrases; semantic independence
+  // still belongs to the evaluator and its changed-example check.
+  return Boolean(
+    explanation && correction && normalize(correction).includes(explanation),
+  );
+}
+
 // The lesson and answer must come from server-owned, version-pinned records.
 // This checks model output before any evaluation, message or progress write.
 export function validateEvaluationDecision(
@@ -53,9 +68,7 @@ export function validateEvaluationDecision(
   const seen = new Set<string>();
   let correction = false;
   let uncertainty = false;
-  const copied =
-    precedingCorrection?.trim().toLocaleLowerCase() ===
-    learnerAnswer.trim().toLocaleLowerCase();
+  const copied = isCopiedCorrection(learnerAnswer, precedingCorrection);
 
   for (const assessment of decision.assessments) {
     const objective = objectives.get(assessment.objective_id);

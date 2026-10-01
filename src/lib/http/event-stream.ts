@@ -3,14 +3,21 @@ export async function* readEvents(
   body: ReadableStream<Uint8Array>,
   requireDone = false,
   maximum = 250_000,
+  signal?: AbortSignal,
 ) {
+  signal?.throwIfAborted();
   const reader = body.getReader();
+  const stop = () => {
+    void reader.cancel().catch(() => {});
+  };
+  signal?.addEventListener("abort", stop, { once: true });
   const decoder = new TextDecoder();
   let buffer = "";
   let data: string[] = [];
   try {
     while (true) {
       const { done, value } = await reader.read();
+      signal?.throwIfAborted();
       buffer += done
         ? decoder.decode()
         : decoder.decode(value, { stream: true });
@@ -37,6 +44,7 @@ export async function* readEvents(
       }
     }
   } finally {
+    signal?.removeEventListener("abort", stop);
     await reader.cancel().catch(() => {});
     reader.releaseLock();
   }

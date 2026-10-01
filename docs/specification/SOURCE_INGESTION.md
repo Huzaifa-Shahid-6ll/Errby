@@ -1,4 +1,7 @@
 # Source ingestion and lesson preparation
+
+> **Current student flow — 1 October 2026:** Attach PDF/DOCX (4 MiB maximum) or paste notes in chat. Validated originals save privately to Supabase Storage, with full bounded extraction/metadata in Postgres and a 20-document owner quota. Learners can reuse/download/remove originals. Sending a complete document preserves server-recorded PDF page/DOCX section provenance; edited excerpts are explicitly notes without original page claims. Exact saved references are available in the conversation's Sources dialog. Originals persist until removal/account deletion; immutable lesson excerpts remain until account deletion. The new documents migration and actual hosted Storage acceptance are required before claiming live operation. Extracted text retains its bounded private 60-second cache. Notes remain unreviewed, and insufficient evidence cannot complete practice. Teacher publishing and class preparation below are historical and excluded. See [storage/caching details](../implementation/STORAGE_AND_CACHING.md).
+
 ## Input support contract
 | Input | MVP behaviour | Recovery |
 | --- | --- | --- |

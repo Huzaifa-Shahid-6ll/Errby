@@ -3,6 +3,9 @@ import { getClerkSession } from "@/lib/auth/server";
 import { clerkClient } from "@clerk/nextjs/server";
 import { createAdminClient } from "@/lib/db/admin";
 import { isSameOrigin } from "@/lib/http/origin";
+import { clearExtractionCache } from "@/lib/ingestion/cache";
+import { deleteAccountDocuments } from "@/lib/documents/service";
+import { IngestionError } from "@/lib/ingestion/server";
 
 export const runtime = "nodejs";
 
@@ -86,6 +89,11 @@ export async function DELETE(request: Request) {
     }
     // RLS and application access are already disabled durably. A provider
     // failure can be retried here; a later DB failure needs operator cleanup.
+    if (typeof pending.data === "string") clearExtractionCache(pending.data);
+    // Delete Storage objects before identity/profile cascades remove their paths.
+    // Pending writes keep the account disabled and retryable instead of orphaning files.
+    if (typeof pending.data === "string")
+      await deleteAccountDocuments(db, pending.data);
     await clerk.users.deleteUser(session.userId);
     if (pending.data) {
       const removed = await db
@@ -99,7 +107,9 @@ export async function DELETE(request: Request) {
           "Sign-in was deleted and learning access is disabled. Contact the operator to finish deleting saved records.",
         );
     }
-  } catch {
+  } catch (error) {
+    if (error instanceof IngestionError)
+      return reply(error.status, error.code, error.message);
     return reply(
       503,
       "deletion_unconfirmed",

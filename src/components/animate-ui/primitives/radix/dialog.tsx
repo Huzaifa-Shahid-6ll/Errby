@@ -6,6 +6,7 @@ import { AnimatePresence, motion, type HTMLMotionProps } from "motion/react";
 
 import { useControlledState } from "@/hooks/use-controlled-state";
 import { getStrictContext } from "@/lib/get-strict-context";
+import { useMotion } from "@/components/ui/learning-effects";
 
 type DialogContextType = {
   isOpen: boolean;
@@ -72,6 +73,7 @@ function DialogOverlay({
   transition = { duration: 0.2, ease: "easeInOut" },
   ...props
 }: DialogOverlayProps) {
+  const paused = Boolean(useMotion());
   return (
     <DialogPrimitive.Overlay data-slot="dialog-overlay" asChild forceMount>
       <motion.div
@@ -81,6 +83,12 @@ function DialogOverlay({
         exit={{ opacity: 0, filter: "blur(4px)" }}
         transition={transition}
         {...props}
+        {...(paused && {
+          initial: false,
+          animate: { opacity: 1, filter: "none" },
+          exit: { opacity: 0 },
+          transition: { type: "tween", duration: 0 },
+        })}
       />
     </DialogPrimitive.Overlay>
   );
@@ -106,6 +114,7 @@ function DialogContent({
   transition = { type: "spring", stiffness: 150, damping: 25 },
   ...props
 }: DialogContentProps) {
+  const paused = Boolean(useMotion());
   const initialRotation =
     from === "bottom" || from === "left" ? "20deg" : "-20deg";
   const isVertical = from === "top" || from === "bottom";
@@ -141,6 +150,12 @@ function DialogContent({
         }}
         transition={transition}
         {...props}
+        {...(paused && {
+          initial: false,
+          animate: { opacity: 1, filter: "none", transform: "none" },
+          exit: { opacity: 0 },
+          transition: { type: "tween", duration: 0 },
+        })}
       />
     </DialogPrimitive.Content>
   );

@@ -2,7 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowUp, FileText, Paperclip, X, ArrowDown } from "lucide-react";
+import { ArrowUp, FileText, Paperclip, X } from "lucide-react";
+import { ConversationEnd, CopyMessage } from "./chat-controls";
+import { ContentLabel, MessageText } from "./chat-content";
+import { DocumentLibrary } from "./document-library";
+import { TopicStarters } from "./topic-starters";
+import type { TopicNotes } from "@/lib/chat/topic-sources";
 import { Button } from "@/components/ui/button";
 import {
   ComposerBeam,
@@ -23,6 +28,8 @@ type Attempt = {
   text: string;
   notes: boolean;
   history: Message[];
+  document_id?: string;
+  source_mode?: "full" | "excerpt";
 };
 export function NewChat({ accountId }: { accountId: string }) {
   const router = useRouter();
@@ -54,6 +61,12 @@ export function ChatEntry({
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState("");
   const [notes, setNotes] = useState(false);
+  const [starter, setStarter] = useState<TopicNotes | null>(null);
+  const [selectedSource, setSelectedSource] = useState<{
+    id: string;
+    name: string;
+    mode: "full" | "excerpt";
+  } | null>(null);
   const [pending, setPending] = useState(false);
   const [notice, setNotice] = useState("");
   const [ready, setReady] = useState(false);
@@ -64,15 +77,23 @@ export function ChatEntry({
     name: string;
     source: Extraction;
   } | null>(null);
-  const [showLatest, setShowLatest] = useState(false);
-  const follow = useRef(true);
   const upload = useRef<XMLHttpRequest | null>(null);
   const replyRequest = useRef<AbortController | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
   const attempt = useRef<Attempt | null>(null);
   const input = useRef<HTMLTextAreaElement>(null);
-  const bottom = useRef<HTMLDivElement>(null);
   const storageKey = `errby:entry:${accountId}`;
+
+  function selectStarter(value: TopicNotes) {
+    setText(value.text);
+    setNotes(true);
+    setSelectedSource(null);
+    setStarter(null);
+    setNotice(
+      `Reference notes for ${value.title} added. Review or edit before sending.`,
+    );
+    input.current?.focus();
+  }
 
   useEffect(() => {
     let active = true;
@@ -96,6 +117,13 @@ export function ChatEntry({
             setText(saved.text);
           setNotes(saved.notes === true);
           if (
+            saved.notes === true &&
+            typeof saved.source?.id === "string" &&
+            typeof saved.source?.name === "string" &&
+            ["full", "excerpt"].includes(saved.source?.mode)
+          )
+            setSelectedSource(saved.source);
+          if (
             saved.attempt &&
             typeof saved.attempt.key === "string" &&
             typeof saved.attempt.text === "string" &&
@@ -117,31 +145,24 @@ export function ChatEntry({
     try {
       sessionStorage.setItem(
         storageKey,
-        JSON.stringify({ messages, text, notes, attempt: attempt.current }),
+        JSON.stringify({
+          messages,
+          text,
+          notes,
+          source: selectedSource,
+          attempt: attempt.current,
+        }),
       );
     } catch {
       /* Current tab state still works. */
     }
-  }, [messages, text, notes, pending, ready, storageKey]);
+  }, [messages, text, notes, selectedSource, pending, ready, storageKey]);
   useEffect(() => {
-    const onScroll = () => {
-      follow.current =
-        !bottom.current ||
-        bottom.current.getBoundingClientRect().bottom <=
-          window.innerHeight + 80;
-      setShowLatest(!follow.current);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
-      window.removeEventListener("scroll", onScroll);
       upload.current?.abort();
       replyRequest.current?.abort();
     };
   }, []);
-  useEffect(() => {
-    if (follow.current)
-      bottom.current?.scrollIntoView({ block: "nearest", behavior: "instant" });
-  }, [messages, pending, streamed]);
 
   function attach(file?: File) {
     if (!file || pending || upload.current) return;
@@ -206,7 +227,9 @@ export function ChatEntry({
         "The upload could not be confirmed. Your draft is unchanged. Choose the file again or paste its text.",
       );
     request.onabort = () =>
-      setNotice("Upload cancelled. Your draft is unchanged.");
+      setNotice(
+        "Upload cancelled. Your draft is unchanged. A save already underway may finish; check Saved documents.",
+      );
     request.onloadend = () => {
       upload.current = null;
       setUploadProgress(null);
@@ -225,15 +248,21 @@ export function ChatEntry({
     setNotice("");
     setStreamed("");
     setStage(notes ? "Reading your reference notes…" : "Connecting to Errby…");
-    follow.current = true;
     const controller = new AbortController();
     replyRequest.current = controller;
     const normalized = text.trim();
-    if (attempt.current?.text !== normalized || attempt.current.notes !== notes)
+    if (
+      attempt.current?.text !== normalized ||
+      attempt.current.notes !== notes ||
+      attempt.current.document_id !== selectedSource?.id ||
+      attempt.current.source_mode !== selectedSource?.mode
+    )
       attempt.current = {
         key: crypto.randomUUID(),
         text: normalized,
         notes,
+        document_id: selectedSource?.id,
+        source_mode: selectedSource?.mode,
         history: messages
           .slice(-8)
           .map((m) => ({ ...m, text: m.text.slice(0, 2000) })),
@@ -274,6 +303,7 @@ export function ChatEntry({
         setText("");
         setMessages([]);
         setNotes(false);
+        setSelectedSource(null);
         attempt.current = null;
         try {
           sessionStorage.removeItem(storageKey);
@@ -295,10 +325,16 @@ export function ChatEntry({
       );
       setText("");
       setNotes(false);
+      setSelectedSource(null);
       attempt.current = null;
       setNotice("Reply ready. Your turn.");
     } catch (error) {
-      if (controller.signal.aborted) return;
+      if (controller.signal.aborted) {
+        setNotice(
+          "Processing stop requested. Your draft is kept; saved notes remain. Provider charges may still apply. Retry the same message to recover confirmed work.",
+        );
+        return;
+      }
       setNotice(
         error instanceof Error && error.message !== "Failed to fetch"
           ? error.message
@@ -306,6 +342,7 @@ export function ChatEntry({
       );
     } finally {
       setPending(false);
+      replyRequest.current = null;
       setStreamed("");
       if (!controller.signal.aborted)
         requestAnimationFrame(() =>
@@ -316,6 +353,36 @@ export function ChatEntry({
 
   return (
     <div className="chat-entry">
+      <TopicStarters
+        disabled={pending || uploadProgress !== null}
+        onSelect={(value) => {
+          if (text.trim()) setStarter(value);
+          else selectStarter(value);
+        }}
+      />
+      {starter && (
+        <div className="chat-attachment" role="status">
+          <p>
+            Your draft is still here. Replace it with source notes for{" "}
+            {starter.title}?
+          </p>
+          <Button
+            type="button"
+            variant="outline"
+            disabled={pending}
+            onClick={() => selectStarter(starter)}
+          >
+            Replace draft with source notes
+          </Button>{" "}
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={() => setStarter(null)}
+          >
+            Keep my draft
+          </Button>
+        </div>
+      )}
       {messages.length === 0 && !pending ? (
         <section className="chat-welcome">
           <WelcomeArt />
@@ -349,7 +416,11 @@ export function ChatEntry({
                   </>
                 )}
               </strong>
-              <p>{message.text}</p>
+              <MessageText text={message.text} />
+              <CopyMessage
+                text={message.text}
+                speaker={message.role === "student" ? "your" : "Errby"}
+              />
             </li>
           ))}
           {pending && (
@@ -378,22 +449,10 @@ export function ChatEntry({
           )}
         </ol>
       )}
-      <div ref={bottom} />
-      {showLatest && messages.length > 0 && (
-        <button
-          type="button"
-          className="chat-latest"
-          onClick={() => {
-            follow.current = true;
-            setShowLatest(false);
-            bottom.current?.scrollIntoView({
-              block: "end",
-              behavior: "instant",
-            });
-          }}
-        >
-          <ArrowDown size={16} aria-hidden="true" /> Latest message
-        </button>
+      {(messages.length > 0 || pending) && (
+        <ConversationEnd
+          revision={`${messages.length}:${pending}:${streamed}`}
+        />
       )}
       {uploadProgress !== null && (
         <div className="chat-attachment">
@@ -424,7 +483,7 @@ export function ChatEntry({
       {attachment && (
         <section className="chat-attachment" aria-label="Document preview">
           <div className="chat-attachment-heading">
-            <strong>{attachment.name}</strong>
+            <ContentLabel kind="document">{attachment.name}</ContentLabel>
             <Button
               type="button"
               variant="ghost"
@@ -435,12 +494,24 @@ export function ChatEntry({
             </Button>
           </div>
           <p>
+            <ContentLabel kind="tool">
+              Text extraction · Not reviewed
+            </ContentLabel>
+          </p>
+          <p>
             {attachment.source.coverage.text_pages} of{" "}
             {attachment.source.coverage.total_pages} pages / sections contain
             text · Not reviewed
           </p>
+          <p>
+            {attachment.source.document_id
+              ? "The original and extracted text are saved privately in your documents. Notes join a conversation when sent."
+              : "This extraction is not a saved original. Notes save when sent."}
+          </p>
           {attachment.source.warnings.map((warning, i) => (
-            <p key={i}>{warning}</p>
+            <p key={i}>
+              <ContentLabel kind="guidance">{warning}</ContentLabel>
+            </p>
           ))}
           {attachment.source.text.length > 8000 && (
             <p>
@@ -459,9 +530,18 @@ export function ChatEntry({
             onClick={() => {
               setText(attachment.source.text.slice(0, 8000));
               setNotes(true);
+              setSelectedSource(
+                attachment.source.document_id
+                  ? {
+                      id: attachment.source.document_id,
+                      name: attachment.name,
+                      mode: "excerpt",
+                    }
+                  : null,
+              );
               setAttachment(null);
               setNotice(
-                "Document text added as unreviewed notes. Edit it before sending. The original file is not saved.",
+                "Document excerpt added as unreviewed notes. Edit it before sending; page locations are not claimed for edited text.",
               );
               input.current?.focus();
             }}
@@ -470,7 +550,50 @@ export function ChatEntry({
               ? "Replace draft with extracted notes"
               : "Use as reference notes"}
           </Button>
+          {attachment.source.document_id && (
+            <Button
+              type="button"
+              variant="outline"
+              className="h-auto min-h-11 whitespace-normal"
+              disabled={pending}
+              onClick={() => {
+                setText(attachment.source.text.slice(0, 8000));
+                setNotes(true);
+                setSelectedSource({
+                  id: attachment.source.document_id!,
+                  name: attachment.name,
+                  mode: "full",
+                });
+                setAttachment(null);
+                setNotice(
+                  "Full extracted document selected. All extracted pages will be used; editing the preview switches to an excerpt.",
+                );
+              }}
+            >
+              {text.trim()
+                ? "Replace draft with full document and page references"
+                : "Use full document with page references"}
+            </Button>
+          )}
         </section>
+      )}
+      {selectedSource && (
+        <div className="chat-attachment" role="status">
+          <p>
+            {selectedSource.name} ·{" "}
+            {selectedSource.mode === "full"
+              ? "Full extracted document; editing below switches to an excerpt"
+              : "Edited excerpt; original page locations not claimed"}
+          </p>
+          <Button
+            type="button"
+            variant="ghost"
+            disabled={pending}
+            onClick={() => setSelectedSource(null)}
+          >
+            Remove document reference
+          </Button>
+        </div>
       )}
       <ComposerBeam active={pending || uploadProgress !== null}>
         <form
@@ -490,7 +613,11 @@ export function ChatEntry({
             autoComplete="off"
             ref={input}
             value={text}
-            onChange={(event) => setText(event.target.value)}
+            onChange={(event) => {
+              setText(event.target.value);
+              if (selectedSource?.mode === "full")
+                setSelectedSource({ ...selectedSource, mode: "excerpt" });
+            }}
             rows={3}
             maxLength={8000}
             disabled={pending || !ready}
@@ -544,6 +671,7 @@ export function ChatEntry({
                   disabled={pending}
                   onClick={() => {
                     setNotes(!notes);
+                    setSelectedSource(null);
                     input.current?.focus();
                   }}
                 >
@@ -551,6 +679,10 @@ export function ChatEntry({
                   {notes ? "Notes selected" : "Paste notes"}
                 </Button>
               </SourceAction>
+              <DocumentLibrary
+                disabled={pending || uploadProgress !== null}
+                onSelect={setAttachment}
+              />
             </SourceActions>
             <SendAccent>
               <Button
@@ -564,6 +696,21 @@ export function ChatEntry({
           </div>
         </form>
       </ComposerBeam>
+      {pending && (
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => {
+            replyRequest.current?.abort();
+            setStreamed("");
+            setNotice(
+              "Processing stop requested. Your draft is kept; provider charges may still apply.",
+            );
+          }}
+        >
+          Stop processing
+        </Button>
+      )}
       <p className="chat-input-help">
         PDF / DOCX up to 4 MiB · Enter to send · Shift + Enter for a new line{" "}
         <span>{text.length.toLocaleString("en")}/8,000</span>

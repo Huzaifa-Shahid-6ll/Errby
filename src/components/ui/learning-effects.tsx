@@ -54,7 +54,7 @@ function subscribeMotion(onChange: () => void) {
     window.removeEventListener("storage", sync);
   };
 }
-function useMotion() {
+export function useMotion() {
   return useSyncExternalStore(subscribeMotion, motionSnapshot, () => 7);
 }
 

@@ -10,20 +10,27 @@ import {
 } from "@/lib/preparations/service";
 import { requestModel } from "@/lib/ai/server";
 import type { ProgressEvent } from "@/lib/http/event-stream";
+import { documentPreparation } from "@/lib/documents/service";
 
-export const entrySchema = z.strictObject({
-  key: z.uuid(),
-  text: z.string().trim().min(1).max(8000),
-  notes: z.boolean(),
-  history: z
-    .array(
-      z.strictObject({
-        role: z.enum(["student", "errby"]),
-        text: z.string().min(1).max(2000),
-      }),
-    )
-    .max(8),
-});
+export const entrySchema = z
+  .strictObject({
+    key: z.uuid(),
+    text: z.string().trim().min(1).max(8000),
+    notes: z.boolean(),
+    document_id: z.uuid().optional(),
+    source_mode: z.enum(["full", "excerpt"]).optional(),
+    history: z
+      .array(
+        z.strictObject({
+          role: z.enum(["student", "errby"]),
+          text: z.string().min(1).max(2000),
+        }),
+      )
+      .max(8),
+  })
+  .refine((value) => !value.document_id || value.notes, {
+    message: "Document sources require Notes.",
+  });
 const replySchema = z.strictObject({
   text: z.string().trim().min(1).max(1200),
 });
@@ -39,7 +46,9 @@ export async function enterChat(
     readPreparation,
   },
   emit?: (event: ProgressEvent) => void,
+  signal?: AbortSignal,
 ) {
+  signal?.throwIfAborted();
   if (actor.role !== "learner")
     throw new IngestionError(
       "learner_required",
@@ -51,6 +60,7 @@ export async function enterChat(
     const response = await dependencies
       .requestModel({
         db,
+        signal,
         ownerId: actor.id,
         requestKey: `${input.key}:chat-entry`,
         role: "errby",
@@ -80,12 +90,23 @@ export async function enterChat(
     return { reply: parsed.data.text };
   }
   emit?.({ type: "status", message: "Reading your reference notes…" });
-  const result = clarify(extractText(input.text, "text"), {
-    subject: "The topic in these notes",
-    grade: actor.grade || "Plain English; adapt to the student's explanations",
-    scope:
-      "Explain the main idea in these notes and apply it to one simple example.",
-  });
+  const result = input.document_id
+    ? await documentPreparation(
+        db,
+        actor,
+        input.document_id,
+        input.source_mode ?? "excerpt",
+        input.text,
+        input.key,
+      )
+    : clarify(extractText(input.text, "text"), {
+        subject: "The topic in these notes",
+        grade:
+          actor.grade || "Plain English; adapt to the student's explanations",
+        scope:
+          "Explain the main idea in these notes and apply it to one simple example.",
+      });
+  signal?.throwIfAborted();
   const job = await dependencies.createPreparation(
     db,
     actor,
@@ -94,17 +115,34 @@ export async function enterChat(
     result,
   );
   let state = await dependencies.readPreparation(db, actor, job.id);
+  signal?.throwIfAborted();
   emit?.({ type: "status", message: "Preparing a question from your notes…" });
   if (state.job.current_step === 0)
-    state = await dependencies.advancePreparation(db, actor, job.id, {
-      expected_step: 0,
-    });
+    state = await dependencies.advancePreparation(
+      db,
+      actor,
+      job.id,
+      {
+        expected_step: 0,
+      },
+      undefined,
+      signal,
+    );
+  signal?.throwIfAborted();
   if (state.job.current_step === 1) {
     emit?.({ type: "status", message: "Checking reference coverage…" });
-    state = await dependencies.advancePreparation(db, actor, job.id, {
-      expected_step: 1,
-    });
+    state = await dependencies.advancePreparation(
+      db,
+      actor,
+      job.id,
+      {
+        expected_step: 1,
+      },
+      undefined,
+      signal,
+    );
   }
+  signal?.throwIfAborted();
   if (
     state.review_status !== "private_ready" ||
     !state.job.partial_results.lesson_version_id

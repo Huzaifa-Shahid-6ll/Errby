@@ -38,11 +38,13 @@ Sign in or sign up → `/learn` → start chatting. The student teaches Errby; E
 
 Opening replies stream from OpenRouter; the ungraded conversation stays in the current browser tab. Reference notes start saved, evidence-based practice with live preparation and answer-processing status. Assessed replies appear after validation and saving. The existing private objectives, Supervisor, evidence checks and retry handling run internally. Progress panels are hidden; corrections appear in the conversation through Errby. A topic alone is not a factual answer key, and uncertainty cannot complete learning.
 
-Attachments accept PDF/DOCX up to 4 MiB, within the hosted request ceiling. Upload progress, cancellation, extraction coverage and a text preview precede an explicit action to use the text. Existing drafts are retained until that action. Imported notes remain unreviewed; only the selected text is used, and the original file is not stored. For sources over 8,000 characters, the preview explicitly offers the first 8,000; edit before sending or use a shorter document. Scans require pasted readable text.
+Attachments accept PDF/DOCX up to 4 MiB, with 20 private originals per account. Upload progress, cancellation, extraction coverage and a preview precede an explicit action to use the text. Choose the full extracted document with page/section references, or edit an excerpt of up to 8,000 characters without claiming original page locations. Existing drafts remain until explicit replacement. Saved documents can be previewed, downloaded or removed. Scans require pasted readable text; imported material remains unreviewed.
 
-Saved practice is private and available from Recent chats. The demo is visibly fictional and does not run AI, accept personal uploads or save learning. Teacher/class/preparation pages and their public APIs remain retired; the new chat attachment endpoint reuses the existing bounded parser. Historical schema and domain checks are preserved rather than destructively rewritten.
+Saved practice is private and searchable by title or message text, including older conversations. Sources shows exact reference excerpts; Learning evidence shows saved progress. Ask in simpler words rephrases a question without scoring an answer. Stop processing preserves drafts and retry identity; dispatched calls may incur charges and saved work may finish. Two curated topic starters offer attributed source notes. The demo stays visibly fictional and does not run AI, accept personal uploads or save learning. Teacher/class/preparation pages and their public APIs remain retired.
 
-[Agreed plan and limits](docs/implementation/CHAT_FIRST_PLAN.md) · [Observed verification](docs/SETUP_STATUS.md)
+[Agreed plan and limits](docs/implementation/CHAT_FIRST_PLAN.md) · [25 ChatGPT/Claude UX patterns](docs/research/CHATGPT_CLAUDE_UX_2026-10-01.md) · [Application plan](docs/implementation/UX_PATTERN_PLAN_2026-10-01.md) · [Observed verification](docs/SETUP_STATUS.md)
+
+**Where uploads go:** original files save in the private Supabase Storage `source-documents` bucket; owner metadata, extracted text, preparation and practice records live in Supabase Postgres. Owner-authorized server routes handle downloads and deletion. Removing an original keeps excerpts already used in saved conversations; account deletion also removes originals. The parser privately reuses the same learner's extraction for up to 60 seconds. Authentication and progress remain uncached; successful identical model retries reuse their saved response. [Storage, caching and retention details](docs/implementation/STORAGE_AND_CACHING.md).
 
 ### 💬 A little lesson in heat transfer
 
@@ -60,7 +62,7 @@ If you agree with the mistaken idea, the Supervisor can step in with a correctio
 
 ### 🖼️ A visual tour
 
-The images below are **design concepts with fictional sample data**, reused from the repository. They illustrate the product journeys; they are not current application screenshots, verified grades or evidence of student outcomes. Exact screens may differ.
+The images below are **historical design concepts with fictional sample data**, reused from the repository. They are not current application screenshots, verified grades or evidence of student outcomes. Teacher/class concepts and the separate Supervisor presentation have been superseded by the student chat flow above.
 
 | 📚 Choose what to teach                                                                                                          | 📝 Prepare and review                                                                                                                         |
 | -------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -97,9 +99,9 @@ Errby is designed for school-age learners, from primary through high school, usi
 
 ### 🚪 Getting started and availability
 
-In live mode, students can sign up with a username and password and go straight to their dashboard. No teacher invitation, student email or class membership is required. Sign-in also opens the dashboard (or the protected page you originally requested). Students can prepare private material or join a class later with its code. Teacher access still requires administrator approval.
+In live mode, students can sign up with a username and password and go straight to chat. No teacher invitation, student email or class membership is required. Sign-in opens `/learn` or the protected page originally requested.
 
-For a local tour, follow [Run locally](#run-locally). Demo mode needs no credentials or model spending. Live mode adds saved sessions, classes and configured AI processing.
+For a local tour, follow [Run locally](#run-locally). Demo mode needs no credentials or model spending. Live mode adds private documents, saved practice and configured AI processing.
 
 Errby is a development prototype. Human lesson approval, school/pupil pilot work and production acceptance remain open. No public deployment, learning-gain study or universal AI accuracy is claimed. See the [current verification record](docs/SETUP_STATUS.md) for what has actually been checked.
 
@@ -281,7 +283,9 @@ npx playwright install chromium
 npm run test:browser
 ```
 
-`check` runs ESLint, route generation/TypeScript, local tests including PGlite, and formatting. `npm run db:test` is the focused Docker-free SQL check. `npm run build` uses Webpack, following repeated local Turbopack builds that did not complete. Browser tests start a demo server on port 3100; free that port before running them. With `CI=true`, they use the existing production build and one worker; otherwise they use the development server. Upload-route packaging checks were retired with the upload routes.
+`check` runs ESLint, route generation/TypeScript, local tests including PGlite, and formatting. `npm run db:test` is the focused Docker-free SQL check. `npm run build` uses Webpack, following repeated local Turbopack builds that did not complete. Browser tests start a demo server on port 3100; free that port before running them. With `CI=true`, they use the existing production build and one worker; otherwise they use the development server. After building, `node --import tsx --test tests/chat-attachment-packaging.test.ts` checks the chat attachment's traced DOCX parser. Install the matching browser runtime with `npx playwright install --only-shell chromium` if needed.
+
+`scripts/verify-ai.ts --corpus` and `scripts/verify-chat-upgrades.ts` are opt-in paid synthetic checks requiring the confirmed hosted test environment and an enabled budget. They are excluded from `npm test`; the latter preserves its run in an ignored artifact and requires `--resume` to reuse it. See setup status for observed spending and acceptance rather than assuming a local test proves integration.
 
 | Evidence                         | What it establishes                                                           | What it does not establish                                          |
 | -------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------- |
@@ -291,7 +295,7 @@ npm run test:browser
 
 **Current authentication status:** the recorded Clerk password login, protected Supabase read, refresh and sign-out passed on 30 September. Expanded hosted write/RLS checks, signup/recovery, guarded deletion and full migration acceptance remain pending. The earlier 27 September Supabase Auth results are historical. Final Clerk verification was handed to the user; see [setup status](docs/SETUP_STATUS.md) and the [Clerk validation record](docs/implementation/CLERK_AUTH.md#validation-record), including its dependency findings.
 
-Parsing is bounded to **10 MiB**, **50 PDF pages**, **30,000 extracted characters** and a **15-second extraction limit**. Remote page fetching, video watching, OCR and voice are not implemented. Screenshots and traces belong in ignored `test-results/` and should be inspected before sharing.
+Chat uploads are bounded to **4 MiB**, **50 PDF pages/DOCX sections**, **30,000 extracted characters** and a **15-second extraction limit**. The internal parser has a 10 MiB ceiling, but the active chat route enforces the smaller upload limit. Remote page fetching, video watching, OCR and voice are not implemented. Screenshots and traces belong in ignored `test-results/` and should be inspected before sharing.
 
 <details>
 <summary><strong>🚀 Hosting and deployment notes</strong></summary>
@@ -300,7 +304,7 @@ The root [vercel.json](vercel.json) selects Next.js, `npm ci` and `npm run build
 
 For a fictional demo, set `ERRBY_MODE=demo`. For live mode, configure the application variables listed above for both build and runtime, complete hosted identity/database setup, then verify the deployed flows. Migration and operator credentials do not belong in the deployed application. Builds do not apply migrations or enable model spending.
 
-The documented Vercel Functions [request-body limit](https://vercel.com/docs/functions/limitations#request-body-size) is 4.5 MB, below the app's local 10 MiB document allowance. Use smaller documents or pasted text; larger uploads require a separate direct-to-storage flow. [.vercelignore](.vercelignore) excludes local secrets and generated artifacts. Keep `docs/specification/EXAMPLE_LESSON.json`, which demo imports at build time.
+The documented Vercel Functions [request-body limit](https://vercel.com/docs/functions/limitations#request-body-size) is 4.5 MB. Chat's 4 MiB file limit leaves room for multipart overhead; larger uploads require a separate direct-to-storage flow that is not implemented. [.vercelignore](.vercelignore) excludes local secrets and generated artifacts. Keep `docs/specification/EXAMPLE_LESSON.json`, which demo imports at build time.
 
 Deployment and hosted runtime verification are separate from pushing repository changes. The [historical release guide](docs/implementation/T20_RELEASE.md) contains the demonstration checklist; use current Clerk instructions for authentication.
 

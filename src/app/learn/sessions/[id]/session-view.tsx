@@ -1,6 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { ConversationEnd, CopyMessage } from "../../chat-controls";
+import { ContentLabel, MessageText } from "../../chat-content";
+import { SourcePanel } from "../../source-panel";
 import { useActivity } from "@/lib/results/use-activity";
 import { Bot, ShieldCheck, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -81,10 +85,16 @@ export function SessionView({
   const [notice, setNotice] = useState("");
   const [stage, setStage] = useState("");
   const [text, setText] = useState("");
-  const [pending, setPending] = useState<"answer" | "pause" | "process" | null>(
-    null,
-  );
+  const [pending, setPending] = useState<
+    "answer" | "pause" | "process" | "help" | null
+  >(null);
   const [loading, setLoading] = useState(true);
+  const [simpler, setSimpler] = useState<{
+    sequence: number;
+    question: string;
+  } | null>(null);
+  const processing = useRef<AbortController | null>(null);
+  useEffect(() => () => processing.current?.abort(), []);
   useActivity(
     id,
     state?.session.status === "awaiting_student" &&
@@ -249,6 +259,8 @@ export function SessionView({
     if (turn.current?.text !== trimmed || turn.current.sequence !== sequence)
       turn.current = { text: trimmed, sequence, key: crypto.randomUUID() };
     saveDraft(text);
+    const controller = new AbortController();
+    processing.current = controller;
     try {
       const response = await fetch(
         `/api/sessions/${encodeURIComponent(id)}/turns`,
@@ -263,11 +275,13 @@ export function SessionView({
             expected_sequence: sequence,
             idempotency_key: turn.current.key,
           }),
+          signal: controller.signal,
         },
       );
       const payload = await readReply(response, (event) => {
         if (event.type === "status") setStage(event.message);
       });
+      controller.signal.throwIfAborted();
       if (!response.ok || !payload?.message || !payload?.session) {
         setNotice(
           payload?.user_message ??
@@ -283,14 +297,19 @@ export function SessionView({
       });
       saveDraft("");
       setNotice(payload.processing_error?.message ?? "Answer saved.");
-      requestAnimationFrame(() => statusRegion.current?.focus());
+      requestAnimationFrame(() =>
+        statusRegion.current?.focus({ preventScroll: true }),
+      );
     } catch (error) {
       setNotice(
-        error instanceof Error && error.message !== "Failed to fetch"
-          ? error.message
-          : "We could not confirm your answer was saved. Check your connection, then retry or refresh the saved session. Your text is unchanged.",
+        controller.signal.aborted
+          ? "Processing stop requested. Your draft is kept. Refresh the saved session to check whether your answer or a finished reply was saved; provider charges may still apply."
+          : error instanceof Error && error.message !== "Failed to fetch"
+            ? error.message
+            : "We could not confirm your answer was saved. Check your connection, then retry or refresh the saved session. Your text is unchanged.",
       );
     } finally {
+      processing.current = null;
       setPending(null);
     }
   }
@@ -334,6 +353,8 @@ export function SessionView({
     setPending("process");
     setStage("Checking your saved explanation…");
     setNotice("");
+    const controller = new AbortController();
+    processing.current = controller;
     try {
       const response = await fetch(
         `/api/sessions/${encodeURIComponent(id)}/process`,
@@ -344,11 +365,13 @@ export function SessionView({
             Accept: "text/event-stream",
           },
           body: "{}",
+          signal: controller.signal,
         },
       );
       const payload = await readReply(response, (event) => {
         if (event.type === "status") setStage(event.message);
       });
+      controller.signal.throwIfAborted();
       if (
         !response.ok ||
         !payload?.session ||
@@ -366,11 +389,57 @@ export function SessionView({
       );
     } catch (error) {
       setNotice(
-        error instanceof Error && error.message !== "Failed to fetch"
-          ? error.message
-          : "Your answer is saved. Check your connection, then retry the AI response.",
+        controller.signal.aborted
+          ? "Processing stop requested. Your saved answer remains. Refresh to check the latest state; provider charges may still apply."
+          : error instanceof Error && error.message !== "Failed to fetch"
+            ? error.message
+            : "Your answer is saved. Check your connection, then retry the AI response.",
       );
     } finally {
+      processing.current = null;
+      setPending(null);
+    }
+  }
+
+  async function simplifyQuestion() {
+    if (
+      !state ||
+      pending ||
+      loading ||
+      state.session.status !== "awaiting_student"
+    )
+      return;
+    setPending("help");
+    setNotice("");
+    const controller = new AbortController();
+    processing.current = controller;
+    try {
+      const response = await fetch(`/api/sessions/${id}/help`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          expected_sequence: state.session.last_sequence,
+        }),
+        signal: controller.signal,
+      });
+      const payload = await response.json();
+      controller.signal.throwIfAborted();
+      if (!response.ok)
+        throw new Error(
+          payload.user_message ?? "Simpler wording is unavailable.",
+        );
+      setSimpler(payload);
+      setNotice("Question reworded. Your draft and progress are unchanged.");
+    } catch (error) {
+      setNotice(
+        controller.signal.aborted
+          ? "Rewording stopped. Your draft and progress are unchanged; provider charges may still apply."
+          : error instanceof Error
+            ? error.message
+            : "Simpler wording is unavailable.",
+      );
+    } finally {
+      processing.current = null;
       setPending(null);
     }
   }
@@ -457,6 +526,12 @@ export function SessionView({
         </div>
         <div className="flex gap-2 flex-wrap">
           {!quiet && <MotionToggle />}
+          <SourcePanel sessionId={id} />
+          <Button asChild variant="outline" className="min-h-11">
+            <Link href={`/learn/sessions/${id}/results`}>
+              View learning evidence
+            </Link>
+          </Button>
           {state.session.status !== "completed" &&
             state.session.status !== "ended_incomplete" && (
               <Button
@@ -504,13 +579,35 @@ export function SessionView({
               ? "Saving session state..."
               : pending === "process"
                 ? stage
-                : statusLabel}
+                : pending === "help"
+                  ? "Rewording the question…"
+                  : statusLabel}
         </strong>
         <span>{statusDescription}</span>
         {(notice || state.processing_error?.message) && (
           <span>{notice || state.processing_error?.message}</span>
         )}
       </p>
+      {(pending === "answer" ||
+        pending === "process" ||
+        pending === "help") && (
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => processing.current?.abort()}
+        >
+          Stop processing
+        </Button>
+      )}
+      {quiet && state.session.status === "needs_review" && (
+        <p className="session-note">
+          This conversation stays unresolved. You can{" "}
+          <Link href="/learn" className="underline">
+            return to chat with clearer reference notes
+          </Link>{" "}
+          and try a fresh explanation.
+        </p>
+      )}
       {state.session.status === "evaluating" && (
         <Button
           type="button"
@@ -560,7 +657,11 @@ export function SessionView({
                     <strong>
                       {message.role === "student" ? "You" : "Errby"}
                     </strong>
-                    <p>{message.text}</p>
+                    <MessageText text={message.text} />
+                    <CopyMessage
+                      text={message.text}
+                      speaker={message.role === "student" ? "your" : "Errby"}
+                    />
                   </li>
                 ))}
               </ol>
@@ -591,7 +692,20 @@ export function SessionView({
                     <span>{label}</span>
                     <span className="session-role-detail">{detail}</span>
                   </div>
-                  <p>{message.text}</p>
+                  {message.role === "supervisor" ? (
+                    <div className="chat-content-card" data-kind="guidance">
+                      <ContentLabel kind="guidance">
+                        Learning guidance
+                      </ContentLabel>
+                      <MessageText text={message.text} />
+                    </div>
+                  ) : (
+                    <MessageText text={message.text} />
+                  )}
+                  <CopyMessage
+                    text={message.text}
+                    speaker={label === "You" ? "your" : label}
+                  />
                 </li>
               );
             })}
@@ -615,6 +729,29 @@ export function SessionView({
               <p className="session-pending">{stage}</p>
             </ReplyGlow>
           )}
+          <ConversationEnd
+            revision={`${state.session.last_sequence}:${pending}`}
+          />
+          {simpler?.sequence === state.session.last_sequence && (
+            <aside
+              className="chat-content-card"
+              data-kind="tool"
+              aria-label="Question in simpler words"
+            >
+              <ContentLabel kind="tool">
+                Question in simpler words · not an assessment
+              </ContentLabel>
+              <MessageText text={simpler.question} />
+            </aside>
+          )}
+          <Button
+            type="button"
+            variant="ghost"
+            disabled={blocked}
+            onClick={() => void simplifyQuestion()}
+          >
+            Ask in simpler words
+          </Button>
           <ComposerBeam active={pending === "answer" || pending === "process"}>
             <form
               className="session-composer mt-6"

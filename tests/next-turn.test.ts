@@ -102,6 +102,16 @@ test("Errby follow-up generation is bounded and correction text never goes throu
   );
   assert.equal(calls, 1);
   assert.equal(correction.kind, "reply");
+  const finishing = await generateReply(
+    {
+      ...base,
+      decision: { assessments: [assessment], supervisor: { trigger: "none" } },
+      remaining_objective_ids: [],
+    },
+    generate,
+  );
+  assert.equal(finishing.kind, "reply");
+  assert.equal(calls, 1, "no cosmetic model call when no objectives remain");
 });
 
 test("approved, checked misconception is selected once; unresolved error is never repeated", () => {
@@ -159,4 +169,61 @@ test("approved, checked misconception is selected once; unresolved error is neve
   assert.equal(ordinaryWrong.misconception_id, null);
   assert.ok(ordinaryWrong.text.includes(objective.correction_criteria[0]));
   assert.ok(!ordinaryWrong.text.includes("Untrusted model text"));
+});
+
+test("three unsuccessful attempts offer checked support and a pause without awarding progress", () => {
+  const input = {
+    lesson,
+    learner_answer: answer,
+    used_misconception_ids: [],
+    unsuccessful_attempts: { [objective.id]: 3 },
+    decision: {
+      assessments: [{ ...assessment, verdict: "partial" }],
+      supervisor: { trigger: "none" },
+    },
+  };
+  const support = selectNextTurn(input);
+  assert.equal(support.kind, "reply");
+  if (support.kind !== "reply") return;
+  assert.equal(support.role, "supervisor");
+  assert.ok(support.text.includes(objective.correction_criteria[0]));
+  assert.ok(support.text.includes(objective.application_question));
+  assert.match(support.text, /pause/);
+  assert.equal(support.misconception_id, null);
+  const earlier = selectNextTurn({
+    ...input,
+    unsuccessful_attempts: { [objective.id]: 2 },
+  });
+  assert.equal(earlier.kind === "reply" && earlier.role, "errby");
+  const resolved = selectNextTurn({
+    ...input,
+    decision: { assessments: [assessment], supervisor: { trigger: "none" } },
+  });
+  assert.equal(resolved.kind === "reply" && resolved.role, "errby");
+  const other = lesson.objectives[1];
+  assert.equal(
+    selectNextTurn({
+      ...input,
+      decision: {
+        assessments: [
+          { ...assessment, verdict: "incorrect" },
+          {
+            ...assessment,
+            objective_id: other.id,
+            reference_ids: other.reference_ids,
+            verdict: "unverified",
+            uncertainty_reason: "This claim needs a better source.",
+            independent: false,
+          },
+        ],
+        supervisor: {
+          trigger: "correction",
+          text: "Check the source",
+          reference_ids: assessment.reference_ids,
+        },
+      },
+    }).kind,
+    "needs_review",
+    "mixed correction and uncertainty must preserve the source-review gate",
+  );
 });

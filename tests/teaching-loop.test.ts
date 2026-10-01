@@ -264,6 +264,32 @@ test("PGlite + mocked provider: atomic multi-turn teaching, recovery, fencing, p
     await send(
       wrong.session.id,
       state.session.last_sequence,
+      target.correction_criteria.join(" ").toUpperCase().replaceAll(" ", "  "),
+    );
+    state = await processSession(db, actor, wrong.session.id, providers);
+    assert.ok(state.session.objective_progress);
+    assert.equal(
+      state.session.objective_progress.find((goal) => goal.id === target.id)
+        ?.status,
+      "developing",
+      "copying just the correction cannot earn credit even if the model calls it independent",
+    );
+    assert.equal(state.messages.at(-1)?.role, "supervisor");
+    assert.match(state.messages.at(-1)!.text, /pause and come back/);
+    assert.equal(state.session.status, "awaiting_student");
+    assert.equal(
+      (
+        await sql.query<{ resolved: boolean }>(
+          "select resolved from interventions where session_id=$1",
+          [wrong.session.id],
+        )
+      ).rows[0].resolved,
+      false,
+    );
+    independent = true;
+    await send(
+      wrong.session.id,
+      state.session.last_sequence,
       "A warm hand loses energy to a cold glass because energy moves from higher temperature to lower temperature.",
     );
     state = await processSession(db, actor, wrong.session.id, providers);
@@ -303,6 +329,73 @@ test("PGlite + mocked provider: atomic multi-turn teaching, recovery, fencing, p
     assert.equal(state.session.status, "evaluating");
     state = await processSession(db, actor, retry.session.id, providers);
     assert.equal(state.messages.length, 3);
+
+    const stopped = await start();
+    await send(stopped.session.id, 0);
+    const stop = new AbortController();
+    state = await processSession(
+      db,
+      actor,
+      stopped.session.id,
+      {
+        ...providers,
+        evaluateAnswer: async (input) => {
+          assert.equal(input.signal, stop.signal);
+          const result = await providers.evaluateAnswer(input);
+          stop.abort();
+          return result;
+        },
+        generateReply: async () => {
+          assert.fail("Stop must prevent the next paid phase");
+        },
+      },
+      stop.signal,
+    );
+    assert.equal(state.processing_error?.code, "generation_stopped");
+    assert.equal(
+      state.messages.length,
+      2,
+      "saved answer survives Stop without a fabricated reply",
+    );
+    assert.equal(state.session.status, "evaluating");
+    assert.equal(
+      (
+        await sql.query("select * from evaluations where session_id=$1", [
+          stopped.session.id,
+        ])
+      ).rows.length,
+      0,
+    );
+    state = await processSession(db, actor, stopped.session.id, providers);
+    assert.equal(
+      state.messages.length,
+      3,
+      "released lease permits explicit recovery",
+    );
+
+    const commitRace = await start();
+    await send(commitRace.session.id, 0);
+    const stopDuringSave = new AbortController();
+    const raceDb = {
+      from: db.from.bind(db),
+      rpc: async (name: string, args: Record<string, unknown>) => {
+        if (name === "finish_learning_turn") stopDuringSave.abort();
+        return db.rpc(name, args);
+      },
+    } as unknown as SupabaseClient;
+    state = await processSession(
+      raceDb,
+      actor,
+      commitRace.session.id,
+      providers,
+      stopDuringSave.signal,
+    );
+    assert.equal(
+      state.messages.length,
+      3,
+      "atomic evidence commit finishes if it wins the Stop race",
+    );
+    assert.equal(state.processing_error, undefined);
 
     const concurrent = await start();
     await send(concurrent.session.id, 0);

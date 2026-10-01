@@ -12,6 +12,10 @@ import {
   IngestionError,
 } from "../src/lib/ingestion/server";
 import { handlePreparation } from "../src/lib/ingestion/request";
+import {
+  cachedExtraction,
+  clearExtractionCache,
+} from "../src/lib/ingestion/cache";
 import { demoPdfPages, syntheticPdf } from "../src/lib/ingestion/synthetic-pdf";
 
 function hasCode(code: string) {
@@ -31,6 +35,54 @@ function request(
   });
 }
 const noIdentity = async () => null;
+
+test("extraction cache coalesces privately, bounds retention, isolates mutations and retries failures", async (t) => {
+  t.mock.timers.enable({ apis: ["setTimeout", "Date"] });
+  let calls = 0;
+  const parse = async () => {
+    calls++;
+    return extractText("Fictional reference", "text");
+  };
+  const read = (owner = "cache-a", key = "pdf:valid-mime:hash") =>
+    cachedExtraction(owner, key, parse);
+  try {
+    const [first, second] = await Promise.all([read(), read()]);
+    assert.equal(calls, 1);
+    first.pages[0].text = "changed locally";
+    assert.equal(second.pages[0].text, "Fictional reference");
+    assert.equal((await read()).pages[0].text, "Fictional reference");
+    await read("cache-b");
+    assert.equal(calls, 2, "another owner must parse separately");
+    await read("cache-a", "docx:valid-mime:hash");
+    await read("cache-a", "pdf:wrong-mime:hash");
+    await read();
+    assert.equal(calls, 5, "two-per-owner FIFO limit evicts oldest key");
+    t.mock.timers.tick(60_000);
+    await read();
+    assert.equal(calls, 6, "expired result must be parsed again");
+    clearExtractionCache("cache-a");
+    await read();
+    assert.equal(calls, 7, "account cleanup invalidates its entries");
+    for (let attempt = 0; attempt < 2; attempt++) {
+      await assert.rejects(
+        cachedExtraction("cache-a", "broken", async () => {
+          calls++;
+          throw new Error("fictional parser failure");
+        }),
+        /fictional parser failure/,
+      );
+    }
+    assert.equal(calls, 9, "failed parses are not cached");
+    for (let i = 0; i < 16; i++) await read(`cache-global-${i}`);
+    await read();
+    assert.equal(calls, 26, "global capacity evicts oldest entry");
+  } finally {
+    clearExtractionCache("cache-a");
+    clearExtractionCache("cache-b");
+    for (let i = 0; i < 16; i++) clearExtractionCache(`cache-global-${i}`);
+    t.mock.timers.reset();
+  }
+});
 
 test("DOCX extraction preserves paragraph sections and rejects corrupt input", async () => {
   const JSZip = (await import("jszip")).default;
@@ -312,7 +364,7 @@ test("request gate denies cross-origin/demo uploads and verifies live identity b
       }),
     }),
     "live",
-    async () => ({ grade: "middle_school" }),
+    async () => ({ id: "request-cache-owner", grade: "middle_school" }),
   );
   const uploadedResult = await uploaded.json();
   assert.equal(uploaded.status, 200);
@@ -324,6 +376,52 @@ test("request gate denies cross-origin/demo uploads and verifies live identity b
   );
   assert.equal(uploadedResult.status, "needs_clarification");
   assert.equal(uploadedResult.context.grade, "middle_school");
+  let checks = 0;
+  const repeated = await handlePreparation(
+    request({
+      kind: "pdf",
+      file: new Blob([syntheticPdf(demoPdfPages)], { type: "application/pdf" }),
+    }),
+    "live",
+    async () => {
+      checks++;
+      return { id: "request-cache-owner", grade: "Grade 8" };
+    },
+  );
+  assert.equal(
+    checks,
+    2,
+    "cache reuse rechecks identity after reading the body",
+  );
+  assert.equal((await repeated.json()).context.grade, "Grade 8");
+  assert.equal(repeated.headers.get("cache-control"), "no-store");
+  const invalidMime = await handlePreparation(
+    request({
+      kind: "pdf",
+      file: new Blob([syntheticPdf(demoPdfPages)], { type: "text/plain" }),
+    }),
+    "live",
+    async () => ({ id: "request-cache-owner", grade: "Grade 8" }),
+  );
+  assert.equal((await invalidMime.json()).error_code, "unsupported_file");
+  let revokedChecks = 0;
+  const revoked = await handlePreparation(
+    request({
+      kind: "pdf",
+      file: new Blob([syntheticPdf(demoPdfPages)], { type: "application/pdf" }),
+    }),
+    "live",
+    async () =>
+      ++revokedChecks === 1
+        ? { id: "request-cache-owner", grade: "Grade 8" }
+        : null,
+  );
+  assert.equal(
+    revoked.status,
+    401,
+    "revocation during upload denies warm cache",
+  );
+  clearExtractionCache("request-cache-owner");
   const duplicate = new FormData();
   duplicate.append("kind", "text");
   duplicate.append("kind", "pdf");

@@ -253,7 +253,9 @@ export async function advancePreparation(
   id: string,
   input: unknown,
   generate = generatePreparationDraft,
+  signal?: AbortSignal,
 ) {
+  signal?.throwIfAborted();
   const parsed = stepSchema.safeParse(input);
   if (!parsed.success)
     throw new IngestionError(
@@ -316,8 +318,9 @@ export async function advancePreparation(
   }
   const token = claimed.data.lease_token;
   try {
+    signal?.throwIfAborted();
     if (body.expected_step === 1 && body.draft === undefined) {
-      draft = await generate(db, actor, state.job);
+      draft = await generate(db, actor, state.job, undefined, signal);
       // Generated private practice is source-grounded, never teacher-approved.
       if (
         !state.job.class_id &&
@@ -340,6 +343,8 @@ export async function advancePreparation(
         result = { ...result, private_ready: true } as typeof result;
       }
     }
+    signal?.throwIfAborted();
+    // Once dispatched, finish the atomic save even if the caller leaves.
     const finished = await db.rpc("finish_preparation", {
       p_owner: actor.id,
       p_job: id,

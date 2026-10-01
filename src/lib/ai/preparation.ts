@@ -15,13 +15,16 @@ export async function generatePreparationDraft(
   actor: PreparationActor,
   job: PreparationJob,
   request = requestModel,
+  signal?: AbortSignal,
 ) {
   const { extraction, context } = job.partial_results;
   let repair: string | null = null;
   for (let attempt = 0; attempt < 2; attempt++) {
+    signal?.throwIfAborted();
     try {
       const { output } = await request({
         db,
+        signal,
         ownerId: actor.id,
         requestKey: modelRequestKey(
           `preparation:${job.id}:step1:v1:${attempt}`,

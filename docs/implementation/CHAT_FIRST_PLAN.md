@@ -2,9 +2,13 @@
 
 30 September 2026. Scope confirmed by the user after review.
 
+1 October follow-up: [25 researched interaction patterns](../research/CHATGPT_CLAUDE_UX_2026-10-01.md), a [separate agent's application plan](UX_PATTERN_PLAN_2026-10-01.md), [Supervisor/learning audit](LEARNING_AUDIT_2026-10-01.md), and [upload storage/caching](STORAGE_AND_CACHING.md) extend this direction. Teacher workflows remain excluded. New copy, scrolling and results navigation must not change evidence or completion semantics.
+
 Follow-up: the user subsequently requested document-upload UX and OpenRouter streaming. The chat composer now supports PDF/DOCX extraction and reviewed excerpts, streamed ungraded replies, and real preparation/session status events. This supersedes the typed/pasted-only boundary below; retired teacher and preparation screens remain retired. See the latest setup-status entry for verification and limitations.
 
 ## Keep the original idea
+
+The later 1 October delivery adds private original-file storage, full-document provenance, paginated history search, Stop processing, simpler-question help and two curated source-backed topic starters. These supersede earlier excerpt-only and deferred-feature descriptions. All use the existing engine and components; teacher workflows remain excluded. Current acceptance and live-test limits are in setup status.
 
 The student teaches Errby. Errby remains a curious AI learner, with bounded misunderstandings. The Supervisor checks the learner's evidence and intervenes when needed. Preserve the existing objectives, assessment, correction, completion, retry, privacy and spending controls.
 

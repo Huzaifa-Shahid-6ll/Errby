@@ -2,9 +2,20 @@ import { pathToFileURL } from "node:url";
 import { z } from "zod";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createAdminClient } from "../src/lib/db/admin";
+import { reconcileDocument } from "../src/lib/documents/service";
 
 const commandSchema = z.discriminatedUnion("action", [
   z.object({ action: z.literal("status") }).strict(),
+  z.object({ action: z.literal("documents-status") }).strict(),
+  z
+    .object({
+      action: z.literal("document-reconcile"),
+      ownerId: z.uuid(),
+      documentId: z.uuid(),
+      confirmDocumentId: z.uuid(),
+      confirmedNoActiveWriter: z.literal(true),
+    })
+    .strict(),
   z
     .object({
       action: z.literal("budget"),
@@ -40,8 +51,24 @@ export async function operate(
   confirmed: boolean,
 ) {
   const command = commandSchema.parse(raw);
-  if (command.action !== "status" && !confirmed)
+  if (!["status", "documents-status"].includes(command.action) && !confirmed)
     throw new Error("Mutation requires --confirm");
+  if (command.action === "documents-status") {
+    const result = await db
+      .from("uploaded_documents")
+      .select("id,owner_id,state,created_at")
+      .neq("state", "ready")
+      .order("created_at", { ascending: true })
+      .limit(100);
+    if (result.error) throw new Error("Document cleanup status unavailable");
+    return { documents: result.data ?? [] };
+  }
+  if (command.action === "document-reconcile") {
+    if (command.documentId !== command.confirmDocumentId)
+      throw new Error("Document UUID confirmation does not match");
+    await reconcileDocument(db, command.ownerId, command.documentId);
+    return { status: "original_deleted", documentId: command.documentId };
+  }
   if (command.action === "status") {
     const [budget, ledger] = await Promise.all([
       db

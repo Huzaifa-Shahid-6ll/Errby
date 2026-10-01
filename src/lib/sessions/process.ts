@@ -16,8 +16,10 @@ export async function processSession(
   actor: SessionActor,
   id: string,
   providers = { evaluateAnswer, generateReply },
+  signal?: AbortSignal,
 ) {
   await assertSessionAccess(db, actor, id);
+  signal?.throwIfAborted();
   const claim = await db.rpc("claim_learning_turn", {
     p_learner: actor.id,
     p_session_id: id,
@@ -29,6 +31,7 @@ export async function processSession(
     lesson_version_id: string;
   };
   try {
+    signal?.throwIfAborted();
     const state = await getSession(db, actor, id);
     const answer = state.messages.at(-1);
     if (!answer || answer.role !== "student")
@@ -45,6 +48,7 @@ export async function processSession(
     )?.text;
     const evaluated = await providers.evaluateAnswer({
       db,
+      signal,
       ownerId: actor.id,
       messageId: answer.id,
       lesson,
@@ -52,22 +56,42 @@ export async function processSession(
       conversation: state.messages.slice(0, -1),
       precedingCorrection,
     });
-    const history = await db
-      .from("messages")
-      .select("misconception_id,role")
-      .eq("session_id", id)
-      .order("sequence", { ascending: true });
-    const interventions = await db
-      .from("interventions")
-      .select("misconception_id")
-      .eq("session_id", id)
-      .eq("resolved", false);
-    const progress = await db
-      .from("objective_progress")
-      .select("objective_id,state")
-      .eq("session_id", id);
-    for (const result of [history, interventions, progress])
+    signal?.throwIfAborted();
+    const [history, interventions, progress, evaluations] = await Promise.all([
+      db
+        .from("messages")
+        .select("misconception_id,role")
+        .eq("session_id", id)
+        .order("sequence", { ascending: true }),
+      db
+        .from("interventions")
+        .select("misconception_id")
+        .eq("session_id", id)
+        .eq("resolved", false),
+      db
+        .from("objective_progress")
+        .select("objective_id,state")
+        .eq("session_id", id),
+      db
+        .from("evaluations")
+        .select("objective_id,verdict,independent,assisted")
+        .eq("session_id", id),
+    ]);
+    for (const result of [history, interventions, progress, evaluations])
       if (result.error) sessionFailure(result.error);
+    const unsuccessfulAttempts: Record<string, number> = {};
+    for (const assessment of [
+      ...(evaluations.data ?? []),
+      ...evaluated.decision.assessments,
+    ]) {
+      if (
+        assessment.verdict !== "correct" ||
+        !assessment.independent ||
+        assessment.assisted
+      )
+        unsuccessfulAttempts[assessment.objective_id] =
+          (unsuccessfulAttempts[assessment.objective_id] ?? 0) + 1;
+    }
     const explained = new Set<string>(
       (progress.data ?? [])
         .filter((p) => p.state === "explained")
@@ -84,6 +108,7 @@ export async function processSession(
     }
     const reply = await providers.generateReply({
       db,
+      signal,
       ownerId: actor.id,
       messageId: answer.id,
       lesson,
@@ -103,7 +128,10 @@ export async function processSession(
       remaining_objective_ids: lesson.objectives
         .filter((o) => !explained.has(o.id))
         .map((o) => o.id),
+      unsuccessful_attempts: unsuccessfulAttempts,
     });
+    signal?.throwIfAborted();
+    // Never cancel an atomic evidence commit in flight; reload decides its outcome.
     const finished = await db.rpc("finish_learning_turn", {
       p_learner: actor.id,
       p_session_id: id,
@@ -127,12 +155,14 @@ export async function processSession(
     return {
       ...state,
       processing_error: {
-        code:
-          error instanceof IngestionError
+        code: signal?.aborted
+          ? "generation_stopped"
+          : error instanceof IngestionError
             ? error.code
             : "processing_unavailable",
-        message:
-          error instanceof IngestionError
+        message: signal?.aborted
+          ? "Processing stopped. Your answer is saved; reload to check its status. Provider charges may still apply, and an interrupted request may need reconciliation before retrying."
+          : error instanceof IngestionError
             ? error.message
             : "Your answer is saved. Retry the saved turn when processing is available.",
       },

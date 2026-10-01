@@ -15,22 +15,29 @@ export async function generateReply(
     db: SupabaseClient;
     ownerId: string;
     messageId: string;
+    signal?: AbortSignal;
   },
   runModel = requestModel,
 ) {
+  input.signal?.throwIfAborted();
   const selected = selectNextTurn(input);
   if (
     selected.kind !== "reply" ||
     selected.role === "supervisor" ||
-    selected.misconception_id
+    selected.misconception_id ||
+    input.remaining_objective_ids?.length === 0
   )
-    return selected; // Deliberate misconceptions/corrections stay exactly authored and reviewed.
+    // Keep authored corrections; skip cosmetic generation when no objective
+    // remains. Only the database transaction can decide actual completion.
+    return selected;
   const schema = z.toJSONSchema(replySchema, { target: "draft-07" });
   delete schema.$schema;
   for (let attempt = 0; attempt < 2; attempt++) {
+    input.signal?.throwIfAborted();
     try {
       const result = await runModel({
         db: input.db,
+        signal: input.signal,
         ownerId: input.ownerId,
         requestKey: `${input.messageId}:reply:${attempt}`,
         role: "errby",

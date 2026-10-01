@@ -1,4 +1,7 @@
 # MVP scope and acceptance
+
+> **Scope update — 1 October 2026:** M04–M06 and M12 are retired from the active student product, not unfinished teacher features to rebuild. M08 retains the Supervisor's checks and corrections through Errby's quiet chat presentation. M01–M03 accept ungraded topic chat and source-grounded private practice; a topic alone never becomes verified evidence. Current implementation and remaining acceptance are in [the learning audit](../implementation/LEARNING_AUDIT_2026-10-01.md) and [setup status](../SETUP_STATUS.md). The table below preserves the original plan for context.
+
 ## Must ship
 | ID | Capability | Acceptance criterion |
 | --- | --- | --- |

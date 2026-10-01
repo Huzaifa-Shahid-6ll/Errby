@@ -155,4 +155,35 @@ test("notes reuse private preparation and ready session handoff; incomplete evid
   );
   assert.match(result.reply!, /no progress has been awarded/);
   assert.deepEqual(calls, ["save"]);
+
+  const stop = new AbortController();
+  calls.length = 0;
+  job.current_step = 0;
+  await assert.rejects(
+    enterChat(
+      db,
+      actor,
+      { ...input, notes: true },
+      {
+        ...dependencies!,
+        advancePreparation: async (
+          ...args: Parameters<typeof advancePreparation>
+        ) => {
+          assert.equal(args[5], stop.signal);
+          calls.push("saved-step0");
+          job.current_step++;
+          stop.abort();
+          return state() as Awaited<ReturnType<typeof advancePreparation>>;
+        },
+      },
+      undefined,
+      stop.signal,
+    ),
+    /abort/i,
+  );
+  assert.deepEqual(
+    calls,
+    ["save", "saved-step0"],
+    "stopping notes retains the saved step and skips generation/opening",
+  );
 });

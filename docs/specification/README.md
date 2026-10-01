@@ -1,4 +1,7 @@
 # Errby — hackathon implementation blueprint
+
+> **Current scope — 1 October 2026:** This is the historical discovery blueprint. The active product is student-only chat: no teacher dashboard, class joining, publication or approval workflow. [Chat-first decisions](../implementation/CHAT_FIRST_PLAN.md), [25-pattern UX plan](../implementation/UX_PATTERN_PLAN_2026-10-01.md), [learning audit](../implementation/LEARNING_AUDIT_2026-10-01.md), and [setup status](../SETUP_STATUS.md) supersede conflicting passages below. Preserve the original learn-by-teaching, Supervisor, valid-evidence and uncertainty rules. Supervisor corrections reach the learner through Errby in the quiet workspace. Current upload storage is described in [storage and caching](../implementation/STORAGE_AND_CACHING.md).
+
 Version 1.0 · 16 September 2026 · Status: specification, not an implemented application.
 
 Errby is a responsive English web app where learners explain school topics to an intentionally confused robot. It begins with a genuine open question, asks follow-ups containing bounded misconceptions, and uses a visibly distinct supervisor to correct errors or surface uncertainty after the learner submits a response.

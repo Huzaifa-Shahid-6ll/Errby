@@ -9,6 +9,8 @@ export const INGESTION_LIMITS = {
 export const CHAT_UPLOAD_BYTES = 4 * 1024 * 1024;
 
 export type Extraction = {
+  document_id?: string;
+  document_mode?: "full" | "excerpt";
   kind: "topic" | "text" | "pdf" | "docx";
   source_role: "scope" | "evidence";
   provenance: "user_supplied_unreviewed" | "fictional_unreviewed";

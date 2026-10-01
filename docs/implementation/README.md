@@ -2,6 +2,10 @@
 
 The original backlog remains in [IMPLEMENTATION_TASKS.md](../specification/IMPLEMENTATION_TASKS.md). Current implementation and verification status is maintained in [SETUP_STATUS.md](../SETUP_STATUS.md); the original specification pack is preserved.
 
+Latest presentation work: [chat content icons, interaction research and teaching-visuals roadmap](CHAT_CONTENT_AND_VISUALS.md).
+
+Current student-only work: [Chat-first direction](CHAT_FIRST_PLAN.md), [25-pattern research](../research/CHATGPT_CLAUDE_UX_2026-10-01.md), [UX application plan](UX_PATTERN_PLAN_2026-10-01.md), [learning/Supervisor audit](LEARNING_AUDIT_2026-10-01.md), and [storage/caching](STORAGE_AND_CACHING.md). Teacher/class tasks below are historical, not requirements to restore. Their original acceptance notes are superseded only by explicitly recorded later verification.
+
 | Task                    | Implementation notes                                            | Next dependency                                                                 |
 | ----------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------- |
 | T01 foundation          | Setup status and repository README                              | Hosted CI verification                                                          |

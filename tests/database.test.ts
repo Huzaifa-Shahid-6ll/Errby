@@ -446,7 +446,7 @@ test("migrations, role isolation, private sessions, duplicate turns and immutabl
     const rls = await db.query<{ relrowsecurity: boolean }>(
       "select relrowsecurity from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind='r'",
     );
-    assert.equal(rls.rows.length, 20);
+    assert.equal(rls.rows.length, 21);
     assert.ok(rls.rows.every((row) => row.relrowsecurity));
     assert.equal(
       (

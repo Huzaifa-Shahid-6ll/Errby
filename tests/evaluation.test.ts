@@ -72,6 +72,36 @@ test("evaluator repairs invalid source/quote output once and never accepts repea
   );
   assert.equal(copied.decision.assessments[0].independent, false);
   assert.equal(copied.decision.assessments[0].assisted, true);
+  const copiedExcerpt = await evaluateAnswer(
+    {
+      ...input,
+      learnerAnswer: answer.toUpperCase().replaceAll(" ", "  "),
+      precedingCorrection: `${answer} Can you explain a changed example?`,
+    },
+    async () => ({
+      output: {
+        assessments: [
+          {
+            ...valid.assessments[0],
+            learner_quote: answer.toUpperCase().replaceAll(" ", "  "),
+          },
+        ],
+      },
+      model: "synthetic-mock",
+      tokens: 1,
+    }),
+  );
+  assert.equal(copiedExcerpt.decision.assessments[0].independent, false);
+  assert.equal(copiedExcerpt.decision.assessments[0].assisted, true);
+  const freshExample = await evaluateAnswer(
+    {
+      ...input,
+      precedingCorrection:
+        "A warm hand transfers energy to a cold glass. Explain a different example.",
+    },
+    async () => ({ output: valid, model: "synthetic-mock", tokens: 1 }),
+  );
+  assert.equal(freshExample.decision.assessments[0].independent, true);
   const copiedPrompt = await evaluateAnswer(
     { ...input, precedingCorrection: answer },
     async () => ({
@@ -139,7 +169,7 @@ test("decision gate rejects fabricated evidence, copied credit and missing inter
         decision,
         lesson,
         item.learner_answer,
-        item.learner_answer,
+        `${item.learner_answer} Explain a changed example.`,
       ),
     /Copied correction/,
   );

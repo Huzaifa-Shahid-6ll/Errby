@@ -356,3 +356,150 @@ test("application stream delivers progress before completion, rejects missing re
       error instanceof Error && !error.message.includes("private secret"),
   );
 });
+
+test("Stop propagates through the response to provider reads, retains uncertain spend and prevents redispatch", async () => {
+  let status = "reserved";
+  let fetches = 0;
+  let providerSignal: AbortSignal | undefined;
+  let cancelledBody = false;
+  const db = {
+    async rpc(name: string) {
+      if (name === "reserve_model_cost") return { data: status };
+      if (name === "claim_model_request") {
+        status = "pending";
+        return { data: true };
+      }
+      assert.fail(
+        "Interrupted provider cost must not be released or settled as successful",
+      );
+    },
+  } as unknown as SupabaseClient;
+  const input = {
+    db,
+    ownerId: "synthetic",
+    requestKey: "cancelled",
+    role: "errby" as const,
+    promptVersion: "test",
+    system: "Fictional",
+    input: "Hi",
+    schema: {},
+  };
+  const dependencies = {
+    mode: "live",
+    key: "mock",
+    model: "gpt-4.1-mini",
+    fetch: (async (_url, options) => {
+      fetches++;
+      providerSignal = options?.signal ?? undefined;
+      return new Response(
+        new ReadableStream({
+          start(controller) {
+            controller.enqueue(
+              new TextEncoder().encode(
+                'data: {"choices":[{"delta":{"content":"Partial"}}]}\n\n',
+              ),
+            );
+          },
+          cancel() {
+            cancelledBody = true;
+          },
+        }),
+      );
+    }) as typeof fetch,
+  };
+  let complete!: () => void;
+  const finished = new Promise<void>((resolve) => {
+    complete = resolve;
+  });
+  const response = streamResponse(async (emit, signal) => {
+    try {
+      await assert.rejects(
+        requestModel(
+          { ...input, signal, onText: (text) => emit({ type: "delta", text }) },
+          dependencies,
+        ),
+        /Processing stopped/,
+      );
+    } finally {
+      complete();
+    }
+  });
+  const reader = response.body!.getReader();
+  assert.match(
+    new TextDecoder().decode((await reader.read()).value),
+    /Partial/,
+  );
+  await reader.cancel();
+  await finished;
+  assert.equal(providerSignal?.aborted, true);
+  assert.equal(cancelledBody, true);
+  assert.equal(status, "pending");
+  await assert.rejects(
+    requestModel(input, dependencies),
+    /pending reconciliation/,
+  );
+  assert.equal(fetches, 1);
+  await assert.rejects(
+    requestModel({ ...input, signal: AbortSignal.abort() }, dependencies),
+    /abort/i,
+  );
+  assert.equal(fetches, 1);
+});
+
+test("incoming request cancellation reaches active non-streamed provider fetch", async () => {
+  const request = new AbortController();
+  let providerAborted = false;
+  let complete!: () => void;
+  const done = new Promise<void>((resolve) => {
+    complete = resolve;
+  });
+  const response = streamResponse(async (emit, signal) => {
+    try {
+      await assert.rejects(
+        requestModel(
+          {
+            db: {
+              rpc: async (name: string) => ({
+                data: name === "reserve_model_cost" ? "reserved" : true,
+              }),
+            } as unknown as SupabaseClient,
+            ownerId: "synthetic",
+            requestKey: "cancel-fetch",
+            role: "preparation",
+            promptVersion: "test",
+            system: "Fictional",
+            input: "notes",
+            schema: {},
+            signal,
+          },
+          {
+            mode: "live",
+            key: "mock",
+            model: "gpt-4.1-mini",
+            fetch: async (_url, options) =>
+              new Promise<Response>((_resolve, reject) => {
+                options!.signal!.addEventListener(
+                  "abort",
+                  () => {
+                    providerAborted = true;
+                    reject(options!.signal!.reason);
+                  },
+                  { once: true },
+                );
+                emit({ type: "status", message: "Dispatched" });
+              }),
+          },
+        ),
+        /Processing stopped/,
+      );
+    } finally {
+      complete();
+    }
+  }, request.signal);
+  const reader = response.body!.getReader();
+  await reader.read();
+  request.abort();
+  await done;
+  assert.equal(providerAborted, true);
+  await reader.cancel();
+});

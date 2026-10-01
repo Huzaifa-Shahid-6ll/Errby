@@ -78,12 +78,15 @@ export async function handleSessionApi(
         );
       if (request.headers.get("accept")?.includes("text/event-stream")) {
         const sessionId = id;
-        return streamResponse(async (emit) => {
+        return streamResponse(async (emit, signal) => {
           emit({ type: "status", message: "Checking your saved explanation…" });
-          return processSession(db, actor, sessionId);
-        });
+          return processSession(db, actor, sessionId, undefined, signal);
+        }, request.signal);
       }
-      return Response.json(await processSession(db, actor, id), { headers });
+      return Response.json(
+        await processSession(db, actor, id, undefined, request.signal),
+        { headers },
+      );
     }
     if (action) {
       if (
@@ -113,7 +116,7 @@ export async function handleSessionApi(
       );
     if (request.headers.get("accept")?.includes("text/event-stream")) {
       const sessionId = id;
-      return streamResponse(async (emit) => {
+      return streamResponse(async (emit, signal) => {
         emit({ type: "status", message: "Saving your explanation…" });
         const saved = await submitTurn(db, actor, sessionId, body);
         emit({
@@ -121,12 +124,24 @@ export async function handleSessionApi(
           message:
             "Answer saved. Checking the evidence and preparing Errby’s reply…",
         });
-        const state = await processSession(db, actor, sessionId);
+        const state = await processSession(
+          db,
+          actor,
+          sessionId,
+          undefined,
+          signal,
+        );
         return { ...state, message: saved.message };
-      });
+      }, request.signal);
     }
     const saved = await submitTurn(db, actor, id, body);
-    const state = await processSession(db, actor, id);
+    const state = await processSession(
+      db,
+      actor,
+      id,
+      undefined,
+      request.signal,
+    );
     return Response.json({ ...state, message: saved.message }, { headers });
   } catch (error) {
     const failure =

@@ -21,7 +21,10 @@ export default async function ResultsPage({
     }
   return (
     <main className="mx-auto max-w-2xl break-words p-6 sm:p-10 [overflow-wrap:anywhere]">
-      <Link href={`/learn/sessions/${id}`} className="underline">
+      <Link
+        href={`/learn?session=${encodeURIComponent(id)}`}
+        className="underline"
+      >
         Back to session
       </Link>
       <h1 className="mt-6 text-3xl font-semibold">Session results</h1>

@@ -7,6 +7,8 @@ import { z } from "zod";
 import "./chat-workspace.css";
 import { ThemeToggle } from "@/components/landing/landing-controls";
 import { MotionToggle } from "@/components/ui/learning-effects";
+import { ConversationHistory } from "./conversation-history";
+import { searchHistory } from "@/lib/sessions/history";
 
 export const metadata = {
   title: "Errby · Teach me something",
@@ -22,20 +24,9 @@ export default async function Home({
   const sessionId = z.uuid().safeParse(session);
   const identity = env.ERRBY_MODE === "live" ? await getIdentity() : null;
   const saved = identity
-    ? await identity.db
-        .from("sessions")
-        .select(
-          "id,opened_at,lesson_versions!inner(lessons!lesson_versions_lesson_id_fkey!inner(title))",
-        )
-        .eq("learner_id", identity.user.id)
-        .eq("visibility", "private")
-        .order("opened_at", { ascending: false })
-        .limit(20)
+    ? await searchHistory(identity.db, identity.user.id).catch(() => null)
     : null;
-  const history = (saved?.data ?? []) as unknown as {
-    id: string;
-    lesson_versions: { lessons: { title: string } };
-  }[];
+  const history = saved?.items ?? [];
   return (
     <div className="chat-workspace">
       <a className="skip-link" href="#chat-main">
@@ -46,9 +37,13 @@ export default async function Home({
           errby<span>.</span>
         </Link>
         <NewChat accountId={identity?.user.id ?? "demo"} />
+        <ConversationHistory
+          key={identity?.user.id ?? "demo"}
+          currentSession={session}
+        />
         <nav aria-label="Your conversations">
           <h2>Recent chats</h2>
-          {saved?.error ? (
+          {identity && !saved ? (
             <p role="status">
               Saved chats could not be loaded. Refresh to retry.
             </p>
@@ -59,7 +54,7 @@ export default async function Home({
                 href={`/learn?session=${item.id}`}
                 aria-current={session === item.id ? "page" : undefined}
               >
-                {item.lesson_versions.lessons.title}
+                {item.title}
               </Link>
             ))
           ) : (
@@ -93,7 +88,7 @@ export default async function Home({
                   href={`/learn?session=${item.id}`}
                   aria-current={session === item.id ? "page" : undefined}
                 >
-                  {item.lesson_versions.lessons.title}
+                  {item.title}
                 </Link>
               ))}
             </nav>

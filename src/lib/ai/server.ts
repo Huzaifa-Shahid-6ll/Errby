@@ -17,6 +17,7 @@ type ModelInput = {
   schema: Record<string, unknown>;
   maxOutputTokens?: number;
   onText?: (text: string) => void;
+  signal?: AbortSignal;
 };
 
 export function modelRequestKey(value: string) {
@@ -36,6 +37,7 @@ export async function requestModel(
     mode?: string;
   } = {},
 ): Promise<{ output: unknown; model: string; tokens: number }> {
+  input.signal?.throwIfAborted();
   const key = dependencies.key ?? env.OPENROUTER_API_KEY;
   const configuredModel = dependencies.model ?? env.OPENROUTER_MODEL;
   const model = configuredModel.includes("/")
@@ -164,6 +166,7 @@ export async function requestModel(
       "model_pending",
       "This AI request is pending reconciliation or has failed. Your work remains saved.",
     );
+  input.signal?.throwIfAborted();
   const { data: claimed, error: claimError } = await input.db.rpc(
     "claim_model_request",
     { p_request_key: requestKey },
@@ -176,6 +179,10 @@ export async function requestModel(
 
   let response: Response;
   let raw: unknown;
+  const signal = AbortSignal.any([
+    AbortSignal.timeout(45_000),
+    ...(input.signal ? [input.signal] : []),
+  ]);
   try {
     response = await (dependencies.fetch ?? fetch)(
       "https://openrouter.ai/api/v1/chat/completions",
@@ -186,7 +193,7 @@ export async function requestModel(
           "Content-Type": "application/json",
         },
         body,
-        signal: AbortSignal.timeout(45_000),
+        signal,
       },
     );
     if (input.onText && response.ok && response.body) {
@@ -195,7 +202,12 @@ export async function requestModel(
       let usage: unknown;
       let finish: unknown;
       let refused = false;
-      for await (const chunk of readEvents(response.body, true)) {
+      for await (const chunk of readEvents(
+        response.body,
+        true,
+        250_000,
+        signal,
+      )) {
         if (chunk.error) throw new Error("Provider stream failed");
         id = chunk.id ?? id;
         usage = chunk.usage ?? usage;
@@ -228,6 +240,12 @@ export async function requestModel(
     }
   } catch {
     // Ambiguous dispatch remains fully reserved; never retry or release automatically.
+    if (input.signal?.aborted)
+      throw new IngestionError(
+        "generation_stopped",
+        "Processing stopped. Saved work is retained. Provider charges may still apply; this request needs reconciliation before retrying.",
+        409,
+      );
     throw unavailable(
       "model_outcome_unknown",
       "AI did not return a confirmed response. Your work is saved; this request needs reconciliation.",

@@ -530,6 +530,38 @@ test("PGlite only: durable source, owner/class isolation, idempotency, expiring 
       p_job: privateJob.id,
       p_token: learnerLease.data.lease_token,
     });
+    const stopPreparation = new AbortController();
+    await assert.rejects(
+      advancePreparation(
+        db,
+        learner,
+        privateJob.id,
+        { expected_step: 1 },
+        async (_database, _actor, _job, _request, signal) => {
+          assert.equal(signal, stopPreparation.signal);
+          stopPreparation.abort();
+          signal!.throwIfAborted();
+          throw new Error("unreachable");
+        },
+        stopPreparation.signal,
+      ),
+      /abort/i,
+    );
+    const stoppedPreparation = await readPreparation(
+      db,
+      learner,
+      privateJob.id,
+    );
+    assert.equal(
+      stoppedPreparation.job.current_step,
+      1,
+      "Stop retains completed source preparation",
+    );
+    assert.equal(
+      stoppedPreparation.lesson,
+      null,
+      "Stop cannot save a partial generated lesson",
+    );
     const privatePractice = await advancePreparation(
       db,
       learner,

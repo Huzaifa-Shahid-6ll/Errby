@@ -232,17 +232,6 @@
   height: auto;
   white-space: normal;
 }
-.chat-latest {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 12px auto;
-  padding: 10px 16px;
-  border: 1px solid var(--control-border);
-  border-radius: 24px;
-  background: var(--surface);
-  font-size: 14px;
-}
 .chat-draft-label {
   font-weight: 400;
   color: var(--secondary);
@@ -250,8 +239,7 @@
 .chat-new:hover,
 .chat-sidebar nav a:hover,
 .chat-mobile-history nav a:hover,
-.chat-account:hover,
-.chat-latest:hover {
+.chat-account:hover {
   background: var(--errby-surface);
   color: var(--errby-text);
 }

@@ -40,7 +40,10 @@ export async function POST(request: Request) {
         "Use a message or notes up to 8,000 characters.",
         400,
       );
-    const run = (emit?: Parameters<typeof enterChat>[4]) =>
+    const run = (
+      emit?: Parameters<typeof enterChat>[4],
+      signal = request.signal,
+    ) =>
       enterChat(
         createAdminClient(),
         {
@@ -51,9 +54,10 @@ export async function POST(request: Request) {
         parsed.data,
         undefined,
         emit,
+        signal,
       );
     return request.headers.get("accept")?.includes("text/event-stream")
-      ? streamResponse(run)
+      ? streamResponse(run, request.signal)
       : Response.json(await run(), { headers });
   } catch (error) {
     const failure =

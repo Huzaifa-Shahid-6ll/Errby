@@ -3,9 +3,18 @@ import { IngestionError } from "@/lib/ingestion/server";
 import type { ProgressEvent } from "./event-stream";
 
 export function streamResponse(
-  work: (emit: (event: ProgressEvent) => void) => Promise<unknown>,
+  work: (
+    emit: (event: ProgressEvent) => void,
+    signal: AbortSignal,
+  ) => Promise<unknown>,
+  requestSignal?: AbortSignal,
 ) {
   let connected = true;
+  const cancellation = new AbortController();
+  const signal = AbortSignal.any([
+    cancellation.signal,
+    ...(requestSignal ? [requestSignal] : []),
+  ]);
   const encoder = new TextEncoder();
   return new Response(
     new ReadableStream({
@@ -17,7 +26,7 @@ export function streamResponse(
             );
         };
         try {
-          emit({ type: "result", value: await work(emit) });
+          emit({ type: "result", value: await work(emit, signal) });
         } catch (error) {
           emit({
             type: "error",
@@ -30,9 +39,10 @@ export function streamResponse(
           if (connected) controller.close();
         }
       },
-      // Finish dispatched work and settle its reserved cost even if the reader leaves.
+      // Workers choose safe cancellation boundaries; committed database work is retained.
       cancel() {
         connected = false;
+        cancellation.abort();
       },
     }),
     {

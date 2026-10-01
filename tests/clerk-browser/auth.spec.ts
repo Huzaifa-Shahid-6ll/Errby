@@ -72,7 +72,7 @@ test("real sign-in opens chat; origin, validation, private RLS and sign-out fail
   expect(mapped.error).toBeNull();
   const foreign = await admin
     .from("sessions")
-    .select("id")
+    .select("id,learner_id")
     .neq("learner_id", mapped.data!.user_id)
     .eq("visibility", "private")
     .limit(1)
@@ -104,6 +104,39 @@ test("real sign-in opens chat; origin, validation, private RLS and sign-out fail
     p_version: foreign.data!.id,
   });
   expect(forbidden.error).not.toBeNull();
+  const history = await page.request.get("/api/sessions/search?q=&offset=0");
+  expect(history.status()).toBe(200);
+  expect(history.headers()["cache-control"]).toContain("no-store");
+  const historyData = await history.json();
+  expect(historyData.items.length).toBeLessThanOrEqual(20);
+  expect(
+    historyData.items.some(
+      (item: { id: string }) => item.id === foreign.data!.id,
+    ),
+  ).toBe(false);
+  const ownHistory = await scoped.rpc("search_private_history", {
+    p_owner: mapped.data!.user_id,
+    p_query: "",
+    p_offset: 0,
+  });
+  expect(ownHistory.error).toBeNull();
+  const foreignHistory = await scoped.rpc("search_private_history", {
+    p_owner: foreign.data!.learner_id,
+    p_query: "",
+    p_offset: 0,
+  });
+  expect(foreignHistory.error).not.toBeNull();
+  expect(
+    (
+      await page.request.get(`/api/sessions/${foreign.data!.id}/sources`)
+    ).status(),
+  ).toBe(404);
+  const documents = await page.request.get("/api/documents");
+  expect(documents.status()).toBe(200);
+  expect(documents.headers()["cache-control"]).toContain("no-store");
+  expect(
+    (await scoped.from("uploaded_documents").select("id")).error,
+  ).not.toBeNull();
   await page.reload();
   await expect(
     page.getByRole("textbox", { name: "Message Errby" }),

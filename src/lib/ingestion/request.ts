@@ -1,5 +1,7 @@
 import "server-only";
-import { INGESTION_LIMITS } from "./contracts";
+import { createHash } from "node:crypto";
+import { INGESTION_LIMITS, type Extraction } from "./contracts";
+import { cachedExtraction } from "./cache";
 import {
   boundedFormData,
   clarify,
@@ -16,8 +18,14 @@ let demoExtraction: ReturnType<typeof extractPdf> | undefined;
 export async function handlePreparation(
   request: Request,
   mode: "demo" | "live",
-  identity: () => Promise<{ grade: string } | null>,
+  identity: () => Promise<{ id?: string; grade: string } | null>,
   maxFileBytes: number = INGESTION_LIMITS.bytes,
+  persist?: (
+    owner: string,
+    file: File,
+    bytes: Uint8Array,
+    extraction: Extraction,
+  ) => Promise<string>,
 ) {
   const headers = { "Cache-Control": "no-store" };
   try {
@@ -39,7 +47,7 @@ export async function handlePreparation(
         "Submit this form from Errby.",
         403,
       );
-    const account = mode === "live" ? await identity() : null;
+    let account = mode === "live" ? await identity() : null;
     if (mode === "live" && !account)
       throw new IngestionError(
         "unauthenticated",
@@ -113,10 +121,36 @@ export async function handlePreparation(
           `Use one PDF or DOCX no larger than ${maxFileBytes / 1024 / 1024} MiB.`,
           413,
         );
-      source = await (kind === "pdf" ? extractPdf : extractDocx)(
-        new Uint8Array(await file.arrayBuffer()),
-        file.type,
-      );
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      // Body acquisition can outlive sign-out/deletion. Recheck before admitting
+      // reusable private results, not just before accepting a potentially slow body.
+      if (account?.id) {
+        const current = await identity();
+        if (!current || current.id !== account.id)
+          throw new IngestionError(
+            "unauthenticated",
+            "Sign in again to import this file. Your draft is unchanged.",
+            401,
+          );
+        account = current;
+      }
+      const extract = () =>
+        (kind === "pdf" ? extractPdf : extractDocx)(bytes, file.type);
+      source = account?.id
+        ? await cachedExtraction(
+            account.id,
+            JSON.stringify([
+              kind,
+              file.type,
+              createHash("sha256").update(bytes).digest("hex"),
+            ]),
+            extract,
+          )
+        : await extract();
+      if (persist && account?.id) {
+        const document_id = await persist(account.id, file, bytes, source);
+        source = { ...source, document_id, document_mode: "full" as const };
+      }
     } else if (kind === "sample") {
       // The anonymous demo can only parse these fixed fictional bytes, once per process.
       demoExtraction ??= extractPdf(
